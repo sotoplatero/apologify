@@ -1,17 +1,13 @@
 ---
 ---
 
-<button class="copy-button absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded text-sm opacity-0 transition-opacity duration-300 hover:bg-blue-600">
-  Copy
-</button>
-
 <script>
   function addCopyFunctionality() {
     const blockquotes = document.querySelectorAll('blockquote');
     blockquotes.forEach((blockquote, index) => {
       const button = document.createElement('button');
       button.innerHTML = 'Copy';
-      button.className = 'copy-button absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded text-sm opacity-0 transition-opacity duration-300 hover:bg-blue-600';
+      button.className = 'copy-button btn btn-info btn-sm absolute bottom-2 right-2';
       button.setAttribute('data-index', index.toString());
       blockquote.style.position = 'relative';
       blockquote.appendChild(button);

@@ -67,28 +67,28 @@ Here are some sample letters to guide you:
 
 ### Example 1: Apology for Missing a Family Event
 
-```	
-Dear [Family Member's Name],
-
-I hope this letter finds you well. I want to sincerely apologize for missing [specific event]. I know how much it meant to you and the family, and I regret not being there to support you.
-
-My absence was not a reflection of my feelings for you. I truly value our relationship, and I promise to communicate better in the future. Please let me know how I can make it up to you.
-
-With love,
-[Your Name]
-```
+>Dear [Family Member's Name],
+>
+>I hope this letter finds you well. I want to sincerely apologize for missing [specific event]. I know how much it meant to you and the family, and I regret not being there to support you.
+>
+>My absence was not a reflection of my feelings for you. I truly value our relationship, and I promise to communicate better in the future. Please let me know how I can make it up to you.
+>
+>With love,
+>
+>[Your Name]
 
 ### Example 2: Apology for a Hurtful Comment
 
-```
-Dear [Family Member's Name],
 
-I’ve been reflecting on our conversation the other day, and I want to say I’m deeply sorry for my hurtful comment. I didn’t think about how it would affect you, and I regret my words.
-
-You mean so much to me, and I never want to hurt you. I’ve learned from this experience, and I commit to being more mindful in the future. Thank you for your understanding.
-Love,
-[Your Name]
-```
+>Dear [Family Member's Name],
+>
+>I’ve been reflecting on our conversation the other day, and I want to say I’m deeply sorry for my hurtful comment. I didn’t think about how it would affect you, and I regret my words.
+>
+>You mean so much to me, and I never want to hurt you. I’ve learned from this experience, and I commit to being more mindful in the future. Thank you for your understanding.
+>
+>Love,
+>
+>[Your Name]
 
 ### Example 3: Apology for Not Being Supportive
 
