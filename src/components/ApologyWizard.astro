@@ -1,0 +1,129 @@
+---
+const tones = [
+  { value: 'formal', label: 'Formal' },
+  { value: 'casual', label: 'Casual' },
+  { value: 'heartfelt', label: 'Heartfelt' },
+  { value: 'professional', label: 'Professional' },
+  { value: 'sincere', label: 'Sincere' },
+  { value: 'remorseful', label: 'Remorseful' }
+];
+
+const recipients = [
+  { value: 'mother', label: 'Mother' },
+  { value: 'father', label: 'Father' },
+  { value: 'sibling', label: 'Sibling' },
+  { value: 'child', label: 'Child' },
+  { value: 'spouse', label: 'Spouse' },
+  { value: 'grandparent', label: 'Grandparent' },
+  { value: 'friend', label: 'Friend' },
+  { value: 'colleague', label: 'Colleague' },
+  { value: 'romantic', label: 'Romantic partner' },
+  { value: 'boss', label: 'Boss' },
+  { value: 'client', label: 'Client' },
+  { value: 'teacher', label: 'Teacher' },
+  { value: 'neighbor', label: 'Neighbor' },
+];
+---
+
+<div class="card w-full max-w-2xl bg-base-100 shadow-xl mx-auto">
+  <div class="card-body">
+    <form id="apologyWizard" class="space-y-4">
+      <div class="step-container min-h-[200px]">
+        <div class="step" data-step="1">
+          <h2 class="card-title mb-4">Relationship with the recipient</h2>
+          <select name="relationship" class="select select-bordered w-full" required>
+            <option value="">Select relationship</option>
+            {recipients.map((recipient) => (
+              <option value={recipient.value}>{recipient.label}</option>
+            ))}
+          </select>
+        </div>
+
+        <div class="step hidden" data-step="2">
+          <h2 class="card-title mb-4">Reason for the apology</h2>
+          <textarea name="reason" rows="4" class="textarea textarea-bordered w-full" required placeholder="Briefly describe why you're apologizing..."></textarea>
+        </div>
+
+        <div class="step hidden" data-step="3">
+          <h2 class="card-title mb-4">Context or situation</h2>
+          <textarea name="context" rows="4" class="textarea textarea-bordered w-full" required placeholder="Provide some context about the situation..."></textarea>
+        </div>
+
+        <div class="step hidden" data-step="4">
+          <h2 class="card-title mb-4">Desired tone</h2>
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {tones.map((tone) => (
+              <button type="button" class="tone-btn btn btn-outline" data-value={tone.value}>
+                {tone.label}
+              </button>
+            ))}
+          </div>
+          <input type="hidden" name="tone" required>
+        </div>
+      </div>
+
+      <div class="card-actions justify-end mt-6">
+        <button type="button" id="prevBtn" class="btn btn-ghost">Previous</button>
+        <button type="button" id="nextBtn" class="btn btn-primary">Next</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  let currentStep = 1;
+  const totalSteps = 4;
+
+  const form = document.getElementById('apologyWizard') as HTMLFormElement;
+  const prevBtn = document.getElementById('prevBtn') as HTMLButtonElement;
+  const nextBtn = document.getElementById('nextBtn') as HTMLButtonElement;
+
+  function showStep(step: number) {
+    document.querySelectorAll('.step').forEach(el => el.classList.add('hidden'));
+    document.querySelector(`.step[data-step="${step}"]`)?.classList.remove('hidden');
+    
+    prevBtn.style.display = step === 1 ? 'none' : 'block';
+    nextBtn.textContent = step === totalSteps ? 'Submit' : 'Next';
+  }
+
+  function validateStep(step: number) {
+    const currentStepElement = document.querySelector(`.step[data-step="${step}"]`);
+    const inputs = currentStepElement?.querySelectorAll('input:not([type="hidden"]), select, textarea');
+    return Array.from(inputs || []).every((input: HTMLInputElement) => input.checkValidity());
+  }
+
+  prevBtn.addEventListener('click', () => {
+    if (currentStep > 1) {
+      currentStep--;
+      showStep(currentStep);
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (validateStep(currentStep)) {
+      if (currentStep < totalSteps) {
+        currentStep++;
+        showStep(currentStep);
+      } else {
+        // Handle form submission
+        form.submit();
+      }
+    } else {
+      alert('Please fill out all required fields before proceeding.');
+    }
+  });
+
+  // Tone button functionality
+  const toneButtons = document.querySelectorAll('.tone-btn');
+  const toneInput = document.querySelector('input[name="tone"]') as HTMLInputElement;
+
+  toneButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      toneButtons.forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'));
+      button.classList.add('bg-blue-500', 'text-white');
+      toneInput.value = button.getAttribute('data-value') || '';
+    });
+  });
+
+  showStep(currentStep);
+</script>
