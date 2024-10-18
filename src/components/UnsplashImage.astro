@@ -4,8 +4,8 @@ import { Image } from 'astro:assets';
 interface Props {
   article: {
     data: {
-      image: string;
-      title: string;
+      image?: string;
+      title?: string;
       photographer?: string;
       photographerUrl?: string;
     };
@@ -17,12 +17,14 @@ const { article } = Astro.props;
 
 <figure class="my-8">
   <div class="aspect-video overflow-hidden rounded-lg">
-    <img
-      src={article.data.image}
-      alt={article.data.title}
-      class="w-full h-full object-cover"
-      loading="lazy"
-    />
+    {article.data.image && (
+      <img
+        src={article.data.image}
+        alt={article.data.title || ''}
+        class="w-full h-full object-cover"
+        loading="lazy"
+      />
+    )}
   </div>
   <figcaption class="text-right text-xs text-gray-400 mt-1">
     Photo by {article.data.photographer ? (
