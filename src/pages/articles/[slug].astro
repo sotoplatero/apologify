@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import CopyButton from '../../components/CopyButton.astro';
-import OgImage from '../../components/OgImage.astro';
+import ContentModifier from '../../components/ContentModifier.astro';
 
 export async function getStaticPaths() {
   const articles = await getCollection('articles');
@@ -13,17 +13,23 @@ export async function getStaticPaths() {
 }
 
 const { article } = Astro.props;
-const { Content } = await article.render();
 ---
 
 <Layout title={article.data.title} description={article.data.description}>
-  <main class="prose prose-lg mx-auto prose-blockquote:bg-gray-100 prose-blockquote:p-4 prose-blockquote:border prose-blockquote:border-gray-300 prose-blockquote:rounded-md prose-blockquote:relative">
-    <OgImage title={article.data.title} slug={article.slug} />
-    <h1>{article.data.title}</h1>
-    <time datetime={article.data.date.toISOString()} class="text-sm text-gray-500 block mb-8">
-      {article.data.date.toLocaleDateString()}
-    </time>
-    <Content />
+  <main>
+    <article class="prose prose-lg mx-auto prose-blockquote:bg-gray-50 prose-blockquote:p-4 prose-blockquote:border prose-blockquote:font-normal prose-blockquote:border-gray-300 prose-blockquote:rounded-md prose-blockquote:relative">
+      <h1>{article.data.title}</h1>
+      <time datetime={article.data.date.toISOString()} class="text-sm text-gray-500 block">
+        {article.data.date.toLocaleDateString()}
+      </time>
+      <ContentModifier article={article} />
+    </article>
   </main>
   <CopyButton />
 </Layout>
+
+<style>
+  .prose img {
+    @apply mx-auto;
+  }
+</style>

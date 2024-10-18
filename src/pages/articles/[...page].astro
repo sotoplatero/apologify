@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths({ paginate }) {
+  const articles = await getCollection('articles');
+  const sortedArticles = articles.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  
+  return paginate(sortedArticles, { pageSize: 10 });
+}
+
+const { page } = Astro.props;
+---
+
+<Layout title="Apology Letters Articles" description="List of articles about apology letters. Learn how to write a sincere apology letter to your family, friend, or customer.">
+  <main class="prose mx-auto px-4 py-8">
+    <h1 class="">Articles</h1>
+    <ul class="list-none list-outside pl-0 space-y-8">
+      {page.data.map((article) => (
+        <li class="">
+            <a href={`/articles/${article.slug}`} class="hover:text-blue-600">
+              <h2 class="">{article.data.title}</h2>
+            </a>
+            <p class="text-gray-600 mt-2">{article.data.description}</p>
+            <time datetime={article.data.date.toISOString()} class="text-sm text-gray-500">
+              {article.data.date.toLocaleDateString()}
+            </time>
+        </li>
+      ))}
+    </ul>
+
+    <nav class="mt-8 flex justify-between">
+      {page.url.prev ? (
+        <a href={page.url.prev} class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          &larr; Artículos anteriores
+        </a>
+      ) : <span></span>}
+      
+      {page.url.next ? (
+        <a href={page.url.next} class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          Artículos siguientes &rarr;
+        </a>
+      ) : <span></span>}
+    </nav>
+  </main>
+</Layout>

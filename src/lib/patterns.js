@@ -1,8 +1,8 @@
 export const patterns = {
     "patterns": [
       "How to write an apology letter to {recipient} for {reason}",
-      "Examples of {adjective} apology letters to {recipient}",
-      "Tips for writing an apology letter in {context}"
+      // "Examples of {adjective} apology letters to {recipient}",
+      // "Tips for writing an apology letter in {context}"
     ],
     "variables": {
       "recipient": [

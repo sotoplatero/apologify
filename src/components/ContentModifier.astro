@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props {
+    article: any; // Tipo any por ahora, deberías definir una interfaz más específica
+}
+
+const { article } = Astro.props;
+
+// Obtener todos los artículos
+const allArticles = await getCollection('articles');
+
+// Crear enlaces para otros artículos
+const otherArticleLinks = allArticles
+  .filter(a => a.slug !== article.slug) // Excluir el artículo actual
+  .map(a => ({
+    url: `/articles/${a.slug}`,
+    title: a.data.title
+  }));
+
+// Seleccionar aleatoriamente dos enlaces
+const linksToInsert = otherArticleLinks.sort(() => 0.5 - Math.random()).slice(0, 2);
+
+// Renderizar el contenido del artículo a HTML
+const { Content } = await article.render();
+---
+
+<Content />
+
+<script define:vars={{ linksToInsert }}>
+  function insertLinksBeforeRandomH2s(content, links) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(content, 'text/html');
+    const h2s = Array.from(doc.querySelectorAll('h2'));
+    
+    if (h2s.length < 2 || links.length < 2) {
+      return content; // No hay suficientes h2 o enlaces para insertar
+    }
+
+    // Seleccionar dos índices aleatorios únicos
+    const randomIndices = new Set();
+    while (randomIndices.size < 2) {
+      randomIndices.add(Math.floor(Math.random() * h2s.length));
+    }
+
+    [...randomIndices].sort((a, b) => a - b).forEach((index, i) => {
+      const h2 = h2s[index];
+      const blockquote = doc.createElement('blockquote');
+      const a = doc.createElement('a');
+      a.href = links[i].url;
+      a.textContent = links[i].title;
+      blockquote.appendChild(a);
+      h2.parentNode.insertBefore(blockquote, h2);
+    });
+
+    return doc.body.innerHTML;
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    const articleContent = document.querySelector('article');
+    if (articleContent) {
+      const content = articleContent.innerHTML;
+      const modifiedContent = insertLinksBeforeRandomH2s(content, linksToInsert);
+      articleContent.innerHTML = modifiedContent;
+    }
+  });
+</script>

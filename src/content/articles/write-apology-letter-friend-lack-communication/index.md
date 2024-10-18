@@ -1,8 +1,8 @@
 ---
 title: How to Write an Apology Letter to a Friend for Lack of Communication
 description: This page offers heartfelt examples and practical advice on how to write a sincere apology letter to your friend for lack of communication, helping you rebuild trust and heal your relationship.
-slug: /apology-letter-to-friend-for-lack-of-communication
 date: 2024-05-01
+tags: ["apology", "friend", "communication"]
 ---
 
 # How to Write a Heartfelt Apology Letter to a Friend for Lack of Communication

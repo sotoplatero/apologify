@@ -7,7 +7,7 @@
     blockquotes.forEach((blockquote, index) => {
       const button = document.createElement('button');
       button.innerHTML = 'Copy';
-      button.className = 'copy-button btn btn-info btn-sm absolute bottom-2 right-2';
+      button.className = 'copy-button btn btn-outline btn-sm absolute bottom-2 right-2';
       button.setAttribute('data-index', index.toString());
       blockquote.style.position = 'relative';
       blockquote.appendChild(button);

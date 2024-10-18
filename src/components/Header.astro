@@ -1,0 +1,31 @@
+---
+const navItems = [
+  { href: '/', text: 'Home' },
+  { href: '/articles', text: 'Articles' },
+  { href: '/about', text: 'About' },
+  { href: '/contact', text: 'Contact' },
+];
+---
+
+<header class="bg-white ">
+  <div class="w-full max-w-screen-md mx-auto px-4 py-6 flex justify-between items-center">
+    <a href="/" class="text-xl font-bold text-gray-800 flex items-center">
+      <span class="mr-2 text-4xl" role="img" aria-label="Apology letter">💌</span>
+      ApologyLetters
+    </a>
+    <nav>
+      <ul class="flex space-x-6">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="text-gray-600 hover:text-gray-800 transition-colors duration-300"
+            >
+              {item.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
