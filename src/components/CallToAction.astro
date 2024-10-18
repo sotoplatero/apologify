@@ -1,0 +1,24 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { 
+  title = "Create Your Personalized Apology Letter",
+  description = "Our AI-powered wizard guides you through crafting the perfect apology in minutes."
+} = Astro.props;
+---
+
+<div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl shadow-2xl overflow-hidden">
+  <div class="px-6 py-12 md:px-12 text-center max-w-xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-extrabold mb-4">{title}</h2>
+    <p class="text-lg md:text-xl opacity-90 mb-8">{description}</p>
+    <a href="/generator" class="inline-block bg-white text-indigo-600 font-bold py-3 px-6 rounded-full hover:bg-opacity-90 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110">
+      Start Writing Now
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5 inline-block ml-2">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+      </svg>
+    </a>
+  </div>
+</div>

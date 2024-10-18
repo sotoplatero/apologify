@@ -3,27 +3,62 @@ import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import CopyButton from '../../components/CopyButton.astro';
 import ContentModifier from '../../components/ContentModifier.astro';
+import CallToAction from '../../components/CallToAction.astro';
+import UnsplashImage from '../../components/UnsplashImage.astro';
 
 export async function getStaticPaths() {
   const articles = await getCollection('articles');
   return articles.map(article => ({
     params: { slug: article.slug },
-    props: { article },
+    props: { article, articles },
   }));
 }
 
-const { article } = Astro.props;
+const { article, articles } = Astro.props;
+
+// Función para obtener artículos aleatorios
+function getRandomArticles(currentSlug, allArticles, count) {
+  const otherArticles = allArticles.filter(a => a.slug !== currentSlug);
+  return otherArticles.sort(() => 0.5 - Math.random()).slice(0, count);
+}
+
+const randomArticles = getRandomArticles(article.slug, articles, 3);
+
 ---
 
 <Layout title={article.data.title} description={article.data.description}>
-  <main>
-    <article class="prose prose-lg mx-auto prose-blockquote:bg-gray-50 prose-blockquote:p-4 prose-blockquote:border prose-blockquote:font-normal prose-blockquote:border-gray-300 prose-blockquote:rounded-md prose-blockquote:relative">
+  <main class="mx-auto px-4 py-8">
+    <div class="prose prose-xl mx-auto">
       <h1>{article.data.title}</h1>
       <time datetime={article.data.date.toISOString()} class="text-sm text-gray-500 block">
         {article.data.date.toLocaleDateString()}
       </time>
+    </div>
+    <div class="full-bleed my-8">
+      {article.data.image && (
+        <UnsplashImage article={article} />
+      )}
+    </div>
+    <article class="prose prose-lg mx-auto prose-pre:bg-gray-50 prose-pre:p-4 prose-pre:border prose-pre:font-normal prose-pre:border-gray-300 prose-pre:rounded-md prose-pre:relative mb-12">
       <ContentModifier article={article} />
     </article>
+
+    <section class="mt-16">
+      <h2 class="text-2xl font-bold mb-8 text-center">More Articles</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {randomArticles.map((randomArticle) => (
+          <div class="card bg-base-100 ">
+            <div class="card-body">
+              <h3 class="card-title">{randomArticle.data.title}</h3>
+              <div class="card-actions justify-end">
+                <a href={`/articles/${randomArticle.slug}`} class="btn btn-link">Read More</a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+    <CallToAction />
   </main>
   <CopyButton />
 </Layout>
@@ -31,5 +66,13 @@ const { article } = Astro.props;
 <style>
   .prose img {
     @apply mx-auto;
+  }
+  .full-bleed {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 </style>

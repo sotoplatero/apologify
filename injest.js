@@ -4,6 +4,7 @@ import { callOpenAIChatCompletion } from './src/lib/openai.js';
 import { prompts } from './src/lib/prompts.js';
 import { patterns } from './src/lib/patterns.js';
 import { removeStopwords } from 'stopword';
+import fetch from 'node-fetch';
 
 function createSlug(title) {
   const words = removeStopwords(title.toLowerCase().split(' '));
@@ -18,17 +19,36 @@ function extractVariables(pattern) {
   return (pattern.match(/\{(\w+)\}/g) || []).map(v => v.slice(1, -1));
 }
 
-function selectVariables(variableNames, availableVariables) {
-  return variableNames.reduce((acc, varName) => {
-    if (availableVariables[varName]) {
-      acc[varName] = selectRandomElement(availableVariables[varName]);
+async function selectAvailableVariables(pattern, variableNames, availableVariables, existingSlugs) {
+  const selectedVariables = {};
+  for (const varName of variableNames) {
+    if (availableVariables[varName] && availableVariables[varName].length > 0) {
+      selectedVariables[varName] = selectRandomElement(availableVariables[varName]);
+    } else {
+      console.log(`No available values for variable: ${varName}`);
+      return null;
     }
-    return acc;
-  }, {});
+  }
+  
+  const title = createTitle(pattern, selectedVariables);
+  const slug = createSlug(title);
+  
+  if (existingSlugs.has(slug)) {
+    console.log(`Slug already exists: ${slug}`);
+    return null;
+  }
+  
+  return selectedVariables;
 }
 
 function createTitle(pattern, variables) {
-  return pattern.replace(/\{(\w+)\}/g, (_, key) => variables[key]);
+  return pattern.replace(/\{(\w+)\}/g, (_, key) => {
+    if (variables[key] === undefined) {
+      console.error(`Undefined variable: ${key}`);
+      return '{' + key + '}';
+    }
+    return variables[key];
+  });
 }
 
 async function generateContent({title, pattern}) {
@@ -62,7 +82,7 @@ async function generateContent({title, pattern}) {
 }
 
 async function contentExists(slug) {
-  const dir = path.join(process.cwd(), 'src', 'content', slug);
+  const dir = path.join(process.cwd(), 'src', 'content', 'articles', slug);
   try {
     await fs.access(path.join(dir, 'index.md'));
     return true;
@@ -71,37 +91,117 @@ async function contentExists(slug) {
   }
 }
 
+async function getUnsplashImage(query) {
+  try {
+    const response = await fetch(`https://api.unsplash.com/photos/random?query=${query}&orientation=landscape`, {
+      headers: {
+        'Authorization': `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    
+    console.log('Unsplash API response:', JSON.stringify(data, null, 2));
+    
+    if (!data.user || !data.user.name) {
+      console.warn('Photographer name not found in Unsplash response');
+    }
+    
+    return {
+      url: data.urls.regular,
+      photographer: data.user?.name || 'Unknown photographer',
+      photographerUrl: data.user?.links?.html || 'https://unsplash.com'
+    };
+  } catch (error) {
+    console.error('Error fetching image from Unsplash:', error);
+    return {
+      url: 'https://via.placeholder.com/1200x800.png?text=Image+Not+Available',
+      photographer: 'Unknown photographer',
+      photographerUrl: 'https://unsplash.com'
+    };
+  }
+}
+
 async function saveContent(content, title) {
   const slug = createSlug(title);
   const dir = path.join(process.cwd(), 'src', 'content', 'articles', slug);
   await fs.mkdir(dir, { recursive: true });
   const filePath = path.join(dir, 'index.md');
-  await fs.writeFile(filePath, content, 'utf-8');
+
+  // Obtener una imagen de Unsplash
+  const imageData = await getUnsplashImage(title);
+  console.log('Image data:', imageData);
+
+  // Extraer el frontmatter y el contenido
+  const [, frontmatter, bodyContent] = content.match(/---([\s\S]*?)---([\s\S]*)/);
+
+  // Agregar la propiedad image y la información del fotógrafo al frontmatter
+  const updatedFrontmatter = `---
+${frontmatter.trim()}
+image: "${imageData.url}"
+photographer: "${imageData.photographer}"
+photographerUrl: "${imageData.photographerUrl}"
+---`;
+
+  // Reconstruir el contenido con el frontmatter actualizado
+  const updatedContent = `${updatedFrontmatter}
+
+${bodyContent.trim()}`;
+
+  await fs.writeFile(filePath, updatedContent, 'utf-8');
   return { filePath, slug };
 }
 
+async function getExistingSlugs() {
+  const articlesDir = path.join(process.cwd(), 'src', 'content', 'articles');
+  const slugs = new Set();
+  try {
+    const entries = await fs.readdir(articlesDir, { withFileTypes: true });
+    for (const entry of entries) {
+      if (entry.isDirectory()) {
+        slugs.add(entry.name);
+      }
+    }
+  } catch (error) {
+    console.error('Error reading articles directory:', error);
+  }
+  return slugs;
+}
+
 async function generateAndSaveContent() {
+  const existingSlugs = await getExistingSlugs();
   let contentGenerated = false;
   let attempts = 0;
-  const maxAttempts = 10;
+  const maxAttempts = patterns.patterns.length * 10;
 
   while (!contentGenerated && attempts < maxAttempts) {
     try {
       const selectedPattern = selectRandomElement(patterns.patterns);
       const variableNames = extractVariables(selectedPattern);
-      const selectedVariables = selectVariables(variableNames, patterns.variables);
+      const selectedVariables = await selectAvailableVariables(selectedPattern, variableNames, patterns.variables, existingSlugs);
+
+      if (!selectedVariables) {
+        console.log(`No available combination found for pattern: "${selectedPattern}". Trying another pattern...`);
+        attempts++;
+        continue;
+      }
+
       const title = createTitle(selectedPattern, selectedVariables);
       const slug = createSlug(title);
 
-      if (await contentExists(slug)) {
-        console.log(`Content for "${title}" already exists. Trying another pattern...`);
+      if (existingSlugs.has(slug)) {
+        console.log(`Content for "${title}" already exists. Trying another combination...`);
         attempts++;
         continue;
       }
 
       const content = await generateContent({pattern: selectedPattern, title: title });
       if (!content) {
-        console.log(`Failed to generate content for "${title}". Trying another pattern...`);
+        console.log(`Failed to generate content for "${title}". Trying another combination...`);
         attempts++;
         continue;
       }

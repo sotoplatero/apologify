@@ -1,11 +1,50 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ApologyWizard from '../components/ApologyWizard.astro';
+import CallToAction from '../components/CallToAction.astro';
+import UnsplashImage from '../components/UnsplashImage.astro';
+import { getCollection } from 'astro:content';
+
+const recentArticles = await getCollection('articles').then((articles) => articles.slice(0, 4));
 ---
 
-<Layout title="Generate Apology Letter" description="Create a personalized apology letter with our easy-to-use wizard.">
+<Layout title="Apology Letter Generator" description="Create personalized apology letters and explore our collection of apology articles">
   <main class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8 text-center">Generate Your Apology Letter</h1>
-    <ApologyWizard />
+    <h1 class="text-4xl font-bold mb-8 text-center">Apology Letter Generator</h1>
+    
+    <CallToAction />
+    
+    <section class="mt-16">
+      <h2 class="text-3xl font-bold mb-8 text-center">Recent Articles</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {recentArticles.map((article) => (
+          <article class="card bg-base-100 shadow-xl">
+            {article.data.image && (
+              <figure>
+                <UnsplashImage article={article} />
+              </figure>
+            )}
+            <div class="card-body">
+              <h3 class="card-title">
+                <a href={`/articles/${article.slug}`} class="hover:text-primary">
+                  {article.data.title}
+                </a>
+              </h3>
+              <p class="text-sm text-gray-500">
+                {new Date(article.data.date).toLocaleDateString()}
+              </p>
+              <p>{article.data.description}</p>
+              <div class="card-actions justify-end">
+                <a href={`/articles/${article.slug}`} class="btn btn-primary btn-sm">
+                  Read More
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div class="text-center mt-8">
+        <a href="/articles" class="btn btn-outline btn-wide">View All Articles</a>
+      </div>
+    </section>
   </main>
 </Layout>

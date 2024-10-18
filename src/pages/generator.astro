@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ApologyWizard from '../components/ApologyWizard.astro';
+import { actions } from 'astro:actions';
+
+export const prerender = "false"
+
+const result = Astro.getActionResult(actions.createLetter);
+---
+
+<Layout title="Generate Apology Letter" description="Create a personalized apology letter with our easy-to-use wizard.">
+  <main class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8 text-center">Generate Your Apology Letter</h1>
+    <ApologyWizard initialStep={1} recipient="" />
+
+    {result?.error && (
+        <p class="error">Unable to generate apology letter. Please try again later. Error: {result.error}</p>
+    )}
+
+    <div class="prose prose-lg mx-auto">
+        {result && result?.data?.letter && !result.error && (
+            <h2 class="">Here is your apology letter</h2>
+            
+            <div class="success">
+                <blockquote class="bg-gray-100 p-4 rounded-md border border-gray-300 whitespace-pre-line">{result.data.letter}</blockquote>
+            </div>
+        )}
+    </div>
+  </main>
+</Layout>
+
