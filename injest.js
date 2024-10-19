@@ -1,10 +1,14 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { callOpenAIChatCompletion } from './src/lib/openai.js';
 import { prompts } from './src/lib/prompts.js';
 import { patterns } from './src/lib/patterns.js';
 import { removeStopwords } from 'stopword';
 import fetch from 'node-fetch';
+import OpenAI from 'openai';
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 function createSlug(title) {
   const words = removeStopwords(title.toLowerCase().split(' '));
@@ -59,20 +63,23 @@ async function generateContent({title, pattern}) {
       return null;
     }
 
-    const systemPrompt = prompts[pattern] + "\n\nImportant: Provide the content directly in Markdown format. You can use code blocks within the content if necessary, but do not wrap the entire response in a code block.";
+    const systemPrompt = prompts[pattern] 
     
-    const response = await callOpenAIChatCompletion({
-      systemPrompt: systemPrompt,
-      userPrompt: title,
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: title }
+      ],
     });
-
+    
     if (!response) {
       console.error(`Received null response from OpenAI for title: "${title}"`);
       return null;
     }
 
     // Remove the outer code block if present
-    const cleanedResponse = response.replace(/^```[\s\S]*?\n([\s\S]*)\n```$/s, '$1');
+    const cleanedResponse = response.choices[0].message.content.replace(/^```[\s\S]*?\n([\s\S]*)\n```$/s, '$1');
 
     return cleanedResponse.trim();
   } catch (error) {
