@@ -237,7 +237,7 @@ Article Structure:
 
    - Tip List (Each tip as an H3 subheading):
 
-     Include at least 5-7 tips, each with:
+     Include at least 7 tips, each with:
 
      - Tip Title (H3): Clearly state the tip (e.g., "Be Honest and Sincere").
 

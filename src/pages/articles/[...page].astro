@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
-import UnsplashImage from '../../components/UnsplashImage.astro';
-import Layout from '../../layouts/Layout.astro';
+import UnsplashImage from '@components/UnsplashImage.astro';
+import Layout from '@layouts/Layout.astro';
 import type { GetStaticPathsOptions, Page } from 'astro';
 import type { CollectionEntry } from 'astro:content';
 
@@ -19,27 +19,33 @@ const { page } = Astro.props;
 ---
 
 <Layout title="Apology Articles" description="Browse our collection of apology articles">
-  <main class="container mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold mb-8 text-center">Apology Articles</h1>
+  <main class="w-full max-w-screen-md mx-auto ">
+    
+    <h1 class="text-4xl font-bold mb-8 text-center">Apology Letter Articles</h1>
+
     <ul class="space-y-12">
+
       {page.data.map((article) => (
-        <li class="bg-white shadow-md rounded-lg overflow-hidden">
-          {article.data.image && (
-            <div class="aspect-video">
-              <UnsplashImage article={article} />
-            </div>
-          )}
-          <div class="p-6">
-            <h2 class="text-2xl font-semibold mb-2">
-              <a href={`/articles/${article.slug}`} class="text-blue-600 hover:text-blue-800 transition duration-300">
-                {article.data.title}
-              </a>
-            </h2>
-            <p class="text-gray-600 mb-4">{article.data.description}</p>
+        <li class="bg-white overflow-hidden">
+          <article class="prose prose-lg mx-auto">
+
+            {article.data.image && (
+                <UnsplashImage article={article} />
+            )}
+
             <time datetime={article.data.date.toISOString()} class="text-sm text-gray-500">
               {article.data.date.toLocaleDateString()}
             </time>
-          </div>
+            
+            <h2 class="mt-0 mb-2">
+              <a href={`/articles/${article.slug}`} class="text-link">
+                {article.data.title}
+              </a>
+            </h2>
+
+            <p class="text-gray-600 mb-4">{article.data.description}</p>
+
+          </article>
         </li>
       ))}
     </ul>

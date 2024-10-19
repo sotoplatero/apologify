@@ -105,7 +105,7 @@ async function getUnsplashImage(query) {
     
     const data = await response.json();
     
-    console.log('Unsplash API response:', JSON.stringify(data, null, 2));
+    // console.log('Unsplash API response:', JSON.stringify(data, null, 2));
     
     if (!data.user || !data.user.name) {
       console.warn('Photographer name not found in Unsplash response');
