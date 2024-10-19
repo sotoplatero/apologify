@@ -27,6 +27,7 @@ jobs:
         run: node injest.js
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
 
       - name: Commit and push if changes
         run: |
