@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import UnsplashImage from '@/components/UnsplashImage.astro';
 import CallToAction from '@/components/CallToAction.astro';
+import { insertRelatedLinksMarkdown } from '@/lib/insertRelatedLinksMarkdown';
 
 export async function getStaticPaths() {
   const articleEntries = await getCollection('articles');
@@ -62,4 +63,7 @@ const nextArticle = sortedArticles[currentIndex - 1];
   pre {
     @apply !bg-gray-100 !text-black !p-8 !rounded-md !border border-gray-200 !text-wrap;
   } 
+  blockquote {
+    @apply bg-blue-50 border-l-4 border-blue-500 p-4 my-4 italic;
+  }
 </style>

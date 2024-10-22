@@ -70,16 +70,15 @@ Here are several examples of emotional apology letters that can help you find th
 
 **Storytelling**: After throwing a loud party, you realize that the noise affected your neighbor’s evening.
 
-```
-Dear [Neighbor’s Name],
 
-I hope this letter finds you well. I wanted to take a moment to sincerely apologize for the noise from my party last Saturday. I understand that it may have disturbed your quiet evening, and I deeply regret not being more considerate.
-
-I value our good neighborly relationship and truly appreciate your patience. Please know that I will make a conscious effort to keep the noise down in the future. If you're open to it, I would love to invite you over for coffee so we can catch up. Thank you for your understanding.
-
-Warm regards,  
-[Your Name]
-```
+> Dear [Neighbor’s Name],
+>
+> I hope this letter finds you well. I wanted to take a moment to sincerely apologize for the noise from my party last Saturday. I understand that it may have disturbed your quiet evening, and I deeply regret not being more considerate.
+>
+> I value our good neighborly relationship and truly appreciate your patience. Please know that I will make a conscious effort to keep the noise down in the future. If you're open to it, I would love to invite you over for coffee so we can catch up. Thank you for your understanding.
+>
+> Warm regards,  
+> [Your Name]
 
 ### Apology Letter for a Misunderstanding
 

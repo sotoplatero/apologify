@@ -1,7 +1,7 @@
 export const patterns = {
     "patterns": [
       "How to write an apology letter to {recipient} for {reason}",
-    //   "Top example of Apology letter for {reason}",
+      // "Top example of Apology letter for {reason}",
       "Examples of {adjective} apology letters to {recipient}",
       "Tips for writing an apology letter in {context}"
     ],
@@ -21,7 +21,9 @@ export const patterns = {
         "an employee",
         "a supervisor",
         "a mentor",
-        "a supplier"
+        "a supplier",
+        "a client",
+        "a coworker"
       ],
       "reason": [
         "a mistake",
@@ -38,7 +40,13 @@ export const patterns = {
         "delivery delay",
         "last-minute cancellation",
         "lack of communication",
-        "failure to complete tasks"
+        "failure to complete tasks",
+        "not following through on promises",
+        "not showing up for an event",
+        "not responding to messages",
+        "not being transparent",
+        "not being reliable"
+    
       ],
       "adjective": [
         "formal",

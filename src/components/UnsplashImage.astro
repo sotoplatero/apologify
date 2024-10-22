@@ -30,10 +30,10 @@ const { article } = Astro.props;
 
   <figcaption class="text-right text-xs text-gray-400 mt-1">
     Photo by {article.data.photographer ? (
-      <a href={article.data.photographerUrl} target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">
+      <a href="{article.data.photographerUrl}?utm_source=ApologiesLetter&utm_medium=referral" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">
         {article.data.photographer}
       </a>
-    ) : 'Unknown photographer'} on <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Unsplash</a>
+    ) : 'Unknown photographer'} on <a href="https://unsplash.com?utm_source=ApologiesLetter&utm_medium=referral" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Unsplash</a>
   </figcaption>
 
 </figure>

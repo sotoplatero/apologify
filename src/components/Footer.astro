@@ -2,26 +2,15 @@
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="bg-gray-100 mt-8">
-  <div class="w-full max-w-screen-lg mx-auto px-4 py-8">
-    <div class="flex flex-col md:flex-row justify-between items-center">
-      <div class="mb-4 md:mb-0">
-        <a href="/" class="text-xl font-bold text-gray-800 flex items-center">
-          <span class="mr-2 text-2xl" role="img" aria-label="Apology letter">💌</span>
-          ApologyLetters
-        </a>
+<footer class="bg-gray-100 mt-8 py-4">
+  <div class="container mx-auto px-4">
+    <div class="flex justify-between items-center">
+      <div>
+        &copy; {currentYear} Tu Nombre o Nombre del Sitio. Todos los derechos reservados.
       </div>
-      <nav class="mb-4 md:mb-0">
-        <ul class="flex space-x-4">
-          <li><a href="/about" class="text-gray-600 hover:text-gray-800">About</a></li>
-          <li><a href="/privacy" class="text-gray-600 hover:text-gray-800">Privacy</a></li>
-          <li><a href="/terms" class="text-gray-600 hover:text-gray-800">Terms</a></li>
-          <li><a href="/contact" class="text-gray-600 hover:text-gray-800">Contact</a></li>
-        </ul>
+      <nav>
+        <a href="/about" class="text-blue-600 hover:underline">About</a>
       </nav>
-    </div>
-    <div class="mt-4 text-center text-gray-500 text-sm">
-      © {currentYear} ApologyLetters. All rights reserved.
     </div>
   </div>
 </footer>
