@@ -4,13 +4,15 @@ const currentYear = new Date().getFullYear();
 
 <footer class="bg-gray-100 mt-8 py-4">
   <div class="container mx-auto px-4">
-    <div class="flex justify-between items-center">
+    <div class="text-center space-y-4">
+      <nav class="text-sm">
+        <a href="/articles" class="text-blue-600 hover:underline">Articles</a> &bull;
+        <a href="/about" class="text-blue-600 hover:underline">About</a> &bull;
+        <a href="/contact" class="text-blue-600 hover:underline">Contact</a>
+      </nav>
       <div>
         &copy; {currentYear} Tu Nombre o Nombre del Sitio. Todos los derechos reservados.
       </div>
-      <nav>
-        <a href="/about" class="text-blue-600 hover:underline">About</a>
-      </nav>
     </div>
   </div>
 </footer>
