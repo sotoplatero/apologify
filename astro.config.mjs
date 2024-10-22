@@ -14,5 +14,7 @@ export default defineConfig({
   output: 'hybrid',
   site: "https://bestapologyletters.com",
   integrations: [tailwind(), sitemap(), svelte(), preact()],
-  adapter: vercel(),
+  adapter: vercel({ 
+    isr: true,
+  }),
 });
