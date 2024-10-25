@@ -2,70 +2,49 @@
 import { getCollection } from 'astro:content';
 import UnsplashImage from '../../components/UnsplashImage.astro';
 import Layout from '../../layouts/Layout.astro';
-import type { GetStaticPathsOptions, Page } from 'astro';
-import type { CollectionEntry } from 'astro:content';
 
-export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+export async function getStaticPaths({ paginate }) {
   const articles = await getCollection('articles');
-  articles.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-  return paginate(articles, { pageSize: 10 });
+  const sortedArticles = articles.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  
+  return paginate(sortedArticles, { pageSize: 10 });
 }
 
-interface Props {
-  page: Page<CollectionEntry<'articles'>>;
-}
 
 const { page } = Astro.props;
 ---
 
-<Layout title="Apology Articles" description="Browse our collection of apology articles">
-  <main class="container mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold mb-8 text-center">Apology Articles</h1>
-    <ul class="space-y-12">
+<Layout title="Apology Letters Articles" description="List of articles about apology letters. Learn how to write a sincere apology letter to your family, friend, or customer.">
+  <main class="prose prose-lg mx-auto px-4 py-8 prose-img:margin-0">
+    <h1 class="">Articles</h1>
+    <ul class="list-none list-outside pl-0 space-y-8">
       {page.data.map((article) => (
-        <li class="bg-white shadow-md rounded-lg overflow-hidden">
-          {article.data.image && (
-            <div class="aspect-video">
-              <UnsplashImage article={article} />
-            </div>
-          )}
-          <div class="p-6">
-            <h2 class="text-2xl font-semibold mb-2">
-              <a href={`/articles/${article.slug}`} class="text-blue-600 hover:text-blue-800 transition duration-300">
-                {article.data.title}
-              </a>
-            </h2>
-            <p class="text-gray-600 mb-4">{article.data.description}</p>
+        <li class="">
+
+          <UnsplashImage article={article} />
+            <a href={`/articles/${article.slug}`} class="hover:text-blue-600">
+              <h2 class="!m-0">{article.data.title}</h2>
+            </a>
             <time datetime={article.data.date.toISOString()} class="text-sm text-gray-500">
               {article.data.date.toLocaleDateString()}
             </time>
-          </div>
+            <p class="text-gray-600 mt-0">{article.data.description}</p>
         </li>
       ))}
     </ul>
 
     <nav class="mt-8 flex justify-between">
       {page.url.prev ? (
-        <a href={page.url.prev} class="btn btn-primary">
-          &larr; Previous Page
+        <a href={page.url.prev} class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          &larr; Artículos anteriores
         </a>
       ) : <span></span>}
+      
       {page.url.next ? (
-        <a href={page.url.next} class="btn btn-primary">
-          Next Page &rarr;
+        <a href={page.url.next} class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          Artículos siguientes &rarr;
         </a>
       ) : <span></span>}
     </nav>
   </main>
 </Layout>
-
-<style>
-  .aspect-video {
-    aspect-ratio: 16 / 9;
-  }
-  .aspect-video img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-</style>

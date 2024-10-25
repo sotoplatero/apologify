@@ -1,71 +1,86 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import CopyButton from '../../components/CopyButton.astro';
+import ContentModifier from '../../components/ContentModifier.astro';
+import CallToAction from '../../components/CallToAction.astro';
 import UnsplashImage from '../../components/UnsplashImage.astro';
+import EnhancedPreElement from '../../components/EnhancedPreElement.tsx';
 
-export async function getStaticPaths() {
-  const articleEntries = await getCollection('articles');
-  return articleEntries.map(entry => ({
-    params: { slug: entry.slug },
-    props: { entry },
-  }));
-}
-
-interface ArticleEntry {
+// Add this interface to define the article structure
+interface Article {
+  slug: string;
   data: {
     title: string;
-    date?: string | Date;
+    description: string;
+    date: Date;
+    image?: string;
     // Add other properties as needed
   };
 }
 
-const { entry } = Astro.props;
-const { Content } = await entry.render();
+export async function getStaticPaths() {
+  const articles = await getCollection('articles');
+  return articles.map((article: Article) => ({
+    params: { slug: article.slug },
+    props: { article, articles },
+  }));
+}
 
-const articles = await getCollection('articles');
-const sortedArticles = articles.sort((a: ArticleEntry, b: ArticleEntry) => {
-  return new Date(b.data.date || 0).getTime() - new Date(a.data.date || 0).getTime();
-});
+const { article, articles } = Astro.props;
+// Add type annotation here
+const typedArticle: Article = article;
 
-const currentIndex = sortedArticles.findIndex(article => article.slug === entry.slug);
-const prevArticle = sortedArticles[currentIndex + 1];
-const nextArticle = sortedArticles[currentIndex - 1];
+// Función para obtener artículos aleatorios
+function getRandomArticles(currentSlug, allArticles, count) {
+  const otherArticles = allArticles.filter(a => a.slug !== currentSlug);
+  return otherArticles.sort(() => 0.5 - Math.random()).slice(0, count);
+}
+
+const randomArticles: Article[] = getRandomArticles(typedArticle.slug, articles, 3);
+
+const { Content } = await article.render();
+
 ---
 
-<Layout title={entry.data.title}>
-  <article class="mx-auto max-w-3xl mt-14">
-    <h1 class="text-4xl font-bold mb-6">{entry.data.title}</h1>
-    {entry.data.date && (
-      <p class="text-gray-500 mb-2">
-        {new Date(entry.data.date).toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        })}
-      </p>
-    )}
-    <UnsplashImage article={entry} />
-    <div class="prose prose-lg mt-6">
-      <Content />
+<Layout title={typedArticle.data.title} description={typedArticle.data.description}>
+  <main class="mx-auto px-4 py-8">
+    <div class="prose prose-xl mx-auto">
+      <h1>{typedArticle.data.title}</h1>
+      <time datetime={typedArticle.data.date.toISOString()} class="text-sm text-gray-500 block">
+        {typedArticle.data.date.toLocaleDateString()}
+      </time>
     </div>
-  </article>
-  
-  <!-- Navigation links -->
-  <div class="flex justify-between mt-8">
-    {prevArticle && (
-      <a href={`/articles/${prevArticle.slug}`} class="text-blue-500 hover:underline">
-        ← {prevArticle.data.title}
-      </a>
-    )}
-    {nextArticle && (
-      <a href={`/articles/${nextArticle.slug}`} class="text-blue-500 hover:underline ml-auto">
-        {nextArticle.data.title} →
-      </a>
-    )}
-  </div>
+    <div class="full-bleed my-8">
+      {typedArticle.data?.image && (
+        <UnsplashImage article={typedArticle} />
+      )}
+    </div>
+    <article class="prose prose-lg mx-auto prose-pre:bg-gray-50 prose-pre:p-4 prose-pre:border prose-pre:font-normal prose-pre:border-gray-300 prose-pre:rounded-md prose-pre:relative mb-12">
+        <Content components={{ pre: EnhancedPreElement }} />
+    </article>
+
+    <section class="mt-16">
+      <h2 class="text-2xl font-bold mb-8 text-center">More Articles</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {randomArticles.map((randomArticle) => (
+          <div class="card bg-base-100 ">
+            <div class="card-body">
+              <h3 class="card-title">{randomArticle.data.title}</h3>
+              <div class="card-actions justify-end">
+                <a href={`/articles/${randomArticle.slug}`} class="btn btn-link">Read More</a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+    <CallToAction />
+  </main>
+  <!-- <CopyButton /> -->
 </Layout>
 
-<style>
+<style is:global>
   .prose img {
     @apply mx-auto;
   }
@@ -77,4 +92,14 @@ const nextArticle = sortedArticles[currentIndex - 1];
     justify-content: center;
     align-items: center;
   }
+  /* Estilo para el bloque de código */
+  pre {
+    background-color: #f5f5f5 !important; /* Cambiar el color de fondo */
+    white-space: pre-line !important;
+    border-radius: 8px !important; /* Bordes redondeados */
+    overflow-x: auto !important; /* Permitir desplazamiento horizontal si es necesario */
+    color: #000 !important;
+    padding: 2rem !important;
+}
+
 </style>

@@ -3,7 +3,7 @@
 
 <script>
   function addCopyFunctionality() {
-    const blockquotes = document.querySelectorAll('blockquote');
+    const blockquotes = document.querySelectorAll('pre');
     blockquotes.forEach((blockquote, index) => {
       const button = document.createElement('button');
       button.innerHTML = `
@@ -23,7 +23,7 @@
       if (target && (target.classList.contains('copy-button') || target.closest('.copy-button'))) {
         const button = target.classList.contains('copy-button') ? target : target.closest('.copy-button');
         const index = button.getAttribute('data-index');
-        const blockquote = document.querySelectorAll('blockquote')[parseInt(index)];
+        const blockquote = document.querySelectorAll('pre')[parseInt(index)];
         const text = blockquote.textContent;
         
         navigator.clipboard.writeText(text).then(() => {
@@ -53,7 +53,7 @@
 </script>
 
 <style>
-  blockquote:hover .copy-button {
+  pre:hover .copy-button {
     opacity: 1;
   }
   .copy-button {
