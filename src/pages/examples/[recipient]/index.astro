@@ -1,0 +1,34 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { recipients } from '../../../lib/apologyData';
+import ApologyCard from '../../../components/ApologyCard.astro';
+
+export async function getStaticPaths() {
+  return recipients.map(recipient => ({
+    params: { recipient: recipient.value },
+    props: { recipientLabel: recipient.label }
+  }));
+}
+
+const { recipient } = Astro.params;
+const { recipientLabel } = Astro.props;
+
+const allLetters = await getCollection('letters', (entry) => entry.id.startsWith(`${recipient}/`));
+---
+
+<Layout title={`Apology Letters for ${recipientLabel}`} description={`Example apology letters for ${recipientLabel}`}>
+  <main class="max-w-screen-md mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold mb-8 text-center">Apology Letters for {recipientLabel}</h1>
+
+    {allLetters.length === 0 ? (
+      <p class="text-center text-gray-600">No apology letters found for this recipient.</p>
+    ) : (
+      <div class="space-y-8">
+        {allLetters.map((letter) => (
+          <ApologyCard letter={letter} />
+        ))}
+      </div>
+    )}
+  </main>
+</Layout>

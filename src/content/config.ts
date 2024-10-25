@@ -13,6 +13,19 @@ const articlesCollection = defineCollection({
   }),
 });
 
+const lettersCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    tone: z.string(),
+    recipient: z.string(),
+    context: z.string(),
+    letter: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+  }),
+});
+
 export const collections = {
   'articles': articlesCollection,
+  'letters': lettersCollection
 };

@@ -1,0 +1,34 @@
+name: Generate Apology Letters
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Ejecutar cada hora
+  workflow_dispatch:  # Permite ejecutar manualmente el workflow
+
+jobs:
+  generate-letters:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'  # Usa la versión de Node.js que estés utilizando en tu proyecto
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Generate letter
+      run: node injest-letter.js
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+    - name: Commit and push if changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add src/content/letters
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Add generated apology letter" && git push)

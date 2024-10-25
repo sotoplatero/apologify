@@ -1,0 +1,48 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  letter: CollectionEntry<'letters'>;
+}
+
+const { letter } = Astro.props;
+---
+
+<div class="card bg-base-100 border border-gray-200 mb-8 shadow-lg">
+  <div class="card-body p-4 sm:p-6 md:p-8 lg:p-10">
+    <h2 class="card-title text-lg sm:text-xl md:text-2xl mb-2">{letter.data.context}</h2>
+    <p class="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-4">Tone: {letter.data.tone}</p>
+    <p class="italic whitespace-pre-line mb-4 text-sm sm:text-base">{letter.data.letter}</p>
+    <div class="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+      <button class="btn btn-sm sm:btn-md btn-outline copy-btn w-full sm:w-auto" data-letter={letter.data.letter}>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M8 2a1 1 0 000 2h2a1 1 0 100-2H8z" />
+          <path d="M3 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6h-4.586l1.293-1.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L10.414 13H15v3a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM15 11h2a1 1 0 110 2h-2v-2z" />
+        </svg>
+        Copy
+      </button>
+      <a href={`/generator?tone=${letter.data.tone}&recipient=${letter.data.recipient}&context=${encodeURIComponent(letter.data.context)}`} class="btn btn-sm sm:btn-md btn-primary w-full sm:w-auto">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+        </svg>
+        Regenerate
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.copy-btn').forEach(button => {
+    button.addEventListener('click', async () => {
+      const letter = button.getAttribute('data-letter');
+      if (letter) {
+        await navigator.clipboard.writeText(letter);
+        const originalText = button.textContent;
+        button.textContent = 'Copied!';
+        setTimeout(() => {
+          button.innerHTML = originalText || '';
+        }, 2000);
+      }
+    });
+  });
+</script>
