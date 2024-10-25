@@ -1,38 +1,52 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { recipients } from '../../lib/apologyData';
 import { getCollection } from 'astro:content';
 
 const allLetters = await getCollection('letters');
 
-// Contar las cartas para cada destinatario
-const letterCounts = allLetters.reduce((acc, letter) => {
-  const recipient = letter.id.split('/')[0];
-  acc[recipient] = (acc[recipient] || 0) + 1;
-  return acc;
-}, {} as Record<string, number>);
+// Ordenar las cartas por fecha de creación, las más recientes primero
+allLetters.sort((a, b) => new Date(b.data.createdAt).getTime() - new Date(a.data.createdAt).getTime());
 
-// Filtrar solo los destinatarios con cartas existentes
-const recipientsWithLetters = recipients.filter(recipient => letterCounts[recipient.value] > 0);
+function getEmojiForRecipient(recipient: string) {
+  const emojiMap: Record<string, string> = {
+    mother: '👩', father: '👨', son: '👦', daughter: '👧',
+    wife: '👰', husband: '🤵', friend: '🤝', colleague: '💼',
+    romantic: '❤️', boss: '👔', client: '🤝', teacher: '🍎'
+  };
+  return emojiMap[recipient] || '📝';
+}
 ---
 
-<Layout title="Apology Letter Examples" description="Browse example apology letters for various recipients">
-  <main class="container mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold mb-8 text-center">Apology Letter Examples</h1>
+<Layout title="Apology Letter Examples" description="Browse our collection of apology letter examples">
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl mb-8 text-center">
+      Apology Letter Examples
+    </h1>
     
-    {recipientsWithLetters.length === 0 ? (
-      <p class="text-center text-gray-600">No example letters available yet.</p>
+    {allLetters.length === 0 ? (
+      <div class="bg-white shadow-md rounded-lg p-8 text-center">
+        <p class="text-xl text-gray-600">No example letters available yet. Check back soon!</p>
+      </div>
     ) : (
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {recipientsWithLetters.map((recipient) => (
-          <a href={`/examples/${recipient.value}`} class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
-            <div class="card-body">
-              <h2 class="card-title">{recipient.label}</h2>
-              <p>
-                {letterCounts[recipient.value]} example{letterCounts[recipient.value] !== 1 ? 's' : ''}
-              </p>
+      <div class="space-y-10">
+        {allLetters.map((letter) => (
+          <article class="bg-white overflow-hidden">
+            <div class="p-6">
+              <div class="flex items-center mb-4">
+                <h2 class="text-2xl font-bold text-gray-900">
+                  Apology to {letter.data.recipient.charAt(0).toUpperCase() + letter.data.recipient.slice(1)}: {letter.data.context}    
+                </h2>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                  {letter.data.tone}
+                </span>
+                <a href={`/examples/${letter.data.recipient}#${letter.slug}`} class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  Read More
+                </a>
+              </div>
             </div>
-          </a>
+          </article>
         ))}
       </div>
     )}
