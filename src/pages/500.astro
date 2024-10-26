@@ -1,0 +1,46 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const apologyNote = `Dear Valued User,
+
+We sincerely apologize for the inconvenience you're experiencing. An unexpected error has occurred on our server, and we take full responsibility for this issue.
+
+Our team has been automatically notified, and we are working diligently to resolve this problem as quickly as possible. We understand that this error may have disrupted your experience, and we deeply regret any frustration or inconvenience it may have caused.
+
+Please know that we are committed to providing you with a reliable and smooth experience, and we will do our utmost to prevent such issues in the future.
+
+If you continue to experience problems or have any concerns, please don't hesitate to contact our support team. We appreciate your patience and understanding during this time.
+
+Thank you for your continued support.
+
+Warm regards,
+The Apology Letter Generator Team`;
+---
+
+<Layout title="500: Internal Server Error" description="We apologize for the inconvenience. An unexpected error has occurred on our server.">
+  <main class="container mx-auto px-4 py-16 text-center">
+    <h1 class="text-6xl font-bold text-primary mb-4">500</h1>
+    <h2 class="text-3xl font-semibold mb-4">Internal Server Error</h2>
+    <p class="text-xl text-gray-600 mb-8">We apologize for the inconvenience. An unexpected error has occurred on our server.</p>
+    
+    <div class="max-w-screen-md bg-base-200 p-8 rounded-lg shadow-lg mx-auto mb-8">
+      <h3 class="text-2xl font-semibold mb-4">Our Apology</h3>
+      <p class="text-gray-700 whitespace-pre-line text-left">{apologyNote}</p>
+    </div>
+    
+    <div class="flex justify-center space-x-4">
+      <a href="/" class="btn btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+        </svg>
+        Go Home
+      </a>
+      <a href="/contact" class="btn btn-outline">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+        </svg>
+        Contact Support
+      </a>
+    </div>
+  </main>
+</Layout>

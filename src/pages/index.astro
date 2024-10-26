@@ -28,6 +28,15 @@ const steps = [
     icon: "📝"
   }
 ];
+
+// Obtener dos cartas de ejemplo aleatorias
+const allLetters = await getCollection('letters');
+const sampleLetters = allLetters.sort(() => 0.5 - Math.random()).slice(0, 2);
+
+function truncateText(text: string, maxLength: number): string {
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength) + '...';
+}
 ---
 
 <Layout title="Apology Letter Generator" description="Create personalized apology letters and explore our collection of apology articles">
@@ -47,6 +56,29 @@ const steps = [
       </div>
     </section>
     
+    <!-- Nueva sección de cartas de ejemplo -->
+    <section class="my-32">
+      <h2 class="text-4xl font-bold mb-16 text-center text-gray-800">Sample Apology Letters</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        {sampleLetters.map((letter) => (
+          <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+            <div class="p-8">
+              <h3 class="text-2xl font-semibold mb-4 text-gray-800">
+                Apology to {letter.data.recipient.charAt(0).toUpperCase() + letter.data.recipient.slice(1)}: {letter.data.context}
+              </h3>
+              <p class="italic text-gray-700 whitespace-pre-line">{letter.data.letters[0]}</p>
+              <a href={`/examples/${letter.data.recipient}/${letter.id.split('/')[1].replace('.json', '')}`} class="mt-4 inline-block text-primary hover:underline">
+                Read full letter
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="text-center mt-8">
+        <a href="/examples" class="btn btn-primary">View More Examples</a>
+      </div>
+    </section>
+
     <section class="my-32">
       <h2 class="text-4xl font-bold mb-16 text-center text-gray-800">Recent Articles</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
