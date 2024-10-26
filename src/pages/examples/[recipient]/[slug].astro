@@ -1,0 +1,69 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import { recipients } from '../../../lib/apologyData';
+
+export async function getStaticPaths() {
+  const allLetters = await getCollection('letters');
+  return allLetters.flatMap((letter: CollectionEntry<'letters'>) => {
+    const slug = letter.id.split('/')[1].replace('.json', '');
+    return letter.data.letters.map((_, index: number) => ({
+      params: { recipient: letter.data.recipient, slug },
+      props: { letter, index },
+    }));
+  });
+}
+
+interface Props {
+  letter: CollectionEntry<'letters'>;
+  index: number;
+}
+
+const { letter, index } = Astro.props;
+const { recipient, slug } = Astro.params;
+
+const recipientLabel = recipients.find(r => r.value === recipient)?.label || recipient;
+---
+
+<Layout title={`Apology Letter to ${recipientLabel}`} description={`An example apology letter to ${recipientLabel}`}>
+  <main class="max-w-screen-md mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold mb-4 text-center">Apology Letter to {recipientLabel}</h1>
+    <p class="text-center text-gray-600 mb-8">Context: {letter.data.context}</p>
+
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+      <div class="p-16">
+        <h2 class="text-2xl font-semibold mb-4">Version {index + 1}</h2>
+        <p class="text-sm text-gray-600 mb-4">Tone: {letter.data.tone}</p>
+        <div class="prose max-w-none">
+          <p class="whitespace-pre-wrap">{letter.data.letters[index]}</p>
+        </div>
+      </div>
+    </div>
+
+    {letter.data.letters.length > 1 && (
+      <div class="mt-8">
+        <h3 class="text-xl font-semibold mb-4">Other Versions</h3>
+        <div class="flex flex-wrap gap-2">
+          {letter.data.letters.map((_, i: number) => (
+            <a
+              href={`/examples/${recipient}/${slug}?version=${i + 1}`}
+              class={`btn btn-sm ${i === index ? 'btn-primary' : 'btn-outline'}`}
+            >
+              Version {i + 1}
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <div class="mt-8 flex justify-between">
+      <a href={`/examples/${recipient}`} class="btn btn-outline">
+        Back to {recipientLabel} Letters
+      </a>
+      <a href="/generator" class="btn btn-primary">
+        Generate Your Own Letter
+      </a>
+    </div>
+  </main>
+</Layout>

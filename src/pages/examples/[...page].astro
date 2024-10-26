@@ -1,0 +1,78 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths({ paginate }: { paginate: any }) {
+  const allLetters = await getCollection('letters');
+  allLetters.sort((a: CollectionEntry<'letters'>, b: CollectionEntry<'letters'>) => 
+    a.id.localeCompare(b.id)
+  );
+  
+  return paginate(allLetters, { pageSize: 10 });
+}
+
+type Props = {
+  page: {
+    data: CollectionEntry<'letters'>[];
+    currentPage: number;
+    lastPage: number;
+    url: {
+      prev: string | undefined;
+      next: string | undefined;
+    };
+  };
+};
+
+const { page } = Astro.props;
+
+function getSlugFromId(id: string): string {
+  const parts = id.split('/');
+  return parts[parts.length - 1].replace('.json', '');
+}
+
+function truncateText(text: string, maxLength: number): string {
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength) + '...';
+}
+---
+
+<Layout title="Apology Letter Examples" description="Browse our collection of apology letter examples">
+  <main class="max-w-screen-md mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold mb-8 text-center">Apology Letter Examples</h1>
+    
+    {page.data.length === 0 ? (
+      <p class="text-center text-gray-600">No example letters available yet. Check back soon!</p>
+    ) : (
+      <ul class="space-y-8">
+        {page.data.map((letter) => {
+          const slug = getSlugFromId(letter.id);
+          return (
+            <li class="bg-white overflow-hidden shadow-md rounded-lg">
+              <a href={`/examples/${letter.data.recipient}/${slug}`} class="block p-6 hover:bg-gray-50">
+                <h2 class="text-xl font-semibold text-gray-900 mb-2">
+                  Apology to {letter.data.recipient.charAt(0).toUpperCase() + letter.data.recipient.slice(1)}: {letter.data.context}
+                </h2>
+                <p class="text-sm text-gray-500 mb-2">Tone: {letter.data.tone}</p>
+                <p class="text-gray-700 italic">{truncateText(letter.data.letters[0], 150)}</p>
+                <p class="text-sm text-gray-500 mt-2">{letter.data.letters.length} version{letter.data.letters.length !== 1 ? 's' : ''}</p>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    )}
+
+    {(page.url.prev || page.url.next) && (
+      <nav class="mt-8 flex justify-between">
+        {page.url.prev ? (
+          <a href={page.url.prev} class="btn btn-primary">Previous</a>
+        ) : <span></span>}
+        <span>Page {page.currentPage} of {page.lastPage}</span>
+        {page.url.next ? (
+          <a href={page.url.next} class="btn btn-primary">Next</a>
+        ) : <span></span>}
+      </nav>
+    )}
+  </main>
+</Layout>

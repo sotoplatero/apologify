@@ -2,7 +2,7 @@
 import Layout from '../../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { recipients } from '../../../lib/apologyData';
-import ApologyCard from '../../../components/ApologyCard.astro';
+import type { CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
   return recipients.map(recipient => ({
@@ -11,24 +11,55 @@ export async function getStaticPaths() {
   }));
 }
 
+interface Props {
+  recipientLabel: string;
+}
+
 const { recipient } = Astro.params;
 const { recipientLabel } = Astro.props;
 
 const allLetters = await getCollection('letters', (entry) => entry.id.startsWith(`${recipient}/`));
+
+function getSlugFromId(id: string): string {
+  const parts = id.split('/');
+  return parts[parts.length - 1].replace('.json', '');
+}
+
+function truncateText(text: string, maxLength: number): string {
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength) + '...';
+}
 ---
 
 <Layout title={`Apology Letters for ${recipientLabel}`} description={`Example apology letters for ${recipientLabel}`}>
-  <main class="max-w-screen-md mx-auto px-4 py-8">
+  <main class="max-w-4xl mx-auto px-4 py-8">
     <h1 class="text-4xl font-bold mb-8 text-center">Apology Letters for {recipientLabel}</h1>
 
     {allLetters.length === 0 ? (
       <p class="text-center text-gray-600">No apology letters found for this recipient.</p>
     ) : (
-      <div class="space-y-8">
-        {allLetters.map((letter) => (
-          <ApologyCard letter={letter} />
-        ))}
-      </div>
+      <ul class="space-y-8">
+        {allLetters.map((letter) => {
+          const slug = getSlugFromId(letter.id);
+          return (
+            <li class="bg-white shadow-lg rounded-lg overflow-hidden">
+              <a href={`/examples/${recipient}/${slug}`} class="block p-6 hover:bg-gray-50">
+                <h2 class="text-xl font-semibold text-gray-900 mb-2">
+                  {letter.data.context}
+                </h2>
+                <p class="text-sm text-gray-600 mb-2">Tone: {letter.data.tone}</p>
+                <p class="text-gray-700 italic">{truncateText(letter.data.letters[0], 150)}</p>
+                <p class="text-sm text-gray-500 mt-2">{letter.data.letters.length} version{letter.data.letters.length !== 1 ? 's' : ''}</p>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
     )}
+
+    <div class="mt-8 text-center">
+      <a href="/examples" class="btn btn-primary">Back to All Examples</a>
+    </div>
   </main>
 </Layout>
+
