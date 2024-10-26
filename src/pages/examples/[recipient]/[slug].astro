@@ -35,7 +35,7 @@ const recipientLabel = recipients.find(r => r.value === recipient)?.label || rec
       <div class="p-16">
         <h2 class="text-2xl font-semibold mb-4">Version {index + 1}</h2>
         <p class="text-sm text-gray-600 mb-4">Tone: {letter.data.tone}</p>
-        <div class="prose max-w-none">
+        <div class="prose max-w-none mx-auto">
           <p class="whitespace-pre-wrap">{letter.data.letters[index]}</p>
         </div>
       </div>
@@ -58,11 +58,11 @@ const recipientLabel = recipients.find(r => r.value === recipient)?.label || rec
     )}
 
     <div class="mt-8 flex justify-between">
-      <a href={`/examples/${recipient}`} class="btn btn-outline">
-        Back to {recipientLabel} Letters
+      <a href={`/examples/${recipient}`} class="btn btn-outline capitalize">
+        {recipientLabel} Letters
       </a>
       <a href="/generator" class="btn btn-primary">
-        Generate Your Own Letter
+        Generator
       </a>
     </div>
   </main>
