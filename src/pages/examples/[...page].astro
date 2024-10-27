@@ -55,7 +55,7 @@ function truncateText(text: string, maxLength: number): string {
                 </h2>
                 <p class="text-sm text-gray-500 mb-2">Tone: {letter.data.tone}</p>
                 <p class="text-gray-700 italic">{truncateText(letter.data.letters[0], 150)}</p>
-                <p class="text-sm text-gray-500 mt-2">{letter.data.letters.length} version{letter.data.letters.length !== 1 ? 's' : ''}</p>
+                <p class="badge badge-outline text-gray-500 mt-2">{letter.data.letters.length} version{letter.data.letters.length !== 1 ? 's' : ''}</p>
               </a>
             </li>
           );
