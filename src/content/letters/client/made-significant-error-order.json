@@ -1,0 +1,8 @@
+{
+  "tone": "humorous",
+  "recipient": "client",
+  "context": "I made a significant error in your order",
+  "letters": [
+    "Dear [Client's Name],\n\nI hope this note finds you in better spirits than my last attempt at fulfilling your order. It seems I’ve managed to turn your simple request into an elaborate game of “Guess What I Meant to Send!” Spoiler alert: nobody wins this game!\n\nI want to extend my sincerest apologies for the mix-up. Rest assured, my intention was to deliver exactly what you ordered, not a mystery package worthy of a reality show. It turns out that when I said I could juggle multiple tasks, I didn’t mean actually juggling items from your order. Clearly, the juggling circus was a little too ambitious!\n\nI’m currently in the process of rectifying this situation faster than a cat can fall from a counter (and we all know how quickly that is). Please expect the correct order arriving shortly—barring any unforeseen acrobatics on my end.\n\nThank you for your patience and understanding as I work to fix this blunder. In the meantime, I promise to stick to my day job and avoid any more circus acts. If there's anything else I can do to make this right (or if you just want to share a laugh), don’t hesitate to reach out.\n\nWith all my apologies and a side of humor,\n\n[Your Name]"
+  ]
+}
