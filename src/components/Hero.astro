@@ -1,0 +1,29 @@
+---
+import { Image } from 'astro:assets';
+import heroImage from '../assets/hero-image.jpg'; // Asegúrate de tener esta imagen en tu proyecto
+---
+
+<div class="relative w-screen left-1/2 right-1/2 -mx-[50vw] bg-gray-900 text-white">
+  <section class="flex items-center">
+    <!-- <div class="absolute inset-0 z-0">
+      <Image 
+        src={heroImage} 
+        alt="Background image of a person writing a letter" 
+        class="object-cover w-full h-full opacity-50"
+      />
+    </div> -->
+    <div class="relative z-10 w-full px-4 py-32 sm:px-6 lg:px-8 flex flex-col items-center text-center">
+      <h1 class="text-4xl sm:text-8xl font-extrabold leading-tight mb-4 max-w-4xl mx-auto">
+        Generate Apology Letters
+      </h1>
+      <p class="text-xl sm:text-2xl mb-8 max-w-3xl mx-auto">
+        Create personalized apology letters that express your sincere regret and help rebuild trust.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <a href="/generator" class="btn btn-primary btn-lg">
+          Generate Apology Letter
+        </a>
+      </div>
+    </div>
+  </section>
+</div>

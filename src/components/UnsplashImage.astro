@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 
 interface Props {
   article: {
@@ -16,22 +15,25 @@ interface Props {
 const { article } = Astro.props;
 ---
 
-<figure class="my-8">
-  <div class="aspect-video overflow-hidden rounded-lg">
+<figure class="not-prose">
+  <div class="aspect-video overflow-hidden rounded-lg ">
+
     {article.data.image && (
       <img
         src={article.data.image}
         alt={article.data.title || ''}
-        class="w-full h-full object-cover"
+        class="w-full object-cover"
         loading="lazy"
       />
     )}
   </div>
+
   <figcaption class="text-right text-xs text-gray-400 mt-1">
     Photo by {article.data.photographer ? (
-      <a href={article.data.photographerUrl} target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">
+      <a href="{article.data.photographerUrl}?utm_source=ApologiesLetter&utm_medium=referral" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">
         {article.data.photographer}
       </a>
-    ) : 'Unknown photographer'} on <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Unsplash</a>
+    ) : 'Unknown photographer'} on <a href="https://unsplash.com?utm_source=ApologiesLetter&utm_medium=referral" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Unsplash</a>
   </figcaption>
+
 </figure>

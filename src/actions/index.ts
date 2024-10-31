@@ -24,7 +24,7 @@ async function generateLetter(input: { relationship: string, context: string, to
     const { relationship, context, tone } = input;
 
     const systemPrompt = `You are an apology letter generator. You are given a relationship, context, and tone. You need to generate a letter for the recipient.`;
-    const userPrompt = `Write 3 apology letters for the recipient ${relationship} for the context ${context} with the tone ${tone}.`;      
+    const userPrompt = `Write a apology letter for the recipient ${relationship} for the context ${context} with the tone ${tone}.`;      
 
     const letter = await callOpenAIChatCompletion({ systemPrompt, userPrompt });
     

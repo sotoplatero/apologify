@@ -1,7 +1,14 @@
 ---
 import { getCollection } from 'astro:content';
+<<<<<<< HEAD
 import UnsplashImage from '../../components/UnsplashImage.astro';
 import Layout from '../../layouts/Layout.astro';
+=======
+import UnsplashImage from '@/components/UnsplashImage.astro';
+import Layout from '@/layouts/Layout.astro';
+import type { GetStaticPathsOptions, Page } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+>>>>>>> 9e8397bf111f97dd3f713ae402fe641f10d33e4a
 
 export async function getStaticPaths({ paginate }) {
   const articles = await getCollection('articles');
@@ -14,6 +21,7 @@ export async function getStaticPaths({ paginate }) {
 const { page } = Astro.props;
 ---
 
+<<<<<<< HEAD
 <Layout title="Apology Letters Articles" description="List of articles about apology letters. Learn how to write a sincere apology letter to your family, friend, or customer.">
   <main class="prose prose-lg mx-auto px-4 py-8 prose-img:margin-0">
     <h1 class="">Articles</h1>
@@ -29,6 +37,37 @@ const { page } = Astro.props;
               {article.data.date.toLocaleDateString()}
             </time>
             <p class="text-gray-600 mt-0">{article.data.description}</p>
+=======
+<Layout title="Apology Articles" description="Browse our collection of apology articles">
+  <main class="w-full max-w-screen-md mx-auto mt-16">
+    
+    <h1 class="text-4xl font-bold mb-8 text-center">Apology Letter Articles</h1>
+
+    <ul class="space-y-12">
+
+      {page.data.map((article) => (
+        <li class="bg-white overflow-hidden">
+          <article class="prose prose-lg mx-auto">
+
+            {article.data.image && (
+                <UnsplashImage article={article} />
+            )}
+            {article.data?.date && (
+              <time datetime={article.data.date?.toISOString()} class="text-sm text-gray-500">
+                {article.data.date?.toLocaleDateString()}
+              </time>
+            )}
+            
+            <h2 class="mt-0 mb-2">
+              <a href={`/articles/${article.slug}`} class="text-link">
+                {article.data.title}
+              </a>
+            </h2>
+
+            <p class="text-gray-600 mb-4">{article.data.description}</p>
+
+          </article>
+>>>>>>> 9e8397bf111f97dd3f713ae402fe641f10d33e4a
         </li>
       ))}
     </ul>

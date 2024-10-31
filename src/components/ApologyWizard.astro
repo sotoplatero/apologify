@@ -1,81 +1,115 @@
 ---
 import { actions } from 'astro:actions';
 
-
-
 const tones = [
   { value: 'formal', label: 'Formal' },
   { value: 'casual', label: 'Casual' },
   { value: 'heartfelt', label: 'Heartfelt' },
   { value: 'professional', label: 'Professional' },
   { value: 'sincere', label: 'Sincere' },
-  { value: 'remorseful', label: 'Remorseful' }
+  { value: 'remorseful', label: 'Remorseful' },
+  { value: 'humorous', label: 'Humorous' },
+  { value: 'apologetic', label: 'Apologetic' },
+  { value: 'regretful', label: 'Regretful' },
 ];
 
 const recipients = [
   { value: 'mother', label: 'Mother' },
   { value: 'father', label: 'Father' },
-  { value: 'spouse', label: 'Spouse' },
+  { value: 'son', label: 'Son' },
+  { value: 'daughter', label: 'Daughter' },
+  { value: 'wife', label: 'Wife' },
+  { value: 'husband', label: 'Husband' },
   { value: 'friend', label: 'Friend' },
   { value: 'colleague', label: 'Colleague' },
   { value: 'romantic', label: 'Romantic partner' },
   { value: 'boss', label: 'Boss' },
   { value: 'client', label: 'Client' },
   { value: 'teacher', label: 'Teacher' },
+
 ];
 
 const defaultTone = tones[0].value;
 const defaultRecipient = recipients[0].value;
+const placeholder = `Describe the situation that requires an apology. For example: \n- I forgot our anniversary \n- I missed an important deadline at work \n- I accidentally broke your favorite vase \n- I said something hurtful during an argument \nBe specific about what happened and how it affected the other person.`;
 
+--- 
 
----
-
-<div class="card w-full max-w-2xl bg-base-100 shadow-xl mx-auto">
-  <div class="card-body">
-    <form action={actions.createLetter} method="POST" id="apologyWizard" class="space-y-4">
-      <div class="step-container min-h-[200px]">
-        <div class="step" data-step="1">
-          <h2 class="card-title mb-4">Relationship with the recipient</h2>
-          <select transition:persist name="relationship" class="select select-bordered w-full" required>
-            {recipients.map((r) => (
-              <option value={r.value} selected={r.value === defaultRecipient}>{r.label}</option>
-            ))}
-          </select>
+<div class="p-4 sm:p-8 rounded-lg max-w-3xl mx-auto my-16">
+  <h2 class="text-2xl sm:text-3xl font-bold text-center mb-2">Apology Letter Wizard</h2>
+  <p class="text-center text-gray-600 mb-6 sm:mb-8">Create a personalized apology letter in just a few steps</p>
+  
+  <div class="card">
+    <div class="card-body p-4 sm:p-6">
+      <div class="mb-6">
+        <div class="w-full bg-gray-200 rounded-full h-3 dark:bg-gray-700">
+          <div class="bg-primary h-3 rounded-full transition-all duration-300" style="width: 0%" id="progressBar"></div>
         </div>
+      </div>
 
-        <div class="step hidden" data-step="2">
-          <h2 class="card-title mb-4">Context or situation</h2>
-          <textarea transition:persist name="context" rows="4" class="textarea textarea-bordered w-full" required placeholder="Provide some context about the situation..."></textarea>
-        </div>
-
-        <div class="step hidden" data-step="3">
-          <h2 class="card-title mb-4">Desired tone</h2>
-          <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {tones.map((tone) => (
-              <button type="button" class={`tone-btn btn btn-outline ${tone.value === defaultTone ? 'btn-active' : ''}`} data-value={tone.value}>
-                {tone.label}
-              </button>
-            ))}
+      <form action={actions.createLetter} method="POST" id="apologyWizard" class="space-y-6">
+        <div class="step-container h-72" >
+          <div class="step" data-step="1">
+            <h2 class="card-title text-lg sm:text-xl mb-4">
+              <span class="bg-primary text-white rounded-full w-7 h-7 sm:w-8 sm:h-8 inline-flex items-center justify-center mr-2">1</span>
+              Relationship with the recipient
+            </h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4">
+              {recipients.map((r) => (
+                <button type="button" class="relationship-btn btn btn-outline btn-sm sm:btn-md" data-value={r.value}>
+                  {r.label}
+                </button>
+              ))}
+            </div>
+            <input type="hidden" name="relationship" value={defaultRecipient} required>
           </div>
-          <input transition:persist type="hidden" name="tone" value={defaultTone} required>
-        </div>
-      </div>
 
-      <div class="card-actions justify-end mt-6">
-        <button type="button" id="prevBtn" class="btn btn-ghost">Previous</button>
-        <button type="button" id="nextBtn" class="btn btn-primary">Next</button>
+          <div class="step hidden" data-step="2">
+            <h2 class="card-title text-lg sm:text-xl mb-4">
+              <span class="bg-primary text-white rounded-full w-7 h-7 sm:w-8 sm:h-8 inline-flex items-center justify-center mr-2">2</span>
+              Context or situation
+            </h2>
+            <textarea transition:persist name="context" rows="6" class="textarea textarea-bordered w-full" required placeholder={placeholder}></textarea>
+          </div>
+
+          <div class="step hidden" data-step="3">
+            <h2 class="card-title text-lg sm:text-xl mb-4">
+              <span class="bg-primary text-white rounded-full w-7 h-7 sm:w-8 sm:h-8 inline-flex items-center justify-center mr-2">3</span>
+              Desired tone
+            </h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4">
+              {tones.map((tone) => (
+                <button type="button" class={`tone-btn btn btn-outline btn-sm sm:btn-md ${tone.value === defaultTone ? 'btn-active' : ''}`} data-value={tone.value}>
+                  {tone.label}
+                </button>
+              ))}
+            </div>
+            <input transition:persist type="hidden" name="tone" value={defaultTone} required>
+          </div>
+        </div>
+
+        <div class="card-actions justify-end mt-8">
+          <button type="button" id="prevBtn" class="btn btn-outline btn-sm sm:btn-md">Previous</button>
+          <button type="button" id="nextBtn" class="btn btn-primary btn-sm sm:btn-md">Next</button>
+        </div>
+      </form>
+
+      <div id="loadingIndicator" class="hidden flex flex-col items-center justify-center space-y-4 mt-8">
+        <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+        <p class="text-xl font-semibold">Generating your apology letter...</p>
       </div>
-    </form>
+    </div>
   </div>
 </div>
 
-<script define:vars={{ defaultTone, defaultRecipient }}>
+<script define:vars={{ defaultTone, defaultRecipient, totalSteps: 3 }}>
+  
   let currentStep = 1;
-  const totalSteps = 3;
 
   const form = document.getElementById('apologyWizard');
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
+  const progressBar = document.getElementById('progressBar');
 
   function showStep(step) {
     document.querySelectorAll('.step').forEach(el => el.classList.add('hidden'));
@@ -83,10 +117,17 @@ const defaultRecipient = recipients[0].value;
     
     prevBtn.style.display = step === 1 ? 'none' : 'inline-flex';
     nextBtn.textContent = step === totalSteps ? 'Submit' : 'Next';
+
+    // Update progress bar
+    progressBar.style.width = `${((step - 1) / (totalSteps - 1)) * 100}%`;
   }
 
   function validateStep(step) {
     const currentStepElement = document.querySelector(`.step[data-step="${step}"]`);
+    if (step === 1) {
+      const relationshipInput = currentStepElement.querySelector('input[name="relationship"]');
+      return relationshipInput.value !== '';
+    }
     const inputs = currentStepElement?.querySelectorAll('input:not([type="hidden"]), select, textarea');
     return Array.from(inputs || []).every((input) => input.checkValidity());
   }
@@ -124,8 +165,36 @@ const defaultRecipient = recipients[0].value;
     });
   });
 
+  // Relationship button functionality
+  const relationshipButtons = document.querySelectorAll('.relationship-btn');
+  const relationshipInput = document.querySelector('input[name="relationship"]');
+
+  relationshipButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      relationshipButtons.forEach(btn => btn.classList.remove('btn-active'));
+      button.classList.add('btn-active');
+      relationshipInput.value = button.getAttribute('data-value') || '';
+    });
+  });
+
   // Initialize with the first step, default tone and default recipient
   showStep(currentStep);
   toneInput.value = defaultTone;
-  document.querySelector('select[name="relationship"]').value = defaultRecipient;
+  relationshipInput.value = defaultRecipient;
+  document.querySelector(`.relationship-btn[data-value="${defaultRecipient}"]`).classList.add('btn-active');
+
+  // Añadir manejo del indicador de carga
+  const loadingIndicator = document.getElementById('loadingIndicator');
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (validateStep(currentStep)) {
+      form.style.display = 'none';
+      loadingIndicator.classList.remove('hidden');
+      form.submit();
+    } else {
+      alert('Please fill out all required fields before submitting.');
+    }
+  });
+
 </script>
