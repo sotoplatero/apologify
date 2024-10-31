@@ -8,14 +8,14 @@ export const prerender = "false"
 const result = Astro.getActionResult(actions.createLetter);
 const showLetter = result && result?.data?.letter && !result.error;
 
-const { tone, recipient, context } = Astro.url.searchParams;
+// const { tone, recipient, context } = Astro.url.searchParams;
 ---
 
 <Layout title="Generate Apology Letter" description="Create a personalized apology letter with our easy-to-use wizard.">
   <main class="container mx-auto px-4 py-8">
     <h1 class="text-4xl font-bold mb-8 text-center">Generate Your Apology Letter</h1>
 
-    {!showLetter && <ApologyWizard initialStep={1} tone={tone} recipient={recipient} context={context} />}
+    {!showLetter && <ApologyWizard />}
 
     {result?.error && (
       <p class="error">Unable to generate apology letter. Please try again later. Error: {result.error}</p>

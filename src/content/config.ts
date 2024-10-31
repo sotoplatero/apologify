@@ -19,9 +19,7 @@ const lettersCollection = defineCollection({
     tone: z.string(),
     recipient: z.string(),
     context: z.string(),
-    letter: z.string(),
-    createdAt: z.string(),
-    updatedAt: z.string(),
+    letters: z.array(z.string()),
   }),
 });
 
