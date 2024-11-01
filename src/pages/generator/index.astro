@@ -6,6 +6,7 @@ import Letter from '../../components/Letter.svelte';
 export const prerender = "false"
 
 const result = Astro.getActionResult(actions.createLetter);
+
 ---
 
 <Layout 
@@ -56,9 +57,9 @@ const result = Astro.getActionResult(actions.createLetter);
       <div class="max-w-4xl mx-auto">
         <h1 class="text-3xl font-bold mb-8 text-center">Your Generated Letter</h1>
 
-        {result.error ? (
+        {result?.error ? (
           <div class="alert alert-error">
-            <p>{result.error.message}</p>
+            <p>Error generating letter</p>
           </div>
         ) : (
           <Letter client:load letter={result.data.letter} />
