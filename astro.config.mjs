@@ -12,7 +12,7 @@ import vercel from '@astrojs/vercel/serverless';
 // https://astro.build/config
 export default defineConfig({
   output: 'hybrid',
-  site: "https://bestapologyletters.com",
+  site: "https://apologify.com",
   integrations: [tailwind(), sitemap(), svelte(), preact()],
   adapter: vercel({ 
     isr: true,
