@@ -6,11 +6,13 @@ import Footer from '../components/Footer.astro';
 interface Props {
 	title: string;
 	description: string;
+	schema?: Record<string, any>;
 }
 
 const { 
 	title = 'Apology Letters', 
-	description = 'Create heartfelt apology letters with our easy-to-use generator. Mend relationships and express sincere regret effectively. Free templates and expert tips.'
+	description = 'Create heartfelt apology letters with our easy-to-use generator. Mend relationships and express sincere regret effectively. Free templates and expert tips.',
+	schema
 } = Astro.props;
 ---
 
@@ -27,7 +29,9 @@ const {
 		<link rel="sitemap" href="/sitemap-index.xml" />
 		<title>{title}</title>
 		<script defer src="https://umamisoto.vercel.app/script.js" data-website-id="ff7f84cf-5ca1-42f7-a6c9-e45cd9e74131" data-domains="bestapologyletters.com,apologify.com"></script>
-        
+		{schema && (
+			<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+		)}
 		<ViewTransitions />
 	</head>
 	<body class="flex flex-col min-h-screen overflow-x-hidden">

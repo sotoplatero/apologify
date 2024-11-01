@@ -24,9 +24,40 @@ const sortedArticles = articles.sort((a, b) =>
 const currentIndex = sortedArticles.findIndex(article => article.slug === entry.slug);
 const prevArticle = sortedArticles[currentIndex + 1];
 const nextArticle = sortedArticles[currentIndex - 1];
+
+// Preparar datos para el Schema.org
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": entry.data.title,
+  "description": entry.data.description,
+  "image": entry.data.image,
+  "datePublished": entry.data.date?.toISOString() || new Date().toISOString(),
+  "dateModified": entry.data.date?.toISOString() || new Date().toISOString(),
+  "author": {
+    "@type": "Organization",
+    "name": "Apologify"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Apologify",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://apologify.com/logo.png"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": `https://apologify.com/articles/${entry.slug}`
+  }
+};
 ---
 
-<Layout title={entry.data.title} description={entry.data.description}>
+<Layout 
+  title={entry.data.title} 
+  description={entry.data.description}
+  schema={schema}
+>
   <article class="prose prose-lg mx-auto mt-16">
     {entry.data.date && (
       <time datetime={entry.data?.date.toISOString()} class="text-gray-500">
@@ -39,7 +70,6 @@ const nextArticle = sortedArticles[currentIndex - 1];
     <UnsplashImage article={entry} />
 
     <Content />
-
   </article>
   
   <!-- Navigation links -->

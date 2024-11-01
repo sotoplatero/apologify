@@ -1,34 +1,60 @@
 ---
 const currentYear = new Date().getFullYear();
+
+const importantRecipients = [
+  { value: 'boss', label: 'Boss' },
+  { value: 'colleague', label: 'Colleague' },
+  { value: 'client', label: 'Client' },
+  { value: 'friend', label: 'Friend' },
+  { value: 'partner', label: 'Partner' },
+  { value: 'teacher', label: 'Teacher' }
+];
 ---
 
 <footer class="bg-base-200 text-base-content">
-  <div class="container mx-auto py-12 px-4">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-      <div>
-        <h3 class="text-lg font-semibold mb-4">Apology Letter Generator</h3>
+  <div class="w-full max-w-screen-lg mx-auto py-16 px-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="">
+        <h3 class="text-lg font-semibold mb-4">Apologify</h3>
         <p class="text-sm">Create personalized apology letters with ease using our AI-powered tool.</p>
       </div>
+
       <div>
         <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
         <ul class="space-y-2">
           <li><a href="/" class="hover:underline">Home</a></li>
+          <li><a href="/about" class="hover:underline">About Us</a></li>
           <li><a href="/generator" class="hover:underline">Generate Letter</a></li>
           <li><a href="/examples" class="hover:underline">Example Letters</a></li>
           <li><a href="/articles" class="hover:underline">Articles</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="text-lg font-semibold mb-4">Resources</h3>
-        <ul class="space-y-2">
-          <li><a href="/about" class="hover:underline">About Us</a></li>
-          <li><a href="/privacy" class="hover:underline">Privacy Policy</a></li>
-          <li><a href="/terms" class="hover:underline">Terms of Service</a></li>
           <li><a href="/contact" class="hover:underline">Contact Us</a></li>
         </ul>
       </div>
+
       <div>
-        <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+        <h3 class="text-lg font-semibold mb-4">Popular Letters</h3>
+        <ul class="space-y-2">
+          {importantRecipients.map((recipient) => (
+            <li>
+              <a 
+                href={`/examples/${recipient.value}`} 
+                class="hover:underline"
+              >
+                Apology to {recipient.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- <div>
+        <h3 class="text-lg font-semibold mb-4">Legal</h3>
+        <ul class="space-y-2">
+          <li><a href="/privacy" class="hover:underline">Privacy Policy</a></li>
+          <li><a href="/terms" class="hover:underline">Terms of Service</a></li>
+        </ul>
+
+        <h3 class="text-lg font-semibold mt-6 mb-4">Follow Us</h3>
         <div class="flex space-x-4">
           <a href="#" class="text-xl hover:text-primary" aria-label="Facebook">
             <i class="fab fa-facebook"></i>
@@ -43,8 +69,9 @@ const currentYear = new Date().getFullYear();
             <i class="fab fa-linkedin"></i>
           </a>
         </div>
-      </div>
+      </div> -->
     </div>
+
     <div class="mt-8 pt-8 border-t border-base-300 text-center">
       <p>&copy; {currentYear} Apology Letter Generator. All rights reserved.</p>
     </div>

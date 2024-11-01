@@ -2,7 +2,7 @@
 title: "Heartfelt Examples of Brief Apology Letters to a Business Partner"
 description: "Discover heartfelt examples and practical advice for writing a brief apology letter to a business partner. Learn how to rebuild trust, heal your professional relationship, and express genuine remorse with step-by-step guidance."
 tags: ["brief", "business partner"]
-date: 2023-10-05
+date: 2024-11-01
 image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk0MDQ5ODd8&ixlib=rb-4.0.3&q=80&w=1080"
 photographer: "Alex Kotliarskyi"
 photographerUrl: "https://unsplash.com/@frantic"
