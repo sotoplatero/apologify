@@ -64,11 +64,11 @@ function truncateText(text: string, maxLength: number): string {
     )}
 
     {(page.url.prev || page.url.next) && (
-      <nav class="mt-8 flex justify-between">
+      <nav class="mt-8 flex justify-center items-center gap-4">
         {page.url.prev ? (
           <a href={page.url.prev} class="btn btn-primary">Previous</a>
         ) : <span></span>}
-        <span>Page {page.currentPage} of {page.lastPage}</span>
+        <span>{page.currentPage} of {page.lastPage}</span>
         {page.url.next ? (
           <a href={page.url.next} class="btn btn-primary">Next</a>
         ) : <span></span>}
