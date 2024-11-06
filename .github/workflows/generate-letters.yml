@@ -2,7 +2,7 @@ name: Generate Apology Letters
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Ejecutar cada hora
+    - cron: '0 0 * * *'  # Ejecutar cada hora
   workflow_dispatch:  # Permite ejecutar manualmente el workflow
 
 permissions:
