@@ -3,6 +3,8 @@ import Layout from '../../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import { recipients } from '../../../lib/apologyData';
+import Letter from '@/components/Letter.svelte';
+import CallToAction from '@/components/CallToAction.astro';
 
 export async function getStaticPaths() {
   const allLetters = await getCollection('letters');
@@ -27,28 +29,22 @@ const recipientLabel = recipients.find(r => r.value === recipient)?.label || rec
 
 <Layout title={`Apology Letters to ${recipientLabel}`} description={`Example apology letters to ${recipientLabel}. ${letter.data.context}`}>
   <main class="max-w-screen-md mx-auto px-4  py-8">
-    <h1 class="text-4xl font-bold mb-4 text-left">Apology Letters to {recipientLabel}. <br /> {letter.data.context}</h1>
+    <h1 class="text-4xl font-bold mb-4 text-center">Apology Letters to {recipientLabel}. <br /> {letter.data.context}</h1>
     <!-- <p class="text-center text-gray-600 mb-8">Context: {letter.data.context}</p> -->
 
-    {letter.data.letters.map((letterText: string, index: number) => (
-      <div class="bg-white shadow-lg rounded-lg overflow-hidden mb-8">
-        <div class="p-4 md:p-16">
-          <h2 class="text-2xl font-semibold mb-4">Example {index + 1}</h2>
-          <p class="text-sm text-gray-600 mb-4">Tone: {letter.data.tone}</p>
-          <div class="prose max-w-none mx-auto">
-            <p class="whitespace-pre-wrap">{letterText}</p>
-          </div>
-        </div>
-      </div>
-    ))}
+    <div class="flex flex-col gap-8">
+      {letter.data.letters.map((letterText: string, index: number) => (
+        <Letter letter={letterText} client:load />
+      ))}
+    </div>
 
-    <div class="mt-8 flex justify-between">
+    <div class="my-16 flex justify-center">
       <a href={`/examples/${recipient}`} class="btn btn-outline capitalize">
         {recipientLabel} Letters
       </a>
-      <a href="/generator" class="btn btn-primary">
-        Generator
-      </a>
     </div>
+
+    <CallToAction />
+
   </main>
 </Layout>

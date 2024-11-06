@@ -2,7 +2,7 @@
 title: "Heartfelt Examples of Brief Apology Letters to a Mentor"
 description: "Discover heartfelt examples and practical advice for writing a brief apology letter to your mentor. Learn how to express genuine remorse and rebuild trust in your valuable relationship."
 tags: ["brief", "mentor"]
-date: 2023-10-05
+date: 2024-10-05
 image: "https://images.unsplash.com/photo-1634092115050-2e6cb6a50bc6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAyNTgzNjN8&ixlib=rb-4.0.3&q=80&w=1080"
 photographer: "Ed Cummings"
 photographerUrl: "https://unsplash.com/@edward_cummings"

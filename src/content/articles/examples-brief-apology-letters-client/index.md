@@ -2,7 +2,7 @@
 title: "Heartfelt Examples of Brief Apology Letters to Clients"
 description: "Discover heartfelt examples and practical advice for writing a brief apology letter to clients. Learn how to rebuild trust, heal relationships, and express genuine remorse with step-by-step guidance."
 tags: ["brief", "client"]
-date: 2023-10-10
+date: 2024-10-10
 image: "https://images.unsplash.com/photo-1529203915787-cc54fa70a428?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk2NTM1MTN8&ixlib=rb-4.0.3&q=80&w=1080"
 photographer: "Jason Leung"
 photographerUrl: "https://unsplash.com/@ninjason"

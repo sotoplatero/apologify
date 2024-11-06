@@ -20,8 +20,34 @@ function createOptimizedSlug(text) {
   return slugify(filteredText);
 }
 
+async function getRecipientWithFewestLetters() {
+  const baseOutputDir = path.join(process.cwd(), 'src', 'content', 'letters');
+  let recipientWithFewestLetters = null;
+  let fewestLettersCount = Infinity;
+
+  for (const recipient of recipients) {
+    const recipientDir = path.join(baseOutputDir, recipient.value);
+    try {
+      const files = await fs.readdir(recipientDir);
+      const lettersCount = files.length;
+      if (lettersCount < fewestLettersCount) {
+        fewestLettersCount = lettersCount;
+        recipientWithFewestLetters = recipient;
+      }
+    } catch (error) {
+      // Directory doesn't exist, treat as zero letters
+      if (fewestLettersCount > 0) {
+        fewestLettersCount = 0;
+        recipientWithFewestLetters = recipient;
+      }
+    }
+  }
+
+  return recipientWithFewestLetters;
+}
+
 async function generateApologyLetter() {
-  const recipient = getRandomElement(recipients);
+  const recipient = await getRecipientWithFewestLetters();
   const tone = getRandomElement(tones);
   const context = getRandomElement(contextsByRecipient[recipient.value]);
   const slug = createOptimizedSlug(context);

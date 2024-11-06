@@ -2,7 +2,7 @@
 title: "Heartfelt Examples of Detailed Apology Letters to a Business Partner"
 description: "Discover heartfelt examples and practical advice for writing a detailed apology letter to a business partner. Learn how to rebuild trust, heal your professional relationship, and express genuine remorse with step-by-step guidance."
 tags: ["detailed", "business partner"]
-date: 2023-10-02
+date: 2024-10-02
 image: "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAzNjU5OTF8&ixlib=rb-4.0.3&q=80&w=1080"
 photographer: "KOBU Agency"
 photographerUrl: "https://unsplash.com/@kobuagency"
