@@ -22,9 +22,10 @@
       const target = e.target as HTMLElement;
       if (target && (target.classList.contains('copy-button') || target.closest('.copy-button'))) {
         const button = target.classList.contains('copy-button') ? target : target.closest('.copy-button');
+        if (!button) return;
         const index = button.getAttribute('data-index');
         const blockquote = document.querySelectorAll('pre')[parseInt(index)];
-        const text = blockquote.textContent;
+        const text = blockquote.textContent || '';
         
         navigator.clipboard.writeText(text).then(() => {
           button.innerHTML = `
