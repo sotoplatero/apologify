@@ -2,10 +2,10 @@
 import { getCollection } from 'astro:content';
 import UnsplashImage from '@/components/UnsplashImage.astro';
 import Layout from '@/layouts/Layout.astro';
-import type { GetStaticPathsOptions, Page } from 'astro';
+import type { GetStaticPathsOptions, Page, PaginateFunction } from 'astro';
 import type { CollectionEntry } from 'astro:content';
 
-export async function getStaticPaths({ paginate }) {
+export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
   const articles = await getCollection('articles');
   const sortedArticles = articles.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
   
