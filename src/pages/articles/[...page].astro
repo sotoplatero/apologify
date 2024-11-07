@@ -2,18 +2,16 @@
 import { getCollection } from 'astro:content';
 import UnsplashImage from '@/components/UnsplashImage.astro';
 import Layout from '@/layouts/Layout.astro';
-import type { GetStaticPathsOptions, Page } from 'astro';
+import type { GetStaticPathsOptions, Page, PaginateFunction } from 'astro';
 import type { CollectionEntry } from 'astro:content';
 
-export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
   const articles = await getCollection('articles');
-  articles.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-  return paginate(articles, { pageSize: 10 });
+  const sortedArticles = articles.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  
+  return paginate(sortedArticles, { pageSize: 10 });
 }
 
-interface Props {
-  page: Page<CollectionEntry<'articles'>>;
-}
 
 const { page } = Astro.props;
 ---
@@ -53,26 +51,16 @@ const { page } = Astro.props;
 
     <nav class="mt-8 flex justify-between">
       {page.url.prev ? (
-        <a href={page.url.prev} class="btn btn-primary">
-          &larr; Previous Page
+        <a href={page.url.prev} class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          &larr; Artículos anteriores
         </a>
       ) : <span></span>}
+      
       {page.url.next ? (
-        <a href={page.url.next} class="btn btn-primary">
-          Next Page &rarr;
+        <a href={page.url.next} class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          Artículos siguientes &rarr;
         </a>
       ) : <span></span>}
     </nav>
   </main>
 </Layout>
-
-<style>
-  .aspect-video {
-    aspect-ratio: 16 / 9;
-  }
-  .aspect-video img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-</style>

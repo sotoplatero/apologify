@@ -15,7 +15,7 @@ import auth from 'auth-astro';
 export default defineConfig({
   output: 'hybrid',
   site: "https://apologify.com",
-  integrations: [tailwind(), sitemap(), svelte(), preact(), auth()],
+  integrations: [tailwind(), sitemap(), svelte(), preact()],
   adapter: vercel({ 
     isr: true,
   }),
