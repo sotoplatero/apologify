@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Professional Apology Letters to an Employee"
-description: "Discover heartfelt examples and practical advice for writing a professional apology letter to an employee. Learn how to rebuild trust, heal your relationship, and express genuine remorse with step-by-step guidance."
-tags: ["professional", "employee"]
-date: 2023-10-10
-image: "https://images.unsplash.com/photo-1583443920098-6b56d6aabdb1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1NzQ1MjN8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Pawel Czerwinski"
-photographerUrl: "https://unsplash.com/@pawel_czerwinski"
+title: Heartfelt Examples of Professional Apology Letters to an Employee
+description: >-
+  Discover heartfelt examples and practical advice for writing a professional
+  apology letter to an employee. Learn how to rebuild trust, heal your
+  relationship, and express genuine remorse with step-by-step guidance.
+tags:
+  - professional
+  - employee
+date: 2024-10-01T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1583443920098-6b56d6aabdb1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1NzQ1MjN8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Pawel Czerwinski
+photographerUrl: 'https://unsplash.com/@pawel_czerwinski'
 ---
 
 # Introduction

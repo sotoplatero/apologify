@@ -1,11 +1,18 @@
 ---
-title: "How to Write an Apology Letter to a Coworker for Not Showing Up for an Event"
-description: "Learn how to write a heartfelt apology letter to a coworker for not showing up for an event. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and heal your professional relationship."
-tags: ["coworker", "not showing up for an event"]
-date: 2023-10-08
-image: "https://images.unsplash.com/photo-1557200134-3103da7b6bff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk3ODI4MTR8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Stephen Phillips - Hostreviews.co.uk"
-photographerUrl: "https://unsplash.com/@hostreviews"
+title: How to Write an Apology Letter to a Coworker for Not Showing Up for an Event
+description: >-
+  Learn how to write a heartfelt apology letter to a coworker for not showing up
+  for an event. This step-by-step guide offers practical advice, real-life
+  examples, and tips to help you rebuild trust and heal your professional
+  relationship.
+tags:
+  - coworker
+  - not showing up for an event
+date: 2024-07-25T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1557200134-3103da7b6bff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk3ODI4MTR8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Stephen Phillips - Hostreviews.co.uk
+photographerUrl: 'https://unsplash.com/@hostreviews'
 ---
 
 ## Introduction

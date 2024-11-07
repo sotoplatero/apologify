@@ -1,11 +1,17 @@
 ---
-title: "How to Write an Apology Letter to a Coworker for Delivery Delay"
-description: "Learn how to write a heartfelt apology letter to a coworker for a delivery delay. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and maintain a positive work relationship."
-tags: ["coworker", "delivery delay"]
-date: 2023-10-01
-image: "https://images.unsplash.com/photo-1695654403063-31f6671e2534?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1ODE3ODl8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Grab"
-photographerUrl: "https://unsplash.com/@grab"
+title: How to Write an Apology Letter to a Coworker for Delivery Delay
+description: >-
+  Learn how to write a heartfelt apology letter to a coworker for a delivery
+  delay. This step-by-step guide offers practical advice, real-life examples,
+  and tips to help you rebuild trust and maintain a positive work relationship.
+tags:
+  - coworker
+  - delivery delay
+date: 2024-07-28T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1695654403063-31f6671e2534?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1ODE3ODl8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Grab
+photographerUrl: 'https://unsplash.com/@grab'
 ---
 
 # How to Write an Apology Letter to a Coworker for Delivery Delay

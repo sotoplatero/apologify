@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Professional Apology Letters to a Teacher"
-description: "Discover heartfelt examples and practical advice for writing a professional apology letter to a teacher. Learn how to rebuild trust, heal your relationship, and express genuine remorse with step-by-step guidance."
-tags: ["professional", "teacher"]
-date: 2023-10-06
-image: "https://images.unsplash.com/photo-1556157382-97eda2d62296?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk2MzE1MDh8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Austin Distel"
-photographerUrl: "https://unsplash.com/@austindistel"
+title: Heartfelt Examples of Professional Apology Letters to a Teacher
+description: >-
+  Discover heartfelt examples and practical advice for writing a professional
+  apology letter to a teacher. Learn how to rebuild trust, heal your
+  relationship, and express genuine remorse with step-by-step guidance.
+tags:
+  - professional
+  - teacher
+date: 2024-09-29T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1556157382-97eda2d62296?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk2MzE1MDh8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Austin Distel
+photographerUrl: 'https://unsplash.com/@austindistel'
 ---
 
 ## Introduction

@@ -1,11 +1,18 @@
 ---
-title: "How to Write an Apology Letter to a Client for Sending Incorrect Information"
-description: "Learn how to write a heartfelt apology letter to a client for sending incorrect information. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and heal your professional relationship."
-tags: ["client", "incorrect information"]
-date: 2023-10-04
-image: "https://images.unsplash.com/photo-1518406537068-308f1590a298?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA0OTU0NDB8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Leighann Blackwood"
-photographerUrl: "https://unsplash.com/@ohleighann"
+title: How to Write an Apology Letter to a Client for Sending Incorrect Information
+description: >-
+  Learn how to write a heartfelt apology letter to a client for sending
+  incorrect information. This step-by-step guide offers practical advice,
+  real-life examples, and tips to help you rebuild trust and heal your
+  professional relationship.
+tags:
+  - client
+  - incorrect information
+date: 2024-08-04T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1518406537068-308f1590a298?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA0OTU0NDB8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Leighann Blackwood
+photographerUrl: 'https://unsplash.com/@ohleighann'
 ---
 
 ## Introduction

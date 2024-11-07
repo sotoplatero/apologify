@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Urgent Apology Letters to Your Boss"
-description: "Discover heartfelt examples and practical advice for writing an urgent apology letter to your boss. Learn how to rebuild trust, heal your professional relationship, and express genuine remorse with step-by-step guidance."
-tags: ["urgent", "your boss"]
-date: 2023-10-05
-image: "https://images.unsplash.com/photo-1598471614912-ac2773eaaccd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA0NTI0MzJ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Scott Evans"
-photographerUrl: "https://unsplash.com/@scottsweb"
+title: Heartfelt Examples of Urgent Apology Letters to Your Boss
+description: >-
+  Discover heartfelt examples and practical advice for writing an urgent apology
+  letter to your boss. Learn how to rebuild trust, heal your professional
+  relationship, and express genuine remorse with step-by-step guidance.
+tags:
+  - urgent
+  - your boss
+date: 2024-09-12T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1598471614912-ac2773eaaccd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA0NTI0MzJ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Scott Evans
+photographerUrl: 'https://unsplash.com/@scottsweb'
 ---
 
 # Heartfelt Examples of Urgent Apology Letters to Your Boss

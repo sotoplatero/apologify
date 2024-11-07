@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Serious Apology Letters to a Supervisor"
-description: "Discover heartfelt examples and practical advice for writing a serious apology letter to a supervisor. Learn how to rebuild trust, heal your professional relationship, and express genuine remorse with step-by-step guidance."
-tags: ["serious", "supervisor"]
-date: 2023-10-06
-image: "https://images.unsplash.com/photo-1598471614912-ac2773eaaccd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAzNDQ4NTV8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Scott Evans"
-photographerUrl: "https://unsplash.com/@scottsweb"
+title: Heartfelt Examples of Serious Apology Letters to a Supervisor
+description: >-
+  Discover heartfelt examples and practical advice for writing a serious apology
+  letter to a supervisor. Learn how to rebuild trust, heal your professional
+  relationship, and express genuine remorse with step-by-step guidance.
+tags:
+  - serious
+  - supervisor
+date: 2024-09-19T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1598471614912-ac2773eaaccd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAzNDQ4NTV8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Scott Evans
+photographerUrl: 'https://unsplash.com/@scottsweb'
 ---
 
 # Introduction

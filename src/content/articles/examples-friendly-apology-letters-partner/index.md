@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Friendly Apology Letters to Your Partner"
-description: "Discover heartfelt examples and practical advice for writing a friendly apology letter to your partner. Learn how to rebuild trust, heal your relationship, and express genuine remorse with step-by-step guidance."
-tags: ["friendly", "partner"]
-date: 2023-10-07
-image: "https://images.unsplash.com/photo-1498435999018-6803de1f1c1f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MjkzOTQ1NzF8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Emile Perron"
-photographerUrl: "https://unsplash.com/@emilep"
+title: Heartfelt Examples of Friendly Apology Letters to Your Partner
+description: >-
+  Discover heartfelt examples and practical advice for writing a friendly
+  apology letter to your partner. Learn how to rebuild trust, heal your
+  relationship, and express genuine remorse with step-by-step guidance.
+tags:
+  - friendly
+  - partner
+date: 2024-10-06T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1498435999018-6803de1f1c1f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MjkzOTQ1NzF8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Emile Perron
+photographerUrl: 'https://unsplash.com/@emilep'
 ---
 
 # Heartfelt Examples of Friendly Apology Letters to Your Partner

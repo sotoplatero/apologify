@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Serious Apology Letters to a Mentor"
-description: "Discover heartfelt examples and practical advice for writing a serious apology letter to a mentor. Learn how to rebuild trust, heal your relationship, and express genuine remorse with step-by-step guidance."
-tags: ["serious", "mentor"]
-date: 2023-10-10
-image: "https://images.unsplash.com/photo-1553614609-3d00ccea4e35?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA2MDcyMDF8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Olivia Bauso"
-photographerUrl: "https://unsplash.com/@ohhbee"
+title: Heartfelt Examples of Serious Apology Letters to a Mentor
+description: >-
+  Discover heartfelt examples and practical advice for writing a serious apology
+  letter to a mentor. Learn how to rebuild trust, heal your relationship, and
+  express genuine remorse with step-by-step guidance.
+tags:
+  - serious
+  - mentor
+date: 2024-09-20T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1553614609-3d00ccea4e35?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA2MDcyMDF8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Olivia Bauso
+photographerUrl: 'https://unsplash.com/@ohhbee'
 ---
 
 ## Introduction

@@ -1,11 +1,20 @@
 ---
-title: "How to Write an Apology Letter to Your Mother for Sending Incorrect Information"
-description: "Learn how to write a heartfelt apology letter to your mother for sending incorrect information. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and heal your relationship."
-tags: ["mother", "incorrect information"]
-date: 2023-10-05
-image: "https://images.unsplash.com/photo-1529251333259-d36cccaf22ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk2NDUwMTV8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Debby Hudson"
-photographerUrl: "https://unsplash.com/@hudsoncrafted"
+title: >-
+  How to Write an Apology Letter to Your Mother for Sending Incorrect
+  Information
+description: >-
+  Learn how to write a heartfelt apology letter to your mother for sending
+  incorrect information. This step-by-step guide offers practical advice,
+  real-life examples, and tips to help you rebuild trust and heal your
+  relationship.
+tags:
+  - mother
+  - incorrect information
+date: 2024-06-27T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1529251333259-d36cccaf22ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk2NDUwMTV8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Debby Hudson
+photographerUrl: 'https://unsplash.com/@hudsoncrafted'
 ---
 
 ## Introduction

@@ -1,11 +1,19 @@
 ---
-title: "Tips for Writing an Apology Letter in a Collaborative Project"
-description: "Learn practical advice and actionable steps to write an apology letter in a collaborative project. This guide covers how to rebuild trust, heal relationships, and deliver heartfelt apologies."
-tags: ["collaborative project", "apology letters", "how to apologize", "relationship advice"]
-date: 2023-10-04
-image: "https://images.unsplash.com/reserve/uZYSV4nuQeyq64azfVIn_15130980706_64134efc6e_o.jpg?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk0MjY5MzV8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Amador Loureiro"
-photographerUrl: "https://unsplash.com/@amadorloureiro"
+title: Tips for Writing an Apology Letter in a Collaborative Project
+description: >-
+  Learn practical advice and actionable steps to write an apology letter in a
+  collaborative project. This guide covers how to rebuild trust, heal
+  relationships, and deliver heartfelt apologies.
+tags:
+  - collaborative project
+  - apology letters
+  - how to apologize
+  - relationship advice
+date: 2024-09-04T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/reserve/uZYSV4nuQeyq64azfVIn_15130980706_64134efc6e_o.jpg?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk0MjY5MzV8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Amador Loureiro
+photographerUrl: 'https://unsplash.com/@amadorloureiro'
 ---
 
 # Understanding the Weight of an Apology in a Collaborative Project

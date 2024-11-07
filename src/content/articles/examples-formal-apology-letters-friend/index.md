@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Formal Apology Letters to a Friend"
-description: "Discover heartfelt examples and practical advice for writing a formal apology letter to a friend. Learn how to rebuild trust, heal your relationship, and express genuine remorse with step-by-step guidance."
-tags: ["formal", "friend"]
-date: 2023-10-07
-image: "https://images.unsplash.com/photo-1505483531331-fc3cf89fd382?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAxMjg0MzN8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Sam McNamara"
-photographerUrl: "https://unsplash.com/@sammanns94"
+title: Heartfelt Examples of Formal Apology Letters to a Friend
+description: >-
+  Discover heartfelt examples and practical advice for writing a formal apology
+  letter to a friend. Learn how to rebuild trust, heal your relationship, and
+  express genuine remorse with step-by-step guidance.
+tags:
+  - formal
+  - friend
+date: 2024-10-13T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1505483531331-fc3cf89fd382?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAxMjg0MzN8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Sam McNamara
+photographerUrl: 'https://unsplash.com/@sammanns94'
 ---
 
 # Introduction

@@ -1,11 +1,18 @@
 ---
-title: "How to Write an Apology Letter to a Business Partner for Bad Behavior"
-description: "Learn how to craft a heartfelt apology letter to your business partner for bad behavior. This comprehensive guide provides practical advice, real-life examples, and tips to rebuild trust and strengthen your professional relationship."
-tags: ["business partner", "bad behavior"]
-date: 2023-10-01
-image: "https://images.unsplash.com/photo-1493934558415-9d19f0b2b4d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA0OTkwMjZ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Roman Bozhko"
-photographerUrl: "https://unsplash.com/@romanbozhko"
+title: How to Write an Apology Letter to a Business Partner for Bad Behavior
+description: >-
+  Learn how to craft a heartfelt apology letter to your business partner for bad
+  behavior. This comprehensive guide provides practical advice, real-life
+  examples, and tips to rebuild trust and strengthen your professional
+  relationship.
+tags:
+  - business partner
+  - bad behavior
+date: 2024-08-18T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1493934558415-9d19f0b2b4d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA0OTkwMjZ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Roman Bozhko
+photographerUrl: 'https://unsplash.com/@romanbozhko'
 ---
 
 ## Introduction

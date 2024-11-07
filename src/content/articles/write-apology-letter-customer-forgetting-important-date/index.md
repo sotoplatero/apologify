@@ -1,11 +1,18 @@
 ---
-title: "How to Write an Apology Letter to a Customer for Forgetting an Important Date"
-description: "Learn how to craft a heartfelt apology letter to a customer for forgetting an important date. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and strengthen your customer relationship."
-tags: ["customer", "forgetting important date"]
-date: 2023-10-04
-image: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1MjA4MzR8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Cathryn Lavery"
-photographerUrl: "https://unsplash.com/@cathrynlavery"
+title: How to Write an Apology Letter to a Customer for Forgetting an Important Date
+description: >-
+  Learn how to craft a heartfelt apology letter to a customer for forgetting an
+  important date. This step-by-step guide offers practical advice, real-life
+  examples, and tips to help you rebuild trust and strengthen your customer
+  relationship.
+tags:
+  - customer
+  - forgetting important date
+date: 2024-07-22T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1456324504439-367cee3b3c32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1MjA4MzR8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Cathryn Lavery
+photographerUrl: 'https://unsplash.com/@cathrynlavery'
 ---
 
 # How to Write an Apology Letter to a Customer for Forgetting an Important Date

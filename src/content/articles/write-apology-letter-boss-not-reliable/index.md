@@ -1,11 +1,18 @@
 ---
-title: "How to Write an Apology Letter to Your Boss for Not Being Reliable"
-description: "Discover how to write a sincere apology letter to your boss for not being reliable. This detailed guide provides practical advice, examples, and step-by-step guidance to help you mend trust and improve your professional relationships."
-tags: ["boss", "not being reliable"]
-date: 2023-10-04
-image: "https://images.unsplash.com/photo-1505940545481-2cac7ae15782?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk3NjEyMDR8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "@felipepelaquim"
-photographerUrl: "https://unsplash.com/@felipepelaquim"
+title: How to Write an Apology Letter to Your Boss for Not Being Reliable
+description: >-
+  Discover how to write a sincere apology letter to your boss for not being
+  reliable. This detailed guide provides practical advice, examples, and
+  step-by-step guidance to help you mend trust and improve your professional
+  relationships.
+tags:
+  - boss
+  - not being reliable
+date: 2024-08-20T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1505940545481-2cac7ae15782?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk3NjEyMDR8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: '@felipepelaquim'
+photographerUrl: 'https://unsplash.com/@felipepelaquim'
 ---
 
 # How to Write an Apology Letter to Your Boss for Not Being Reliable

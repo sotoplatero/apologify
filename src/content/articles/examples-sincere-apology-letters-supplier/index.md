@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Sincere Apology Letters to a Supplier"
-description: "Discover heartfelt examples and practical advice for writing a sincere apology letter to a supplier. Learn how to rebuild trust, heal relationships, and express genuine remorse with step-by-step guidance."
-tags: ["sincere", "supplier"]
-date: 2023-10-07
-image: "https://images.unsplash.com/photo-1590482934203-8eb4838643ce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk3Mzk4OTZ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Glen Carrie"
-photographerUrl: "https://unsplash.com/@glencarrie"
+title: Heartfelt Examples of Sincere Apology Letters to a Supplier
+description: >-
+  Discover heartfelt examples and practical advice for writing a sincere apology
+  letter to a supplier. Learn how to rebuild trust, heal relationships, and
+  express genuine remorse with step-by-step guidance.
+tags:
+  - sincere
+  - supplier
+date: 2024-09-13T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1590482934203-8eb4838643ce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk3Mzk4OTZ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Glen Carrie
+photographerUrl: 'https://unsplash.com/@glencarrie'
 ---
 
 # Heartfelt Examples of Sincere Apology Letters to a Supplier

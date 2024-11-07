@@ -1,11 +1,20 @@
 ---
-title: "How to Write an Apology Letter to a Family Member for Not Following Through on Promises"
-description: "Learn how to write a heartfelt apology letter to a family member for not following through on promises. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and heal your relationship."
-tags: ["family member", "not following through on promises"]
-date: 2023-10-03
-image: "https://images.unsplash.com/photo-1517488629431-6427e0ee1e5f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1MDg2NDl8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Naassom Azevedo"
-photographerUrl: "https://unsplash.com/@naassomz1"
+title: >-
+  How to Write an Apology Letter to a Family Member for Not Following Through on
+  Promises
+description: >-
+  Learn how to write a heartfelt apology letter to a family member for not
+  following through on promises. This step-by-step guide offers practical
+  advice, real-life examples, and tips to help you rebuild trust and heal your
+  relationship.
+tags:
+  - family member
+  - not following through on promises
+date: 2024-07-13T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1517488629431-6427e0ee1e5f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1MDg2NDl8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Naassom Azevedo
+photographerUrl: 'https://unsplash.com/@naassomz1'
 ---
 
 # How to Write an Apology Letter to a Family Member for Not Following Through on Promises

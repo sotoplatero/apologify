@@ -1,11 +1,18 @@
 ---
-title: "How to Write an Apology Letter to a Colleague for Breaking a Promise"
-description: "Learn how to write a heartfelt apology letter to a colleague for breaking a promise. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and maintain a strong professional relationship."
-tags: ["colleague", "breaking a promise"]
-date: 2023-10-19
-image: "https://images.unsplash.com/photo-1505767297988-6d5da4a1730c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk3MzE0MjV8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "ål nik"
-photographerUrl: "https://unsplash.com/@everhooder"
+title: How to Write an Apology Letter to a Colleague for Breaking a Promise
+description: >-
+  Learn how to write a heartfelt apology letter to a colleague for breaking a
+  promise. This step-by-step guide offers practical advice, real-life examples,
+  and tips to help you rebuild trust and maintain a strong professional
+  relationship.
+tags:
+  - colleague
+  - breaking a promise
+date: 2024-08-03T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1505767297988-6d5da4a1730c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk3MzE0MjV8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: ål nik
+photographerUrl: 'https://unsplash.com/@everhooder'
 ---
 
 ## Introduction

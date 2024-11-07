@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Detailed Apology Letters to Customers"
-description: "Discover heartfelt examples and practical advice for writing a detailed apology letter to customers. Learn how to rebuild trust, heal relationships, and express genuine remorse with step-by-step guidance."
-tags: ["detailed", "customers"]
-date: 2023-10-01
-image: "https://images.unsplash.com/photo-1515325458032-82fb25824501?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk4ODAyMDJ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Natalia Y."
-photographerUrl: "https://unsplash.com/@foxfox"
+title: Heartfelt Examples of Detailed Apology Letters to Customers
+description: >-
+  Discover heartfelt examples and practical advice for writing a detailed
+  apology letter to customers. Learn how to rebuild trust, heal relationships,
+  and express genuine remorse with step-by-step guidance.
+tags:
+  - detailed
+  - customers
+date: 2024-10-24T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1515325458032-82fb25824501?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk4ODAyMDJ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Natalia Y.
+photographerUrl: 'https://unsplash.com/@foxfox'
 ---
 
 # Introduction

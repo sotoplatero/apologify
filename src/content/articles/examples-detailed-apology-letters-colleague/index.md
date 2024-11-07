@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Detailed Apology Letters to a Colleague"
-description: "Discover heartfelt examples and practical advice for writing a detailed apology letter to a colleague. Learn how to rebuild trust, heal professional relationships, and express genuine remorse with step-by-step guidance."
-tags: ["detailed", "colleague"]
-date: 2024-10-08
-image: "https://images.unsplash.com/photo-1523309375637-b3f4f2347f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAyMzYzMjJ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "George Pagan III"
-photographerUrl: "https://unsplash.com/@gpthree"
+title: Heartfelt Examples of Detailed Apology Letters to a Colleague
+description: >-
+  Discover heartfelt examples and practical advice for writing a detailed
+  apology letter to a colleague. Learn how to rebuild trust, heal professional
+  relationships, and express genuine remorse with step-by-step guidance.
+tags:
+  - detailed
+  - colleague
+date: 2024-10-25T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1523309375637-b3f4f2347f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAyMzYzMjJ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: George Pagan III
+photographerUrl: 'https://unsplash.com/@gpthree'
 ---
 
 ## Introduction

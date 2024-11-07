@@ -1,11 +1,17 @@
 ---
-title: "How to Write an Apology Letter to a Coworker for Bad Behavior"
-description: "Learn how to write a heartfelt apology letter to a coworker for bad behavior. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and heal your professional relationship."
-tags: ["coworker", "bad behavior"]
-date: 2023-10-05
-image: "https://images.unsplash.com/photo-1530819568329-97653eafbbfa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk4MzcwNjl8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Daria Kraplak"
-photographerUrl: "https://unsplash.com/@daria_kraplak"
+title: How to Write an Apology Letter to a Coworker for Bad Behavior
+description: >-
+  Learn how to write a heartfelt apology letter to a coworker for bad behavior.
+  This step-by-step guide offers practical advice, real-life examples, and tips
+  to help you rebuild trust and heal your professional relationship.
+tags:
+  - coworker
+  - bad behavior
+date: 2024-07-29T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1530819568329-97653eafbbfa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk4MzcwNjl8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Daria Kraplak
+photographerUrl: 'https://unsplash.com/@daria_kraplak'
 ---
 
 # How to Write an Apology Letter to a Coworker for Bad Behavior

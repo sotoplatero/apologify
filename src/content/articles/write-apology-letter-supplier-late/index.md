@@ -1,11 +1,17 @@
 ---
-title: "How to Write an Apology Letter to a Supplier for Being Late"
-description: "Learn how to write a sincere apology letter to a supplier for being late. This comprehensive guide provides practical advice, examples, and steps to help you mend professional relationships and restore trust."
-tags: ["supplier", "lateness"]
-date: 2023-10-05
-image: "https://images.unsplash.com/photo-1528412161364-0d670d401473?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk1Nzc4NjN8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Celine Nadon"
-photographerUrl: "https://unsplash.com/@celinen"
+title: How to Write an Apology Letter to a Supplier for Being Late
+description: >-
+  Learn how to write a sincere apology letter to a supplier for being late. This
+  comprehensive guide provides practical advice, examples, and steps to help you
+  mend professional relationships and restore trust.
+tags:
+  - supplier
+  - lateness
+date: 2024-06-14T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1528412161364-0d670d401473?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk1Nzc4NjN8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Celine Nadon
+photographerUrl: 'https://unsplash.com/@celinen'
 ---
 
 # How to Write an Apology Letter to a Supplier for Being Late

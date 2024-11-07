@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Personal Apology Letters to Your Mother"
-description: "Discover heartfelt examples and practical advice for writing a personal apology letter to your mother. Learn how to rebuild trust, heal your relationship, and express genuine remorse with step-by-step guidance."
-tags: ["personal", "mother"]
-date: 2023-10-03
-image: "https://images.unsplash.com/photo-1615224299941-04a854c101d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1NjczNTJ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Brooke Lark"
-photographerUrl: "https://unsplash.com/@brookelark"
+title: Heartfelt Examples of Personal Apology Letters to Your Mother
+description: >-
+  Discover heartfelt examples and practical advice for writing a personal
+  apology letter to your mother. Learn how to rebuild trust, heal your
+  relationship, and express genuine remorse with step-by-step guidance.
+tags:
+  - personal
+  - mother
+date: 2024-10-03T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1615224299941-04a854c101d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1NjczNTJ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Brooke Lark
+photographerUrl: 'https://unsplash.com/@brookelark'
 ---
 
 # Heartfelt Examples of Personal Apology Letters to Your Mother

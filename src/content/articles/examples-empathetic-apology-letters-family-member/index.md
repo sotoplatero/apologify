@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Empathetic Apology Letters to a Family Member"
-description: "Discover heartfelt examples and practical advice for writing an empathetic apology letter to a family member. Learn how to rebuild trust, heal your relationship, and express genuine remorse with step-by-step guidance."
-tags: ["empathetic", "family member"]
-date: 2023-10-06
-image: "https://images.unsplash.com/photo-1517552708819-2caa5443d47a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk5OTkzNDF8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "🇸🇮 Janko Ferlič"
-photographerUrl: "https://unsplash.com/@itfeelslikefilm"
+title: Heartfelt Examples of Empathetic Apology Letters to a Family Member
+description: >-
+  Discover heartfelt examples and practical advice for writing an empathetic
+  apology letter to a family member. Learn how to rebuild trust, heal your
+  relationship, and express genuine remorse with step-by-step guidance.
+tags:
+  - empathetic
+  - family member
+date: 2024-10-16T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1517552708819-2caa5443d47a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk5OTkzNDF8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: "\U0001F1F8\U0001F1EE Janko Ferlič"
+photographerUrl: 'https://unsplash.com/@itfeelslikefilm'
 ---
 
 ## Introduction

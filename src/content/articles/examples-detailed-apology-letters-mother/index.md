@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Detailed Apology Letters to Your Mother"
-description: "Discover heartfelt examples and practical advice for writing a detailed apology letter to your mother. Learn how to rebuild trust, heal your relationship, and express genuine remorse with step-by-step guidance."
-tags: ["detailed", "mother"]
-date: 2023-10-01
-image: "https://images.unsplash.com/photo-1484425304707-d8246c26cda2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA2Mjg3NTZ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Colin Maynard"
-photographerUrl: "https://unsplash.com/@invent"
+title: Heartfelt Examples of Detailed Apology Letters to Your Mother
+description: >-
+  Discover heartfelt examples and practical advice for writing a detailed
+  apology letter to your mother. Learn how to rebuild trust, heal your
+  relationship, and express genuine remorse with step-by-step guidance.
+tags:
+  - detailed
+  - mother
+date: 2024-10-22T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1484425304707-d8246c26cda2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA2Mjg3NTZ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Colin Maynard
+photographerUrl: 'https://unsplash.com/@invent'
 ---
 
 # Heartfelt Examples of Detailed Apology Letters to Your Mother

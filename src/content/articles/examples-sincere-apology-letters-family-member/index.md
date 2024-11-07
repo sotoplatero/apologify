@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Sincere Apology Letters to a Family Member"
-description: "Discover heartfelt examples and practical advice for writing a sincere apology letter to a family member. Learn how to rebuild trust, heal your relationship, and express genuine remorse with step-by-step guidance."
-tags: ["sincere", "family member"]
-date: 2023-10-03
-image: "https://images.unsplash.com/photo-1541848756149-e3843fcbbde0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk5NDUyNzJ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Paolo Bendandi"
-photographerUrl: "https://unsplash.com/@paolobendandi"
+title: Heartfelt Examples of Sincere Apology Letters to a Family Member
+description: >-
+  Discover heartfelt examples and practical advice for writing a sincere apology
+  letter to a family member. Learn how to rebuild trust, heal your relationship,
+  and express genuine remorse with step-by-step guidance.
+tags:
+  - sincere
+  - family member
+date: 2024-09-16T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1541848756149-e3843fcbbde0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk5NDUyNzJ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Paolo Bendandi
+photographerUrl: 'https://unsplash.com/@paolobendandi'
 ---
 
 ## Introduction

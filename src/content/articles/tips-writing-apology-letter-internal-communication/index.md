@@ -1,11 +1,19 @@
 ---
-title: "Tips for Writing an Apology Letter in Internal Communication"
-description: "Learn practical advice and actionable steps to write an apology letter in internal communication. This guide covers how to rebuild trust, heal relationships, and deliver heartfelt apologies."
-tags: ["internal communication", "apology letters", "how to apologize", "relationship advice"]
-date: 2023-10-01
-image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk5MDQxNjJ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Headway"
-photographerUrl: "https://unsplash.com/@headwayio"
+title: Tips for Writing an Apology Letter in Internal Communication
+description: >-
+  Learn practical advice and actionable steps to write an apology letter in
+  internal communication. This guide covers how to rebuild trust, heal
+  relationships, and deliver heartfelt apologies.
+tags:
+  - internal communication
+  - apology letters
+  - how to apologize
+  - relationship advice
+date: 2024-08-31T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk5MDQxNjJ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Headway
+photographerUrl: 'https://unsplash.com/@headwayio'
 ---
 
 # Tips for Writing an Apology Letter in Internal Communication

@@ -1,11 +1,18 @@
 ---
-title: "How to Write an Apology Letter to a Mentor for Missing a Meeting"
-description: "Learn how to write a heartfelt apology letter to your mentor for missing a meeting. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and strengthen your mentorship relationship."
-tags: ["mentor", "missing a meeting"]
-date: 2023-10-03
-image: "https://images.unsplash.com/photo-1531545514256-b1400bc00f31?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAyNDk5NDB8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Mimi Thian"
-photographerUrl: "https://unsplash.com/@mimithian"
+title: How to Write an Apology Letter to a Mentor for Missing a Meeting
+description: >-
+  Learn how to write a heartfelt apology letter to your mentor for missing a
+  meeting. This step-by-step guide offers practical advice, real-life examples,
+  and tips to help you rebuild trust and strengthen your mentorship
+  relationship.
+tags:
+  - mentor
+  - missing a meeting
+date: 2024-07-02T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1531545514256-b1400bc00f31?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAyNDk5NDB8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Mimi Thian
+photographerUrl: 'https://unsplash.com/@mimithian'
 ---
 
 ## Introduction

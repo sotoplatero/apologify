@@ -1,11 +1,18 @@
 ---
-title: "How to Write an Apology Letter to a Supplier for Lack of Communication"
-description: "Learn how to write a heartfelt apology letter to a supplier for lack of communication. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and strengthen your professional relationship."
-tags: ["supplier", "lack of communication"]
-date: 2023-10-07
-image: "https://images.unsplash.com/photo-1620599855307-a6ddbabc2ec6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1NDk5MzV8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Yucel Moran"
-photographerUrl: "https://unsplash.com/@ymoran"
+title: How to Write an Apology Letter to a Supplier for Lack of Communication
+description: >-
+  Learn how to write a heartfelt apology letter to a supplier for lack of
+  communication. This step-by-step guide offers practical advice, real-life
+  examples, and tips to help you rebuild trust and strengthen your professional
+  relationship.
+tags:
+  - supplier
+  - lack of communication
+date: 2024-06-15T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1620599855307-a6ddbabc2ec6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1NDk5MzV8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Yucel Moran
+photographerUrl: 'https://unsplash.com/@ymoran'
 ---
 
 ## Introduction

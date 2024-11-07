@@ -1,11 +1,17 @@
 ---
-title: "How to Write an Apology Letter to a Coworker for a Mistake"
-description: "Learn how to write a heartfelt apology letter to a coworker for a mistake. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and maintain professional relationships."
-tags: ["coworker", "mistake"]
-date: 2023-10-02
-image: "https://images.unsplash.com/photo-1524182503702-e1d6bd58ea65?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA2ODI2MDl8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Kari Shea"
-photographerUrl: "https://unsplash.com/@karishea"
+title: How to Write an Apology Letter to a Coworker for a Mistake
+description: >-
+  Learn how to write a heartfelt apology letter to a coworker for a mistake.
+  This step-by-step guide offers practical advice, real-life examples, and tips
+  to help you rebuild trust and maintain professional relationships.
+tags:
+  - coworker
+  - mistake
+date: 2024-07-27T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1524182503702-e1d6bd58ea65?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA2ODI2MDl8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Kari Shea
+photographerUrl: 'https://unsplash.com/@karishea'
 ---
 
 ## Introduction

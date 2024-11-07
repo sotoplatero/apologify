@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Brief Apology Letters to Your Mother"
-description: "Discover heartfelt examples and practical advice for writing brief apology letters to your mother. Learn how to express genuine remorse and rebuild trust with concise yet meaningful messages."
-tags: ["brief", "mother"]
-date: 2024-10-04
-image: "https://images.unsplash.com/photo-1492725764893-90b379c2b6e7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk2MjA5ODJ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Dakota Corbin"
-photographerUrl: "https://unsplash.com/@thedakotacorbin"
+title: Heartfelt Examples of Brief Apology Letters to Your Mother
+description: >-
+  Discover heartfelt examples and practical advice for writing brief apology
+  letters to your mother. Learn how to express genuine remorse and rebuild trust
+  with concise yet meaningful messages.
+tags:
+  - brief
+  - mother
+date: 2024-11-01T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1492725764893-90b379c2b6e7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk2MjA5ODJ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Dakota Corbin
+photographerUrl: 'https://unsplash.com/@thedakotacorbin'
 ---
 
 ## Introduction

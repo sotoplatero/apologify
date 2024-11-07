@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Serious Apology Letters to a Coworker"
-description: "Discover heartfelt examples and practical advice for writing a serious apology letter to a coworker. Learn how to rebuild trust, heal professional relationships, and express genuine remorse with step-by-step guidance."
-tags: ["serious", "coworker"]
-date: 2023-10-02
-image: "https://images.unsplash.com/photo-1544903013-0e584eaf0d97?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk5NzcwMzJ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Andrew Sharp"
-photographerUrl: "https://unsplash.com/@kbdstudio"
+title: Heartfelt Examples of Serious Apology Letters to a Coworker
+description: >-
+  Discover heartfelt examples and practical advice for writing a serious apology
+  letter to a coworker. Learn how to rebuild trust, heal professional
+  relationships, and express genuine remorse with step-by-step guidance.
+tags:
+  - serious
+  - coworker
+date: 2024-09-21T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1544903013-0e584eaf0d97?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk5NzcwMzJ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Andrew Sharp
+photographerUrl: 'https://unsplash.com/@kbdstudio'
 ---
 
 ## Introduction

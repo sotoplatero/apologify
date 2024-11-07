@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Urgent Apology Letters to a Mentor"
-description: "Discover heartfelt examples and practical advice for writing an urgent apology letter to a mentor. Learn how to rebuild trust, heal your relationship, and express genuine remorse with step-by-step guidance."
-tags: ["urgent", "mentor"]
-date: 2023-10-03
-image: "https://images.unsplash.com/photo-1637173282453-3a67247350b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk5NjY0Nzd8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Ally Griffin"
-photographerUrl: "https://unsplash.com/@pixel_goods"
+title: Heartfelt Examples of Urgent Apology Letters to a Mentor
+description: >-
+  Discover heartfelt examples and practical advice for writing an urgent apology
+  letter to a mentor. Learn how to rebuild trust, heal your relationship, and
+  express genuine remorse with step-by-step guidance.
+tags:
+  - urgent
+  - mentor
+date: 2024-09-07T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1637173282453-3a67247350b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk5NjY0Nzd8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Ally Griffin
+photographerUrl: 'https://unsplash.com/@pixel_goods'
 ---
 
 ## Introduction

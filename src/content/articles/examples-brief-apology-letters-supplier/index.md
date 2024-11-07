@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Brief Apology Letters to Supplier"
-description: "Discover heartfelt examples and practical advice for writing a brief apology letter to your supplier. Learn how to rebuild trust, heal your business relationship, and express genuine remorse with step-by-step guidance."
-tags: ["brief", "supplier"]
-date: 2023-10-02
-image: "https://images.unsplash.com/photo-1641945511695-df2785ab3933?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1MzUyMDZ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Kelly Sikkema"
-photographerUrl: "https://unsplash.com/@kellysikkema"
+title: Heartfelt Examples of Brief Apology Letters to Supplier
+description: >-
+  Discover heartfelt examples and practical advice for writing a brief apology
+  letter to your supplier. Learn how to rebuild trust, heal your business
+  relationship, and express genuine remorse with step-by-step guidance.
+tags:
+  - brief
+  - supplier
+date: 2024-10-31T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1641945511695-df2785ab3933?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1MzUyMDZ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Kelly Sikkema
+photographerUrl: 'https://unsplash.com/@kellysikkema'
 ---
 
 # Heartfelt Examples of Brief Apology Letters to Supplier

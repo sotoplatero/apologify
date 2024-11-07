@@ -1,11 +1,19 @@
 ---
-title: "Tips for Writing an Apology Letter in Virtual Events"
-description: "Learn practical advice and actionable steps to write an apology letter in virtual events. This guide covers how to rebuild trust, heal relationships, and deliver heartfelt apologies in a digital context."
-tags: ["virtual events", "apology letters", "how to apologize", "relationship advice"]
-date: 2023-10-10
-image: "https://images.unsplash.com/photo-1470549638415-0a0755be0619?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk1NTg2OTR8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Syd Wachs"
-photographerUrl: "https://unsplash.com/@videmusart"
+title: Tips for Writing an Apology Letter in Virtual Events
+description: >-
+  Learn practical advice and actionable steps to write an apology letter in
+  virtual events. This guide covers how to rebuild trust, heal relationships,
+  and deliver heartfelt apologies in a digital context.
+tags:
+  - virtual events
+  - apology letters
+  - how to apologize
+  - relationship advice
+date: 2024-08-23T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1470549638415-0a0755be0619?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk1NTg2OTR8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Syd Wachs
+photographerUrl: 'https://unsplash.com/@videmusart'
 ---
 
 ## Introduction

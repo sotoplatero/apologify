@@ -1,11 +1,20 @@
 ---
-title: "How to Write an Apology Letter to an Employee for Not Following Through on Promises"
-description: "Learn how to write a heartfelt apology letter to an employee for not following through on promises. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and enhance workplace relationships."
-tags: ["employee", "not following through on promises"]
-date: 2023-10-01
-image: "https://images.unsplash.com/photo-1467545159547-1b93b24406ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA3Njg3ODF8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Daria Nepriakhina 🇺🇦"
-photographerUrl: "https://unsplash.com/@epicantus"
+title: >-
+  How to Write an Apology Letter to an Employee for Not Following Through on
+  Promises
+description: >-
+  Learn how to write a heartfelt apology letter to an employee for not following
+  through on promises. This step-by-step guide offers practical advice,
+  real-life examples, and tips to help you rebuild trust and enhance workplace
+  relationships.
+tags:
+  - employee
+  - not following through on promises
+date: 2024-07-18T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1467545159547-1b93b24406ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA3Njg3ODF8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: "Daria Nepriakhina \U0001F1FA\U0001F1E6"
+photographerUrl: 'https://unsplash.com/@epicantus'
 ---
 
 ## Introduction

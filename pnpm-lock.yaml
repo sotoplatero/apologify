@@ -44,6 +44,9 @@ importers:
       auth-astro:
         specifier: ^4.1.2
         version: 4.1.2(@auth/core@0.32.0)(astro@4.16.8(@types/node@18.19.63)(rollup@4.24.3)(typescript@5.6.3))(next@15.0.2(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
       node-fetch:
         specifier: ^3.3.2
         version: 3.3.2
