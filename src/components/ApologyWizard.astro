@@ -47,7 +47,7 @@ const placeholder = `Describe the situation that requires an apology. For exampl
         </div>
       </div>
 
-      <form action={actions.createLetter} method="POST" id="apologyWizard" class="space-y-6">
+      <form action={'/generator/' + actions.createLetter} method="POST" id="apologyWizard" class="space-y-6">
         <div class="step-container h-72" >
           <div class="step" data-step="1">
             <h2 class="card-title text-lg sm:text-xl mb-4">
