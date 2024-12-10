@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import { actions } from 'astro:actions';
 import Letter from '../../components/Letter.svelte';
 
-export const prerender = "false"
+export const prerender = false
 
 const result = Astro.getActionResult(actions.createLetter);
 
@@ -13,7 +13,7 @@ const result = Astro.getActionResult(actions.createLetter);
   title="Apology Letter Generator" 
   description="Generate a personalized apology letter in just a few steps"
 >
-  <div class="max-w-screen-lg mx-auto py-8">
+  <div class="w-fullmax-w-screen-lg mx-auto py-8">
     {!result?.data ? (
       <>
         <h1 class="text-4xl font-bold text-center mb-4">Apology Letter Generator</h1>
