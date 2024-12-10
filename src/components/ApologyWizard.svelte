@@ -2,6 +2,12 @@
   import { actions } from 'astro:actions';
   import { onMount } from 'svelte';
 
+  type Recipient = {
+    value: string;
+    label: string;
+    description?: string;
+  };
+
   const tones = [
     { value: 'formal', label: 'Formal', description: 'Respectful and structured.' },
     { value: 'casual', label: 'Casual', description: 'Relaxed and friendly.' },
@@ -11,7 +17,7 @@
     { value: 'humorous', label: 'Humorous', description: 'Light and witty.' },
   ];
 
-  const personalRecipients = [
+  const personalRecipients: Recipient[] = [
     { value: 'mother', label: 'Mother' },
     { value: 'father', label: 'Father' },
     { value: 'son', label: 'Son' },
@@ -19,7 +25,7 @@
     { value: 'wife', label: 'Wife' },
     { value: 'husband', label: 'Husband' },
     { value: 'friend', label: 'Friend' },
-    { value: 'romantic', label: 'Romantic' },
+    { value: 'romantic', label: 'Romantic' }
   ];
 
   const professionalRecipients = [
@@ -120,7 +126,7 @@
   }
 </script>
 
-<div class="max-w-2xl w-full mx-auto relative">
+<div class="max-w-2xl w-full mx-auto relative pb-24">
   <div class="fixed top-4 right-4 z-50">
     <a 
       href="/generator" 
@@ -135,19 +141,19 @@
   <h2 class="text-2xl sm:text-3xl font-bold text-center mb-2">Apology Letter Wizard</h2>
   <p class="text-center text-gray-600 mb-6 sm:mb-8">Create a personalized apology letter in just a few steps</p>
 
-  <div class="card mb-32">
+  <div class="card mb-8">
     <div class="card-body p-4 sm:p-6">
-      <div class="mb-6">
+      <!-- <div class="mb-6">
         <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
           <div class="bg-success h-2 rounded-full transition-all duration-300" 
                style="width: {progressWidth}">
           </div>
         </div>
-      </div>
+      </div> -->
 
       <form class="space-y-6" action={'/generator' + actions.createLetter} id="write-letter" method="POST">
         <!-- Step 1: Letter Type -->
-        <div class="step h-72" style="display: {currentStep === 1 ? 'block' : 'none'}">
+        <div class="step h-auto" style="display: {currentStep === 1 ? 'block' : 'none'}">
           <h2 class="text-lg sm:text-xl mb-4 !text-center w-full">
             Type of Apology Letter
           </h2>
@@ -263,26 +269,26 @@
     </div>
   </div>
 
-  <div class="fixed bottom-0 left-0 right-0 p-4 bg-base-100 border-t">
+  <div class="fixed bottom-0 left-0 right-0 p-4 bg-base-100 border-t shadow-lg">
     <div class="max-w-2xl mx-auto flex justify-center gap-4">
       <button 
-          type="button" 
-          class="btn btn-outline min-w-[100px]"
-          on:click={handlePrevious}
-          disabled={currentStep === 1}
-        >
-          Previous
+        type="button" 
+        class="btn btn-outline min-w-[100px]"
+        on:click={handlePrevious}
+        disabled={currentStep === 1}
+      >
+        Previous
+      </button>
+      {#if currentStep !== totalSteps}
+        <button type="button" class="btn btn-primary min-w-[100px]" on:click={handleNext}>    
+          Next
         </button>
-        {#if currentStep !== totalSteps}
-          <button type="button" class="btn btn-primary min-w-[100px]" on:click={handleNext}>    
-            Next
-          </button>
-        {/if}
-        {#if currentStep === totalSteps}
-          <button type="submit" class="btn btn-primary min-w-[100px]" form="write-letter">
-            Submit
-          </button>
-        {/if}
+      {/if}
+      {#if currentStep === totalSteps}
+        <button type="submit" class="btn btn-primary min-w-[100px]" form="write-letter">
+          Submit
+        </button>
+      {/if}
     </div>
   </div>
 

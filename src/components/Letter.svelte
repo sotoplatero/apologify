@@ -28,7 +28,7 @@
       <CopyButton text={letter} />
     </div>
 
-    <div class="prose prose-lg max-w-none">
+    <div class="prose sm:prose-lg max-w-none">
       <p class="whitespace-pre-line">{letter}</p>
     </div>
   </div>
