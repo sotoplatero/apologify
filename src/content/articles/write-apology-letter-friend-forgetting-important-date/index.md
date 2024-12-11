@@ -1,11 +1,17 @@
 ---
-title: "How to Write an Apology Letter to a Friend for Forgetting an Important Date"
-description: "Learn how to write a heartfelt apology letter to a friend for forgetting an important date. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and heal your friendship."
-tags: ["friend", "forgetting an important date"]
-date: 2023-10-03
-image: "https://images.unsplash.com/photo-1471107340929-a87cd0f5b5f3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1ODkxMjh8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Aaron Burden"
-photographerUrl: "https://unsplash.com/@aaronburden"
+title: How to Write an Apology Letter to a Friend for Forgetting an Important Date
+description: >-
+  Learn how to write a heartfelt apology letter to a friend for forgetting an
+  important date. This step-by-step guide offers practical advice, real-life
+  examples, and tips to help you rebuild trust and heal your friendship.
+tags:
+  - friend
+  - forgetting an important date
+date: 2024-07-08T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1471107340929-a87cd0f5b5f3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1ODkxMjh8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Aaron Burden
+photographerUrl: 'https://unsplash.com/@aaronburden'
 ---
 
 ## Introduction

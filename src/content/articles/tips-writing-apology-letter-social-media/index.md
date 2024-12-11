@@ -1,11 +1,19 @@
 ---
-title: "Tips for Writing an Apology Letter in Social Media"
-description: "Learn practical advice and actionable steps to write an apology letter in social media. This guide covers how to rebuild trust, heal relationships, and deliver heartfelt apologies."
-tags: ["social media", "apology letters", "how to apologize", "relationship advice"]
-date: 2023-10-14
-image: "https://images.unsplash.com/photo-1453946610176-6be21147c400?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAzMTIyNDd8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Calum MacAulay"
-photographerUrl: "https://unsplash.com/@calum_mac"
+title: Tips for Writing an Apology Letter in Social Media
+description: >-
+  Learn practical advice and actionable steps to write an apology letter in
+  social media. This guide covers how to rebuild trust, heal relationships, and
+  deliver heartfelt apologies.
+tags:
+  - social media
+  - apology letters
+  - how to apologize
+  - relationship advice
+date: 2024-08-24T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1453946610176-6be21147c400?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAzMTIyNDd8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Calum MacAulay
+photographerUrl: 'https://unsplash.com/@calum_mac'
 ---
 
 # Introduction

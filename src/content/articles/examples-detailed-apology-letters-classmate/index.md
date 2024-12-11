@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Detailed Apology Letters to a Classmate"
-description: "Discover heartfelt examples and practical advice for writing a detailed apology letter to a classmate. Learn how to rebuild trust, heal your relationship, and express genuine remorse with step-by-step guidance."
-tags: ["detailed", "classmate"]
-date: 2024-10-08
-image: "https://images.unsplash.com/photo-1704817597175-2f78cfba9b7a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk0OTE1MjJ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Wyxina Tresse"
-photographerUrl: "https://unsplash.com/@wyxina"
+title: Heartfelt Examples of Detailed Apology Letters to a Classmate
+description: >-
+  Discover heartfelt examples and practical advice for writing a detailed
+  apology letter to a classmate. Learn how to rebuild trust, heal your
+  relationship, and express genuine remorse with step-by-step guidance.
+tags:
+  - detailed
+  - classmate
+date: 2024-10-26T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1704817597175-2f78cfba9b7a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk0OTE1MjJ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Wyxina Tresse
+photographerUrl: 'https://unsplash.com/@wyxina'
 ---
 
 # Introduction

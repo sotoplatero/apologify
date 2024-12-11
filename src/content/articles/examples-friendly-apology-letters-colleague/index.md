@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Friendly Apology Letters to a Colleague"
-description: "Discover heartfelt examples and practical advice for writing a friendly apology letter to a colleague. Learn how to rebuild trust, heal your relationship, and express genuine remorse with step-by-step guidance."
-tags: ["friendly", "colleague"]
-date: 2023-10-09
-image: "https://images.unsplash.com/photo-1535249257686-29c7471d48e4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAzNTU0NDl8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Sandy Millar"
-photographerUrl: "https://unsplash.com/@sandym10"
+title: Heartfelt Examples of Friendly Apology Letters to a Colleague
+description: >-
+  Discover heartfelt examples and practical advice for writing a friendly
+  apology letter to a colleague. Learn how to rebuild trust, heal your
+  relationship, and express genuine remorse with step-by-step guidance.
+tags:
+  - friendly
+  - colleague
+date: 2024-10-10T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1535249257686-29c7471d48e4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAzNTU0NDl8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Sandy Millar
+photographerUrl: 'https://unsplash.com/@sandym10'
 ---
 
 ## Introduction

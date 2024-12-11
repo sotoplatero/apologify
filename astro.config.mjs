@@ -7,7 +7,7 @@ import svelte from '@astrojs/svelte';
 
 import preact from '@astrojs/preact';
 
-import vercel from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel';
 
 import auth from 'auth-astro';
 

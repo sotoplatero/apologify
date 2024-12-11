@@ -1,11 +1,19 @@
 ---
-title: "Tips for Writing an Apology Letter in an Important Meeting"
-description: "Learn practical advice and actionable steps to write an apology letter in an important meeting. This guide covers how to rebuild trust, heal relationships, and deliver heartfelt apologies effectively."
-tags: ["important meeting", "apology letters", "how to apologize", "relationship advice"]
-date: 2023-10-03
-image: "https://images.unsplash.com/photo-1517770413964-df8ca61194a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk1MjM2MTh8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Jonas Jacobsson"
-photographerUrl: "https://unsplash.com/@jonasjacobsson"
+title: Tips for Writing an Apology Letter in an Important Meeting
+description: >-
+  Learn practical advice and actionable steps to write an apology letter in an
+  important meeting. This guide covers how to rebuild trust, heal relationships,
+  and deliver heartfelt apologies effectively.
+tags:
+  - important meeting
+  - apology letters
+  - how to apologize
+  - relationship advice
+date: 2024-09-01T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1517770413964-df8ca61194a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk1MjM2MTh8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Jonas Jacobsson
+photographerUrl: 'https://unsplash.com/@jonasjacobsson'
 ---
 
 # Tips for Writing an Apology Letter in an Important Meeting

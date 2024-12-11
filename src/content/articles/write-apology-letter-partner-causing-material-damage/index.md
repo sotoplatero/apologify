@@ -1,11 +1,17 @@
 ---
-title: "How to Write an Apology Letter to Your Partner for Causing Material Damage"
-description: "Learn how to write a heartfelt apology letter to your partner for causing material damage. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and heal your relationship."
-tags: ["partner", "material damage"]
-date: 2023-10-05
-image: "https://images.unsplash.com/photo-1493219686142-5a8641badc78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAxNzIwMTF8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Neven Krcmarek"
-photographerUrl: "https://unsplash.com/@nevenkrcmarek"
+title: How to Write an Apology Letter to Your Partner for Causing Material Damage
+description: >-
+  Learn how to write a heartfelt apology letter to your partner for causing
+  material damage. This step-by-step guide offers practical advice, real-life
+  examples, and tips to help you rebuild trust and heal your relationship.
+tags:
+  - partner
+  - material damage
+date: 2024-06-23T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1493219686142-5a8641badc78?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAxNzIwMTF8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Neven Krcmarek
+photographerUrl: 'https://unsplash.com/@nevenkrcmarek'
 ---
 
 ## Introduction

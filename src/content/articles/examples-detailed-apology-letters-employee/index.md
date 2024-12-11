@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Detailed Apology Letters to an Employee"
-description: "Discover heartfelt examples and practical advice for writing a detailed apology letter to an employee. Learn how to rebuild trust, heal workplace relationships, and express genuine remorse with step-by-step guidance."
-tags: ["detailed", "employee"]
-date: 2023-10-04
-image: "https://images.unsplash.com/photo-1592911511747-23c9164fa17d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA0NjM2MTd8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Anita Jankovic"
-photographerUrl: "https://unsplash.com/@dslr_newb"
+title: Heartfelt Examples of Detailed Apology Letters to an Employee
+description: >-
+  Discover heartfelt examples and practical advice for writing a detailed
+  apology letter to an employee. Learn how to rebuild trust, heal workplace
+  relationships, and express genuine remorse with step-by-step guidance.
+tags:
+  - detailed
+  - employee
+date: 2024-10-23T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1592911511747-23c9164fa17d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA0NjM2MTd8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Anita Jankovic
+photographerUrl: 'https://unsplash.com/@dslr_newb'
 ---
 
 # Introduction

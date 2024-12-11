@@ -1,11 +1,18 @@
 ---
-title: "How to Write an Apology Letter to a Client for Not Showing Up for an Event"
-description: "Learn how to craft a sincere apology letter to a client for not showing up for an event. This comprehensive guide provides practical advice, real-life examples, and tips to help you rebuild trust and strengthen your professional relationship."
-tags: ["client", "not showing up for an event"]
-date: 2023-10-03
-image: "https://images.unsplash.com/photo-1484156818044-c040038b0719?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA2MTA2NTB8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Nils Stahl"
-photographerUrl: "https://unsplash.com/@nilsjakob"
+title: How to Write an Apology Letter to a Client for Not Showing Up for an Event
+description: >-
+  Learn how to craft a sincere apology letter to a client for not showing up for
+  an event. This comprehensive guide provides practical advice, real-life
+  examples, and tips to help you rebuild trust and strengthen your professional
+  relationship.
+tags:
+  - client
+  - not showing up for an event
+date: 2024-08-05T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1484156818044-c040038b0719?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA2MTA2NTB8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Nils Stahl
+photographerUrl: 'https://unsplash.com/@nilsjakob'
 ---
 
 # How to Write an Apology Letter to a Client for Not Showing Up for an Event

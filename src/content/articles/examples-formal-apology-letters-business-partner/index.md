@@ -1,11 +1,18 @@
 ---
-title: "Heartfelt Examples of Formal Apology Letters to a Business Partner"
-description: "Discover heartfelt examples and practical advice for writing a formal apology letter to a business partner. Learn how to rebuild trust, heal your professional relationship, and express genuine remorse with step-by-step guidance."
-tags: ["formal", "business partner"]
-date: 2023-10-04
-image: "https://images.unsplash.com/photo-1512314889357-e157c22f938d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAwNzcyMTF8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "AbsolutVision"
-photographerUrl: "https://unsplash.com/@alterego_swiss"
+title: Heartfelt Examples of Formal Apology Letters to a Business Partner
+description: >-
+  Discover heartfelt examples and practical advice for writing a formal apology
+  letter to a business partner. Learn how to rebuild trust, heal your
+  professional relationship, and express genuine remorse with step-by-step
+  guidance.
+tags:
+  - formal
+  - business partner
+date: 2024-10-15T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1512314889357-e157c22f938d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAwNzcyMTF8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: AbsolutVision
+photographerUrl: 'https://unsplash.com/@alterego_swiss'
 ---
 
 # Heartfelt Examples of Formal Apology Letters to a Business Partner

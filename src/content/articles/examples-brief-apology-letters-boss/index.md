@@ -1,11 +1,18 @@
 ---
-title: "Heartfelt Examples of Brief Apology Letters to Your Boss"
-description: "Discover heartfelt examples and practical advice for writing a brief apology letter to your boss. Learn how to rebuild trust, heal professional relationships, and express genuine remorse with step-by-step guidance."
-tags: ["brief", "apology letter", "boss"]
-date: 2024-11-01
-image: "https://images.unsplash.com/photo-1660922771242-c598e0808188?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAyNzA0NDR8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Steve DiMatteo"
-photographerUrl: "https://unsplash.com/@stevedimatteo"
+title: Heartfelt Examples of Brief Apology Letters to Your Boss
+description: >-
+  Discover heartfelt examples and practical advice for writing a brief apology
+  letter to your boss. Learn how to rebuild trust, heal professional
+  relationships, and express genuine remorse with step-by-step guidance.
+tags:
+  - brief
+  - apology letter
+  - boss
+date: 2024-11-05T02:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1660922771242-c598e0808188?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAyNzA0NDR8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Steve DiMatteo
+photographerUrl: 'https://unsplash.com/@stevedimatteo'
 ---
 
 Apologizing in a professional setting, especially to your boss, can be a daunting experience. Whether you missed a deadline, made a mistake, or inadvertently upset the flow of work, feelings of guilt and sadness can weigh heavily on your conscience. You may find yourself searching for the right words to express your remorse in a way that resonates with your boss while preserving your professionalism.

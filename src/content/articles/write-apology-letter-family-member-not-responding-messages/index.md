@@ -1,11 +1,20 @@
 ---
-title: "How to Write an Apology Letter to a Family Member for Not Responding to Messages"
-description: "Learn how to write a heartfelt apology letter to a family member for not responding to messages. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and heal your relationships."
-tags: ["family member", "not responding to messages"]
-date: 2023-10-07
-image: "https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk2NjQyOTN8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Derek Thomson"
-photographerUrl: "https://unsplash.com/@derekthomson"
+title: >-
+  How to Write an Apology Letter to a Family Member for Not Responding to
+  Messages
+description: >-
+  Learn how to write a heartfelt apology letter to a family member for not
+  responding to messages. This step-by-step guide offers practical advice,
+  real-life examples, and tips to help you rebuild trust and heal your
+  relationships.
+tags:
+  - family member
+  - not responding to messages
+date: 2024-07-11T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk2NjQyOTN8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Derek Thomson
+photographerUrl: 'https://unsplash.com/@derekthomson'
 ---
 
 ## Introduction

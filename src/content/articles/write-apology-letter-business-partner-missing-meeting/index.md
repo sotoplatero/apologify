@@ -1,11 +1,18 @@
 ---
-title: "How to Write an Apology Letter to Your Business Partner for Missing a Meeting"
-description: "Learn how to write a heartfelt apology letter to your business partner for missing a meeting. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and strengthen your professional relationship."
-tags: ["business partner", "missing a meeting"]
-date: 2023-10-10
-image: "https://images.unsplash.com/photo-1505022610485-0249ba5b3675?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk0NDgxMDB8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Andrew Neel"
-photographerUrl: "https://unsplash.com/@andrewtneel"
+title: How to Write an Apology Letter to Your Business Partner for Missing a Meeting
+description: >-
+  Learn how to write a heartfelt apology letter to your business partner for
+  missing a meeting. This step-by-step guide offers practical advice, real-life
+  examples, and tips to help you rebuild trust and strengthen your professional
+  relationship.
+tags:
+  - business partner
+  - missing a meeting
+date: 2024-08-13T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1505022610485-0249ba5b3675?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk0NDgxMDB8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Andrew Neel
+photographerUrl: 'https://unsplash.com/@andrewtneel'
 ---
 
 # How to Write an Apology Letter to Your Business Partner for Missing a Meeting

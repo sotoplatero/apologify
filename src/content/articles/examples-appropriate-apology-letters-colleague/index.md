@@ -1,11 +1,18 @@
 ---
-title: "Heartfelt Examples of Appropriate Apology Letters to Colleagues"
-description: "Discover heartfelt examples and practical advice for writing an appropriate apology letter to a colleague. Learn how to rebuild trust, heal your professional relationships, and express genuine remorse with step-by-step guidance."
-tags: ["appropriate", "colleague"]
-date: 2023-10-03
-image: "https://images.unsplash.com/photo-1628444739364-4890bf7b3c85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAwMzE2NjJ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Laura Rivera"
-photographerUrl: "https://unsplash.com/@laurar1vera"
+title: Heartfelt Examples of Appropriate Apology Letters to Colleagues
+description: >-
+  Discover heartfelt examples and practical advice for writing an appropriate
+  apology letter to a colleague. Learn how to rebuild trust, heal your
+  professional relationships, and express genuine remorse with step-by-step
+  guidance.
+tags:
+  - appropriate
+  - colleague
+date: 2024-11-07T02:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1628444739364-4890bf7b3c85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAwMzE2NjJ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Laura Rivera
+photographerUrl: 'https://unsplash.com/@laurar1vera'
 ---
 
 # Introduction

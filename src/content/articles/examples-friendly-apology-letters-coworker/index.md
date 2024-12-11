@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Friendly Apology Letters to a Coworker"
-description: "Discover heartfelt examples and practical advice for writing a friendly apology letter to a coworker. Learn how to rebuild trust, heal your relationship, and express genuine remorse with step-by-step guidance."
-tags: ["friendly", "coworker"]
-date: 2023-10-03
-image: "https://images.unsplash.com/photo-1515896170792-227587541d49?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAxNjM1NDl8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Alexander Andrews"
-photographerUrl: "https://unsplash.com/@alex_andrews"
+title: Heartfelt Examples of Friendly Apology Letters to a Coworker
+description: >-
+  Discover heartfelt examples and practical advice for writing a friendly
+  apology letter to a coworker. Learn how to rebuild trust, heal your
+  relationship, and express genuine remorse with step-by-step guidance.
+tags:
+  - friendly
+  - coworker
+date: 2024-10-09T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1515896170792-227587541d49?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAxNjM1NDl8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Alexander Andrews
+photographerUrl: 'https://unsplash.com/@alex_andrews'
 ---
 
 # Heartfelt Examples of Friendly Apology Letters to a Coworker

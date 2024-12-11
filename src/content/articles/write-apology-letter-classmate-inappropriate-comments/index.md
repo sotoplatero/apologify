@@ -1,11 +1,17 @@
 ---
-title: "How to Write an Apology Letter to a Classmate for Inappropriate Comments"
-description: "Learn how to write a heartfelt apology letter to a classmate for inappropriate comments. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and heal your relationship."
-tags: ["classmate", "inappropriate comments"]
-date: 2023-09-25
-image: "https://images.unsplash.com/photo-1467545159547-1b93b24406ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA0ODQ4OTd8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Daria Nepriakhina 🇺🇦"
-photographerUrl: "https://unsplash.com/@epicantus"
+title: How to Write an Apology Letter to a Classmate for Inappropriate Comments
+description: >-
+  Learn how to write a heartfelt apology letter to a classmate for inappropriate
+  comments. This step-by-step guide offers practical advice, real-life examples,
+  and tips to help you rebuild trust and heal your relationship.
+tags:
+  - classmate
+  - inappropriate comments
+date: 2024-08-09T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1467545159547-1b93b24406ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA0ODQ4OTd8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: "Daria Nepriakhina \U0001F1FA\U0001F1E6"
+photographerUrl: 'https://unsplash.com/@epicantus'
 ---
 
 ## Introduction

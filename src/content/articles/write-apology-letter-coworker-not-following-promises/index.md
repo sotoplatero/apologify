@@ -1,11 +1,20 @@
 ---
-title: "How to Write an Apology Letter to a Coworker for Not Following Through on Promises"
-description: "Learn how to write a heartfelt apology letter to a coworker for not following through on promises. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and improve workplace relationships."
-tags: ["coworker", "not following through on promises"]
-date: 2023-10-04
-image: "https://images.unsplash.com/photo-1535054820380-92c41678b087?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAwMDk4MDd8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Kristian Strand"
-photographerUrl: "https://unsplash.com/@kristianstrand"
+title: >-
+  How to Write an Apology Letter to a Coworker for Not Following Through on
+  Promises
+description: >-
+  Learn how to write a heartfelt apology letter to a coworker for not following
+  through on promises. This step-by-step guide offers practical advice,
+  real-life examples, and tips to help you rebuild trust and improve workplace
+  relationships.
+tags:
+  - coworker
+  - not following through on promises
+date: 2024-07-26T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1535054820380-92c41678b087?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAwMDk4MDd8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Kristian Strand
+photographerUrl: 'https://unsplash.com/@kristianstrand'
 ---
 
 ## Introduction

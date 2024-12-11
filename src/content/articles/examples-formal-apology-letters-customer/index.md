@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Formal Apology Letters to Customers"
-description: "Discover heartfelt examples and practical advice for writing a formal apology letter to customers. Learn how to rebuild trust, address issues directly, and express genuine remorse with step-by-step guidance."
-tags: ["formal", "customer"]
-date: 2023-10-04
-image: "https://images.unsplash.com/photo-1586991362097-2b4c41a7f25d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1NzgzMzd8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Nelly Antoniadou"
-photographerUrl: "https://unsplash.com/@nelly13"
+title: Heartfelt Examples of Formal Apology Letters to Customers
+description: >-
+  Discover heartfelt examples and practical advice for writing a formal apology
+  letter to customers. Learn how to rebuild trust, address issues directly, and
+  express genuine remorse with step-by-step guidance.
+tags:
+  - formal
+  - customer
+date: 2024-10-14T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1586991362097-2b4c41a7f25d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1NzgzMzd8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Nelly Antoniadou
+photographerUrl: 'https://unsplash.com/@nelly13'
 ---
 
 # Heartfelt Examples of Formal Apology Letters to Customers

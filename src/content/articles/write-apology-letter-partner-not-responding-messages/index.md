@@ -1,11 +1,18 @@
 ---
-title: "How to Write an Apology Letter to Your Partner for Not Responding to Messages"
-description: "Learn how to write a heartfelt apology letter to your partner for not responding to messages. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and nurture your relationship."
-tags: ["partner", "not responding to messages"]
-date: 2023-10-01
-image: "https://images.unsplash.com/photo-1515015443787-2e0fb93d9783?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAxMTgyNTV8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "JD  Mason"
-photographerUrl: "https://unsplash.com/@jmason"
+title: How to Write an Apology Letter to Your Partner for Not Responding to Messages
+description: >-
+  Learn how to write a heartfelt apology letter to your partner for not
+  responding to messages. This step-by-step guide offers practical advice,
+  real-life examples, and tips to help you rebuild trust and nurture your
+  relationship.
+tags:
+  - partner
+  - not responding to messages
+date: 2024-06-19T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1515015443787-2e0fb93d9783?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAxMTgyNTV8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: JD  Mason
+photographerUrl: 'https://unsplash.com/@jmason'
 ---
 
 # How to Write an Apology Letter to Your Partner for Not Responding to Messages

@@ -1,11 +1,19 @@
 ---
-title: "Tips for Writing an Apology Letter in a Personal Relationship"
-description: "Learn practical advice and actionable steps to write an apology letter in a personal relationship. This guide covers how to rebuild trust, heal relationships, and deliver heartfelt apologies."
-tags: ["personal relationship", "apology letters", "how to apologize", "relationship advice"]
-date: 2023-10-07
-image: "https://images.unsplash.com/photo-1510034696085-597d716bd162?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk0MzcwNjB8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "John Jennings"
-photographerUrl: "https://unsplash.com/@john_jennings"
+title: Tips for Writing an Apology Letter in a Personal Relationship
+description: >-
+  Learn practical advice and actionable steps to write an apology letter in a
+  personal relationship. This guide covers how to rebuild trust, heal
+  relationships, and deliver heartfelt apologies.
+tags:
+  - personal relationship
+  - apology letters
+  - how to apologize
+  - relationship advice
+date: 2024-08-29T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1510034696085-597d716bd162?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk0MzcwNjB8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: John Jennings
+photographerUrl: 'https://unsplash.com/@john_jennings'
 ---
 
 # Introduction

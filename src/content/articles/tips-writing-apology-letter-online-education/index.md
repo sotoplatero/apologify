@@ -1,11 +1,19 @@
 ---
-title: "Tips for Writing an Apology Letter in Online Education"
-description: "Learn practical advice and actionable steps to write an apology letter in the online education context. This guide covers how to rebuild trust, heal relationships, and deliver heartfelt apologies."
-tags: ["online education", "apology letters", "how to apologize", "relationship advice"]
-date: 2023-10-04
-image: "https://images.unsplash.com/photo-1589561253831-b8421dd58261?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk3NTA2Nzh8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Mika Baumeister"
-photographerUrl: "https://unsplash.com/@kommumikation"
+title: Tips for Writing an Apology Letter in Online Education
+description: >-
+  Learn practical advice and actionable steps to write an apology letter in the
+  online education context. This guide covers how to rebuild trust, heal
+  relationships, and deliver heartfelt apologies.
+tags:
+  - online education
+  - apology letters
+  - how to apologize
+  - relationship advice
+date: 2024-08-30T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1589561253831-b8421dd58261?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk3NTA2Nzh8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Mika Baumeister
+photographerUrl: 'https://unsplash.com/@kommumikation'
 ---
 
 ## Introduction

@@ -1,11 +1,18 @@
 ---
-title: "How to Write an Apology Letter to a Supplier for Not Showing Up for an Event"
-description: "Learn how to write a heartfelt apology letter to a supplier for not showing up for an event. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and mend your professional relationship."
-tags: ["supplier", "not showing up for an event"]
-date: 2023-10-04
-image: "https://images.unsplash.com/photo-1544808208-727498b3df07?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA2MjE1ODR8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Reinis Birznieks"
-photographerUrl: "https://unsplash.com/@reinis_birznieks"
+title: How to Write an Apology Letter to a Supplier for Not Showing Up for an Event
+description: >-
+  Learn how to write a heartfelt apology letter to a supplier for not showing up
+  for an event. This step-by-step guide offers practical advice, real-life
+  examples, and tips to help you rebuild trust and mend your professional
+  relationship.
+tags:
+  - supplier
+  - not showing up for an event
+date: 2024-06-11T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1544808208-727498b3df07?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA2MjE1ODR8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Reinis Birznieks
+photographerUrl: 'https://unsplash.com/@reinis_birznieks'
 ---
 
 # How to Write an Apology Letter to a Supplier for Not Showing Up for an Event

@@ -1,11 +1,18 @@
 ---
-title: "How to Write an Apology Letter to a Supplier for Failure to Complete Tasks"
-description: "Learn how to write a sincere apology letter to a supplier for failure to complete tasks. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and maintain a positive business relationship."
-tags: ["supplier", "failure to complete tasks"]
-date: 2023-10-03
-image: "https://images.unsplash.com/photo-1707035091797-7c1ccca95cb6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk4MDQzMzB8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Jakub Żerdzicki"
-photographerUrl: "https://unsplash.com/@jakubzerdzicki"
+title: How to Write an Apology Letter to a Supplier for Failure to Complete Tasks
+description: >-
+  Learn how to write a sincere apology letter to a supplier for failure to
+  complete tasks. This step-by-step guide offers practical advice, real-life
+  examples, and tips to help you rebuild trust and maintain a positive business
+  relationship.
+tags:
+  - supplier
+  - failure to complete tasks
+date: 2024-06-17T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1707035091797-7c1ccca95cb6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk4MDQzMzB8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Jakub Żerdzicki
+photographerUrl: 'https://unsplash.com/@jakubzerdzicki'
 ---
 
 # How to Write an Apology Letter to a Supplier for Failure to Complete Tasks

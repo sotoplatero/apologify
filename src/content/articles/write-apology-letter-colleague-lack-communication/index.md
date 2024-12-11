@@ -1,11 +1,18 @@
 ---
-title: "How to Write an Apology Letter to a Colleague for Lack of Communication"
-description: "Learn how to write a heartfelt apology letter to a colleague for lack of communication. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and strengthen your professional relationship."
-tags: ["colleague", "lack of communication"]
-date: 2023-10-06
-image: "https://images.unsplash.com/photo-1529245885411-d2b92941b7cb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1ODU0NDZ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Jason Leung"
-photographerUrl: "https://unsplash.com/@ninjason"
+title: How to Write an Apology Letter to a Colleague for Lack of Communication
+description: >-
+  Learn how to write a heartfelt apology letter to a colleague for lack of
+  communication. This step-by-step guide offers practical advice, real-life
+  examples, and tips to help you rebuild trust and strengthen your professional
+  relationship.
+tags:
+  - colleague
+  - lack of communication
+date: 2024-07-31T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1529245885411-d2b92941b7cb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1ODU0NDZ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Jason Leung
+photographerUrl: 'https://unsplash.com/@ninjason'
 ---
 
 ## Introduction

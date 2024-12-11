@@ -1,11 +1,17 @@
 ---
-title: "How to Write an Apology Letter to Your Mother for Failure to Complete Tasks"
-description: "Learn how to write a heartfelt apology letter to your mother for failure to complete tasks. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and heal your relationship."
-tags: ["mother", "failure to complete tasks"]
-date: 2023-10-07
-image: "https://images.unsplash.com/photo-1627662235835-1c1d3817418e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1MDI2NTF8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Tyson"
-photographerUrl: "https://unsplash.com/@tysonbrand"
+title: How to Write an Apology Letter to Your Mother for Failure to Complete Tasks
+description: >-
+  Learn how to write a heartfelt apology letter to your mother for failure to
+  complete tasks. This step-by-step guide offers practical advice, real-life
+  examples, and tips to help you rebuild trust and heal your relationship.
+tags:
+  - mother
+  - failure to complete tasks
+date: 2024-06-30T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1627662235835-1c1d3817418e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1MDI2NTF8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Tyson
+photographerUrl: 'https://unsplash.com/@tysonbrand'
 ---
 
 # How to Write an Apology Letter to Your Mother for Failure to Complete Tasks

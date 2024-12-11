@@ -1,11 +1,20 @@
 ---
-title: "How to Write an Apology Letter to a Business Partner for Last-Minute Cancellation"
-description: "Learn how to craft a heartfelt apology letter to your business partner for a last-minute cancellation. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and strengthen your professional relationship."
-tags: ["business partner", "last-minute cancellation"]
-date: 2023-10-04
-image: "https://images.unsplash.com/photo-1573497620053-ea5300f94f21?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk2OTY0MTB8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Christina @ wocintechchat.com"
-photographerUrl: "https://unsplash.com/@wocintechchat"
+title: >-
+  How to Write an Apology Letter to a Business Partner for Last-Minute
+  Cancellation
+description: >-
+  Learn how to craft a heartfelt apology letter to your business partner for a
+  last-minute cancellation. This step-by-step guide offers practical advice,
+  real-life examples, and tips to help you rebuild trust and strengthen your
+  professional relationship.
+tags:
+  - business partner
+  - last-minute cancellation
+date: 2024-08-14T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1573497620053-ea5300f94f21?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk2OTY0MTB8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Christina @ wocintechchat.com
+photographerUrl: 'https://unsplash.com/@wocintechchat'
 ---
 
 ## Introduction

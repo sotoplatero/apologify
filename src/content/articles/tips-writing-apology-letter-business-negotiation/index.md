@@ -1,11 +1,19 @@
 ---
-title: "Tips for Writing an Apology Letter in Business Negotiation"
-description: "Learn practical advice and actionable steps to write an apology letter in business negotiation. This guide covers how to rebuild trust, heal relationships, and deliver heartfelt apologies."
-tags: ["business negotiation", "apology letters", "how to apologize", "professional advice"]
-date: 2023-10-03
-image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAxNDk5MTN8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Glenn Carstens-Peters"
-photographerUrl: "https://unsplash.com/@glenncarstenspeters"
+title: Tips for Writing an Apology Letter in Business Negotiation
+description: >-
+  Learn practical advice and actionable steps to write an apology letter in
+  business negotiation. This guide covers how to rebuild trust, heal
+  relationships, and deliver heartfelt apologies.
+tags:
+  - business negotiation
+  - apology letters
+  - how to apologize
+  - professional advice
+date: 2024-09-05T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAxNDk5MTN8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Glenn Carstens-Peters
+photographerUrl: 'https://unsplash.com/@glenncarstenspeters'
 ---
 
 ## Introduction

@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Sincere Apology Letters to a Coworker"
-description: "Discover heartfelt examples and practical advice for writing a sincere apology letter to a coworker. Learn how to rebuild trust, heal your professional relationships, and express genuine remorse with step-by-step guidance."
-tags: ["sincere", "coworker"]
-date: 2023-10-02
-image: "https://images.unsplash.com/photo-1436918898788-ebce04d38e46?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA4NTE0OTV8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Bruno Martins"
-photographerUrl: "https://unsplash.com/@brunus"
+title: Heartfelt Examples of Sincere Apology Letters to a Coworker
+description: >-
+  Discover heartfelt examples and practical advice for writing a sincere apology
+  letter to a coworker. Learn how to rebuild trust, heal your professional
+  relationships, and express genuine remorse with step-by-step guidance.
+tags:
+  - sincere
+  - coworker
+date: 2024-09-17T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1436918898788-ebce04d38e46?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA4NTE0OTV8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Bruno Martins
+photographerUrl: 'https://unsplash.com/@brunus'
 ---
 
 # Heartfelt Examples of Sincere Apology Letters to a Coworker

@@ -1,11 +1,18 @@
 ---
-title: "How to Write an Apology Letter to Your Partner for Inappropriate Comments"
-description: "Learn how to write a heartfelt apology letter to your partner for inappropriate comments. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and heal your relationship."
-tags: ["partner", "inappropriate comments"]
-date: 2023-10-09
-image: "https://images.unsplash.com/photo-1517948430535-1e2469d314fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk1MTM0MzF8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "David Travis"
-photographerUrl: "https://unsplash.com/@dtravisphd"
+title: How to Write an Apology Letter to Your Partner for Inappropriate Comments
+description: >-
+  Learn how to write a heartfelt apology letter to your partner for
+  inappropriate comments. This step-by-step guide offers practical advice,
+  real-life examples, and tips to help you rebuild trust and heal your
+  relationship.
+tags:
+  - partner
+  - inappropriate comments
+date: 2024-06-22T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1517948430535-1e2469d314fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk1MTM0MzF8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: David Travis
+photographerUrl: 'https://unsplash.com/@dtravisphd'
 ---
 
 # How to Write an Apology Letter to Your Partner for Inappropriate Comments

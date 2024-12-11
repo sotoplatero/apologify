@@ -1,11 +1,18 @@
 ---
-title: "Heartfelt Examples of Emotional Apology Letters to a Supplier"
-description: "Discover heartfelt examples and practical advice for writing an emotional apology letter to a supplier. Learn how to rebuild trust, heal your professional relationship, and express genuine remorse with step-by-step guidance."
-tags: ["emotional", "supplier"]
-date: 2023-10-05
-image: "https://images.unsplash.com/photo-1509335329374-47bce994ca52?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk1MzQ2MTJ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "John Jennings"
-photographerUrl: "https://unsplash.com/@john_jennings"
+title: Heartfelt Examples of Emotional Apology Letters to a Supplier
+description: >-
+  Discover heartfelt examples and practical advice for writing an emotional
+  apology letter to a supplier. Learn how to rebuild trust, heal your
+  professional relationship, and express genuine remorse with step-by-step
+  guidance.
+tags:
+  - emotional
+  - supplier
+date: 2024-10-20T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1509335329374-47bce994ca52?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk1MzQ2MTJ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: John Jennings
+photographerUrl: 'https://unsplash.com/@john_jennings'
 ---
 
 # Heartfelt Examples of Emotional Apology Letters to a Supplier

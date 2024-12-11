@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Cordial Apology Letters to a Classmate"
-description: "Discover heartfelt examples and practical advice for writing a cordial apology letter to a classmate. Learn how to rebuild trust, heal your relationship, and express genuine remorse with step-by-step guidance."
-tags: ["cordial", "classmate"]
-date: 2023-10-12
-image: "https://images.unsplash.com/photo-1515325458032-82fb25824501?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1NDIyNDl8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Natalia Y."
-photographerUrl: "https://unsplash.com/@foxfox"
+title: Heartfelt Examples of Cordial Apology Letters to a Classmate
+description: >-
+  Discover heartfelt examples and practical advice for writing a cordial apology
+  letter to a classmate. Learn how to rebuild trust, heal your relationship, and
+  express genuine remorse with step-by-step guidance.
+tags:
+  - cordial
+  - classmate
+date: 2024-10-29T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1515325458032-82fb25824501?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1NDIyNDl8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Natalia Y.
+photographerUrl: 'https://unsplash.com/@foxfox'
 ---
 
 # Introduction

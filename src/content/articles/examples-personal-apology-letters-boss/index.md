@@ -1,11 +1,18 @@
 ---
-title: "Heartfelt Examples of Personal Apology Letters to Your Boss"
-description: "Discover heartfelt examples and practical advice for writing a personal apology letter to your boss. Learn how to rebuild trust, heal your professional relationship, and express genuine remorse with step-by-step guidance."
-tags: ["personal", "boss"]
-date: 2023-10-07
-image: "https://images.unsplash.com/photo-1526588554903-b32eb4158064?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAzOTg2MDZ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Brandon Nelson"
-photographerUrl: "https://unsplash.com/@noodlenelson"
+title: Heartfelt Examples of Personal Apology Letters to Your Boss
+description: >-
+  Discover heartfelt examples and practical advice for writing a personal
+  apology letter to your boss. Learn how to rebuild trust, heal your
+  professional relationship, and express genuine remorse with step-by-step
+  guidance.
+tags:
+  - personal
+  - boss
+date: 2024-10-05T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1526588554903-b32eb4158064?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAzOTg2MDZ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Brandon Nelson
+photographerUrl: 'https://unsplash.com/@noodlenelson'
 ---
 
 # Introduction

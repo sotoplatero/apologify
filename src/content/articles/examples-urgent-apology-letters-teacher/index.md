@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Urgent Apology Letters to a Teacher"
-description: "Discover heartfelt examples and practical advice for writing an urgent apology letter to a teacher. Learn how to express genuine remorse and rebuild trust with step-by-step guidance."
-tags: ["urgent", "teacher"]
-date: 2023-10-03
-image: "https://images.unsplash.com/photo-1456959890911-d3332c55bc7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA5MzgxMDJ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Csabi Elter"
-photographerUrl: "https://unsplash.com/@bulgakovmihaly"
+title: Heartfelt Examples of Urgent Apology Letters to a Teacher
+description: >-
+  Discover heartfelt examples and practical advice for writing an urgent apology
+  letter to a teacher. Learn how to express genuine remorse and rebuild trust
+  with step-by-step guidance.
+tags:
+  - urgent
+  - teacher
+date: 2024-09-06T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1456959890911-d3332c55bc7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA5MzgxMDJ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Csabi Elter
+photographerUrl: 'https://unsplash.com/@bulgakovmihaly'
 ---
 
 # Heartfelt Examples of Urgent Apology Letters to a Teacher

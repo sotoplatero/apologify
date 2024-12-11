@@ -5,7 +5,9 @@ import HowItWorks from '../components/HowItWorks.astro';
 import CallToAction from '../components/CallToAction.astro';
 import { getCollection } from 'astro:content';
 
-const recentArticles = await getCollection('articles').then((articles) => articles.slice(0, 4));
+const recentArticles = (await getCollection('articles'))
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 4);
 
 // Obtener dos cartas de ejemplo aleatorias
 const allLetters = await getCollection('letters');

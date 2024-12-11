@@ -1,11 +1,17 @@
 ---
-title: "How to Write an Apology Letter to a Teacher for Lack of Communication"
-description: "Learn how to write a heartfelt apology letter to a teacher for lack of communication. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and heal your relationship."
-tags: ["teacher", "lack of communication"]
-date: 2023-10-01
-image: "https://images.unsplash.com/photo-1483070421852-a142ce0a385d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk4OTA2NzJ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Priscilla Du Preez 🇨🇦"
-photographerUrl: "https://unsplash.com/@priscilladupreez"
+title: How to Write an Apology Letter to a Teacher for Lack of Communication
+description: >-
+  Learn how to write a heartfelt apology letter to a teacher for lack of
+  communication. This step-by-step guide offers practical advice, real-life
+  examples, and tips to help you rebuild trust and heal your relationship.
+tags:
+  - teacher
+  - lack of communication
+date: 2024-06-07T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1483070421852-a142ce0a385d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk4OTA2NzJ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: "Priscilla Du Preez \U0001F1E8\U0001F1E6"
+photographerUrl: 'https://unsplash.com/@priscilladupreez'
 ---
 
 ## Introduction 

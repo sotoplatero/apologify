@@ -1,11 +1,18 @@
 ---
-title: "How to Write an Apology Letter to Your Boss for Not Responding to Messages"
-description: "Learn how to craft a sincere apology letter to your boss for not responding to messages. This step-by-step guide provides practical advice, real-life examples, and tips to help you rebuild trust and respect in your professional relationship."
-tags: ["boss", "not responding to messages"]
-date: 2023-10-07
-image: "https://images.unsplash.com/photo-1472289065668-ce650ac443d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA0MzE2ODB8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Joanna Kosinska"
-photographerUrl: "https://unsplash.com/@joannakosinska"
+title: How to Write an Apology Letter to Your Boss for Not Responding to Messages
+description: >-
+  Learn how to craft a sincere apology letter to your boss for not responding to
+  messages. This step-by-step guide provides practical advice, real-life
+  examples, and tips to help you rebuild trust and respect in your professional
+  relationship.
+tags:
+  - boss
+  - not responding to messages
+date: 2024-08-19T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1472289065668-ce650ac443d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA0MzE2ODB8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Joanna Kosinska
+photographerUrl: 'https://unsplash.com/@joannakosinska'
 ---
 
 # How to Write an Apology Letter to Your Boss for Not Responding to Messages

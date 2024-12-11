@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Respectful Apology Letters to a Neighbor"
-description: "Discover heartfelt examples and practical advice for writing a respectful apology letter to a neighbor. Learn how to rebuild trust, heal your relationship, and express genuine remorse with step-by-step guidance."
-tags: ["respectful", "neighbor"]
-date: 2023-10-05
-image: "https://images.unsplash.com/photo-1534770727522-4259cab54258?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk3OTM4Njd8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Lucrezia Carnelos"
-photographerUrl: "https://unsplash.com/@ciabattespugnose"
+title: Heartfelt Examples of Respectful Apology Letters to a Neighbor
+description: >-
+  Discover heartfelt examples and practical advice for writing a respectful
+  apology letter to a neighbor. Learn how to rebuild trust, heal your
+  relationship, and express genuine remorse with step-by-step guidance.
+tags:
+  - respectful
+  - neighbor
+date: 2024-09-24T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1534770727522-4259cab54258?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk3OTM4Njd8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Lucrezia Carnelos
+photographerUrl: 'https://unsplash.com/@ciabattespugnose'
 ---
 
 # Heartfelt Examples of Respectful Apology Letters to a Neighbor

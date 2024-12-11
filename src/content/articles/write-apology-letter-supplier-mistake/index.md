@@ -1,11 +1,17 @@
 ---
-title: "How to Write an Apology Letter to a Supplier for a Mistake"
-description: "Learn how to write a sincere apology letter to a supplier for a mistake. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and maintain a strong business relationship."
-tags: ["supplier", "mistake"]
-date: 2023-10-04
-image: "https://images.unsplash.com/photo-1472950755543-5293dbab893a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAwOTYzMTl8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Jamie Street"
-photographerUrl: "https://unsplash.com/@jamie452"
+title: How to Write an Apology Letter to a Supplier for a Mistake
+description: >-
+  Learn how to write a sincere apology letter to a supplier for a mistake. This
+  step-by-step guide offers practical advice, real-life examples, and tips to
+  help you rebuild trust and maintain a strong business relationship.
+tags:
+  - supplier
+  - mistake
+date: 2024-06-13T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1472950755543-5293dbab893a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAwOTYzMTl8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Jamie Street
+photographerUrl: 'https://unsplash.com/@jamie452'
 ---
 
 # How to Write an Apology Letter to a Supplier for a Mistake

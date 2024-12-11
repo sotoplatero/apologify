@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Urgent Apology Letters to a Coworker"
-description: "Discover heartfelt examples and practical advice for writing an urgent apology letter to a coworker. Learn how to rebuild trust, heal your professional relationship, and express sincere remorse with step-by-step guidance."
-tags: ["urgent", "coworker"]
-date: 2023-10-06
-image: "https://images.unsplash.com/photo-1517916358207-1e49f666e851?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk2NzQ3OTl8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Bernard Hermant"
-photographerUrl: "https://unsplash.com/@bernardhermant"
+title: Heartfelt Examples of Urgent Apology Letters to a Coworker
+description: >-
+  Discover heartfelt examples and practical advice for writing an urgent apology
+  letter to a coworker. Learn how to rebuild trust, heal your professional
+  relationship, and express sincere remorse with step-by-step guidance.
+tags:
+  - urgent
+  - coworker
+date: 2024-09-09T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1517916358207-1e49f666e851?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk2NzQ3OTl8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Bernard Hermant
+photographerUrl: 'https://unsplash.com/@bernardhermant'
 ---
 
 # Introduction

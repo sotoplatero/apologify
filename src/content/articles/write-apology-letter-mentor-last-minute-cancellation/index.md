@@ -1,11 +1,18 @@
 ---
-title: "How to Write an Apology Letter to a Mentor for Last-Minute Cancellation"
-description: "Learn how to write a heartfelt apology letter to your mentor for a last-minute cancellation. This step-by-step guide offers practical advice, real-life examples, and tips to help you rebuild trust and heal your professional relationship."
-tags: ["mentor", "last-minute cancellation"]
-date: 2023-10-03
-image: "https://images.unsplash.com/photo-1575389966063-548c5889d197?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1NDU3MzN8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Christopher Farrugia"
-photographerUrl: "https://unsplash.com/@chrisfarr_"
+title: How to Write an Apology Letter to a Mentor for Last-Minute Cancellation
+description: >-
+  Learn how to write a heartfelt apology letter to your mentor for a last-minute
+  cancellation. This step-by-step guide offers practical advice, real-life
+  examples, and tips to help you rebuild trust and heal your professional
+  relationship.
+tags:
+  - mentor
+  - last-minute cancellation
+date: 2024-07-04T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1575389966063-548c5889d197?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1NDU3MzN8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Christopher Farrugia
+photographerUrl: 'https://unsplash.com/@chrisfarr_'
 ---
 
 # How to Write an Apology Letter to a Mentor for Last-Minute Cancellation

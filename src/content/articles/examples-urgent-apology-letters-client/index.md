@@ -1,11 +1,17 @@
 ---
-title: "Heartfelt Examples of Urgent Apology Letters to Clients"
-description: "Discover heartfelt examples and practical advice for writing an urgent apology letter to clients. Learn how to rebuild trust, heal your business relationships, and express genuine remorse with step-by-step guidance."
-tags: ["urgent", "client"]
-date: 2023-10-04
-image: "https://images.unsplash.com/photo-1661697522426-84b53a4ce613?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk5MTI1NjJ8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Jonny Gios"
-photographerUrl: "https://unsplash.com/@supergios"
+title: Heartfelt Examples of Urgent Apology Letters to Clients
+description: >-
+  Discover heartfelt examples and practical advice for writing an urgent apology
+  letter to clients. Learn how to rebuild trust, heal your business
+  relationships, and express genuine remorse with step-by-step guidance.
+tags:
+  - urgent
+  - client
+date: 2024-09-10T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1661697522426-84b53a4ce613?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk5MTI1NjJ8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Jonny Gios
+photographerUrl: 'https://unsplash.com/@supergios'
 ---
 
 # Heartfelt Examples of Urgent Apology Letters to Clients

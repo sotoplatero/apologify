@@ -1,11 +1,19 @@
 ---
-title: "Tips for Writing an Apology Letter in a Family Situation"
-description: "Learn practical advice and actionable steps to write an apology letter in a family situation. This guide covers how to rebuild trust, heal relationships, and deliver heartfelt apologies."
-tags: ["family situation", "apology letters", "how to apologize", "relationship advice"]
-date: 2023-10-02
-image: "https://images.unsplash.com/photo-1483546363825-7ebf25fb7513?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MjkzMzk4NjN8&ixlib=rb-4.0.3&q=80&w=1080"
-photographer: "Jan Kahánek"
-photographerUrl: "https://unsplash.com/@honza_kahanek"
+title: Tips for Writing an Apology Letter in a Family Situation
+description: >-
+  Learn practical advice and actionable steps to write an apology letter in a
+  family situation. This guide covers how to rebuild trust, heal relationships,
+  and deliver heartfelt apologies.
+tags:
+  - family situation
+  - apology letters
+  - how to apologize
+  - relationship advice
+date: 2024-09-02T01:20:01.692Z
+image: >-
+  https://images.unsplash.com/photo-1483546363825-7ebf25fb7513?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MjkzMzk4NjN8&ixlib=rb-4.0.3&q=80&w=1080
+photographer: Jan Kahánek
+photographerUrl: 'https://unsplash.com/@honza_kahanek'
 ---
 
 ## Introduction
