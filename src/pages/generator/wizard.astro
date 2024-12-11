@@ -4,9 +4,8 @@ import ApologyWizard from '../../components/ApologyWizard.svelte';
 
 // Obtener el initialType de la querystring
 const initialType = Astro.url.searchParams.get('initialType') || 'professional';
-console.log( Astro.url.searchParams);
 // Validar que sea uno de los tipos permitidos
-export const prerender = "false"
+export const prerender = false
 const validType = ['personal', 'professional'].includes(initialType) ? initialType : 'personal';
 ---
 
