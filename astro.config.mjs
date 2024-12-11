@@ -8,13 +8,12 @@ import svelte from '@astrojs/svelte';
 import preact from '@astrojs/preact';
 
 import vercel from '@astrojs/vercel';
-
-import auth from 'auth-astro';
-
+import db from '@astrojs/db';
 // https://astro.build/config
 export default defineConfig({
+  output: 'static',
   site: "https://apologify.com",
-  integrations: [tailwind(), sitemap(), svelte(), preact()],
+  integrations: [tailwind(), sitemap(), svelte(), preact(), db()],
   adapter: vercel({ 
     isr: true,
   }),
