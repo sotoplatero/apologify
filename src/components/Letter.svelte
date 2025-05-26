@@ -22,9 +22,9 @@
   }
 </script>
 
-<div class="card bg-base-100 shadow-xl max-w-2xl mx-auto">
+<div class="card bg-base-100 shadow max-w-2xl mx-auto">
   <div class="card-body relative">
-    <div class="absolute bottom-4 right-4 flex items-center gap-2">
+    <div class="absolute bottom-4 right-4 flex items-center gap-8">
       <CopyButton text={letter} />
     </div>
 

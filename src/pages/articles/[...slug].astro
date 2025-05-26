@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import UnsplashImage from '@/components/UnsplashImage.astro';
 import CallToAction from '@/components/CallToAction.astro';
+import CtaMini from '@/components/CtaMini.astro';
 import { insertRelatedLinksMarkdown } from '@/lib/insertRelatedLinksMarkdown';
 
 export async function getStaticPaths() {
@@ -58,16 +59,17 @@ const schema = {
   description={entry.data.description}
   schema={schema}
 >
-  <article class="prose prose-lg mx-auto mt-16">
-    {entry.data.date && (
-      <time datetime={entry.data?.date.toISOString()} class="text-gray-500">
+<article class="prose prose-xl mx-auto mt-16">
+  {entry.data.date && (
+    <time datetime={entry.data?.date.toISOString()} class="text-gray-500">
         {entry.data.date.toLocaleDateString()}
       </time>
     )}
 
-    <h1>{entry.data.title}</h1>
+<h1>{entry.data.title}</h1>
 
-    <UnsplashImage article={entry} />
+<UnsplashImage article={entry} />
+<CtaMini />
 
     <Content />
   </article>

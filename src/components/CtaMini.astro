@@ -1,0 +1,21 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { 
+  title = "Need to Apologize?",
+  description = "Generate a clear, custom apology letter in 2 minutes — no account needed."
+} = Astro.props;
+---
+
+<div class="not-prose bg-gray-50 border border-gray-200 rounded-md px-5 py-4 my-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+  <div>
+    <h2 class="text-base font-bold text-gray-900 mb-1">{title}</h2>
+    <p class="text-sm text-gray-600">{description}</p>
+  </div>
+  <a href="/generator" class="btn btn-outline btn-sm whitespace-nowrap">
+    Write Now →
+  </a>
+</div>

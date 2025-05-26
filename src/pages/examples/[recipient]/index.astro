@@ -42,7 +42,7 @@ function truncateText(text: string, maxLength: number): string {
         {allLetters.map((letter) => {
           const slug = getSlugFromId(letter.id);
           return (
-            <li class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <li class="bg-white shadow rounded overflow-hidden">
               <a href={`/examples/${recipient}/${slug}`} class="block p-6 hover:bg-gray-50">
                 <h2 class="text-xl font-semibold text-gray-900 mb-2">
                   {letter.data.context}
