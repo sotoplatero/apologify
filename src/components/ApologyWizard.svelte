@@ -63,6 +63,7 @@
   let textareaElement: HTMLTextAreaElement;
   let customRelationshipInput: HTMLInputElement;
   let customToneInput: HTMLInputElement;
+  let formElement: HTMLFormElement;
 
   // Inicializar letterType cuando initialType esté disponible
   $: if (initialType) {
@@ -171,36 +172,16 @@
     }
   }
 
-  async function handleSubmit() {
+  function handleSubmit() {
     if (!validateStep(currentStep)) {
       return;
     }
 
     loading = true;
     
-    try {
-      const formData = new FormData();
-      formData.append('relationship', relationship === 'other' ? customRelationship : relationship);
-      formData.append('context', context);
-      formData.append('tone', selectedTone === 'other' ? customTone : selectedTone);
-
-      const response = await fetch('/_actions/createLetter', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        // Redirigir a una página de resultado o mostrar la carta
-        window.location.href = `/generator/result?letter=${encodeURIComponent(result.letter)}`;
-      } else {
-        throw new Error('Failed to generate letter');
-      }
-    } catch (error) {
-      console.error('Error generating letter:', error);
-      loading = false;
-      // Mostrar error al usuario
-      alert('Sorry, there was an error generating your letter. Please try again.');
+    // Submit the form normally - Astro Actions will handle it
+    if (formElement) {
+      formElement.submit();
     }
   }
 
@@ -276,6 +257,13 @@
       </svg>
     </button>
   </div>
+
+  <!-- Formulario HTML para Astro Actions -->
+  <form bind:this={formElement} action="/_actions/createLetter" method="POST" style="display: none;">
+    <input type="hidden" name="relationship" value={relationship === 'other' ? customRelationship : relationship} />
+    <input type="hidden" name="context" value={context} />
+    <input type="hidden" name="tone" value={selectedTone === 'other' ? customTone : selectedTone} />
+  </form>
 
   <!-- Contenedor principal -->
   <div class="min-h-screen flex items-center justify-center p-6 pb-24">

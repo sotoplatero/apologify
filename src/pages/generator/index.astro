@@ -4,6 +4,7 @@ import Layout from '../../layouts/Layout.astro';
 import { actions } from 'astro:actions';
 import Letter from '../../components/Letter.svelte';
 import ApologyWizard from '../../components/ApologyWizard.svelte';
+import SimpleApologyForm from '../../components/SimpleApologyForm.astro';
 export const prerender = false
 
 const result = Astro.getActionResult(actions.createLetter);
@@ -26,15 +27,18 @@ const result = Astro.getActionResult(actions.createLetter);
       <h1 class="text-3xl font-bold mb-8 text-center">Your Generated Letter</h1>
 
       {result?.error ? (
-        <div class="alert alert-error">
-          <p>Error generating letter</p>
+        <div class="alert alert-error mb-8">
+          <div>
+            <h3 class="font-bold">Error generating letter</h3>
+            <p class="text-sm">An error occurred while generating your letter. Please try again.</p>
+          </div>
         </div>
-      ) : (
+      ) : result?.data ? (
         <Letter client:load letter={result.data.letter} />
-      )}
+      ) : null}
 
       <div class="text-center mt-8">
-        <a href="/generator/wizard" class="btn btn-primary">
+        <a href="/generator" class="btn btn-primary">
           Write Another Letter
         </a>
       </div>

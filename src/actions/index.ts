@@ -1,4 +1,4 @@
-import { defineAction } from 'astro:actions';
+import { defineAction, ActionError } from 'astro:actions';
 import { z } from 'astro:schema';
 import { callOpenAIChatCompletion } from '../lib/openai';
 
@@ -6,16 +6,21 @@ export const server = {
   createLetter: defineAction({
     accept: 'form',
     input: z.object({ 
-        relationship: z.string(),
-        context: z.string(),
-        tone: z.string(),
+        relationship: z.string().min(1, "Relationship is required"),
+        context: z.string().min(10, "Context must be at least 10 characters"),
+        tone: z.string().min(1, "Tone is required"),
      }),
     handler: async (input) => {
-        if (!input.relationship || !input.context || !input.tone) {
-            throw new Error('Missing required input fields');
+        try {
+            const letter = await generateLetter(input);
+            return { letter };
+        } catch (error) {
+            console.error('Error generating letter:', error);
+            throw new ActionError({
+                code: 'INTERNAL_SERVER_ERROR',
+                message: 'Failed to generate letter. Please try again.'
+            });
         }
-        const letter = await generateLetter(input);
-        return { letter };
     },
   })
 }
