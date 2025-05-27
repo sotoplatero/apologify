@@ -11,7 +11,7 @@ import preact from '@astrojs/preact';
 import vercel from '@astrojs/vercel';
 // https://astro.build/config
 export default defineConfig({
-  output: 'static',
+  output: 'server',
   site: "https://apologify.com",
   integrations: [db(), tailwind(), sitemap(), svelte(), preact()],
   adapter: vercel({ 

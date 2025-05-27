@@ -19,6 +19,10 @@ interface Props {
 const { recipient } = Astro.params;
 const { recipientLabel } = Astro.props;
 
+// Find the recipient label if not provided in props
+const recipientData = recipients.find(r => r.value === recipient);
+const finalRecipientLabel = recipientLabel || recipientData?.label || 'Unknown';
+
 const allLetters = await getCollection('letters', (entry) => entry.id.startsWith(`${recipient}/`));
 
 function getSlugFromId(id: string): string {
@@ -27,12 +31,12 @@ function getSlugFromId(id: string): string {
 }
 ---
 
-<Layout title={`Apology Letters for ${recipientLabel}`} description={`Example apology letters for ${recipientLabel}`}>
+<Layout title={`Apology Letters for ${finalRecipientLabel}`} description={`Example apology letters for ${finalRecipientLabel}`}>
   <main class="container mx-auto px-6 py-12">
     <!-- Header Section -->
     <div class="text-center space-y-4 mb-12">
-      <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight tracking-tight">Apology Letters for {recipientLabel}</h1>
-      <p class="text-xl text-gray-600">Browse apology letters specifically for {recipientLabel.toLowerCase()}</p>
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight tracking-tight">Apology Letters for {finalRecipientLabel}</h1>
+      <p class="text-xl text-gray-600">Browse apology letters specifically for {finalRecipientLabel?.toLowerCase()}</p>
     </div>
 
 

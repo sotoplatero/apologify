@@ -5,13 +5,14 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build --remote",
+    "build": "astro check && astro build",
+    "build:remote": "astro check && astro build --remote",
     "build:local": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "injest": "node ./injest.js",
     "db:push": "astro db push --remote",
-    "db:studio": "astro db studio"
+    "db:studio": "echo 'Astro Studio is deprecated. Use Turso CLI: turso db shell [database-name]'"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
