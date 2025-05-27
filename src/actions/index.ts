@@ -1,6 +1,6 @@
 import { defineAction, ActionError } from 'astro:actions';
 import { z } from 'astro:schema';
-import { callOpenAIChatCompletion } from '../lib/openai';
+import { callOpenAIChatCompletion } from '../lib/server/openai';
 
 export const server = {
   createLetter: defineAction({
