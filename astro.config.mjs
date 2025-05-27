@@ -10,9 +10,13 @@ import preact from '@astrojs/preact';
 import vercel from '@astrojs/vercel';
 // https://astro.build/config
 export default defineConfig({
-  output: 'server',
+  output: 'static',
   site: "https://apologify.com",
   integrations: [ tailwind(), sitemap(), svelte(), preact()],
-  adapter: vercel()
+  adapter: vercel({ 
+    isr: {
+      exclude: [ "/generator" ]
+    },
+  }),
 
 });
