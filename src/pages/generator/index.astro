@@ -37,7 +37,7 @@ function getErrorMessage(error: { code?: string; message?: string } | null) {
         <div class="alert alert-error mb-8">
           <div>
             <h3 class="font-bold">Error generating letter</h3>
-            <p class="text-sm">{getErrorMessage(result.error)}</p>
+            <p class="text-sm">{getErrorMessage((result as any)?.error)}</p>
           </div>
         </div>
       ) : result?.data ? (
