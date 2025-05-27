@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import LetterCard from '../../components/LetterCard.astro';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 
@@ -9,7 +10,7 @@ export async function getStaticPaths({ paginate }: { paginate: any }) {
     a.id.localeCompare(b.id)
   );
   
-  return paginate(allLetters, { pageSize: 10 });
+  return paginate(allLetters, { pageSize: 12 });
 }
 
 type Props = {
@@ -30,49 +31,76 @@ function getSlugFromId(id: string): string {
   const parts = id.split('/');
   return parts[parts.length - 1].replace('.json', '');
 }
-
-function truncateText(text: string, maxLength: number): string {
-  if (text.length <= maxLength) return text;
-  return text.slice(0, maxLength) + '...';
-}
 ---
 
 <Layout title="Apology Letter Examples" description="Browse our collection of apology letter examples">
-  <main class="max-w-screen-md mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold mb-8 text-center">Apology Letter Examples</h1>
-    
-    {page.data.length === 0 ? (
-      <p class="text-center text-gray-600">No example letters available yet. Check back soon!</p>
-    ) : (
-      <ul class="space-y-8">
-        {page.data.map((letter) => {
-          const slug = getSlugFromId(letter.id);
-          return (
-            <li class="bg-white overflow-hidden shadow-md rounded-lg">
-              <a href={`/examples/${letter.data.recipient}/${slug}`} class="block p-6 hover:bg-gray-50">
-                <h2 class="text-xl font-semibold text-gray-900 mb-2">
-                  Apology to {letter.data.recipient.charAt(0).toUpperCase() + letter.data.recipient.slice(1)}: {letter.data.context}
-                </h2>
-                <p class="text-sm text-gray-500 mb-2">Tone: {letter.data.tone}</p>
-                <p class="text-gray-700 italic">{truncateText(letter.data.letters[0], 150)}</p>
-                <p class="badge badge-outline text-gray-500 mt-2">{letter.data.letters.length} version{letter.data.letters.length !== 1 ? 's' : ''}</p>
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-    )}
+  <!-- Background aplicado globalmente -->
+  <main class="container mx-auto px-6 py-12">
+    <!-- Header Section -->
+    <div class="text-center space-y-4 mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight tracking-tight">Apology Letter Examples</h1>
+      <p class="text-xl text-gray-600">Browse our collection of professionally crafted apology letters</p>
+    </div>
 
+
+
+    <!-- Grid de Ejemplos -->
+    <div id="examples-container">
+      {page.data.length === 0 ? (
+        <div class="text-center py-12">
+          <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <p class="text-gray-600 text-lg">No example letters available yet. Check back soon!</p>
+        </div>
+      ) : (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="examples-grid">
+          {page.data.map((letter) => {
+            const slug = getSlugFromId(letter.id);
+            return <LetterCard letter={letter} slug={slug} />;
+          })}
+        </div>
+      )}
+    </div>
+
+    <!-- Mensaje cuando no hay resultados -->
+    <div id="no-results" class="hidden text-center py-12">
+      <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+      <h3 class="text-xl font-semibold text-gray-800 mb-2">No examples found</h3>
+      <p class="text-gray-600">Try adjusting your filters or clear them to see all examples</p>
+    </div>
+
+    <!-- Paginación -->
     {(page.url.prev || page.url.next) && (
-      <nav class="mt-8 flex justify-center items-center gap-4">
+      <nav class="mt-12 flex justify-center items-center gap-6">
         {page.url.prev ? (
-          <a href={page.url.prev} class="btn btn-primary">Previous</a>
+          <a href={page.url.prev} class="inline-flex items-center space-x-2 px-6 py-3 bg-white/80 backdrop-blur-sm text-gray-700 border-2 border-gray-300 rounded-xl hover:border-purple-300 hover:text-purple-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            <span>Previous</span>
+          </a>
         ) : <span></span>}
-        <span>{page.currentPage} of {page.lastPage}</span>
+        
+        <span class="px-4 py-2 bg-purple-100 text-purple-800 rounded-lg font-medium">
+          Page {page.currentPage} of {page.lastPage}
+        </span>
+        
         {page.url.next ? (
-          <a href={page.url.next} class="btn btn-primary">Next</a>
+          <a href={page.url.next} class="inline-flex items-center space-x-2 px-6 py-3 bg-white/80 backdrop-blur-sm text-gray-700 border-2 border-gray-300 rounded-xl hover:border-purple-300 hover:text-purple-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl">
+            <span>Next</span>
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
         ) : <span></span>}
       </nav>
     )}
   </main>
+
+
+
+
 </Layout>

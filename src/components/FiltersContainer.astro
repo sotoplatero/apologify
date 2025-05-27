@@ -1,0 +1,95 @@
+---
+import RecipientFilter from './RecipientFilter.astro';
+import TonesMultiSelect from './TonesMultiSelect.astro';
+
+interface Props {
+  recipients: string[];
+  tones: string[];
+  totalCount: number;
+}
+
+const { recipients, tones, totalCount } = Astro.props;
+---
+
+<div class="bg-white/80 backdrop-blur-sm shadow-lg rounded-2xl border-2 border-gray-200 p-6 mb-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <RecipientFilter recipients={recipients} />
+    <TonesMultiSelect tones={tones} />
+  </div>
+
+  <!-- Botones de acción -->
+  <div class="flex flex-col sm:flex-row gap-3 mt-6">
+    <button
+      id="clear-tone-filters"
+      class="px-6 py-2 text-gray-600 border-2 border-gray-300 rounded-xl hover:border-gray-400 transition-colors"
+    >
+      Clear Tone Filters
+    </button>
+    <div class="flex-1"></div>
+    <div id="results-count" class="flex items-center text-sm text-gray-600">
+      Showing <span id="visible-count">{totalCount}</span> of <span id="total-count">{totalCount}</span> examples
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const clearToneFiltersBtn = document.getElementById('clear-tone-filters');
+    const exampleCards = document.querySelectorAll('.example-card');
+    const noResults = document.getElementById('no-results') as HTMLElement;
+    const examplesGrid = document.getElementById('examples-grid') as HTMLElement;
+    const visibleCount = document.getElementById('visible-count') as HTMLElement;
+    const totalCount = document.getElementById('total-count') as HTMLElement;
+
+    if (!clearToneFiltersBtn || !noResults || !examplesGrid || !visibleCount || !totalCount) {
+      return;
+    }
+
+    // Función para filtrar ejemplos solo por tone
+    function filterByTones() {
+      const selectedTones = (window as any).getSelectedTones ? (window as any).getSelectedTones() : [];
+      
+      let visibleCards = 0;
+
+      exampleCards.forEach(card => {
+        if (!(card instanceof HTMLElement)) return;
+        
+        const tone = card.dataset.tone || '';
+        const matchesTone = selectedTones.length === 0 || selectedTones.includes(tone);
+
+        if (matchesTone) {
+          card.style.display = 'block';
+          visibleCards++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Actualizar contador
+      visibleCount.textContent = visibleCards.toString();
+
+      // Mostrar/ocultar mensaje de "no resultados"
+      if (visibleCards === 0) {
+        examplesGrid.style.display = 'none';
+        noResults.style.display = 'block';
+      } else {
+        examplesGrid.style.display = 'grid';
+        noResults.style.display = 'none';
+      }
+    }
+
+    // Escuchar cambios en los tonos
+    window.addEventListener('tonesChanged', filterByTones);
+
+    // Limpiar filtros de tone
+    clearToneFiltersBtn.addEventListener('click', function() {
+      if ((window as any).clearTonesFilter) {
+        (window as any).clearTonesFilter();
+      }
+      filterByTones();
+    });
+
+    // Inicializar contador total
+    totalCount.textContent = exampleCards.length.toString();
+  });
+</script> 

@@ -32,15 +32,25 @@ const steps = [
 ---
 
 <section class="mb-32">
-  <h2 class="text-4xl font-bold mb-16 text-center text-gray-800">How It Works</h2>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+  <div class="text-center space-y-4 mb-16">
+    <h2 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight tracking-tight">How It Works</h2>
+    <p class="text-xl text-gray-600">Create your perfect apology in just a few simple steps</p>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
     {steps.map((step, index) => (
-      <div class="flex flex-col items-center text-center bg-white rounded-lg transition-transform duration-300 hover:scale-105">
-        <div class="mb-6 bg-base-200 rounded-full p-4 w-24 h-24 flex items-center justify-center">
-          <Fragment set:html={step.icon} />
+      <div class="group flex flex-col items-center text-center bg-white/80 backdrop-blur-sm shadow-lg rounded-2xl p-8 border-2 border-gray-200 hover:border-purple-300 transition-all duration-300 hover:scale-105 hover:shadow-xl">
+        <div class="mb-6 bg-purple-100 rounded-full p-4 w-20 h-20 flex items-center justify-center group-hover:bg-purple-200 transition-colors duration-300">
+          <div class="text-purple-600">
+            <Fragment set:html={step.icon} />
+          </div>
         </div>
-        <h3 class="text-2xl font-semibold mb-4 text-gray-800">{index + 1}. {step.title}</h3>
-        <p class="text-gray-600 text-lg">{step.description}</p>
+        <div class="flex items-center justify-center mb-4">
+          <span class="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center text-sm font-bold mr-3">
+            {index + 1}
+          </span>
+          <h3 class="text-2xl font-semibold text-gray-800 group-hover:text-purple-700 transition-colors duration-300">{step.title}</h3>
+        </div>
+        <p class="text-gray-600 text-lg leading-relaxed">{step.description}</p>
       </div>
     ))}
   </div>

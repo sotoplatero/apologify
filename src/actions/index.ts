@@ -23,8 +23,19 @@ export const server = {
 async function generateLetter(input: { relationship: string, context: string, tone: string }) {
     const { relationship, context, tone } = input;
 
-    const systemPrompt = `You are an apology letter generator. You are given a relationship, context, and tone. You need to generate a letter for the recipient.`;
-    const userPrompt = `Write a apology letter without any headers or footers for the recipient ${relationship} using a tone that is ${tone} for the following context: ${context}.`;      
+    const systemPrompt = `You are a professional apology letter assistant. 
+    Your task is to craft emotionally appropriate, well-structured apology letters based on three inputs: the recipient relationship, the context of the apology, and the desired tone. 
+    Your goal is to help the user express their regret clearly and respectfully, in a natural and sincere way, suitable for direct sending.`;
+
+    const userPrompt = `Write a complete apology letter without headers, footers, or formatting tags. 
+    The recipient is a ${relationship}. The desired tone is ${tone}. 
+    The context for the apology is: ${context}.
+    
+    Make the letter concise but sincere. It should include:
+    - A clear acknowledgement of the mistake
+    - A sense of responsibility without over-explaining
+    - A short, respectful closing that invites resolution or understanding.`;    
+    
 
     const letter = await callOpenAIChatCompletion({ systemPrompt, userPrompt });
     

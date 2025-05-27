@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
+import db from '@astrojs/db';
 
 import sitemap from '@astrojs/sitemap';
 
@@ -12,7 +13,7 @@ import vercel from '@astrojs/vercel';
 export default defineConfig({
   output: 'static',
   site: "https://apologify.com",
-  integrations: [tailwind(), sitemap(), svelte(), preact()],
+  integrations: [db(), tailwind(), sitemap(), svelte(), preact()],
   adapter: vercel({ 
     isr: {
       exclude: [ "/generator", "/generator/wizard" ]
