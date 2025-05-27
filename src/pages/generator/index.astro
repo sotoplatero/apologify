@@ -4,25 +4,32 @@ import Layout from '../../layouts/Layout.astro';
 import { actions } from 'astro:actions';
 import Letter from '../../components/Letter.svelte';
 import ApologyWizard from '../../components/ApologyWizard.svelte';
-import SimpleApologyForm from '../../components/SimpleApologyForm.astro';
 export const prerender = false
 
 const result = Astro.getActionResult(actions.createLetter);
 
+// Helper function to get error message
+function getErrorMessage(error: { code?: string; message?: string } | null) {
+  if (!error) return 'An error occurred while generating your letter. Please try again.';
+  
+  switch (error.code) {
+    case 'TOO_MANY_REQUESTS':
+      return 'Too many requests. Please try again later.';
+    case 'INTERNAL_SERVER_ERROR':
+      return 'An error occurred while generating your letter. Please try again.';
+    default:
+      return error.message || 'An error occurred while generating your letter. Please try again.';
+  }
+}
+
 ---
 
+<Layout title="Apology Letter Generator">
   {!result?.data ? (
-    <WizardLayout 
-      title="Apology Letter Generator" 
-      description="Generate a personalized apology letter in just a few steps"
-    >
       <div class="w-full mx-auto py-16">
           <ApologyWizard client:load initialType="personal" />
       </div>
-    </WizardLayout> 
-
   ) : (
-    <Layout title="Apology Letter Generator">
     <div class="max-w-4xl mx-auto py-16">
       <h1 class="text-3xl font-bold mb-8 text-center">Your Generated Letter</h1>
 
@@ -30,7 +37,7 @@ const result = Astro.getActionResult(actions.createLetter);
         <div class="alert alert-error mb-8">
           <div>
             <h3 class="font-bold">Error generating letter</h3>
-            <p class="text-sm">An error occurred while generating your letter. Please try again.</p>
+            <p class="text-sm">{getErrorMessage(result.error)}</p>
           </div>
         </div>
       ) : result?.data ? (
@@ -43,5 +50,5 @@ const result = Astro.getActionResult(actions.createLetter);
         </a>
       </div>
     </div>
-    </Layout>
   )}
+</Layout>

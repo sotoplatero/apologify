@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { actions } from 'astro:actions';
   import { onMount } from 'svelte';
 
   type Recipient = {
@@ -79,9 +80,6 @@
       if (loading || isTransitioning) return;
 
       switch (e.key) {
-        case 'Escape':
-          handleClose();
-          break;
         case 'Enter':
           e.preventDefault();
           if (currentStep === 4 && document.activeElement === textareaElement) {
@@ -114,16 +112,6 @@
       window.removeEventListener('keydown', handleKeydown);
     };
   });
-
-  function handleClose() {
-    // Intentar regresar a la página anterior
-    if (window.history.length > 1) {
-      window.history.back();
-    } else {
-      // Si no hay página anterior, ir al home
-      window.location.href = '/';
-    }
-  }
 
   function validateStep(step: number): boolean {
     switch(step) {
@@ -233,7 +221,7 @@
 </script>
 
 <!-- Fondo con gradiente estilo Typeform -->
-<div class="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 relative overflow-hidden">
+<div class="" >
   
   <!-- Barra de progreso minimalista -->
   <div class="fixed top-0 left-0 right-0 z-50">
@@ -245,31 +233,28 @@
     </div>
   </div>
 
-  <!-- Botón de cerrar -->
-  <div class="fixed top-6 right-6 z-50">
-    <button 
-      on:click={handleClose}
-      aria-label="Close wizard"
-      class="w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
-    >
-      <svg class="w-5 h-5 text-gray-600 group-hover:text-gray-800 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    </button>
-  </div>
-
-  <!-- Formulario HTML para Astro Actions -->
-  <form bind:this={formElement} action="/_actions/createLetter" method="POST" style="display: none;">
-    <input type="hidden" name="relationship" value={relationship === 'other' ? customRelationship : relationship} />
-    <input type="hidden" name="context" value={context} />
-    <input type="hidden" name="tone" value={selectedTone === 'other' ? customTone : selectedTone} />
-  </form>
-
   <!-- Contenedor principal -->
-  <div class="min-h-screen flex items-center justify-center p-6 pb-24">
-    <div class="w-full max-w-2xl">
+  <div class="flex flex-col justify-center py-16">
+    <div class="w-full max-w-2xl mx-auto">
       
       <div id="write-letter">
+        
+        <!-- Loading State -->
+        {#if loading}
+          <div class="fixed inset-0 bg-white flex items-center justify-center z-50">
+            <div class="text-center space-y-8">
+              <div class="w-20 h-20 mx-auto">
+                <div class="animate-spin rounded-full h-20 w-20 border-4 border-purple-200 border-t-purple-600"></div>
+              </div>
+              <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight tracking-tight">
+                Creating your letter...
+              </h1>
+              <p class="text-xl text-gray-600">
+                This will just take a moment
+              </p>
+            </div>
+          </div>
+        {:else}
         
         <!-- Step 1: Letter Type -->
         {#if currentStep === 1}
@@ -449,78 +434,68 @@
           </div>
         {/if}
 
-        <!-- Loading State -->
-        {#if loading}
-          <div class="text-center space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div class="space-y-6">
-              <div class="w-20 h-20 mx-auto">
-                <div class="animate-spin rounded-full h-20 w-20 border-4 border-purple-200 border-t-purple-600"></div>
-              </div>
-              <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight tracking-tight">
-                Creating your letter...
-              </h1>
-              <p class="text-xl text-gray-600">
-                This will just take a moment
-              </p>
-            </div>
+        <!-- Botones de navegación al final del contenido -->
+        <div class="mt-16 pt-8 ">
+          <div class="flex justify-between items-center">
+            <!-- Botón Previous -->
+            <button 
+              type="button" 
+              on:click={handlePrevious}
+              disabled={currentStep === 1}
+              class="flex items-center space-x-2 px-6 py-3 text-gray-600 hover:text-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+              <span class="font-medium">Previous</span>
+            </button>
+
+            <!-- Indicador de paso -->
+            <!-- <div class="flex items-center space-x-2">
+              <span class="text-sm text-gray-500">{currentStep} of {totalSteps}</span>
+            </div> -->
+
+            <!-- Botón Next/Submit -->
+            {#if currentStep === totalSteps}
+              <button 
+                type="button" 
+                on:click={handleSubmit}
+                disabled={!validateStep(currentStep)}
+                class="flex items-center space-x-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+              >
+                <span>Generate Letter</span>
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </button>
+            {:else}
+              <button 
+                type="button" 
+                on:click={handleNext}
+                disabled={!validateStep(currentStep)}
+                class="flex items-center space-x-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+              >
+                <span>Next</span>
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            {/if}
           </div>
-        {/if}
-
-      </div>
-    </div>
-  </div>
-
-  <!-- Botones de navegación en la parte inferior -->
-  {#if !loading}
-    <div class="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-sm border-t border-gray-200 p-6">
-      <div class="max-w-2xl mx-auto flex justify-between items-center">
-        <!-- Botón Previous -->
-        <button 
-          type="button" 
-          on:click={handlePrevious}
-          disabled={currentStep === 1}
-          class="flex items-center space-x-2 px-6 py-3 text-gray-600 hover:text-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          <span class="font-medium">Previous</span>
-        </button>
-
-        <!-- Indicador de paso -->
-        <div class="flex items-center space-x-2">
-          <span class="text-sm text-gray-500">{currentStep} of {totalSteps}</span>
         </div>
 
-        <!-- Botón Next/Submit -->
-        {#if currentStep === totalSteps}
-          <button 
-            type="button" 
-            on:click={handleSubmit}
-            disabled={!validateStep(currentStep)}
-            class="flex items-center space-x-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
-          >
-            <span>Generate Letter</span>
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </button>
-        {:else}
-          <button 
-            type="button" 
-            on:click={handleNext}
-            disabled={!validateStep(currentStep)}
-            class="flex items-center space-x-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
-          >
-            <span>Next</span>
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
         {/if}
+
       </div>
+
+      <!-- Formulario HTML para Astro Actions -->
+      <form bind:this={formElement} action={actions.createLetter} method="POST" style="display: none;">
+        <input type="hidden" name="relationship" value={relationship === 'other' ? customRelationship : relationship} />
+        <input type="hidden" name="context" value={context} />
+        <input type="hidden" name="tone" value={selectedTone === 'other' ? customTone : selectedTone} />
+      </form>
     </div>
-  {/if}
+  </div>
 </div>
 
 <style>

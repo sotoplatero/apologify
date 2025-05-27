@@ -6,19 +6,30 @@ export const server = {
   createLetter: defineAction({
     accept: 'form',
     input: z.object({ 
-        relationship: z.string().min(1, "Relationship is required"),
-        context: z.string().min(10, "Context must be at least 10 characters"),
-        tone: z.string().min(1, "Tone is required"),
+        relationship: z.string()
+          .min(1, "Relationship is required")
+          .max(100, "Relationship is too long"),
+        context: z.string()
+          .min(10, "Context must be at least 10 characters")
+          .max(1000, "Context is too long"),
+        tone: z.string()
+          .min(1, "Tone is required")
+          .max(50, "Tone is too long"),
      }),
     handler: async (input) => {
         try {
             const letter = await generateLetter(input);
+            if (!letter) {
+                throw new ActionError({
+                    code: 'INTERNAL_SERVER_ERROR',
+                    message: 'Failed to generate letter content'
+                });
+            }
             return { letter };
         } catch (error) {
-            console.error('Error generating letter:', error);
             throw new ActionError({
                 code: 'INTERNAL_SERVER_ERROR',
-                message: 'Failed to generate letter. Please try again.'
+                message: error instanceof Error ? error.message : 'Failed to generate letter. Please try again.'
             });
         }
     },
@@ -40,10 +51,8 @@ async function generateLetter(input: { relationship: string, context: string, to
     - A clear acknowledgement of the mistake
     - A sense of responsibility without over-explaining
     - A short, respectful closing that invites resolution or understanding.`;    
-    
 
     const letter = await callOpenAIChatCompletion({ systemPrompt, userPrompt });
-    
     return letter;
 }
 

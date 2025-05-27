@@ -7,8 +7,11 @@ const openai = new OpenAI({
   apiKey: apiKey,
 });
 
-export async function callOpenAIChatCompletion({ systemPrompt, userPrompt}) {
-  
+export async function callOpenAIChatCompletion({ systemPrompt, userPrompt }) {
+  const apiKey = import.meta.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    throw new Error('OpenAI API key is not configured');
+  }
  
   try {
     const completion = await openai.chat.completions.create({
