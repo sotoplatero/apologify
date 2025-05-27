@@ -10,34 +10,34 @@ const result = Astro.getActionResult(actions.createLetter);
 
 ---
 
-{!result?.data ? (
-<WizardLayout 
-  title="Apology Letter Generator" 
-  description="Generate a personalized apology letter in just a few steps"
->
-  <div class="w-full mx-auto">
-      <ApologyWizard client:load />
-  </div>
-</WizardLayout> 
-
-    ) : (
-      <Layout title="Apology Letter Generator">
-      <div class="max-w-4xl mx-auto">
-        <h1 class="text-3xl font-bold mb-8 text-center">Your Generated Letter</h1>
-
-        {result?.error ? (
-          <div class="alert alert-error">
-            <p>Error generating letter</p>
-          </div>
-        ) : (
-          <Letter client:load letter={result.data.letter} />
-        )}
-
-        <div class="text-center mt-8">
-          <a href="/generator/wizard" class="btn btn-primary">
-            Write Another Letter
-          </a>
-        </div>
+  {!result?.data ? (
+    <WizardLayout 
+      title="Apology Letter Generator" 
+      description="Generate a personalized apology letter in just a few steps"
+    >
+      <div class="w-full mx-auto py-16">
+          <ApologyWizard client:load initialType="personal" />
       </div>
-      </Layout>
-    )}
+    </WizardLayout> 
+
+  ) : (
+    <Layout title="Apology Letter Generator">
+    <div class="max-w-4xl mx-auto py-16">
+      <h1 class="text-3xl font-bold mb-8 text-center">Your Generated Letter</h1>
+
+      {result?.error ? (
+        <div class="alert alert-error">
+          <p>Error generating letter</p>
+        </div>
+      ) : (
+        <Letter client:load letter={result.data.letter} />
+      )}
+
+      <div class="text-center mt-8">
+        <a href="/generator/wizard" class="btn btn-primary">
+          Write Another Letter
+        </a>
+      </div>
+    </div>
+    </Layout>
+  )}

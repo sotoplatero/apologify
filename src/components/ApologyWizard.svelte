@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { actions } from 'astro:actions';
   import { onMount } from 'svelte';
 
   type Recipient = {
@@ -32,7 +31,7 @@
     { value: 'other', label: 'Other'}
   ];
 
-  const professionalRecipients = [
+  const professionalRecipients: Recipient[] = [
     { value: 'manager', label: 'Manager' },
     { value: 'supervisor', label: 'Supervisor' },
     { value: 'partner', label: 'Business Partner' },
@@ -46,15 +45,15 @@
 
   const placeholder = `Describe the situation that requires an apology...`;
 
-  export let initialType: 'personal' | 'professional';
+  export let initialType: 'personal' | 'professional' = 'personal';
 
   let currentStep = 1;
   const totalSteps = 4;
   
-  let letterType = initialType;
+  let letterType: 'personal' | 'professional' = 'personal';
   let relationship = '';
   let customRelationship = '';
-  let selectedTone = tones[0].value;
+  let selectedTone = tones[0]?.value || 'formal';
   let customTone = '';
   let context = '';
   let loading = false;
@@ -65,25 +64,15 @@
   let customRelationshipInput: HTMLInputElement;
   let customToneInput: HTMLInputElement;
 
-
-
-  $: {
-    if (initialType) {
-      letterType = initialType;
-    }
+  // Inicializar letterType cuando initialType esté disponible
+  $: if (initialType) {
+    letterType = initialType;
   }
-
-
 
   $: progressWidth = `${(currentStep / totalSteps) * 100}%`;
   $: availableRecipients = letterType === 'personal' ? personalRecipients : professionalRecipients;
 
   onMount(() => {
-    // Si no hay relationship seleccionado, no auto-seleccionar
-    // if (availableRecipients.length > 0 && !relationship) {
-    //   relationship = availableRecipients[0].value;
-    // }
-
     // Manejadores de teclado estilo Typeform
     const handleKeydown = (e: KeyboardEvent) => {
       if (loading || isTransitioning) return;
@@ -188,7 +177,31 @@
     }
 
     loading = true;
-    // Aquí iría la lógica de envío del formulario
+    
+    try {
+      const formData = new FormData();
+      formData.append('relationship', relationship === 'other' ? customRelationship : relationship);
+      formData.append('context', context);
+      formData.append('tone', selectedTone === 'other' ? customTone : selectedTone);
+
+      const response = await fetch('/_actions/createLetter', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        // Redirigir a una página de resultado o mostrar la carta
+        window.location.href = `/generator/result?letter=${encodeURIComponent(result.letter)}`;
+      } else {
+        throw new Error('Failed to generate letter');
+      }
+    } catch (error) {
+      console.error('Error generating letter:', error);
+      loading = false;
+      // Mostrar error al usuario
+      alert('Sorry, there was an error generating your letter. Please try again.');
+    }
   }
 
   function selectOption(value: string, field: 'letterType' | 'relationship' | 'tone') {
@@ -255,6 +268,7 @@
   <div class="fixed top-6 right-6 z-50">
     <button 
       on:click={handleClose}
+      aria-label="Close wizard"
       class="w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
     >
       <svg class="w-5 h-5 text-gray-600 group-hover:text-gray-800 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -267,7 +281,7 @@
   <div class="min-h-screen flex items-center justify-center p-6 pb-24">
     <div class="w-full max-w-2xl">
       
-      <form action={'/generator' + actions.createLetter} id="write-letter" method="POST">
+      <div id="write-letter">
         
         <!-- Step 1: Letter Type -->
         {#if currentStep === 1}
@@ -464,11 +478,7 @@
           </div>
         {/if}
 
-        <!-- Hidden inputs for form submission -->
-        <input type="hidden" name="letterType" value={letterType} />
-        <input type="hidden" name="relationship" value={relationship === 'other' ? customRelationship : relationship} />
-        <input type="hidden" name="tone" value={selectedTone === 'other' ? customTone : selectedTone} />
-      </form>
+      </div>
     </div>
   </div>
 
@@ -497,8 +507,8 @@
         <!-- Botón Next/Submit -->
         {#if currentStep === totalSteps}
           <button 
-            type="submit" 
-            form="write-letter"
+            type="button" 
+            on:click={handleSubmit}
             disabled={!validateStep(currentStep)}
             class="flex items-center space-x-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
           >
@@ -538,9 +548,5 @@
   
   .animate-in {
     animation: fade-in 0.5s ease-out, slide-in-from-bottom-4 0.5s ease-out;
-  }
-
-  kbd {
-    font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
   }
 </style> 
