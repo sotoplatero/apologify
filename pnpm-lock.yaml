@@ -45,7 +45,7 @@ importers:
         specifier: ^5.1.5
         version: 5.1.5(react@18.3.1)(typescript@5.8.3)
       astro:
-        specifier: ^5.8.0
+        specifier: ^5.0.0
         version: 5.8.0(@types/node@22.15.21)(jiti@1.21.7)(rollup@4.41.1)(typescript@5.8.3)(yaml@2.8.0)
       auth-astro:
         specifier: ^4.2.0
