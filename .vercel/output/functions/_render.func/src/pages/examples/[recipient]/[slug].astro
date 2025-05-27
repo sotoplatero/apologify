@@ -1,0 +1,48 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import { recipients } from '../../../lib/apologyData';
+import Letter from '@/components/Letter.svelte';
+import CallToAction from '@/components/CallToAction.astro';
+
+const { recipient, slug } = Astro.params;
+
+// In server mode, we need to fetch the letter dynamically
+const allLetters = await getCollection('letters');
+const letter = allLetters.find(l => {
+  const pathParts = l.id.split('/');
+  const letterSlug = pathParts[pathParts.length - 1].replace('.json', '');
+  const letterRecipient = pathParts[0];
+  return letterRecipient === recipient && letterSlug === slug;
+});
+
+// Handle case where letter might be undefined
+if (!letter) {
+  return Astro.redirect('/404');
+}
+
+const recipientLabel = recipients.find(r => r.value === recipient)?.label || recipient;
+---
+
+<Layout title={`Apology Letters to ${recipientLabel}`} description={`Example apology letters to ${recipientLabel}. ${letter.data?.context || ''}`}>
+  <main class="max-w-screen-md mx-auto px-4  py-8">
+    <h1 class="text-4xl font-bold mb-4 text-center">Apology Letters to {recipientLabel}. <br /> {letter.data?.context || 'Example Letter'}</h1>
+    <!-- <p class="text-center text-gray-600 mb-8">Context: {letter.data.context}</p> -->
+
+    <div class="flex flex-col gap-8">
+      {letter.data?.letters?.map((letterText: string, index: number) => (
+        <Letter letter={letterText} client:load />
+      )) || <p class="text-center text-gray-600">No letters available for this example.</p>}
+    </div>
+
+    <div class="my-16 flex justify-center">
+      <a href={`/examples/${recipient}`} class="btn btn-outline capitalize">
+        {recipientLabel} Letters
+      </a>
+    </div>
+
+    <CallToAction />
+
+  </main>
+</Layout>

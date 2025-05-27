@@ -5,6 +5,8 @@ import { recipients } from '../../../lib/apologyData';
 import LetterCard from '../../../components/LetterCard.astro';
 import type { CollectionEntry } from 'astro:content';
 
+export const prerender = true;
+
 export async function getStaticPaths() {
   return recipients.map(recipient => ({
     params: { recipient: recipient.value },

@@ -4,6 +4,8 @@ import LetterCard from '../../components/LetterCard.astro';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 
+export const prerender = true;
+
 export async function getStaticPaths({ paginate }: { paginate: any }) {
   const allLetters = await getCollection('letters');
   allLetters.sort((a: CollectionEntry<'letters'>, b: CollectionEntry<'letters'>) => 

@@ -5,15 +5,45 @@ import Layout from '@/layouts/Layout.astro';
 import type { GetStaticPathsOptions, Page, PaginateFunction } from 'astro';
 import type { CollectionEntry } from 'astro:content';
 
+export const prerender = true;
+
 export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
-  const articles = await getCollection('articles');
-  const sortedArticles = articles.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-  
-  return paginate(sortedArticles, { pageSize: 10 });
+  try {
+    const articles = await getCollection('articles');
+    
+    if (!articles || articles.length === 0) {
+      console.warn('No articles found in collection');
+      return paginate([], { pageSize: 10 });
+    }
+    
+    // Filter out articles with invalid dates and sort
+    const validArticles = articles.filter(article => {
+      if (!article.data || !article.data.date) {
+        console.warn(`Article ${article.slug} has no date`);
+        return false;
+      }
+      return true;
+    });
+    
+    const sortedArticles = validArticles.sort((a, b) => {
+      const dateA = new Date(a.data.date);
+      const dateB = new Date(b.data.date);
+      return dateB.getTime() - dateA.getTime();
+    });
+    
+    return paginate(sortedArticles, { pageSize: 10 });
+  } catch (error) {
+    console.error('Error in getStaticPaths:', error);
+    return paginate([], { pageSize: 10 });
+  }
 }
 
-
 const { page } = Astro.props;
+
+// Add safety check for page prop
+if (!page) {
+  throw new Error('Page prop is undefined. Check getStaticPaths function.');
+}
 ---
 
 <Layout title="Apology Articles" description="Browse our collection of apology articles">
@@ -23,8 +53,8 @@ const { page } = Astro.props;
 
     <ul class="space-y-12">
 
-      {page.data.map((article) => (
-        <li class="bg-white overflow-hidden">
+      {page.data && page.data.length > 0 ? page.data.map((article) => (
+        <li class="overflow-hidden">
           <article class="prose prose-lg mx-auto">
 
             {article.data.image && (
@@ -46,7 +76,11 @@ const { page } = Astro.props;
 
           </article>
         </li>
-      ))}
+      )) : (
+        <li class="text-center text-gray-500">
+          <p>No articles found.</p>
+        </li>
+      )}
     </ul>
 
     <nav class="mt-8 flex justify-between">

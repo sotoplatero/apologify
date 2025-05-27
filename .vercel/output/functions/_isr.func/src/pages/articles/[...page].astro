@@ -1,0 +1,98 @@
+---
+import { getCollection } from 'astro:content';
+import UnsplashImage from '@/components/UnsplashImage.astro';
+import Layout from '@/layouts/Layout.astro';
+import type { GetStaticPathsOptions, Page, PaginateFunction } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
+  try {
+    const articles = await getCollection('articles');
+    
+    if (!articles || articles.length === 0) {
+      console.warn('No articles found in collection');
+      return [];
+    }
+    
+    // Filter out articles with invalid dates and sort
+    const validArticles = articles.filter(article => {
+      if (!article.data || !article.data.date) {
+        console.warn(`Article ${article.slug} has no date`);
+        return false;
+      }
+      return true;
+    });
+    
+    const sortedArticles = validArticles.sort((a, b) => {
+      const dateA = new Date(a.data.date);
+      const dateB = new Date(b.data.date);
+      return dateB.getTime() - dateA.getTime();
+    });
+    
+    return paginate(sortedArticles, { pageSize: 10 });
+  } catch (error) {
+    console.error('Error in getStaticPaths:', error);
+    return [];
+  }
+}
+
+const { page } = Astro.props;
+
+// Add safety check for page prop
+if (!page) {
+  throw new Error('Page prop is undefined. Check getStaticPaths function.');
+}
+---
+
+<Layout title="Apology Articles" description="Browse our collection of apology articles">
+  <main class="w-full max-w-screen-md mx-auto mt-16">
+    
+    <h1 class="text-4xl font-bold mb-8 text-center">Apology Letter Articles</h1>
+
+    <ul class="space-y-12">
+
+      {page.data && page.data.length > 0 ? page.data.map((article) => (
+        <li class="bg-white overflow-hidden">
+          <article class="prose prose-lg mx-auto">
+
+            {article.data.image && (
+                <UnsplashImage article={article} />
+            )}
+            {article.data?.date && (
+              <time datetime={article.data.date?.toISOString()} class="text-sm text-gray-500">
+                {article.data.date?.toLocaleDateString()}
+              </time>
+            )}
+            
+            <h2 class="mt-0 mb-2">
+              <a href={`/articles/${article.slug}`} class="text-link">
+                {article.data.title}
+              </a>
+            </h2>
+
+            <p class="text-gray-600 mb-4">{article.data.description}</p>
+
+          </article>
+        </li>
+      )) : (
+        <li class="text-center text-gray-500">
+          <p>No articles found.</p>
+        </li>
+      )}
+    </ul>
+
+    <nav class="mt-8 flex justify-between">
+      {page.url.prev ? (
+        <a href={page.url.prev} class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          &larr; Artículos anteriores
+        </a>
+      ) : <span></span>}
+      
+      {page.url.next ? (
+        <a href={page.url.next} class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          Artículos siguientes &rarr;
+        </a>
+      ) : <span></span>}
+    </nav>
+  </main>
+</Layout>

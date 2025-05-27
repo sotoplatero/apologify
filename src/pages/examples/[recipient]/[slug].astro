@@ -6,20 +6,32 @@ import { recipients } from '../../../lib/apologyData';
 import Letter from '@/components/Letter.svelte';
 import CallToAction from '@/components/CallToAction.astro';
 
-const { recipient, slug } = Astro.params;
+export const prerender = true;
 
-// In server mode, we need to fetch the letter dynamically
-const allLetters = await getCollection('letters');
-const letter = allLetters.find(l => {
-  const pathParts = l.id.split('/');
-  const letterSlug = pathParts[pathParts.length - 1].replace('.json', '');
-  const letterRecipient = pathParts[0];
-  return letterRecipient === recipient && letterSlug === slug;
-});
+export async function getStaticPaths() {
+  const allLetters = await getCollection('letters');
+  
+  return allLetters.map(letter => {
+    const pathParts = letter.id.split('/');
+    const letterSlug = pathParts[pathParts.length - 1].replace('.json', '');
+    const letterRecipient = pathParts[0];
+    
+    return {
+      params: { 
+        recipient: letterRecipient, 
+        slug: letterSlug 
+      },
+      props: { letter }
+    };
+  });
+}
+
+const { recipient, slug } = Astro.params;
+const { letter } = Astro.props;
 
 // Handle case where letter might be undefined
 if (!letter) {
-  return Astro.redirect('/404');
+  throw new Error('Letter prop is undefined. Check getStaticPaths function.');
 }
 
 const recipientLabel = recipients.find(r => r.value === recipient)?.label || recipient;

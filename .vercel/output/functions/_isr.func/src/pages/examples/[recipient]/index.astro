@@ -1,0 +1,80 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { recipients } from '../../../lib/apologyData';
+import LetterCard from '../../../components/LetterCard.astro';
+import type { CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  return recipients.map(recipient => ({
+    params: { recipient: recipient.value },
+    props: { recipientLabel: recipient.label }
+  }));
+}
+
+interface Props {
+  recipientLabel: string;
+}
+
+const { recipient } = Astro.params;
+const { recipientLabel } = Astro.props;
+
+// Find the recipient label if not provided in props
+const recipientData = recipients.find(r => r.value === recipient);
+const finalRecipientLabel = recipientLabel || recipientData?.label || 'Unknown';
+
+const allLetters = await getCollection('letters', (entry) => entry.id.startsWith(`${recipient}/`));
+
+function getSlugFromId(id: string): string {
+  const parts = id.split('/');
+  return parts[parts.length - 1].replace('.json', '');
+}
+---
+
+<Layout title={`Apology Letters for ${finalRecipientLabel}`} description={`Example apology letters for ${finalRecipientLabel}`}>
+  <main class="container mx-auto px-6 py-12">
+    <!-- Header Section -->
+    <div class="text-center space-y-4 mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight tracking-tight">Apology Letters for {finalRecipientLabel}</h1>
+      <p class="text-xl text-gray-600">Browse apology letters specifically for {finalRecipientLabel?.toLowerCase()}</p>
+    </div>
+
+
+
+    <!-- Grid de Ejemplos -->
+    <div id="examples-container">
+      {allLetters.length === 0 ? (
+        <div class="text-center py-12">
+          <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <p class="text-gray-600 text-lg">No apology letters found for this recipient.</p>
+        </div>
+      ) : (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="examples-grid">
+          {allLetters.map((letter) => {
+            const slug = getSlugFromId(letter.id);
+            return <LetterCard letter={letter} slug={slug} />;
+          })}
+        </div>
+      )}
+    </div>
+
+
+
+    <!-- Navegación -->
+    <div class="mt-12 text-center">
+      <a href="/examples" class="inline-flex items-center space-x-2 px-6 py-3 bg-white/80 backdrop-blur-sm text-gray-700 border-2 border-gray-300 rounded-xl hover:border-purple-300 hover:text-purple-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        <span>Back to All Examples</span>
+      </a>
+    </div>
+  </main>
+
+
+
+
+</Layout>
+
