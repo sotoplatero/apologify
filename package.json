@@ -12,7 +12,7 @@
     "astro": "astro",
     "injest": "node ./injest.js",
     "db:push": "astro db push --remote",
-    "db:studio": "echo 'Astro Studio is deprecated. Use Turso CLI: turso db shell [database-name]'"
+    "db:pull": "astro db pull --remote"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

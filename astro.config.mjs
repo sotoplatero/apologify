@@ -15,7 +15,7 @@ export default defineConfig({
   integrations: [ tailwind(), sitemap(), svelte(), preact()],
   adapter: vercel({ 
     isr: {
-      exclude: [ "/generator", "/generator/wizard" ]
+      exclude: [ "/generator" ]
     },
   }),
 });
