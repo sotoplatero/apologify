@@ -3,7 +3,7 @@ import { a as createComponent, m as maybeRenderHead, r as renderTemplate, d as r
 import { $ as $$Layout } from '../chunks/Layout_Cn7SE8F0.mjs';
 /* empty css                                 */
 import { $ as $$CallToAction } from '../chunks/CallToAction_B5EKILy2.mjs';
-import { g as getCollection } from '../chunks/_astro_content_BDmLRPwN.mjs';
+import { g as getCollection } from '../chunks/_astro_content_BDkMadTn.mjs';
 export { r as renderers } from '../chunks/_@astro-renderers_DSKGcwIg.mjs';
 
 const $$Hero = createComponent(($$result, $$props, $$slots) => {

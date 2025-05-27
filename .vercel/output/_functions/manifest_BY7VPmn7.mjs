@@ -1,0 +1,99 @@
+import { f as decodeKey } from './chunks/astro/server_Cb_NEMlC.mjs';
+import './chunks/astro-designed-error-pages_DtOWuDm2.mjs';
+import { N as NOOP_MIDDLEWARE_FN } from './chunks/noop-middleware_De2WKX6j.mjs';
+
+function sanitizeParams(params) {
+  return Object.fromEntries(
+    Object.entries(params).map(([key, value]) => {
+      if (typeof value === "string") {
+        return [key, value.normalize().replace(/#/g, "%23").replace(/\?/g, "%3F")];
+      }
+      return [key, value];
+    })
+  );
+}
+function getParameter(part, params) {
+  if (part.spread) {
+    return params[part.content.slice(3)] || "";
+  }
+  if (part.dynamic) {
+    if (!params[part.content]) {
+      throw new TypeError(`Missing parameter: ${part.content}`);
+    }
+    return params[part.content];
+  }
+  return part.content.normalize().replace(/\?/g, "%3F").replace(/#/g, "%23").replace(/%5B/g, "[").replace(/%5D/g, "]");
+}
+function getSegment(segment, params) {
+  const segmentPath = segment.map((part) => getParameter(part, params)).join("");
+  return segmentPath ? "/" + segmentPath : "";
+}
+function getRouteGenerator(segments, addTrailingSlash) {
+  return (params) => {
+    const sanitizedParams = sanitizeParams(params);
+    let trailing = "";
+    if (addTrailingSlash === "always" && segments.length) {
+      trailing = "/";
+    }
+    const path = segments.map((segment) => getSegment(segment, sanitizedParams)).join("") + trailing;
+    return path || "/";
+  };
+}
+
+function deserializeRouteData(rawRouteData) {
+  return {
+    route: rawRouteData.route,
+    type: rawRouteData.type,
+    pattern: new RegExp(rawRouteData.pattern),
+    params: rawRouteData.params,
+    component: rawRouteData.component,
+    generate: getRouteGenerator(rawRouteData.segments, rawRouteData._meta.trailingSlash),
+    pathname: rawRouteData.pathname || void 0,
+    segments: rawRouteData.segments,
+    prerender: rawRouteData.prerender,
+    redirect: rawRouteData.redirect,
+    redirectRoute: rawRouteData.redirectRoute ? deserializeRouteData(rawRouteData.redirectRoute) : void 0,
+    fallbackRoutes: rawRouteData.fallbackRoutes.map((fallback) => {
+      return deserializeRouteData(fallback);
+    }),
+    isIndex: rawRouteData.isIndex,
+    origin: rawRouteData.origin
+  };
+}
+
+function deserializeManifest(serializedManifest) {
+  const routes = [];
+  for (const serializedRoute of serializedManifest.routes) {
+    routes.push({
+      ...serializedRoute,
+      routeData: deserializeRouteData(serializedRoute.routeData)
+    });
+    const route = serializedRoute;
+    route.routeData = deserializeRouteData(serializedRoute.routeData);
+  }
+  const assets = new Set(serializedManifest.assets);
+  const componentMetadata = new Map(serializedManifest.componentMetadata);
+  const inlinedScripts = new Map(serializedManifest.inlinedScripts);
+  const clientDirectives = new Map(serializedManifest.clientDirectives);
+  const serverIslandNameMap = new Map(serializedManifest.serverIslandNameMap);
+  const key = decodeKey(serializedManifest.key);
+  return {
+    // in case user middleware exists, this no-op middleware will be reassigned (see plugin-ssr.ts)
+    middleware() {
+      return { onRequest: NOOP_MIDDLEWARE_FN };
+    },
+    ...serializedManifest,
+    assets,
+    componentMetadata,
+    inlinedScripts,
+    clientDirectives,
+    routes,
+    serverIslandNameMap,
+    key
+  };
+}
+
+const manifest = deserializeManifest({"hrefRoot":"file:///C:/Users/pc02/projects/apologify.com/","cacheDir":"file:///C:/Users/pc02/projects/apologify.com/node_modules/.astro/","outDir":"file:///C:/Users/pc02/projects/apologify.com/dist/","srcDir":"file:///C:/Users/pc02/projects/apologify.com/src/","publicDir":"file:///C:/Users/pc02/projects/apologify.com/public/","buildClientDir":"file:///C:/Users/pc02/projects/apologify.com/dist/client/","buildServerDir":"file:///C:/Users/pc02/projects/apologify.com/dist/server/","adapterName":"@astrojs/vercel","routes":[{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"type":"page","component":"_server-islands.astro","params":["name"],"segments":[[{"content":"_server-islands","dynamic":false,"spread":false}],[{"content":"name","dynamic":true,"spread":false}]],"pattern":"^\\/_server-islands\\/([^/]+?)\\/?$","prerender":false,"isIndex":false,"fallbackRoutes":[],"route":"/_server-islands/[name]","origin":"internal","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"type":"endpoint","isIndex":false,"route":"/_image","pattern":"^\\/_image\\/?$","segments":[[{"content":"_image","dynamic":false,"spread":false}]],"params":[],"component":"node_modules/.pnpm/astro@5.8.0_@types+node@22._488da0f7fe1db44f83d148c27853ce31/node_modules/astro/dist/assets/endpoint/generic.js","pathname":"/_image","prerender":false,"fallbackRoutes":[],"origin":"internal","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"type":"endpoint","isIndex":false,"route":"/_actions/[...path]","pattern":"^\\/_actions(?:\\/(.*?))?\\/?$","segments":[[{"content":"_actions","dynamic":false,"spread":false}],[{"content":"...path","dynamic":true,"spread":true}]],"params":["...path"],"component":"node_modules/.pnpm/astro@5.8.0_@types+node@22._488da0f7fe1db44f83d148c27853ce31/node_modules/astro/dist/actions/runtime/route.js","prerender":false,"fallbackRoutes":[],"distURL":[],"origin":"internal","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[{"type":"external","src":"/_astro/about.CwUalx8j.css"}],"routeData":{"route":"/404","isIndex":false,"type":"page","pattern":"^\\/404\\/?$","segments":[[{"content":"404","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/404.astro","pathname":"/404","prerender":false,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[{"type":"external","src":"/_astro/about.CwUalx8j.css"}],"routeData":{"route":"/500","isIndex":false,"type":"page","pattern":"^\\/500\\/?$","segments":[[{"content":"500","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/500.astro","pathname":"/500","prerender":false,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[{"type":"external","src":"/_astro/about.CwUalx8j.css"}],"routeData":{"route":"/about","isIndex":false,"type":"page","pattern":"^\\/about\\/?$","segments":[[{"content":"about","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/about.astro","pathname":"/about","prerender":false,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[{"type":"external","src":"/_astro/about.CwUalx8j.css"}],"routeData":{"route":"/contact","isIndex":false,"type":"page","pattern":"^\\/contact\\/?$","segments":[[{"content":"contact","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/contact.astro","pathname":"/contact","prerender":false,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[{"type":"external","src":"/_astro/about.CwUalx8j.css"}],"routeData":{"route":"/examples","isIndex":true,"type":"page","pattern":"^\\/examples\\/?$","segments":[[{"content":"examples","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/examples/index.astro","pathname":"/examples","prerender":false,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[{"type":"external","src":"/_astro/about.CwUalx8j.css"},{"type":"inline","content":".notification.svelte-hcw8zu{position:absolute;bottom:100%;left:50%;transform:translate(-50%);margin-bottom:8px;width:-moz-max-content;width:max-content}.notification-content.svelte-hcw8zu{background-color:#10b981;color:#fff;padding:6px 12px;border-radius:6px;font-size:.875rem;box-shadow:0 2px 4px #0000001a;animation:svelte-hcw8zu-slideDown .2s ease-out}.notification-content.svelte-hcw8zu:after{content:\"\";position:absolute;bottom:-4px;left:50%;transform:translate(-50%) rotate(45deg);width:8px;height:8px;background-color:#10b981}@keyframes svelte-hcw8zu-slideDown{0%{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}.letter-container.svelte-18o9j6d{font-family:Georgia,Times New Roman,serif}.letter-text.svelte-18o9j6d{line-height:1.8}@keyframes svelte-18o9j6d-fade-in{0%{opacity:0}to{opacity:1}}@keyframes svelte-18o9j6d-slide-in-from-top-2{0%{transform:translateY(-.5rem)}to{transform:translateY(0)}}.animate-in.svelte-18o9j6d{animation-fill-mode:both}.fade-in.svelte-18o9j6d{animation:svelte-18o9j6d-fade-in .3s ease-out}.slide-in-from-top-2.svelte-18o9j6d{animation:svelte-18o9j6d-slide-in-from-top-2 .3s ease-out}.duration-300.svelte-18o9j6d{animation-duration:.3s}.letter-body.svelte-18o9j6d{transition:all .3s ease}.letter-container.svelte-18o9j6d:hover .letter-body:where(.svelte-18o9j6d){transform:translateY(-2px);box-shadow:0 25px 50px -12px #00000026}@media (max-width: 768px){.letter-text.svelte-18o9j6d{text-indent:1rem;font-size:1rem;line-height:1.7}}\n@keyframes svelte-yf4dav-fade-in{0%{opacity:0}to{opacity:1}}@keyframes svelte-yf4dav-slide-in-from-bottom-4{0%{transform:translateY(1rem)}to{transform:translateY(0)}}.animate-in.svelte-yf4dav{animation:svelte-yf4dav-fade-in .5s ease-out,svelte-yf4dav-slide-in-from-bottom-4 .5s ease-out}\n"}],"routeData":{"route":"/generator","isIndex":true,"type":"page","pattern":"^\\/generator\\/?$","segments":[[{"content":"generator","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/generator/index.astro","pathname":"/generator","prerender":false,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[{"type":"external","src":"/_astro/about.CwUalx8j.css"},{"type":"inline","content":"@keyframes blob{0%{transform:translate(0) scale(1)}33%{transform:translate(30px,-50px) scale(1.1)}66%{transform:translate(-20px,20px) scale(.9)}to{transform:translate(0) scale(1)}}.animate-blob[data-astro-cid-bbe6dxrz]{animation:blob 7s infinite}.animation-delay-2000[data-astro-cid-bbe6dxrz]{animation-delay:2s}.animation-delay-4000[data-astro-cid-bbe6dxrz]{animation-delay:4s}\n"}],"routeData":{"route":"/","isIndex":true,"type":"page","pattern":"^\\/$","segments":[],"params":[],"component":"src/pages/index.astro","pathname":"/","prerender":false,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}}],"site":"https://apologify.com","base":"/","trailingSlash":"ignore","compressHTML":true,"componentMetadata":[["C:/Users/pc02/projects/apologify.com/src/pages/404.astro",{"propagation":"none","containsHead":true}],["C:/Users/pc02/projects/apologify.com/src/pages/500.astro",{"propagation":"none","containsHead":true}],["C:/Users/pc02/projects/apologify.com/src/pages/about.astro",{"propagation":"none","containsHead":true}],["C:/Users/pc02/projects/apologify.com/src/pages/articles/[...page].astro",{"propagation":"in-tree","containsHead":true}],["C:/Users/pc02/projects/apologify.com/src/pages/articles/[slug].astro",{"propagation":"in-tree","containsHead":true}],["C:/Users/pc02/projects/apologify.com/src/pages/contact.astro",{"propagation":"none","containsHead":true}],["C:/Users/pc02/projects/apologify.com/src/pages/examples/[...page].astro",{"propagation":"in-tree","containsHead":true}],["C:/Users/pc02/projects/apologify.com/src/pages/examples/[recipient]/[slug].astro",{"propagation":"in-tree","containsHead":true}],["C:/Users/pc02/projects/apologify.com/src/pages/examples/[recipient]/index.astro",{"propagation":"in-tree","containsHead":true}],["C:/Users/pc02/projects/apologify.com/src/pages/examples/index.astro",{"propagation":"in-tree","containsHead":true}],["C:/Users/pc02/projects/apologify.com/src/pages/generator/index.astro",{"propagation":"none","containsHead":true}],["C:/Users/pc02/projects/apologify.com/src/pages/index.astro",{"propagation":"in-tree","containsHead":true}],["\u0000astro:content",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/articles/[...page]@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astrojs-ssr-virtual-entry",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/articles/[slug]@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/examples/[...page]@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/examples/[recipient]/[slug]@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/examples/[recipient]/index@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/examples/index@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/index@_@astro",{"propagation":"in-tree","containsHead":false}]],"renderers":[],"clientDirectives":[["idle","(()=>{var l=(n,t)=>{let i=async()=>{await(await n())()},e=typeof t.value==\"object\"?t.value:void 0,s={timeout:e==null?void 0:e.timeout};\"requestIdleCallback\"in window?window.requestIdleCallback(i,s):setTimeout(i,s.timeout||200)};(self.Astro||(self.Astro={})).idle=l;window.dispatchEvent(new Event(\"astro:idle\"));})();"],["load","(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event(\"astro:load\"));})();"],["media","(()=>{var n=(a,t)=>{let i=async()=>{await(await a())()};if(t.value){let e=matchMedia(t.value);e.matches?i():e.addEventListener(\"change\",i,{once:!0})}};(self.Astro||(self.Astro={})).media=n;window.dispatchEvent(new Event(\"astro:media\"));})();"],["only","(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event(\"astro:only\"));})();"],["visible","(()=>{var a=(s,i,o)=>{let r=async()=>{await(await s())()},t=typeof i.value==\"object\"?i.value:void 0,c={rootMargin:t==null?void 0:t.rootMargin},n=new IntersectionObserver(e=>{for(let l of e)if(l.isIntersecting){n.disconnect(),r();break}},c);for(let e of o.children)n.observe(e)};(self.Astro||(self.Astro={})).visible=a;window.dispatchEvent(new Event(\"astro:visible\"));})();"]],"entryModules":{"\u0000@astrojs-ssr-adapter":"_@astrojs-ssr-adapter.mjs","\u0000noop-middleware":"_noop-middleware.mjs","\u0000astro-internal:actions":"_astro-internal_actions.mjs","\u0000@astro-page:node_modules/.pnpm/astro@5.8.0_@types+node@22._488da0f7fe1db44f83d148c27853ce31/node_modules/astro/dist/actions/runtime/route@_@js":"pages/_actions/_---path_.astro.mjs","\u0000@astro-page:src/pages/404@_@astro":"pages/404.astro.mjs","\u0000@astro-page:src/pages/500@_@astro":"pages/500.astro.mjs","\u0000@astro-page:src/pages/about@_@astro":"pages/about.astro.mjs","\u0000@astro-page:src/pages/articles/[...page]@_@astro":"pages/articles/_---page_.astro.mjs","\u0000@astro-page:src/pages/contact@_@astro":"pages/contact.astro.mjs","\u0000@astro-page:src/pages/examples/[recipient]/[slug]@_@astro":"pages/examples/_recipient_/_slug_.astro.mjs","\u0000@astro-page:src/pages/examples/[recipient]/index@_@astro":"pages/examples/_recipient_.astro.mjs","\u0000@astro-page:src/pages/examples/index@_@astro":"pages/examples.astro.mjs","\u0000@astro-page:src/pages/examples/[...page]@_@astro":"pages/examples/_---page_.astro.mjs","\u0000@astrojs-ssr-virtual-entry":"entry.mjs","\u0000@astro-page:node_modules/.pnpm/astro@5.8.0_@types+node@22._488da0f7fe1db44f83d148c27853ce31/node_modules/astro/dist/assets/endpoint/generic@_@js":"pages/_image.astro.mjs","\u0000@astro-page:src/pages/articles/[slug]@_@astro":"pages/articles/_slug_.astro.mjs","\u0000@astro-page:src/pages/generator/index@_@astro":"pages/generator.astro.mjs","\u0000@astro-page:src/pages/index@_@astro":"pages/index.astro.mjs","\u0000@astro-renderers":"renderers.mjs","C:/Users/pc02/projects/apologify.com/node_modules/.pnpm/astro@5.8.0_@types+node@22._488da0f7fe1db44f83d148c27853ce31/node_modules/astro/dist/assets/services/sharp.js":"chunks/sharp_COOImOOa.mjs","C:\\Users\\pc02\\projects\\apologify.com\\.astro\\content-assets.mjs":"chunks/content-assets_DleWbedO.mjs","C:\\Users\\pc02\\projects\\apologify.com\\.astro\\content-modules.mjs":"chunks/content-modules_Dz-S_Wwv.mjs","\u0000astro:data-layer-content":"chunks/_astro_data-layer-content_CreDdYGe.mjs","\u0000@astrojs-manifest":"manifest_BY7VPmn7.mjs","@astrojs/svelte/client.js":"_astro/client.svelte.DUtaq6Cx.js","C:/Users/pc02/projects/apologify.com/node_modules/.pnpm/@preact+signals@2.0.5_preact@10.26.7/node_modules/@preact/signals/dist/signals.module.js":"_astro/signals.module.ByUr0dQ8.js","C:/Users/pc02/projects/apologify.com/node_modules/.pnpm/astro@5.8.0_@types+node@22._488da0f7fe1db44f83d148c27853ce31/node_modules/astro/components/ClientRouter.astro?astro&type=script&index=0&lang.ts":"_astro/ClientRouter.astro_astro_type_script_index_0_lang.CtSceO8m.js","C:/Users/pc02/projects/apologify.com/src/components/ApologyWizard.svelte":"_astro/ApologyWizard.D3zw2hxA.js","@/components/Letter.svelte":"_astro/Letter.D2eUGgOE.js","@astrojs/preact/client.js":"_astro/client.CaovFvuA.js","C:/Users/pc02/projects/apologify.com/src/components/Letter.svelte":"_astro/Letter.Cu_bwW_F.js","astro:scripts/before-hydration.js":""},"inlinedScripts":[],"assets":["/_astro/about.CwUalx8j.css","/favicon.svg","/og-images/tips-writing-apology-letter-family-situation.png","/og-images/write-apology-letter-friend-lack-communication.png","/_astro/ApologyWizard.D3zw2hxA.js","/_astro/client.BeIoR8WQ.js","/_astro/client.CaovFvuA.js","/_astro/client.svelte.DUtaq6Cx.js","/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CtSceO8m.js","/_astro/index.BiHe1-8J.css","/_astro/Letter.Cu_bwW_F.js","/_astro/Letter.D2eUGgOE.js","/_astro/props.CxW5K-UI.js","/_astro/render.DCqWBF16.js","/_astro/signals.module.ByUr0dQ8.js","/_astro/_slug_.1lAzl6g-.css"],"buildFormat":"directory","checkOrigin":true,"serverIslandNameMap":[],"key":"+OTSOXr9/WfAJ5m5voanfMOBddlgy9R8m/zT21BS6Ts="});
+if (manifest.sessionConfig) manifest.sessionConfig.driverModule = null;
+
+export { manifest };

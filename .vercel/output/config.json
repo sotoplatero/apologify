@@ -16,10 +16,6 @@
 			"dest": "_render"
 		},
 		{
-			"src": "^/generator/wizard$",
-			"dest": "_render"
-		},
-		{
 			"src": "^/_server-islands/([^/]+?)/?$",
 			"dest": "_render"
 		},
@@ -44,31 +40,11 @@
 			"dest": "/_isr?x_astro_path=$0"
 		},
 		{
-			"src": "^/articles/([^/]+?)/?$",
-			"dest": "/_isr?x_astro_path=$0"
-		},
-		{
-			"src": "^/articles(?:/(.*?))?/?$",
-			"dest": "/_isr?x_astro_path=$0"
-		},
-		{
 			"src": "^/contact/?$",
 			"dest": "/_isr?x_astro_path=$0"
 		},
 		{
-			"src": "^/examples/([^/]+?)/([^/]+?)/?$",
-			"dest": "/_isr?x_astro_path=$0"
-		},
-		{
-			"src": "^/examples/([^/]+?)/?$",
-			"dest": "/_isr?x_astro_path=$0"
-		},
-		{
 			"src": "^/examples/?$",
-			"dest": "/_isr?x_astro_path=$0"
-		},
-		{
-			"src": "^/examples(?:/(.*?))?/?$",
 			"dest": "/_isr?x_astro_path=$0"
 		},
 		{
