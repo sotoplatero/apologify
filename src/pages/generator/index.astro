@@ -1,10 +1,10 @@
 ---
-import WizardLayout from '../../layouts/WizardLayout.astro';
+export const prerender = false;
+
 import Layout from '../../layouts/Layout.astro';
 import { actions } from 'astro:actions';
 import Letter from '../../components/Letter.svelte';
 import ApologyWizard from '../../components/ApologyWizard.svelte';
-export const prerender = false
 
 const result = Astro.getActionResult(actions.createLetter);
 
