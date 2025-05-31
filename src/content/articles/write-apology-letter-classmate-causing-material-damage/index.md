@@ -7,7 +7,7 @@ description: >-
 tags:
   - classmate
   - material damage
-date: 2024-08-10T01:20:01.692Z
+date: 2023-05-20T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1519919558328-a1a0fd2def7a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1OTUzNDB8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Kelly Sikkema

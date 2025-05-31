@@ -7,7 +7,7 @@ description: >-
 tags:
   - coworker
   - bad behavior
-date: 2024-07-29T01:20:01.692Z
+date: 2023-02-04T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1530819568329-97653eafbbfa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk4MzcwNjl8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Daria Kraplak

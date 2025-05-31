@@ -8,8 +8,6 @@ photographer: "John Jennings"
 photographerUrl: "https://unsplash.com/@john_jennings"
 ---
 
-# Introduction
-
 We all make mistakes, and sometimes those mistakes can hurt the people we care about the most, especially our friends. If you’re here reading this, chances are you're feeling guilty and sad about something that happened between you and your friend. First of all, know that it’s okay to feel that way. Acknowledging your feelings and the feelings of your friend is an important step towards healing.
 
 This guide is designed to help you navigate the often tricky process of crafting an appropriate apology letter to your friend. By using the examples and practical advice provided below, you can express your sincere remorse and begin the journey of rebuilding trust and connection. Writing an apology letter can feel daunting, but it’s a powerful way to communicate your feelings. You can also check out resources on *Mental Health America* to understand the emotional aspects of apologies better.

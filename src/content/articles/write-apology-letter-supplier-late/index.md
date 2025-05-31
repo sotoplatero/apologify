@@ -7,7 +7,7 @@ description: >-
 tags:
   - supplier
   - lateness
-date: 2024-06-14T01:20:01.692Z
+date: 2021-12-25T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1528412161364-0d670d401473?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk1Nzc4NjN8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Celine Nadon

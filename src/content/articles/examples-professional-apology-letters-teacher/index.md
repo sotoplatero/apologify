@@ -7,7 +7,7 @@ description: >-
 tags:
   - professional
   - teacher
-date: 2024-09-29T01:20:01.692Z
+date: 2024-07-20T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1556157382-97eda2d62296?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk2MzE1MDh8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Austin Distel

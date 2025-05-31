@@ -7,7 +7,7 @@ description: >-
 tags:
   - personal
   - mother
-date: 2024-10-03T01:20:01.692Z
+date: 2024-08-17T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1615224299941-04a854c101d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1NjczNTJ8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Brooke Lark

@@ -7,7 +7,7 @@ description: >-
 tags:
   - customer
   - delivery delay
-date: 2024-07-23T01:20:01.692Z
+date: 2022-12-10T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1695654396323-71beae8dadb1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk1NDUwOTh8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Grab

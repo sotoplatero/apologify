@@ -7,7 +7,7 @@ description: >-
 tags:
   - urgent
   - teacher
-date: 2024-09-06T01:20:01.692Z
+date: 2023-12-23T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1456959890911-d3332c55bc7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA5MzgxMDJ8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Csabi Elter

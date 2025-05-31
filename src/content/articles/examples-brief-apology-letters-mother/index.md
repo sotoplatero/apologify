@@ -7,14 +7,12 @@ description: >-
 tags:
   - brief
   - mother
-date: 2024-11-01T01:20:01.692Z
+date: 2025-04-12T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1492725764893-90b379c2b6e7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk2MjA5ODJ8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Dakota Corbin
 photographerUrl: 'https://unsplash.com/@thedakotacorbin'
 ---
-
-## Introduction
 
 It's a tough pill to swallow when we realize we've hurt someone we love, especially our mothers. Feelings of guilt and sadness can weigh heavily on our hearts, and finding the right words to express our remorse can feel overwhelming. If you’re reading this, you may be seeking to apologize to your mother and repair the bond that means so much to both of you.
 

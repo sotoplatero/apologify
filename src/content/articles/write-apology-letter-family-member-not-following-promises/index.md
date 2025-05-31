@@ -10,7 +10,7 @@ description: >-
 tags:
   - family member
   - not following through on promises
-date: 2024-07-13T01:20:01.692Z
+date: 2022-08-27T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1517488629431-6427e0ee1e5f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1MDg2NDl8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Naassom Azevedo

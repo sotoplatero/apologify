@@ -7,7 +7,7 @@ description: >-
 tags:
   - coworker
   - delivery delay
-date: 2024-07-28T01:20:01.692Z
+date: 2023-01-28T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1695654403063-31f6671e2534?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1ODE3ODl8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Grab

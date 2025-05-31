@@ -8,7 +8,7 @@ description: >-
 tags:
   - business partner
   - missing a meeting
-date: 2024-08-13T01:20:01.692Z
+date: 2023-06-24T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1505022610485-0249ba5b3675?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk0NDgxMDB8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Andrew Neel

@@ -7,14 +7,12 @@ description: >-
 tags:
   - respectful
   - family member
-date: 2024-09-26T01:20:01.692Z
+date: 2024-06-08T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1516013474378-d6498f0d1434?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk1OTk4MTh8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Gift Habeshaw
 photographerUrl: 'https://unsplash.com/@gift_habeshaw'
 ---
-
-## Introduction
 
 We’ve all faced moments where our actions or words have unintentionally hurt those we love. If you’re here, it’s likely that you’re feeling a mix of guilt and sadness, wishing to mend the bond and express your remorse to a family member who means the world to you. First, let me acknowledge your courage for seeking a way to apologize; that’s a huge first step towards healing.
 

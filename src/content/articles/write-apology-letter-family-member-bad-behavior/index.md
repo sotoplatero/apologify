@@ -7,7 +7,7 @@ description: >-
 tags:
   - family member
   - bad behavior
-date: 2024-07-16T01:20:01.692Z
+date: 2022-10-01T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1449627359760-18dc1b942934?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk0NTg2NzF8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Aleksandar Popovski

@@ -7,7 +7,7 @@ description: >-
 tags:
   - supplier
   - not being reliable
-date: 2024-06-12T01:20:01.692Z
+date: 2021-12-11T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1471107340929-a87cd0f5b5f3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA2MTQ1NzB8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Aaron Burden

@@ -7,7 +7,7 @@ description: >-
 tags:
   - classmate
   - inappropriate comments
-date: 2024-08-09T01:20:01.692Z
+date: 2023-05-06T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1467545159547-1b93b24406ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA0ODQ4OTd8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: "Daria Nepriakhina \U0001F1FA\U0001F1E6"

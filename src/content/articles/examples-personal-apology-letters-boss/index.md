@@ -8,7 +8,7 @@ description: >-
 tags:
   - personal
   - boss
-date: 2024-10-05T01:20:01.692Z
+date: 2024-09-07T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1526588554903-b32eb4158064?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAzOTg2MDZ8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Brandon Nelson

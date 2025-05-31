@@ -7,7 +7,7 @@ description: >-
 tags:
   - detailed
   - mother
-date: 2024-10-22T01:20:01.692Z
+date: 2025-01-25T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1484425304707-d8246c26cda2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA2Mjg3NTZ8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Colin Maynard

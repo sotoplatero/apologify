@@ -7,7 +7,7 @@ description: >-
 tags:
   - respectful
   - mentor
-date: 2024-09-25T01:20:01.692Z
+date: 2024-06-01T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1600607566615-25d85924ddda?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk5MzM5MDV8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Elena Mozhvilo

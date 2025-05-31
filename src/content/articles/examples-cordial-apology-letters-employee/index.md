@@ -7,7 +7,7 @@ description: >-
 tags:
   - cordial
   - employee
-date: 2024-10-28T01:20:01.692Z
+date: 2025-03-08T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1505663365056-fc9da5b9340c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA2MTc4MDZ8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Fernando Venzano

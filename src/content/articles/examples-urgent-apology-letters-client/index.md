@@ -7,7 +7,7 @@ description: >-
 tags:
   - urgent
   - client
-date: 2024-09-10T01:20:01.692Z
+date: 2024-01-27T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1661697522426-84b53a4ce613?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk5MTI1NjJ8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Jonny Gios

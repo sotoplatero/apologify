@@ -7,7 +7,7 @@ description: >-
 tags:
   - friendly
   - colleague
-date: 2024-10-10T01:20:01.692Z
+date: 2024-10-12T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1535249257686-29c7471d48e4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAzNTU0NDl8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Sandy Millar

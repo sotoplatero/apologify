@@ -7,7 +7,7 @@ description: >-
 tags:
   - supplier
   - bad behavior
-date: 2024-06-18T01:20:01.692Z
+date: 2022-01-22T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1583443920098-6b56d6aabdb1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1MzE0MDF8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Pawel Czerwinski

@@ -7,7 +7,7 @@ description: >-
 tags:
   - neighbor
   - delivery delay
-date: 2024-06-26T01:20:01.692Z
+date: 2022-04-02T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1522198428577-adf2d374b05b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAzMDEyMzB8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Andrew Neel

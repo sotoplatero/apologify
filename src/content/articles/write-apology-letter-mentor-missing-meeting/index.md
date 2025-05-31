@@ -8,7 +8,7 @@ description: >-
 tags:
   - mentor
   - missing a meeting
-date: 2024-07-02T01:20:01.692Z
+date: 2022-05-21T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1531545514256-b1400bc00f31?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAyNDk5NDB8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Mimi Thian

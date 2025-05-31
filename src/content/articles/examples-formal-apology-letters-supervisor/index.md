@@ -7,7 +7,7 @@ description: >-
 tags:
   - formal
   - supervisor
-date: 2024-10-12T01:20:01.692Z
+date: 2024-11-02T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1612767809803-6a4626c93767?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA2MDQwNzh8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Rahadiansyah

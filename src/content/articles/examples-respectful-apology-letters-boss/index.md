@@ -8,7 +8,7 @@ description: >-
 tags:
   - respectful
   - boss
-date: 2024-09-28T01:20:01.692Z
+date: 2024-07-13T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1524861497943-aa659205b2c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA0MjI5NTR8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Nicola Styles

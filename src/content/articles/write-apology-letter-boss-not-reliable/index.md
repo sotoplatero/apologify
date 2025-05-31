@@ -8,7 +8,7 @@ description: >-
 tags:
   - boss
   - not being reliable
-date: 2024-08-20T01:20:01.692Z
+date: 2023-08-19T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1505940545481-2cac7ae15782?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk3NjEyMDR8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: '@felipepelaquim'

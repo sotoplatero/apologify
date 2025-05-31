@@ -8,7 +8,7 @@ description: >-
 tags:
   - partner
   - not responding to messages
-date: 2024-06-19T01:20:01.692Z
+date: 2022-02-05T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1515015443787-2e0fb93d9783?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAxMTgyNTV8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: JD  Mason

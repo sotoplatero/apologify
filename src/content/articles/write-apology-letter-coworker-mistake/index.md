@@ -7,7 +7,7 @@ description: >-
 tags:
   - coworker
   - mistake
-date: 2024-07-27T01:20:01.692Z
+date: 2023-01-14T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1524182503702-e1d6bd58ea65?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA2ODI2MDl8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Kari Shea

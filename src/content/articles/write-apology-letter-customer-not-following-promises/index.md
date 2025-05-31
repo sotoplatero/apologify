@@ -10,7 +10,7 @@ description: >-
 tags:
   - customer
   - not following through on promises
-date: 2024-07-20T01:20:01.692Z
+date: 2022-11-12T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1490041030694-4835d3f07bd9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk4NjkxNzZ8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Steinar Engeland

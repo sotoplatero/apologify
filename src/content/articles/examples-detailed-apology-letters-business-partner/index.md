@@ -8,7 +8,7 @@ description: >-
 tags:
   - detailed
   - business partner
-date: 2024-10-27T01:20:01.692Z
+date: 2025-03-01T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1527689368864-3a821dbccc34?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAzNjU5OTF8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: KOBU Agency

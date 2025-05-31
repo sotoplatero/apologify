@@ -7,7 +7,7 @@ description: >-
 tags:
   - formal
   - friend
-date: 2024-10-13T01:20:01.692Z
+date: 2024-11-09T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1505483531331-fc3cf89fd382?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAxMjg0MzN8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Sam McNamara

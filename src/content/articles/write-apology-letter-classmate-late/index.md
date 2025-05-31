@@ -7,7 +7,7 @@ description: >-
 tags:
   - classmate
   - being late
-date: 2024-08-08T01:20:01.692Z
+date: 2023-04-29T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1527593858301-56d85bdb0d3f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1NTMzNjR8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Trinity Treft

@@ -7,7 +7,7 @@ description: >-
 tags:
   - detailed
   - colleague
-date: 2024-10-25T01:20:01.692Z
+date: 2025-02-15T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1523309375637-b3f4f2347f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAyMzYzMjJ8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: George Pagan III

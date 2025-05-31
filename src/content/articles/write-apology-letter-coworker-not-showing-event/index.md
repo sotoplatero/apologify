@@ -8,7 +8,7 @@ description: >-
 tags:
   - coworker
   - not showing up for an event
-date: 2024-07-25T01:20:01.692Z
+date: 2022-12-31T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1557200134-3103da7b6bff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk3ODI4MTR8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Stephen Phillips - Hostreviews.co.uk

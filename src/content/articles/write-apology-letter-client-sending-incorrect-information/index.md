@@ -8,7 +8,7 @@ description: >-
 tags:
   - client
   - incorrect information
-date: 2024-08-04T01:20:01.692Z
+date: 2023-03-18T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1518406537068-308f1590a298?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA0OTU0NDB8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Leighann Blackwood

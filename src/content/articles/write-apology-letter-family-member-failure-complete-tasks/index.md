@@ -9,7 +9,7 @@ description: >-
 tags:
   - family member
   - failure to complete tasks
-date: 2024-07-14T01:20:01.692Z
+date: 2022-09-17T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1606788075819-9574a6edfab3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzAwNTI4OTF8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Jimmy Dean

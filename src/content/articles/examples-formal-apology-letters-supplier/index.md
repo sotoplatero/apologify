@@ -7,7 +7,7 @@ description: >-
 tags:
   - formal
   - supplier
-date: 2024-10-11T01:20:01.692Z
+date: 2024-10-26T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1703319955603-334bc0e8261b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk1NjcxNDB8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: William Warby

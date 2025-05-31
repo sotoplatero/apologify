@@ -7,7 +7,7 @@ description: >-
 tags:
   - family member
   - material damage
-date: 2024-07-15T01:20:01.692Z
+date: 2022-09-24T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1477512076069-d31eb021716f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA0Nzc2MTh8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Daiga Ellaby

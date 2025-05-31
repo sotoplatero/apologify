@@ -7,7 +7,7 @@ description: >-
 tags:
   - detailed
   - customers
-date: 2024-10-24T01:20:01.692Z
+date: 2025-02-08T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1515325458032-82fb25824501?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk4ODAyMDJ8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Natalia Y.

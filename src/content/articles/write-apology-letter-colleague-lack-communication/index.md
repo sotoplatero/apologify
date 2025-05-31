@@ -8,7 +8,7 @@ description: >-
 tags:
   - colleague
   - lack of communication
-date: 2024-07-31T01:20:01.692Z
+date: 2023-02-18T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1529245885411-d2b92941b7cb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1ODU0NDZ8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Jason Leung

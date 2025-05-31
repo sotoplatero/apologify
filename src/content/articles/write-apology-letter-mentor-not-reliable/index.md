@@ -7,7 +7,7 @@ description: >-
 tags:
   - mentor
   - not being reliable
-date: 2024-07-01T01:20:01.692Z
+date: 2022-05-14T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1522442676585-c751dab71864?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk4NTg5OTJ8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Tanner Mardis

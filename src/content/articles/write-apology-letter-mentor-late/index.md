@@ -7,7 +7,7 @@ description: >-
 tags:
   - mentor
   - being late
-date: 2024-07-03T01:20:01.692Z
+date: 2022-05-28T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1529066496421-d8fb2dca38a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1MjgwNjh8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Annie Spratt

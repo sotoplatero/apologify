@@ -8,7 +8,7 @@ description: >-
 tags:
   - coworker
   - not being transparent
-date: 2024-07-24T01:20:01.692Z
+date: 2022-12-24T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1505767297988-6d5da4a1730c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA2MDAzNzB8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: ål nik

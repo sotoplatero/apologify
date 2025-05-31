@@ -8,7 +8,7 @@ description: >-
 tags:
   - colleague
   - breaking a promise
-date: 2024-08-03T01:20:01.692Z
+date: 2023-03-11T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1505767297988-6d5da4a1730c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3Mjk3MzE0MjV8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: ål nik

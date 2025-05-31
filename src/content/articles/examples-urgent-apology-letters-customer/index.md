@@ -7,7 +7,7 @@ description: >-
 tags:
   - urgent
   - customer
-date: 2024-09-08T01:20:01.692Z
+date: 2024-01-13T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1521225753516-46438a76f25a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MjkzNjA4MDJ8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Andrew Seaman

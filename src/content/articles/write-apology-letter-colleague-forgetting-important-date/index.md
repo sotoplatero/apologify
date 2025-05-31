@@ -8,7 +8,7 @@ description: >-
 tags:
   - colleague
   - important date
-date: 2024-08-01T01:20:01.692Z
+date: 2023-02-25T17:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1529516222410-a269d812f320?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA2MjUwNzZ8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Lon Christensen

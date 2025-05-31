@@ -8,7 +8,7 @@ description: >-
 tags:
   - business partner
   - breaking a promise
-date: 2024-08-17T01:20:01.692Z
+date: 2023-07-22T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1500989145603-8e7ef71d639e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1MTczNTN8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Lukas Blazek

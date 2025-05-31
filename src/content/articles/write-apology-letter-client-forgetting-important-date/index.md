@@ -8,7 +8,7 @@ description: >-
 tags:
   - client
   - forgetting an important date
-date: 2024-08-06T01:20:01.692Z
+date: 2023-04-01T16:17:27.060Z
 image: >-
   https://images.unsplash.com/photo-1610128980054-68d94619e243?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2NjYwNzN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MzA1NjM5Mjd8&ixlib=rb-4.0.3&q=80&w=1080
 photographer: Mika Baumeister
