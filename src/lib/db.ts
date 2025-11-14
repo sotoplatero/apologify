@@ -38,15 +38,15 @@ export async function initDB() {
   `);
 
   // Create indexes for better query performance
-  await turso.execute(`
+  await turso!.execute(`
     CREATE INDEX IF NOT EXISTS idx_recipient ON user_letters(recipient)
   `);
 
-  await turso.execute(`
+  await turso!.execute(`
     CREATE INDEX IF NOT EXISTS idx_tone ON user_letters(tone)
   `);
 
-  await turso.execute(`
+  await turso!.execute(`
     CREATE INDEX IF NOT EXISTS idx_created_at ON user_letters(created_at)
   `);
 }
