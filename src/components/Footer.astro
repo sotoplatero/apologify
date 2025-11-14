@@ -1,75 +1,98 @@
 ---
-const currentYear = new Date().getFullYear();
+import {
+  tones,
+  personalRecipients,
+  professionalRecipients,
+  familyRecipients
+} from '../lib/apologyData.js';
 
-const importantRecipients = [
-  { value: 'boss', label: 'Boss' },
-  { value: 'colleague', label: 'Colleague' },
-  { value: 'client', label: 'Client' },
-  { value: 'friend', label: 'Friend' },
-  { value: 'partner', label: 'Partner' },
-  { value: 'teacher', label: 'Teacher' }
-];
+const currentYear = new Date().getFullYear();
 ---
 
 <footer class="bg-base-200 text-base-content">
-  <div class="w-full max-w-screen-lg mx-auto py-16 px-4">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="">
+  <div class="w-full max-w-screen-xl mx-auto py-16 px-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
+      <!-- About -->
+      <div class="col-span-2">
         <h3 class="text-lg font-semibold mb-4">Apologify</h3>
-        <p class="text-sm">Create personalized apology letters with ease using our AI-powered tool.</p>
+        <p class="text-sm mb-4">Create sincere, personalized apology letters in seconds with our AI-powered generator. Free, private, and easy to use.</p>
+        <div class="flex flex-col gap-2 text-sm">
+          <a href="/" class="hover:text-primary">Home</a>
+          <a href="/generator" class="hover:text-primary">AI Generator</a>
+          <a href="/examples" class="hover:text-primary">Browse Examples</a>
+        </div>
       </div>
 
+      <!-- Professional -->
       <div>
-        <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
-        <ul class="space-y-2">
-          <li><a href="/" class="hover:underline">Home</a></li>
-          <li><a href="/about" class="hover:underline">About Us</a></li>
-          <li><a href="/generator" class="hover:underline">Generate Letter</a></li>
-          <li><a href="/examples" class="hover:underline">Example Letters</a></li>
-          <li><a href="/articles" class="hover:underline">Articles</a></li>
-          <li><a href="/contact" class="hover:underline">Contact Us</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h3 class="text-lg font-semibold mb-4">Popular Letters</h3>
-        <ul class="space-y-2">
-          {importantRecipients.map((recipient) => (
+        <h3 class="text-lg font-semibold mb-4">
+          <div>Professional</div>
+          <div class="text-sm text-base-content/70">Apology Generator</div>
+        </h3>
+        <ul class="space-y-2 text-sm">
+          {professionalRecipients.filter(r => r.value !== 'other').map((recipient) => (
             <li>
-              <a 
-                href={`/examples/${recipient.value}`} 
-                class="hover:underline"
+              <a
+                href={`/generator/${recipient.value}`}
+                class="hover:text-primary"
               >
-                Apology to {recipient.label}
+                To {recipient.label}
               </a>
             </li>
           ))}
         </ul>
       </div>
 
-      <!-- <div>
-        <h3 class="text-lg font-semibold mb-4">Legal</h3>
-        <ul class="space-y-2">
-          <li><a href="/privacy" class="hover:underline">Privacy Policy</a></li>
-          <li><a href="/terms" class="hover:underline">Terms of Service</a></li>
+      <!-- Personal -->
+      <div>
+        <h3 class="text-lg font-semibold mb-4">Personal</h3>
+        <ul class="space-y-2 text-sm">
+          {personalRecipients.map((recipient) => (
+            <li>
+              <a
+                href={`/generator/${recipient.value}`}
+                class="hover:text-primary"
+              >
+                To {recipient.label}
+              </a>
+            </li>
+          ))}
         </ul>
+      </div>
 
-        <h3 class="text-lg font-semibold mt-6 mb-4">Follow Us</h3>
-        <div class="flex space-x-4">
-          <a href="#" class="text-xl hover:text-primary" aria-label="Facebook">
-            <i class="fab fa-facebook"></i>
-          </a>
-          <a href="#" class="text-xl hover:text-primary" aria-label="Twitter">
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a href="#" class="text-xl hover:text-primary" aria-label="Instagram">
-            <i class="fab fa-instagram"></i>
-          </a>
-          <a href="#" class="text-xl hover:text-primary" aria-label="LinkedIn">
-            <i class="fab fa-linkedin"></i>
-          </a>
-        </div>
-      </div> -->
+      <!-- Family -->
+      <div>
+        <h3 class="text-lg font-semibold mb-4">Family</h3>
+        <ul class="space-y-2 text-sm">
+          {familyRecipients.map((recipient) => (
+            <li>
+              <a
+                href={`/generator/${recipient.value}`}
+                class="hover:text-primary"
+              >
+                To {recipient.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- By Tone -->
+      <div>
+        <h3 class="text-lg font-semibold mb-4">By Tone</h3>
+        <ul class="space-y-2 text-sm">
+          {tones.filter(t => t.value !== 'other').map((tone) => (
+            <li>
+              <a
+                href={`/examples?tone=${tone.value}`}
+                class="hover:text-primary"
+              >
+                {tone.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
 
     <div class="mt-8 pt-8 border-t border-base-300 text-center">

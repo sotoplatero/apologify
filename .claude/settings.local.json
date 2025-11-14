@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(del \"C:\\Users\\pc02\\projects\\apologify.com\\src\\lib\\recipientCategories.ts\")",
+      "Bash(node:*)"
     ],
     "deny": [],
     "ask": []

@@ -5,8 +5,12 @@ import LetterDirectory from '../../components/LetterDirectory.svelte';
 
 export const prerender = false; // Needs to be dynamic to show generated letters
 
-// Get all letters (static + generated)
-const allLetters = await getAllLetters();
+// Get recipient filter from URL params
+const url = new URL(Astro.request.url);
+const recipientFilter = url.searchParams.get('recipient');
+
+// Get all letters (static + generated), optionally filtered
+const allLetters = await getAllLetters(recipientFilter ? { recipient: recipientFilter } : undefined);
 
 // Get unique recipients with counts
 const recipientsWithCounts = await getAllRecipients();

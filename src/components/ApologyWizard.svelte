@@ -1,48 +1,7 @@
 <script lang="ts">
   import { actions } from 'astro:actions';
   import { onMount } from 'svelte';
-
-  type Recipient = {
-    value: string;
-    label: string;
-    description?: string;
-  };
-
-  const tones = [
-    { value: 'formal', label: 'Formal', description: 'Respectful and structured.' },
-    { value: 'casual', label: 'Casual', description: 'Relaxed and friendly.' },
-    { value: 'heartfelt', label: 'Heartfelt', description: 'Genuine and emotional.' },
-    { value: 'professional', label: 'Professional', description: 'Polished and tactful.' },
-    { value: 'remorseful', label: 'Remorseful', description: 'Deeply regretful.' },
-    { value: 'humorous', label: 'Humorous', description: 'Light and witty.' },
-    { value: 'emotional', label: 'Emotional', description: 'Emotional and heartfelt.' },
-    { value: 'apologetic', label: 'Apologetic', description: 'Apologetic and sincere.' },
-    { value: 'other', label: 'Other', description: 'Custom tone' },
-  ];
-
-  const personalRecipients: Recipient[] = [
-    { value: 'mother', label: 'Mother' },
-    { value: 'father', label: 'Father' },
-    { value: 'son', label: 'Son' },
-    { value: 'daughter', label: 'Daughter' },
-    { value: 'wife', label: 'Wife' },
-    { value: 'husband', label: 'Husband' },
-    { value: 'friend', label: 'Friend' },
-    { value: 'romantic', label: 'Romantic' },
-    { value: 'other', label: 'Other'}
-  ];
-
-  const professionalRecipients: Recipient[] = [
-    { value: 'manager', label: 'Manager' },
-    { value: 'supervisor', label: 'Supervisor' },
-    { value: 'partner', label: 'Business Partner' },
-    { value: 'client', label: 'Client' },
-    { value: 'colleague', label: 'Colleague' },
-    { value: 'hr', label: 'HR' },
-    { value: 'vendor', label: 'Vendor/Supplier' },
-    { value: 'investor', label: 'Investor' },
-    { value: 'other', label: 'Other' }
-  ];
+  import { tones, personalRecipients, professionalRecipients } from '../lib/apologyData.js';
 
   const placeholder = `Describe the situation that requires an apology...`;
 
