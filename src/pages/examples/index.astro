@@ -1,16 +1,29 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
+import { getAllLetters, getAllRecipients, getAllTones } from '../../lib/letters';
+import LetterDirectory from '../../components/LetterDirectory.svelte';
 
-// Obtener todos los recipients únicos
-const allLetters = await getCollection('letters');
-const recipientCounts = allLetters.reduce((acc, letter) => {
-  const recipient = letter.data.recipient;
-  acc[recipient] = (acc[recipient] || 0) + 1;
-  return acc;
-}, {} as Record<string, number>);
+export const prerender = false; // Needs to be dynamic to show generated letters
 
-const recipients = Object.entries(recipientCounts).sort(([a], [b]) => a.localeCompare(b));
+// Get all letters (static + generated)
+const allLetters = await getAllLetters();
+
+// Get unique recipients with counts
+const recipientsWithCounts = await getAllRecipients();
+
+// Get unique tones with counts
+const tonesWithCounts = await getAllTones();
+
+// Prepare letters for client-side filtering
+const lettersForClient = allLetters.map(letter => ({
+  slug: letter.slug,
+  recipient: letter.recipient,
+  context: letter.context,
+  tone: letter.tone,
+  letters: letter.letters,
+  source: letter.source,
+  created_at: letter.created_at
+}));
 
 // Iconos para cada tipo de recipient
 const recipientIcons: Record<string, string> = {
@@ -41,41 +54,8 @@ const recipientIcons: Record<string, string> = {
       </p>
     </div>
 
-    <!-- Recipients Cloud -->
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-      {recipients.map(([recipient, count]) => (
-        <a 
-          href={`/examples/${recipient}`}
-          class="group bg-white/80 backdrop-blur-sm shadow-lg rounded-2xl p-6 border-2 border-gray-200 hover:border-purple-300 transition-all duration-300 hover:scale-105 hover:shadow-xl text-center"
-        >
-          <!-- Icono -->
-          <div class="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">
-            {recipientIcons[recipient] || "📝"}
-          </div>
-          
-          <!-- Nombre del recipient -->
-          <h3 class="text-lg font-semibold text-gray-800 mb-2 group-hover:text-purple-700 transition-colors duration-300 capitalize">
-            {recipient}
-          </h3>
-          
-          <!-- Contador de cartas -->
-          <p class="text-sm text-gray-500">
-            {count} letter{count !== 1 ? 's' : ''}
-          </p>
-          
-          <!-- Indicador visual -->
-          <div class="mt-4 w-full h-1 bg-gray-200 rounded-full overflow-hidden">
-            <div 
-              class="h-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-full transition-all duration-300 group-hover:from-purple-600 group-hover:to-blue-600"
-              style={`width: ${Math.min((count / Math.max(...Object.values(recipientCounts))) * 100, 100)}%`}
-            ></div>
-          </div>
-        </a>
-      ))}
-    </div>
-
     <!-- Stats Section -->
-    <div class="mt-16 text-center">
+    <div class="mb-12 text-center">
       <div class="inline-flex items-center space-x-8 bg-white/80 backdrop-blur-sm rounded-2xl px-8 py-4 shadow-lg border-2 border-gray-200">
         <div>
           <div class="text-2xl font-bold text-purple-600">{allLetters.length}</div>
@@ -83,16 +63,19 @@ const recipientIcons: Record<string, string> = {
         </div>
         <div class="w-px h-8 bg-gray-300"></div>
         <div>
-          <div class="text-2xl font-bold text-blue-600">{recipients.length}</div>
+          <div class="text-2xl font-bold text-blue-600">{recipientsWithCounts.length}</div>
           <div class="text-sm text-gray-600">Recipients</div>
         </div>
         <div class="w-px h-8 bg-gray-300"></div>
         <div>
-          <div class="text-2xl font-bold text-green-600">{[...new Set(allLetters.map(letter => letter.data.tone))].length}</div>
+          <div class="text-2xl font-bold text-green-600">{tonesWithCounts.length}</div>
           <div class="text-sm text-gray-600">Tones</div>
         </div>
       </div>
     </div>
+
+    <!-- Letter Directory with Filters -->
+    <LetterDirectory client:load initialLetters={lettersForClient} />
 
     <!-- CTA Section -->
     <div class="mt-16 text-center">

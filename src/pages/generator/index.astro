@@ -8,6 +8,12 @@ import ApologyWizard from '../../components/ApologyWizard.svelte';
 
 const result = Astro.getActionResult(actions.createLetter);
 
+// If letter was successfully saved, redirect to the letter page
+if (result?.data?.saved && result?.data?.slug) {
+  // We need the recipient from the form submission
+  // For now, show the letter with a link to view it in examples
+}
+
 // Helper function to get error message
 function getErrorMessage(error: { code?: string; message?: string } | null) {
   if (!error) return 'An error occurred while generating your letter. Please try again.';
@@ -41,12 +47,31 @@ function getErrorMessage(error: { code?: string; message?: string } | null) {
           </div>
         </div>
       ) : result?.data ? (
-        <Letter client:load letter={result.data.letter} />
+        <>
+          <Letter client:load letter={result.data.letter} />
+
+          {result.data.saved && result.data.slug && result.data.recipient && (
+            <div class="alert alert-success mt-6">
+              <div class="flex flex-col items-center gap-2">
+                <p class="font-semibold">✅ Your letter has been saved!</p>
+                <a
+                  href={`/examples/${result.data.recipient}/${result.data.slug}`}
+                  class="btn btn-sm btn-outline"
+                >
+                  View in Examples Directory
+                </a>
+              </div>
+            </div>
+          )}
+        </>
       ) : null}
 
-      <div class="text-center mt-8">
+      <div class="text-center mt-8 space-x-4">
         <a href="/generator" class="btn btn-primary">
           Write Another Letter
+        </a>
+        <a href="/examples" class="btn btn-outline">
+          Browse Examples
         </a>
       </div>
     </div>

@@ -49,7 +49,7 @@
   export let initialType: 'personal' | 'professional' = 'personal';
 
   let currentStep = 1;
-  const totalSteps = 4;
+  const totalSteps = 3;
   
   let letterType: 'personal' | 'professional' = 'personal';
   let relationship = '';
@@ -82,13 +82,13 @@
       switch (e.key) {
         case 'Enter':
           e.preventDefault();
-          if (currentStep === 4 && document.activeElement === textareaElement) {
+          if (currentStep === 3 && document.activeElement === textareaElement) {
             // Si estamos en el textarea, permitir Enter normal a menos que sea Ctrl+Enter
             if (e.ctrlKey || e.metaKey) {
               handleNext();
             }
-          } else if ((currentStep === 2 && relationship === 'other' && document.activeElement === customRelationshipInput) ||
-                     (currentStep === 3 && selectedTone === 'other' && document.activeElement === customToneInput)) {
+          } else if ((currentStep === 1 && relationship === 'other' && document.activeElement === customRelationshipInput) ||
+                     (currentStep === 2 && selectedTone === 'other' && document.activeElement === customToneInput)) {
             // Si estamos en un input personalizado, permitir Enter para continuar
             handleNext();
           } else {
@@ -116,12 +116,13 @@
   function validateStep(step: number): boolean {
     switch(step) {
       case 1:
-        return !!letterType;
+        // Step 1: Both letterType and relationship required
+        return !!letterType && !!relationship && (relationship !== 'other' || !!customRelationship.trim());
       case 2:
-        return !!relationship && (relationship !== 'other' || !!customRelationship.trim());
-      case 3:
+        // Step 2: Tone required
         return !!selectedTone && (selectedTone !== 'other' || !!customTone.trim());
-      case 4:
+      case 3:
+        // Step 3: Context required
         return !!context.trim();
       default:
         return false;
@@ -146,11 +147,9 @@
           currentStep++;
           isTransitioning = false;
           // Focus en elementos específicos según el paso
-          if (currentStep === 2 && relationship === 'other') {
-            setTimeout(() => customRelationshipInput?.focus(), 100);
-          } else if (currentStep === 3 && selectedTone === 'other') {
+          if (currentStep === 2 && selectedTone === 'other') {
             setTimeout(() => customToneInput?.focus(), 100);
-          } else if (currentStep === 4) {
+          } else if (currentStep === 3) {
             setTimeout(() => textareaElement?.focus(), 100);
           }
         }, 150);
@@ -177,16 +176,15 @@
     switch(field) {
       case 'letterType':
         letterType = value as 'personal' | 'professional';
-        // Auto-advance para tipo de carta
-        setTimeout(() => handleNext(), 300);
+        // Don't auto-advance, let user select relationship in same step
         break;
       case 'relationship':
         relationship = value;
         // Si selecciona "other", focus en el input
         if (value === 'other') {
           setTimeout(() => customRelationshipInput?.focus(), 100);
-        } else {
-          // Auto-advance para relationship (excepto "other")
+        } else if (letterType && value) {
+          // Auto-advance si ambos están seleccionados
           setTimeout(() => handleNext(), 300);
         }
         break;
@@ -256,72 +254,38 @@
           </div>
         {:else}
         
-        <!-- Step 1: Letter Type -->
+        <!-- Step 1: Letter Type + Relationship (Combined) -->
         {#if currentStep === 1}
-          <div class="text-center space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div class="space-y-4">
+          <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div class="space-y-4 text-center">
               <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight tracking-tight">
-                What type of apology letter do you need?
+                Who are you apologizing to?
               </h1>
               <p class="text-xl text-gray-600">
-                Choose the category that best fits your situation
+                Choose the category and recipient
               </p>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
-              <button
-                type="button"
-                on:click={() => selectOption('professional', 'letterType')}
-                class="group p-8 rounded-2xl border-2 transition-all duration-300 hover:scale-105 {letterType === 'professional' ? 'border-purple-500 bg-purple-50 shadow-lg' : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-md'}"
-              >
-                <div class="flex flex-col items-center space-y-4">
-                  <div class="w-16 h-16 rounded-full {letterType === 'professional' ? 'bg-purple-100' : 'bg-gray-100'} flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <svg class="w-8 h-8 {letterType === 'professional' ? 'text-purple-600' : 'text-gray-600'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <div class="text-center">
-                    <h3 class="text-2xl font-semibold text-gray-800">Professional</h3>
-                    <p class="text-gray-600 mt-2">Work & Business Relations</p>
-                  </div>
-                </div>
-              </button>
 
+            <!-- Type Toggle -->
+            <div class="flex justify-center gap-4 mb-8">
               <button
                 type="button"
                 on:click={() => selectOption('personal', 'letterType')}
-                class="group p-8 rounded-2xl border-2 transition-all duration-300 hover:scale-105 {letterType === 'personal' ? 'border-purple-500 bg-purple-50 shadow-lg' : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-md'}"
+                class="px-6 py-3 rounded-xl font-medium transition-all duration-300 {letterType === 'personal' ? 'bg-purple-600 text-white shadow-lg' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
               >
-                <div class="flex flex-col items-center space-y-4">
-                  <div class="w-16 h-16 rounded-full {letterType === 'personal' ? 'bg-purple-100' : 'bg-gray-100'} flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <svg class="w-8 h-8 {letterType === 'personal' ? 'text-purple-600' : 'text-gray-600'}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
-                  </div>
-                  <div class="text-center">
-                    <h3 class="text-2xl font-semibold text-gray-800">Personal</h3>
-                    <p class="text-gray-600 mt-2">Family, Friends & Loved Ones</p>
-                  </div>
-                </div>
+                💕 Personal
+              </button>
+              <button
+                type="button"
+                on:click={() => selectOption('professional', 'letterType')}
+                class="px-6 py-3 rounded-xl font-medium transition-all duration-300 {letterType === 'professional' ? 'bg-purple-600 text-white shadow-lg' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
+              >
+                💼 Professional
               </button>
             </div>
-          </div>
-        {/if}
 
-        <!-- Step 2: Relationship -->
-        {#if currentStep === 2}
-          <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div class="space-y-4">
-              <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight tracking-tight">
-                Who are you apologizing to? *
-              </h1>
-              <p class="text-xl text-gray-600">
-                Select your relationship with the recipient
-              </p>
-            </div>
-
-            <!-- Opciones estilo Typeform con letras -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-12">
+            <!-- Recipients Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {#each availableRecipients as recipient, index}
                 <button
                   type="button"
@@ -350,7 +314,7 @@
                   </div>
                   {#if relationship === recipient.value}
                     <svg class="w-5 h-5 text-purple-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                     </svg>
                   {/if}
                 </button>
@@ -359,8 +323,8 @@
           </div>
         {/if}
 
-        <!-- Step 3: Tone -->
-        {#if currentStep === 3}
+        <!-- Step 2: Tone -->
+        {#if currentStep === 2}
           <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div class="space-y-4">
               <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight tracking-tight">
@@ -408,8 +372,8 @@
           </div>
         {/if}
 
-        <!-- Step 4: Context (moved to last) -->
-        {#if currentStep === 4}
+        <!-- Step 3: Context (Final Step) -->
+        {#if currentStep === 3}
           <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div class="space-y-4">
               <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight tracking-tight">

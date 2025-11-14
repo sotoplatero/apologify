@@ -15,9 +15,9 @@ export default defineConfig({
   output: 'static',
   site: "https://apologify.com",
   integrations: [ tailwind(), sitemap(), svelte(), preact(), sitemapCopier()],
-  adapter: vercel({ 
+  adapter: vercel({
     isr: {
-      exclude: [ "/generator" ]
+      exclude: [ "/generator", "/examples" ]
     },
   }),
 
