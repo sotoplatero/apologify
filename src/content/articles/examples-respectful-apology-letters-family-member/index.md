@@ -1,9 +1,7 @@
 ---
 title: Heartfelt Examples of Respectful Apology Letters to a Family Member
 description: >-
-  Discover heartfelt examples and practical advice for writing a respectful
-  apology letter to a family member. Learn how to rebuild trust, heal your
-  relationship, and express genuine remorse with step-by-step guidance.
+  Hurt a family member? Learn how to write a respectful apology letter that rebuilds trust and heals relationships. Real examples and step-by-step guidance included.
 tags:
   - respectful
   - family member
@@ -80,7 +78,9 @@ Here, you’ll find a collection of respectful apology letters tailored to vario
 
 ### Apology Letter for Missing a Family Gathering
 
-**Storytelling:** Imagine you’ve forgotten an important family gathering—perhaps a birthday or holiday celebration—due to work commitments.
+**Storytelling:** Imagine you've forgotten an important family gathering—perhaps a birthday or holiday celebration—due to work commitments.
+
+For a ready-to-use template in this situation, you can also check out our [example apology letter for not showing up to an event](/articles/write-apology-letter-family-member-not-showing-event).
 
 > Dear [Family Member's Name],  
 >  
@@ -125,7 +125,9 @@ Here, you’ll find a collection of respectful apology letters tailored to vario
 
 ### Apology Letter for Being Unsupportive
 
-**Storytelling:** Consider the situation where you weren’t there for a family member during a tough time.
+**Storytelling:** Consider the situation where you weren't there for a family member during a tough time.
+
+This is especially common with parents. If you're in this situation with your mother, our [personal apology letters to mother examples](/articles/examples-personal-apology-letters-mother) might provide additional guidance.
 
 > Dear [Family Member's Name],  
 >  

@@ -1,9 +1,7 @@
 ---
 title: Heartfelt Examples of Brief Apology Letters to Your Boss
 description: >-
-  Discover heartfelt examples and practical advice for writing a brief apology
-  letter to your boss. Learn how to rebuild trust, heal professional
-  relationships, and express genuine remorse with step-by-step guidance.
+  Made a mistake at work? Learn how to write a brief, professional apology letter to your boss. Quick examples for missed deadlines, errors & more.
 tags:
   - brief
   - apology letter
@@ -72,6 +70,8 @@ Taking the time to reflect on these tips can make your apology meaningful and im
 ## Brief Apology Letter Examples to Your Boss
 
 Here are seven unique examples of brief apology letters that address different common situations you might encounter at work.
+
+If your situation requires a more personal approach beyond a brief apology, you might also find our [personal apology letters to boss](/articles/examples-personal-apology-letters-boss) helpful.
 
 ### Apology Letter for Missing a Deadline
 

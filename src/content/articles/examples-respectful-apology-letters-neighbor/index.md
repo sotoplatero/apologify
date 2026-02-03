@@ -1,9 +1,7 @@
 ---
 title: Heartfelt Examples of Respectful Apology Letters to a Neighbor
 description: >-
-  Discover heartfelt examples and practical advice for writing a respectful
-  apology letter to a neighbor. Learn how to rebuild trust, heal your
-  relationship, and express genuine remorse with step-by-step guidance.
+  Had a dispute with your neighbor? Learn how to write a respectful apology letter that restores harmony. Real examples included for noise, property & more.
 tags:
   - respectful
   - neighbor
@@ -74,6 +72,8 @@ Suggesting ways to rectify the situation shows your commitment to change.
 
 #### How to Implement:
 Propose actionable steps to prevent future issues, such as discussing parking arrangements or being more mindful of noise levels.
+
+For more emotional situations with neighbors, you might also find helpful insights in our guide on [emotional apology letters](/articles/examples-emotional-apology-letters-neighbor).
 
 ### Express Gratitude for Their Understanding
 
