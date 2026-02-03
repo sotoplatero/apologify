@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
-	
+
 // Get API key with fallback to .env file
-const apiKey = import.meta.env.OPENAI_API_KEY 
+const apiKey = import.meta.env.OPENAI_API_KEY
 
 const openai = new OpenAI({
   apiKey: apiKey,
@@ -12,15 +12,15 @@ export async function callOpenAIChatCompletion({ systemPrompt, userPrompt }) {
   if (!apiKey) {
     throw new Error('OpenAI API key is not configured');
   }
- 
+
   try {
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: 'gpt-4.1-mini',
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt }
       ],
-      temperature: 0.8,
+      temperature: 0.5,
       top_p: 1,
     });
 

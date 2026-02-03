@@ -7,13 +7,22 @@ interface Props {
 	title: string;
 	description: string;
 	schema?: Record<string, any>;
+	canonicalUrl?: string;
+	ogImage?: string;
 }
 
-const { 
-	title = 'Apology Letters', 
+const {
+	title = 'Apology Letters',
 	description = 'Create heartfelt apology letters with our easy-to-use generator. Mend relationships and express sincere regret effectively. Free templates and expert tips.',
-	schema
+	schema,
+	canonicalUrl,
+	ogImage
 } = Astro.props;
+
+const currentUrl = new URL(Astro.url.pathname, Astro.site);
+const canonical = canonicalUrl || currentUrl.href;
+const defaultOgImage = new URL('/og-image.png', Astro.site).href;
+const finalOgImage = ogImage || defaultOgImage;
 ---
 
 <!doctype html>
@@ -24,14 +33,45 @@ const {
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
+
+		<!-- Canonical URL -->
+		<link rel="canonical" href={canonical} />
+
+		<!-- Language and Alternates -->
+		<meta name="language" content="en" />
+		<link rel="alternate" hreflang="en" href={canonical} />
+
+		<!-- Open Graph Tags -->
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
+		<meta property="og:url" content={currentUrl.href} />
+		<meta property="og:type" content="website" />
+		<meta property="og:image" content={finalOgImage} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:site_name" content="Apologify" />
+
+		<!-- Twitter Card Tags -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={finalOgImage} />
+
+		<!-- Performance: Preconnect to external resources -->
+		<link rel="preconnect" href="https://images.unsplash.com" />
+		<link rel="dns-prefetch" href="https://images.unsplash.com" />
+
 		<link rel="sitemap" href="/sitemap-index.xml" />
 		<title>{title}</title>
+
+		<!-- Analytics -->
 		<script defer src="https://umami.damiansoto.me/script.js" data-website-id="cf312f64-f14b-41ba-bfa2-18e9a30f5382"></script>
+
+		<!-- Structured Data -->
 		{schema && (
 			<script type="application/ld+json" set:html={JSON.stringify(schema)} />
 		)}
+
 		<ViewTransitions />
 	</head>
 	<body class="flex flex-col min-h-screen overflow-x-hidden bg-gradient-to-br from-purple-50 via-white to-blue-50">

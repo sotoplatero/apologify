@@ -48,9 +48,92 @@ function truncateText(text: string, maxLength: number = 280): string {
 
   return truncated.slice(0, lastSpace) + '...';
 }
+
+// Schema.org structured data
+const webSiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Apologify",
+  "alternateName": "Apologify.com",
+  "url": "https://apologify.com",
+  "description": "Create personalized apology letters with AI-powered generator. Free templates and expert tips for sincere apologies.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://apologify.com/examples?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+};
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Apologify",
+  "url": "https://apologify.com",
+  "logo": "https://apologify.com/favicon.svg",
+  "description": "AI-powered apology letter generator helping people craft sincere, personalized apologies.",
+  "sameAs": []
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does the apology letter generator work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our AI analyzes your situation, recipient, and desired tone to craft a personalized apology letter in under 2 minutes. Simply answer 3 quick questions about who you're apologizing to, what happened, and what tone you prefer, and receive a professional letter ready to send."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my information private and secure?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, absolutely. We don't require any personal information or account creation. Your apology letter is generated instantly and not stored on our servers. You have complete control over your content."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I customize the generated letter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes! Once your letter is generated, you can copy it and edit it as needed. The AI provides a professional starting point that you can personalize further with specific details or adjust to match your exact situation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What types of apology letters can I generate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `You can generate apology letters for any situation - professional (boss, client, colleague), personal (family, friends, romantic partners), or academic (teachers). We support ${Object.keys(recipientCounts).length} different recipient types and ${uniqueTones.length} tones ranging from formal to casual.`
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the service free to use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes! Our apology letter generator is completely free to use. No hidden fees, no credit card required, and no account needed. Generate as many letters as you need."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does it take to generate a letter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The entire process takes less than 2 minutes. You'll answer 3 quick questions, and our AI generates your personalized letter instantly. You can then copy, edit, and use it right away."
+      }
+    }
+  ]
+};
 ---
 
-<Layout title="Apology Letter Generator" description="Create personalized apology letters and explore our collection of apology articles">
+<Layout title="Apology Letter Generator" description="Create personalized apology letters and explore our collection of apology articles" schema={[webSiteSchema, organizationSchema, faqSchema]}>
   <Hero />
 
   <!-- Stats Section - Prueba Social -->

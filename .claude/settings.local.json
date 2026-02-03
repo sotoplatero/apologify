@@ -3,7 +3,9 @@
     "allow": [
       "Bash(find:*)",
       "Bash(del \"C:\\Users\\pc02\\projects\\apologify.com\\src\\lib\\recipientCategories.ts\")",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(npx skills find:*)",
+      "Bash(pnpm astro check:*)"
     ],
     "deny": [],
     "ask": []

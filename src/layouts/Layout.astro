@@ -7,12 +7,14 @@ interface Props {
 	title: string;
 	description?: string;
 	schema?: Record<string, any>;
+	canonicalUrl?: string;
+	ogImage?: string;
 }
 
-const { title, description = title, schema } = Astro.props;
+const { title, description = title, schema, canonicalUrl, ogImage } = Astro.props;
 ---
 
-<LayoutBase title={title} description={description} schema={schema}>
+<LayoutBase title={title} description={description} schema={schema} canonicalUrl={canonicalUrl} ogImage={ogImage}>
 	<Header />
 	<main class="flex-grow w-full max-w-screen-xl mx-auto px-4">
 		<slot />

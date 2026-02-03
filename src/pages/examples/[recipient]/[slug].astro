@@ -24,9 +24,78 @@ if (!letter) {
 }
 
 const recipientLabel = recipients.find(r => r.value === recipient)?.label || recipient;
+
+// Generate meta description
+const metaDescription = `Example ${letter.tone} apology letter to ${recipientLabel}. ${letter.context}. ${letter.letters[0].slice(0, 100)}...`;
+
+// Canonical URL
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+
+// Breadcrumb schema
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://apologify.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Examples",
+      "item": "https://apologify.com/examples"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": recipientLabel,
+      "item": `https://apologify.com/examples/${recipient}`
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": letter.context
+    }
+  ]
+};
+
+// Letter schema (Article/CreativeWork)
+const letterSchema = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "headline": `Apology to ${recipientLabel}: ${letter.context}`,
+  "description": metaDescription,
+  "genre": letter.tone,
+  "keywords": [recipient, letter.context, letter.tone, "apology letter", "apology example"],
+  "author": {
+    "@type": "Organization",
+    "name": "Apologify"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Apologify",
+    "url": "https://apologify.com"
+  },
+  "dateCreated": letter.source === 'generated' && letter.created_at
+    ? new Date(letter.created_at).toISOString()
+    : new Date().toISOString(),
+  "isPartOf": {
+    "@type": "CreativeWorkSeries",
+    "name": `Apology Letters to ${recipientLabel}`,
+    "url": `https://apologify.com/examples/${recipient}`
+  }
+};
 ---
 
-<Layout title={`Apology Letters to ${recipientLabel}`} description={`Example apology letters to ${recipientLabel}. ${letter.context}`}>
+<Layout
+  title={`Apology to ${recipientLabel}: ${letter.context}`}
+  description={metaDescription}
+  canonicalUrl={canonicalUrl}
+  schema={[breadcrumbSchema, letterSchema]}
+>
   <main class="max-w-screen-md mx-auto px-4  py-8">
     <h1 class="text-4xl font-bold mb-4 text-center">Apology Letters to {recipientLabel}. <br /> {letter.context}</h1>
 
