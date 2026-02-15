@@ -85,44 +85,44 @@ const hasFilters = recipientFilter || toneFilter || searchTerm;
 ---
 
 <Layout title="Apology Letter Examples" description="Browse our collection of apology letter examples for every situation">
-  <main class="container mx-auto px-6 py-12">
+  <main class="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
     <!-- Header Section -->
-    <div class="text-center space-y-4 mb-16">
-      <h1 class="text-4xl md:text-6xl font-bold text-gray-800 leading-tight tracking-tight">
+    <div class="text-center space-y-3 sm:space-y-4 mb-10 sm:mb-16">
+      <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold text-gray-800 leading-tight tracking-tight">
         Apology Letter Examples
       </h1>
-      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+      <p class="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
         Browse our collection of {total.toLocaleString()} apology letters for every situation
       </p>
     </div>
 
     <!-- Stats Section -->
     <div class="mb-12 text-center">
-      <div class="inline-flex items-center space-x-8 bg-white/80 backdrop-blur-sm rounded-2xl px-8 py-4 shadow-lg border-2 border-gray-200">
+      <div class="inline-flex items-center space-x-4 sm:space-x-8 bg-white/80 backdrop-blur-sm rounded-2xl px-4 sm:px-8 py-4 shadow-lg border-2 border-gray-200">
         <div>
-          <div class="text-2xl font-bold text-purple-600">{total.toLocaleString()}</div>
-          <div class="text-sm text-gray-600 font-sans">Total Letters</div>
+          <div class="text-xl sm:text-2xl font-bold text-purple-600">{total.toLocaleString()}</div>
+          <div class="text-xs sm:text-sm text-gray-600 font-sans">Total Letters</div>
         </div>
         <div class="w-px h-8 bg-gray-300"></div>
         <div>
-          <div class="text-2xl font-bold text-blue-600">{recipientCount}</div>
-          <div class="text-sm text-gray-600 font-sans">Recipients</div>
+          <div class="text-xl sm:text-2xl font-bold text-blue-600">{recipientCount}</div>
+          <div class="text-xs sm:text-sm text-gray-600 font-sans">Recipients</div>
         </div>
         <div class="w-px h-8 bg-gray-300"></div>
         <div>
-          <div class="text-2xl font-bold text-green-600">{toneCount}</div>
-          <div class="text-sm text-gray-600 font-sans">Tones</div>
+          <div class="text-xl sm:text-2xl font-bold text-green-600">{toneCount}</div>
+          <div class="text-xs sm:text-sm text-gray-600 font-sans">Tones</div>
         </div>
       </div>
     </div>
 
     <!-- Filter Bar -->
     <div class="mb-8">
-      <form method="get" action="/examples" class="flex items-end space-x-4 w-full">
+      <form method="get" action="/examples" class="grid grid-cols-2 sm:flex sm:items-end gap-3 sm:gap-4 w-full">
         <!-- Recipient Filter -->
         <div>
           <label class="label font-sans text-sm"><span class="label-text">Recipient</span></label>
-          <select name="recipient" class="select select-bordered font-sans">
+          <select name="recipient" class="select select-bordered font-sans w-full">
             <option value="">All Recipients</option>
             {Object.entries(recipientCounts).sort((a, b) => a[0].localeCompare(b[0])).map(([value, count]) => (
               <option value={value} selected={recipientFilter === value}>
@@ -135,7 +135,7 @@ const hasFilters = recipientFilter || toneFilter || searchTerm;
         <!-- Tone Filter -->
         <div>
           <label class="label font-sans text-sm"><span class="label-text">Tone</span></label>
-          <select name="tone" class="select select-bordered font-sans">
+          <select name="tone" class="select select-bordered font-sans w-full">
             <option value="">All Tones</option>
             {Object.entries(toneCounts).sort((a, b) => b[1] - a[1]).map(([value, count]) => (
               <option value={value} selected={toneFilter === value}>
@@ -146,21 +146,23 @@ const hasFilters = recipientFilter || toneFilter || searchTerm;
         </div>
 
         <!-- Search -->
-        <div>
+        <div class="col-span-2 sm:col-span-1">
           <label class="label font-sans text-sm"><span class="label-text">Search</span></label>
           <input
             type="text"
             name="q"
             value={searchTerm || ''}
             placeholder="Search letters..."
-            class="input input-bordered font-sans w-48"
+            class="input input-bordered font-sans w-full sm:w-48"
           />
         </div>
 
-        <button type="submit" class="btn btn-primary font-sans">Filter</button>
-        {hasFilters && (
-          <a href="/examples" class="btn btn-ghost font-sans">Clear</a>
-        )}
+        <div class="col-span-2 sm:col-span-1 flex gap-2 sm:gap-4">
+          <button type="submit" class="btn btn-primary font-sans flex-1 sm:flex-none">Filter</button>
+          {hasFilters && (
+            <a href="/examples" class="btn btn-ghost font-sans flex-1 sm:flex-none">Clear</a>
+          )}
+        </div>
       </form>
     </div>
 
@@ -225,10 +227,10 @@ const hasFilters = recipientFilter || toneFilter || searchTerm;
     )}
 
     <!-- CTA Section -->
-    <div class="mt-16 text-center">
-      <div class="bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl p-8 text-white">
-        <h2 class="text-2xl font-bold mb-4">Need a Custom Apology Letter?</h2>
-        <p class="text-purple-100 mb-6">Use our AI-powered generator to create a personalized apology letter</p>
+    <div class="mt-12 sm:mt-16 text-center">
+      <div class="bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl p-6 sm:p-8 text-white">
+        <h2 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Need a Custom Apology Letter?</h2>
+        <p class="text-purple-100 mb-4 sm:mb-6 text-sm sm:text-base">Use our AI-powered generator to create a personalized apology letter</p>
         <a
           href="/generator"
           class="inline-flex items-center space-x-2 bg-white text-purple-600 px-6 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors duration-300 font-sans"

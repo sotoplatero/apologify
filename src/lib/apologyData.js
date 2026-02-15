@@ -8,6 +8,7 @@ const ALL_RECIPIENTS = [
   { value: 'wife', label: 'Wife', categories: ['personal'], hasGeneratorPage: true },
   { value: 'husband', label: 'Husband', categories: ['personal'], hasGeneratorPage: true },
   { value: 'friend', label: 'Friend', categories: ['personal'], hasGeneratorPage: true },
+  { value: 'romantic', label: 'Romantic Partner', categories: ['personal'], hasGeneratorPage: true },
   { value: 'girlfriend', label: 'Girlfriend', categories: ['personal'], hasGeneratorPage: true },
   { value: 'boyfriend', label: 'Boyfriend', categories: ['personal'], hasGeneratorPage: true },
   { value: 'sibling', label: 'Sibling', categories: ['personal', 'family'], hasGeneratorPage: false },

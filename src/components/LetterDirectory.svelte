@@ -38,20 +38,20 @@
       </div>
     </div>
   {:else}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
       {#each filteredLetters as letter}
         {#if letter}
           <a
             href={`/examples/${letter.recipient}/${letter.slug}`}
             class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 group border border-base-300 hover:border-primary"
           >
-            <div class="card-body p-6">
+            <div class="card-body p-4 sm:p-6">
               <!-- Header -->
-              <div class="flex items-start justify-between mb-4">
-                <div class="text-3xl group-hover:scale-110 transition-transform duration-300">
+              <div class="flex items-start justify-between mb-3 sm:mb-4">
+                <div class="text-2xl sm:text-3xl group-hover:scale-110 transition-transform duration-300">
                   {getRecipientIcon(letter.recipient)}
                 </div>
-                <div class="flex flex-col gap-1">
+                <div class="flex flex-row sm:flex-col gap-1">
                   <div class="badge badge-primary badge-sm">
                     {capitalizeFirst(letter.recipient)}
                   </div>
@@ -62,17 +62,17 @@
               </div>
 
               <!-- Context -->
-              <h3 class="card-title text-base group-hover:text-primary transition-colors line-clamp-2">
+              <h3 class="card-title text-sm sm:text-base group-hover:text-primary transition-colors line-clamp-2">
                 {letter.title || letter.context}
               </h3>
 
               <!-- Letter Preview -->
-              <p class="text-sm opacity-70 line-clamp-3 mb-4">
+              <p class="text-xs sm:text-sm opacity-70 line-clamp-2 sm:line-clamp-3 mb-3 sm:mb-4">
                 {letter.letters?.[0] || ''}
               </p>
 
               <!-- Footer -->
-              <div class="card-actions justify-between items-center pt-4 border-t border-base-300">
+              <div class="card-actions justify-between items-center pt-3 sm:pt-4 border-t border-base-300">
                 <div class="text-xs opacity-60">
                   {letter.letters?.length || 0} {(letter.letters?.length || 0) === 1 ? 'example' : 'examples'}
                 </div>

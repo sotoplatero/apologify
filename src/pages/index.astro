@@ -34,17 +34,50 @@ const recipientIcons: Record<string, string> = {
   husband: "💑",
   mother: "👩",
   romantic: "💕",
+  partner: "💕",
+  girlfriend: "💝",
+  boyfriend: "💙",
   son: "👦",
   teacher: "📚",
   wife: "💑"
 };
 
+// Short descriptions for generator cards
+const recipientDescriptions: Record<string, string> = {
+  mother: "Mend the bond with heartfelt words",
+  father: "Show respect and genuine regret",
+  son: "Model accountability as a parent",
+  daughter: "Reconnect with love and sincerity",
+  wife: "Rebuild trust in your marriage",
+  husband: "Express your love and commitment",
+  friend: "Save a friendship that matters",
+  partner: "Heal your relationship together",
+  girlfriend: "Make things right with her",
+  boyfriend: "Show him you truly care",
+  boss: "Stay professional, stay sincere",
+  colleague: "Restore your working relationship",
+  client: "Maintain trust and professionalism",
+  teacher: "Show respect for their role",
+};
+
+// Top 12 recipients sorted by letter count
+const top12Recipients = Object.entries(recipientCounts)
+  .sort(([, a], [, b]) => b - a)
+  .slice(0, 12)
+  .map(([value, count]) => {
+    const recipientData = recipients.find(r => r.value === value);
+    return {
+      value,
+      label: recipientData?.label || value.charAt(0).toUpperCase() + value.slice(1),
+      count,
+      icon: recipientIcons[value] || "📝"
+    };
+  });
+
 function truncateText(text: string, maxLength: number = 280): string {
   if (text.length <= maxLength) return text;
-
   const truncated = text.slice(0, maxLength);
   const lastSpace = truncated.lastIndexOf(' ');
-
   return truncated.slice(0, lastSpace) + '...';
 }
 
@@ -132,248 +165,321 @@ const faqSchema = {
 };
 ---
 
-<Layout title="Apology Letter Generator" description="Create personalized apology letters and explore our collection of apology articles" schema={[webSiteSchema, organizationSchema, faqSchema]}>
+<Layout title="Apology Letter Generator - Write Sincere Apologies Fast" description="Create personalized apology letters with our free AI-powered generator. Choose your recipient, describe the situation, and get a heartfelt letter in under 2 minutes." schema={[webSiteSchema, organizationSchema, faqSchema]}>
   <Hero />
 
-  <!-- Stats Section - Prueba Social -->
-  <section class="py-16 bg-gradient-to-b from-purple-50/50 to-transparent">
+  <!-- ========================================== -->
+  <!-- SECTION 1: Generate for Specific Recipient -->
+  <!-- ========================================== -->
+  <section class="home-section relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-purple-50/60 via-transparent to-transparent pointer-events-none"></div>
+    <div class="container mx-auto px-6 relative">
+      <div class="text-center space-y-3 mb-14">
+        <span class="inline-block text-sm font-semibold tracking-widest uppercase text-purple-500">Tailored Generators</span>
+        <h2 class="text-3xl md:text-5xl font-bold text-gray-900 leading-tight tracking-tight">
+          Start With Who You Need to Apologize To
+        </h2>
+        <p class="text-lg text-gray-500 max-w-2xl mx-auto">
+          Each generator is customized with situation-specific prompts and the right tone for your relationship.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {recipients.map(recipient => (
+          <a
+            href={`/generator/${recipient.value}`}
+            class="group relative flex items-start gap-5 p-6 bg-white rounded-2xl border border-gray-200 hover:border-purple-400 shadow-sm hover:shadow-lg transition-all duration-300"
+          >
+            <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-purple-50 group-hover:bg-purple-100 flex items-center justify-center text-3xl transition-colors duration-300">
+              {recipientIcons[recipient.value] || "📝"}
+            </div>
+            <div class="min-w-0">
+              <div class="flex items-center gap-2 mb-1">
+                <h3 class="font-semibold text-gray-900 group-hover:text-purple-700 transition-colors">
+                  Apologize to Your {recipient.label}
+                </h3>
+                <svg class="w-4 h-4 text-gray-300 group-hover:text-purple-500 group-hover:translate-x-0.5 transition-all flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+              <p class="text-sm text-gray-500 leading-relaxed">
+                {recipientDescriptions[recipient.value] || "Generate a personalized apology letter"}
+              </p>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <div class="text-center mt-10">
+        <a
+          href="/generator"
+          class="inline-flex items-center gap-2 px-7 py-3.5 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-all duration-300 font-medium shadow-md hover:shadow-lg"
+        >
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          </svg>
+          <span>Or Write a Custom Apology</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SECTION 2: Browse by Recipient Directory   -->
+  <!-- ========================================== -->
+  <section class="home-section">
     <div class="container mx-auto px-6">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        <div class="group">
-          <div class="text-4xl md:text-5xl font-bold text-purple-600 mb-2 group-hover:scale-110 transition-transform">
-            {letterCount}+
+      <div class="w-screen relative left-1/2 right-1/2 -mx-[50vw] bg-gradient-to-br from-gray-50 via-purple-50/30 to-gray-50 py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center space-y-3 mb-14">
+            <span class="inline-block text-sm font-semibold tracking-widest uppercase text-purple-500">Letter Library</span>
+            <h2 class="text-3xl md:text-5xl font-bold text-gray-900 leading-tight tracking-tight">
+              Browse {letterCount}+ Apology Letter Examples
+            </h2>
+            <p class="text-lg text-gray-500 max-w-2xl mx-auto">
+              Read real letters from people in similar situations. Filter by recipient to find exactly what you need.
+            </p>
           </div>
-          <div class="text-gray-600 text-sm md:text-base">Example Letters</div>
-        </div>
-        <div class="group">
-          <div class="text-4xl md:text-5xl font-bold text-purple-600 mb-2 group-hover:scale-110 transition-transform">
-            {Object.keys(recipientCounts).length}
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {top12Recipients.map(recipient => (
+              <a
+                href={`/examples?recipient=${recipient.value}`}
+                class="group flex flex-col items-center text-center p-6 bg-white rounded-2xl border border-gray-200 hover:border-purple-400 shadow-sm hover:shadow-lg transition-all duration-300"
+              >
+                <span class="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">
+                  {recipient.icon}
+                </span>
+                <span class="font-semibold text-gray-800 group-hover:text-purple-700 transition-colors">
+                  {recipient.label}
+                </span>
+                <span class="text-sm text-gray-400 mt-1 tabular-nums">
+                  {recipient.count} {recipient.count === 1 ? 'letter' : 'letters'}
+                </span>
+              </a>
+            ))}
           </div>
-          <div class="text-gray-600 text-sm md:text-base">Recipient Types</div>
-        </div>
-        <div class="group">
-          <div class="text-4xl md:text-5xl font-bold text-purple-600 mb-2 group-hover:scale-110 transition-transform">
-            2 min
+
+          <div class="text-center mt-12">
+            <a
+              href="/examples"
+              class="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-gray-700 border-2 border-gray-300 rounded-xl hover:border-purple-500 hover:text-purple-700 transition-all duration-300 font-medium shadow-sm hover:shadow-md"
+            >
+              <span>Browse the Full Directory</span>
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </a>
           </div>
-          <div class="text-gray-600 text-sm md:text-base">Average Time</div>
-        </div>
-        <div class="group">
-          <div class="text-4xl md:text-5xl font-bold text-purple-600 mb-2 group-hover:scale-110 transition-transform">
-            100%
-          </div>
-          <div class="text-gray-600 text-sm md:text-base">Private & Secure</div>
         </div>
       </div>
     </div>
   </section>
 
-  <main class="container mx-auto py-24 px-6">
-      <HowItWorks />
+  <main class="container mx-auto py-20 px-6">
+    <!-- ========================================== -->
+    <!-- SECTION 3: How It Works                    -->
+    <!-- ========================================== -->
+    <HowItWorks />
 
-      <!-- Popular Recipients Section -->
-      <section class="my-32">
-        <div class="text-center space-y-4 mb-16">
-          <h2 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight tracking-tight">
-            Who Are You Apologizing To?
-          </h2>
-          <p class="text-xl text-gray-600">Choose your recipient to see personalized examples</p>
-        </div>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
-          {recipients.map(recipient => (
-            <a
-              href={`/generator/${recipient.value}`}
-              class="group flex flex-col items-center justify-center p-6 bg-white/80 backdrop-blur-sm rounded-2xl border-2 border-gray-200 hover:border-purple-500 hover:shadow-xl transition-all duration-300 hover:scale-105"
-            >
-              <span class="text-4xl md:text-5xl mb-3 group-hover:scale-110 transition-transform">
-                {recipientIcons[recipient.value] || "📝"}
-              </span>
-              <span class="text-sm md:text-base font-medium text-gray-700 group-hover:text-purple-600 transition-colors text-center">
-                {recipient.label}
-              </span>
-              <span class="text-xs text-gray-500 mt-1">
-                {recipientCounts[recipient.value] || 0} letters
-              </span>
-            </a>
-          ))}
-        </div>
-        <div class="text-center mt-12">
-          <a
-            href="/examples"
-            class="inline-flex items-center space-x-2 px-8 py-4 bg-white/90 backdrop-blur-sm text-gray-700 border-2 border-gray-300 rounded-xl hover:border-purple-500 hover:text-purple-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl hover:scale-105"
-          >
-            <span>Browse All Examples</span>
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </a>
-        </div>
-      </section>
-      
-      <!-- Nueva sección de cartas de ejemplo -->
-      <section class="my-32">
-        <div class="text-center space-y-4 mb-16">
-          <h2 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight tracking-tight">Sample Apology Letters</h2>
-          <p class="text-xl text-gray-600">Explore real examples to inspire your own apology</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {sampleLetters.map((letter) => (
-            <div class="group bg-white/80 backdrop-blur-sm shadow-lg rounded-2xl overflow-hidden border-2 border-gray-200 hover:border-purple-300 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-              <div class="p-6 md:p-8">
-                <h3 class="text-2xl font-semibold mb-4 text-gray-800 group-hover:text-purple-700 transition-colors duration-300">
-                  Apology to {letter.recipient.charAt(0).toUpperCase() + letter.recipient.slice(1)}: {letter.title || letter.context}
-                </h3>
-                <div class="prose prose-lg max-w-none mb-6">
-                  <p class="italic text-gray-700 whitespace-pre-line leading-relaxed">
-                    {truncateText(letter.letters[0])}
-                  </p>
-                </div>
-                <a
-                  href={`/examples/${letter.recipient}/${letter.slug}`}
-                  class="inline-flex items-center space-x-2 text-purple-600 hover:text-purple-700 font-medium transition-colors duration-200 group-hover:translate-x-1"
-                >
-                  <span>Read more</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                  </svg>
-                </a>
+    <!-- ========================================== -->
+    <!-- SECTION 4: Sample Letters                  -->
+    <!-- ========================================== -->
+    <section class="my-28">
+      <div class="text-center space-y-3 mb-14">
+        <span class="inline-block text-sm font-semibold tracking-widest uppercase text-purple-500">Real Examples</span>
+        <h2 class="text-3xl md:text-5xl font-bold text-gray-900 leading-tight tracking-tight">See What a Great Apology Looks Like</h2>
+        <p class="text-lg text-gray-500 max-w-2xl mx-auto">These real letters show you the tone, structure, and sincerity that makes an apology land.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {sampleLetters.map((letter) => (
+          <div class="group bg-white shadow-md rounded-2xl overflow-hidden border border-gray-200 hover:border-purple-300 transition-all duration-300 hover:shadow-xl">
+            <div class="p-6 md:p-8">
+              <div class="flex items-center gap-2 mb-4">
+                <span class="text-2xl">{recipientIcons[letter.recipient] || "📝"}</span>
+                <span class="text-xs font-semibold uppercase tracking-wider text-purple-500 bg-purple-50 px-3 py-1 rounded-full">
+                  {letter.tone}
+                </span>
               </div>
-            </div>
-          ))}
-        </div>
-        <div class="text-center mt-12">
-          <a href="/examples" class="inline-flex items-center space-x-2 px-8 py-4 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl hover:scale-105">
-            <span>View More Examples</span>
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
-        </div>
-      </section>
-
-      <!-- FAQ Section -->
-      <section class="my-32">
-        <div class="w-screen relative left-1/2 right-1/2 -mx-[50vw] bg-gradient-to-br from-purple-50 via-blue-50 to-purple-50 py-20">
-          <div class="container mx-auto px-6">
-            <div class="text-center space-y-4 mb-16">
-              <h2 class="text-4xl md:text-5xl font-bold text-gray-800">Frequently Asked Questions</h2>
-              <p class="text-xl text-gray-600">Everything you need to know about apologify</p>
-            </div>
-            <div class="max-w-3xl mx-auto space-y-4">
-              <details class="group bg-white p-6 rounded-xl shadow-lg border-2 border-gray-200 hover:border-purple-300 transition-all">
-                <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
-                  <span>How does the apology letter generator work?</span>
-                  <svg class="w-5 h-5 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </summary>
-                <p class="mt-4 text-gray-600 leading-relaxed">
-                  Our AI analyzes your situation, recipient, and desired tone to craft a personalized apology letter in under 2 minutes. Simply answer 3 quick questions about who you're apologizing to, what happened, and what tone you prefer, and receive a professional letter ready to send.
+              <h3 class="text-xl font-semibold mb-4 text-gray-900 group-hover:text-purple-700 transition-colors duration-300 leading-snug">
+                Apology to {letter.recipient.charAt(0).toUpperCase() + letter.recipient.slice(1)}: {letter.title || letter.context}
+              </h3>
+              <div class="prose max-w-none mb-6">
+                <p class="italic text-gray-600 whitespace-pre-line leading-relaxed text-[15px]">
+                  {truncateText(letter.letters[0])}
                 </p>
-              </details>
-
-              <details class="group bg-white p-6 rounded-xl shadow-lg border-2 border-gray-200 hover:border-purple-300 transition-all">
-                <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
-                  <span>Is my information private and secure?</span>
-                  <svg class="w-5 h-5 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </summary>
-                <p class="mt-4 text-gray-600 leading-relaxed">
-                  Yes, absolutely. We don't require any personal information or account creation. Your apology letter is generated instantly and not stored on our servers. You have complete control over your content.
-                </p>
-              </details>
-
-              <details class="group bg-white p-6 rounded-xl shadow-lg border-2 border-gray-200 hover:border-purple-300 transition-all">
-                <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
-                  <span>Can I customize the generated letter?</span>
-                  <svg class="w-5 h-5 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </summary>
-                <p class="mt-4 text-gray-600 leading-relaxed">
-                  Yes! Once your letter is generated, you can copy it and edit it as needed. The AI provides a professional starting point that you can personalize further with specific details or adjust to match your exact situation.
-                </p>
-              </details>
-
-              <details class="group bg-white p-6 rounded-xl shadow-lg border-2 border-gray-200 hover:border-purple-300 transition-all">
-                <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
-                  <span>What types of apology letters can I generate?</span>
-                  <svg class="w-5 h-5 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </summary>
-                <p class="mt-4 text-gray-600 leading-relaxed">
-                  You can generate apology letters for any situation - professional (boss, client, colleague), personal (family, friends, romantic partners), or academic (teachers). We support {Object.keys(recipientCounts).length} different recipient types and {uniqueTones.length} tones ranging from formal to casual.
-                </p>
-              </details>
-
-              <details class="group bg-white p-6 rounded-xl shadow-lg border-2 border-gray-200 hover:border-purple-300 transition-all">
-                <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
-                  <span>Is the service free to use?</span>
-                  <svg class="w-5 h-5 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </summary>
-                <p class="mt-4 text-gray-600 leading-relaxed">
-                  Yes! Our apology letter generator is completely free to use. No hidden fees, no credit card required, and no account needed. Generate as many letters as you need.
-                </p>
-              </details>
-
-              <details class="group bg-white p-6 rounded-xl shadow-lg border-2 border-gray-200 hover:border-purple-300 transition-all">
-                <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
-                  <span>How long does it take to generate a letter?</span>
-                  <svg class="w-5 h-5 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </summary>
-                <p class="mt-4 text-gray-600 leading-relaxed">
-                  The entire process takes less than 2 minutes. You'll answer 3 quick questions, and our AI generates your personalized letter instantly. You can then copy, edit, and use it right away.
-                </p>
-              </details>
+              </div>
+              <a
+                href={`/examples/${letter.recipient}/${letter.slug}`}
+                class="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium transition-all duration-200 group-hover:gap-3"
+              >
+                <span>Read the full letter</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </a>
             </div>
           </div>
-        </div>
-      </section>
+        ))}
+      </div>
+      <div class="text-center mt-10">
+        <a href="/examples" class="inline-flex items-center gap-2 px-7 py-3.5 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-all duration-300 font-medium shadow-md hover:shadow-lg">
+          <span>View More Examples</span>
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </section>
 
-      <section class="my-32">
-        <div class="text-center space-y-4 mb-16">
-          <h2 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight tracking-tight">Recent Articles</h2>
-          <p class="text-xl text-gray-600">Learn from our expert guides and tips</p>
+    <!-- ========================================== -->
+    <!-- SECTION 5: FAQ                             -->
+    <!-- ========================================== -->
+    <section class="my-28">
+      <div class="w-screen relative left-1/2 right-1/2 -mx-[50vw] bg-gradient-to-br from-purple-50 via-blue-50 to-purple-50 py-20">
+        <div class="container mx-auto px-6">
+          <div class="text-center space-y-3 mb-14">
+            <span class="inline-block text-sm font-semibold tracking-widest uppercase text-purple-500">FAQ</span>
+            <h2 class="text-3xl md:text-5xl font-bold text-gray-900">Frequently Asked Questions</h2>
+            <p class="text-lg text-gray-500">Everything you need to know about Apologify</p>
+          </div>
+          <div class="max-w-3xl mx-auto space-y-3">
+            <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
+              <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
+                <span>How does the apology letter generator work?</span>
+                <svg class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <p class="mt-4 text-gray-600 leading-relaxed">
+                Our AI analyzes your situation, recipient, and desired tone to craft a personalized apology letter in under 2 minutes. Simply answer 3 quick questions about who you're apologizing to, what happened, and what tone you prefer, and receive a professional letter ready to send.
+              </p>
+            </details>
+
+            <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
+              <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
+                <span>Is my information private and secure?</span>
+                <svg class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <p class="mt-4 text-gray-600 leading-relaxed">
+                Yes, absolutely. We don't require any personal information or account creation. Your apology letter is generated instantly and not stored on our servers. You have complete control over your content.
+              </p>
+            </details>
+
+            <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
+              <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
+                <span>Can I customize the generated letter?</span>
+                <svg class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <p class="mt-4 text-gray-600 leading-relaxed">
+                Yes! Once your letter is generated, you can copy it and edit it as needed. The AI provides a professional starting point that you can personalize further with specific details or adjust to match your exact situation.
+              </p>
+            </details>
+
+            <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
+              <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
+                <span>What types of apology letters can I generate?</span>
+                <svg class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <p class="mt-4 text-gray-600 leading-relaxed">
+                You can generate apology letters for any situation - professional (boss, client, colleague), personal (family, friends, romantic partners), or academic (teachers). We support {Object.keys(recipientCounts).length} different recipient types and {uniqueTones.length} tones ranging from formal to casual.
+              </p>
+            </details>
+
+            <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
+              <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
+                <span>Is the service free to use?</span>
+                <svg class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <p class="mt-4 text-gray-600 leading-relaxed">
+                Yes! Our apology letter generator is completely free to use. No hidden fees, no credit card required, and no account needed. Generate as many letters as you need.
+              </p>
+            </details>
+
+            <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
+              <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
+                <span>How long does it take to generate a letter?</span>
+                <svg class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <p class="mt-4 text-gray-600 leading-relaxed">
+                The entire process takes less than 2 minutes. You'll answer 3 quick questions, and our AI generates your personalized letter instantly. You can then copy, edit, and use it right away.
+              </p>
+            </details>
+          </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {recentArticles.map((article) => (
-            <article class="group bg-white/80 backdrop-blur-sm shadow-lg rounded-2xl overflow-hidden border-2 border-gray-200 hover:border-purple-300 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-              {article.data.image && (
-                <div class="overflow-hidden">
-                  <img src={article.data.image} alt={article.data.title} class="w-full aspect-video object-cover group-hover:scale-110 transition-transform duration-300" />
-                </div>
-              )}
-              <div class="p-6 md:p-8">
-                <h3 class="text-xl font-semibold mb-4 text-gray-800 group-hover:text-purple-700 transition-colors duration-300 leading-tight">
-                  <a href={`/articles/${article.slug}`} class="hover:text-purple-600 transition-colors duration-300">
-                    {article.data.title}
-                  </a>
-                </h3>
-                <a href={`/articles/${article.slug}`} class="inline-flex items-center space-x-2 text-purple-600 hover:text-purple-700 font-medium transition-colors duration-200 group-hover:translate-x-1">
-                  <span>Read more</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                  </svg>
-                </a>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 6: Recent Articles                 -->
+    <!-- ========================================== -->
+    <section class="my-28">
+      <div class="text-center space-y-3 mb-14">
+        <span class="inline-block text-sm font-semibold tracking-widest uppercase text-purple-500">Guides & Tips</span>
+        <h2 class="text-3xl md:text-5xl font-bold text-gray-900 leading-tight tracking-tight">Learn How to Apologize the Right Way</h2>
+        <p class="text-lg text-gray-500 max-w-2xl mx-auto">Expert advice on crafting apologies that actually repair relationships.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
+        {recentArticles.map((article) => (
+          <article class="group bg-white shadow-md rounded-2xl overflow-hidden border border-gray-200 hover:border-purple-300 transition-all duration-300 hover:shadow-xl">
+            {article.data.image && (
+              <div class="overflow-hidden aspect-video">
+                <img src={article.data.image} alt={article.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
-            </article>
-          ))}
-        </div>
-        <div class="text-center mt-12">
-          <a href="/articles" class="inline-flex items-center space-x-2 px-8 py-4 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl hover:scale-105">
-            <span>View All Articles</span>
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
-        </div>
-      </section>
+            )}
+            <div class="p-6">
+              <h3 class="text-lg font-semibold mb-3 text-gray-900 group-hover:text-purple-700 transition-colors duration-300 leading-snug line-clamp-2">
+                <a href={`/articles/${article.slug}`}>
+                  {article.data.title}
+                </a>
+              </h3>
+              <a href={`/articles/${article.slug}`} class="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium text-sm transition-all duration-200 group-hover:gap-3">
+                <span>Read article</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div class="text-center mt-10">
+        <a href="/articles" class="inline-flex items-center gap-2 px-7 py-3.5 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-all duration-300 font-medium shadow-md hover:shadow-lg">
+          <span>View All Articles</span>
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </section>
 
-      <CallToAction />
-    </main>
+    <!-- ========================================== -->
+    <!-- SECTION 7: Final CTA                       -->
+    <!-- ========================================== -->
+    <CallToAction />
+  </main>
 </Layout>
+
+<style>
+  .home-section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

@@ -1,274 +1,474 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import RecipientGenerator from '../../components/RecipientGenerator.svelte';
-import { recipients } from '../../lib/apologyData.js';
-import { getAllLetters } from '../../lib/letters';
+import Layout from "../../layouts/Layout.astro";
+import RecipientGenerator from "../../components/RecipientGenerator.svelte";
+import { recipients } from "../../lib/apologyData.js";
 
 export async function getStaticPaths() {
-  return recipients.map(recipient => ({
-    params: { recipient: recipient.value }
+  return recipients.map((recipient) => ({
+    params: { recipient: recipient.value },
   }));
 }
 
 const { recipient } = Astro.params;
-const recipientData = recipients.find(r => r.value === recipient);
+const recipientData = recipients.find((r) => r.value === recipient);
 
 if (!recipientData) {
-  return Astro.redirect('/404');
+  return Astro.redirect("/404");
 }
 
 const recipientLabel = recipientData.label;
 
-// Get examples for this recipient
-const allLetters = await getAllLetters({ recipient });
-const examples = allLetters.slice(0, 3);
-
-// SEO metadata specific to recipient
-const recipientMeta = {
-  teacher: {
-    title: 'Apology Letter to Teacher Generator - Free & Instant',
-    description: 'Generate a sincere apology letter to your teacher in seconds. Perfect for missed assignments, class disruptions, or any school-related issues. Free, no signup required.',
-    keywords: 'apology letter to teacher, sorry letter to teacher, apologize to teacher, student apology letter'
-  },
-  boss: {
-    title: 'Apology Letter to Boss Generator - Professional & Free',
-    description: 'Create a professional apology letter to your boss instantly. For workplace mistakes, missed deadlines, or any professional situation. Free templates included.',
-    keywords: 'apology letter to boss, sorry letter to boss, professional apology, workplace apology letter'
-  },
-  colleague: {
-    title: 'Apology Letter to Colleague Generator - Professional Templates',
-    description: 'Write a professional apology letter to your colleague. Perfect for workplace misunderstandings, missed deadlines, or team conflicts.',
-    keywords: 'apology letter to colleague, coworker apology, workplace apology, professional sorry letter'
-  },
-  client: {
-    title: 'Apology Letter to Client Generator - Business Professional',
-    description: 'Create a professional apology letter to your client. Handle service issues, missed deadlines, or business mistakes with grace.',
-    keywords: 'apology letter to client, business apology, customer apology, professional apology letter'
-  },
-  friend: {
-    title: 'Apology Letter to Friend Generator - Heartfelt & Sincere',
-    description: 'Write a heartfelt apology letter to your friend. Repair your friendship with sincere words that truly express your regret.',
-    keywords: 'apology letter to friend, sorry letter to friend, friendship apology, apologize to best friend'
-  },
-  wife: {
-    title: 'Apology Letter to Wife Generator - Heartfelt & Romantic',
-    description: 'Create a heartfelt apology letter to your wife. Express your love and regret with sincere, romantic words that mend your relationship.',
-    keywords: 'apology letter to wife, sorry letter to wife, apologize to wife, romantic apology'
-  },
-  husband: {
-    title: 'Apology Letter to Husband Generator - Sincere & Loving',
-    description: 'Write a sincere apology letter to your husband. Show your love and commitment with words that truly express your remorse.',
-    keywords: 'apology letter to husband, sorry letter to husband, apologize to husband, relationship apology'
-  },
-  mother: {
-    title: 'Apology Letter to Mother Generator - Heartfelt & Respectful',
-    description: 'Create a heartfelt apology letter to your mother. Express your love, respect, and genuine remorse with sincere words.',
-    keywords: 'apology letter to mother, sorry letter to mom, apologize to mother, family apology'
-  },
-  father: {
-    title: 'Apology Letter to Father Generator - Sincere & Respectful',
-    description: 'Write a sincere apology letter to your father. Show respect and genuine remorse with words that rebuild your relationship.',
-    keywords: 'apology letter to father, sorry letter to dad, apologize to father, family apology'
-  },
-  son: {
-    title: 'Apology Letter to Son Generator - Parental & Heartfelt',
-    description: 'Create a heartfelt apology letter to your son. Show your love and take responsibility as a parent with sincere words.',
-    keywords: 'apology letter to son, sorry letter to son, parent apology, apologize to child'
-  },
-  daughter: {
-    title: 'Apology Letter to Daughter Generator - Parental & Loving',
-    description: 'Write a loving apology letter to your daughter. Express your parental love and genuine remorse with heartfelt words.',
-    keywords: 'apology letter to daughter, sorry letter to daughter, parent apology, apologize to child'
-  },
-  romantic: {
-    title: 'Apology Letter to Partner Generator - Romantic & Heartfelt',
-    description: 'Create a romantic apology letter to your partner. Express your love and sincere regret with words that heal your relationship.',
-    keywords: 'apology letter to partner, romantic apology, sorry letter to girlfriend, sorry letter to boyfriend'
-  }
+// Iconos para recipients
+const recipientIcons: Record<string, string> = {
+  boss: "👔",
+  client: "🤝",
+  colleague: "👥",
+  daughter: "👧",
+  father: "👨",
+  friend: "👫",
+  husband: "💑",
+  mother: "👩",
+  romantic: "💕",
+  partner: "💕",
+  girlfriend: "💝",
+  boyfriend: "💙",
+  son: "👦",
+  teacher: "📚",
+  wife: "💑",
 };
 
-const meta = recipientMeta[recipient as keyof typeof recipientMeta] || {
+const recipientIcon = recipientIcons[recipient] || "📝";
+
+// SEO metadata specific to recipient
+const recipientMeta: Record<
+  string,
+  { title: string; description: string; keywords: string }
+> = {
+  teacher: {
+    title: "Apology Letter to Teacher Generator - Free & Instant",
+    description:
+      "Generate a sincere apology letter to your teacher in seconds. Perfect for missed assignments, class disruptions, or any school-related issues. Free, no signup required.",
+    keywords:
+      "apology letter to teacher, sorry letter to teacher, apologize to teacher, student apology letter",
+  },
+  boss: {
+    title: "Apology Letter to Boss Generator - Professional & Free",
+    description:
+      "Create a professional apology letter to your boss instantly. For workplace mistakes, missed deadlines, or any professional situation. Free templates included.",
+    keywords:
+      "apology letter to boss, sorry letter to boss, professional apology, workplace apology letter",
+  },
+  colleague: {
+    title: "Apology Letter to Colleague Generator - Professional Templates",
+    description:
+      "Write a professional apology letter to your colleague. Perfect for workplace misunderstandings, missed deadlines, or team conflicts.",
+    keywords:
+      "apology letter to colleague, coworker apology, workplace apology, professional sorry letter",
+  },
+  client: {
+    title: "Apology Letter to Client Generator - Business Professional",
+    description:
+      "Create a professional apology letter to your client. Handle service issues, missed deadlines, or business mistakes with grace.",
+    keywords:
+      "apology letter to client, business apology, customer apology, professional apology letter",
+  },
+  friend: {
+    title: "Apology Letter to Friend Generator - Heartfelt & Sincere",
+    description:
+      "Write a heartfelt apology letter to your friend. Repair your friendship with sincere words that truly express your regret.",
+    keywords:
+      "apology letter to friend, sorry letter to friend, friendship apology, apologize to best friend",
+  },
+  wife: {
+    title: "Apology Letter to Wife Generator - Heartfelt & Romantic",
+    description:
+      "Create a heartfelt apology letter to your wife. Express your love and regret with sincere, romantic words that mend your relationship.",
+    keywords:
+      "apology letter to wife, sorry letter to wife, apologize to wife, romantic apology",
+  },
+  husband: {
+    title: "Apology Letter to Husband Generator - Sincere & Loving",
+    description:
+      "Write a sincere apology letter to your husband. Show your love and commitment with words that truly express your remorse.",
+    keywords:
+      "apology letter to husband, sorry letter to husband, apologize to husband, relationship apology",
+  },
+  mother: {
+    title: "Apology Letter to Mother Generator - Heartfelt & Respectful",
+    description:
+      "Create a heartfelt apology letter to your mother. Express your love, respect, and genuine remorse with sincere words.",
+    keywords:
+      "apology letter to mother, sorry letter to mom, apologize to mother, family apology",
+  },
+  father: {
+    title: "Apology Letter to Father Generator - Sincere & Respectful",
+    description:
+      "Write a sincere apology letter to your father. Show respect and genuine remorse with words that rebuild your relationship.",
+    keywords:
+      "apology letter to father, sorry letter to dad, apologize to father, family apology",
+  },
+  son: {
+    title: "Apology Letter to Son Generator - Parental & Heartfelt",
+    description:
+      "Create a heartfelt apology letter to your son. Show your love and take responsibility as a parent with sincere words.",
+    keywords:
+      "apology letter to son, sorry letter to son, parent apology, apologize to child",
+  },
+  daughter: {
+    title: "Apology Letter to Daughter Generator - Parental & Loving",
+    description:
+      "Write a loving apology letter to your daughter. Express your parental love and genuine remorse with heartfelt words.",
+    keywords:
+      "apology letter to daughter, sorry letter to daughter, parent apology, apologize to child",
+  },
+  romantic: {
+    title: "Apology Letter to Partner Generator - Romantic & Heartfelt",
+    description:
+      "Create a romantic apology letter to your partner. Express your love and sincere regret with words that heal your relationship.",
+    keywords:
+      "apology letter to partner, romantic apology, sorry letter to girlfriend, sorry letter to boyfriend",
+  },
+};
+
+const meta = recipientMeta[recipient] || {
   title: `Apology Letter to ${recipientLabel} Generator`,
   description: `Generate a sincere apology letter to your ${recipientLabel.toLowerCase()}. Free, instant, and heartfelt.`,
-  keywords: `apology letter to ${recipient}, sorry letter to ${recipient}`
+  keywords: `apology letter to ${recipient}, sorry letter to ${recipient}`,
 };
 
 // Get recommended tone based on recipient
-const defaultTone = ['boss', 'teacher', 'client', 'colleague'].includes(recipient) ? 'professional' : 'sincere';
+const defaultTone = ["boss", "teacher", "client", "colleague"].includes(
+  recipient,
+)
+  ? "professional"
+  : "sincere";
 
 // FAQ specific to recipient
-const faqs = {
+const faqs: Record<string, { question: string; answer: string }[]> = {
   teacher: [
     {
-      question: 'How do I write an apology letter to my teacher?',
-      answer: 'Start by acknowledging what you did wrong, take full responsibility, explain how you understand it affected the class or your teacher, and outline steps to prevent it from happening again. Be sincere and respectful.'
+      question: "How do I write an apology letter to my teacher?",
+      answer:
+        "Start by acknowledging what you did wrong, take full responsibility, explain how you understand it affected the class or your teacher, and outline steps to prevent it from happening again. Be sincere and respectful.",
     },
     {
-      question: 'Should my apology letter to a teacher be formal?',
-      answer: 'Yes, maintain a respectful and professional tone. Use proper grammar, address your teacher appropriately (Mr./Ms./Dr.), and avoid casual language.'
+      question: "Should my apology letter to a teacher be formal?",
+      answer:
+        "Yes, maintain a respectful and professional tone. Use proper grammar, address your teacher appropriately (Mr./Ms./Dr.), and avoid casual language.",
     },
     {
-      question: 'What should I avoid in an apology letter to a teacher?',
-      answer: 'Avoid making excuses, blaming others, being overly casual, or including irrelevant information. Focus on taking responsibility and showing genuine remorse.'
-    }
+      question: "What should I avoid in an apology letter to a teacher?",
+      answer:
+        "Avoid making excuses, blaming others, being overly casual, or including irrelevant information. Focus on taking responsibility and showing genuine remorse.",
+    },
   ],
   boss: [
     {
-      question: 'How do I apologize to my boss professionally?',
-      answer: 'Be direct and professional. Acknowledge your mistake, take full responsibility, explain briefly what happened without making excuses, and outline concrete steps to fix the issue and prevent future occurrences.'
+      question: "How do I apologize to my boss professionally?",
+      answer:
+        "Be direct and professional. Acknowledge your mistake, take full responsibility, explain briefly what happened without making excuses, and outline concrete steps to fix the issue and prevent future occurrences.",
     },
     {
-      question: 'Should I send an apology letter or email to my boss?',
-      answer: 'For minor issues, an email is appropriate. For serious matters, a formal letter or in-person apology followed by a written letter shows more sincerity and professionalism.'
+      question: "Should I send an apology letter or email to my boss?",
+      answer:
+        "For minor issues, an email is appropriate. For serious matters, a formal letter or in-person apology followed by a written letter shows more sincerity and professionalism.",
     },
     {
-      question: 'How long should an apology letter to my boss be?',
-      answer: 'Keep it concise - 200-300 words. Your boss is busy, so respect their time while still being thorough and sincere.'
-    }
+      question: "How long should an apology letter to my boss be?",
+      answer:
+        "Keep it concise - 200-300 words. Your boss is busy, so respect their time while still being thorough and sincere.",
+    },
   ],
   colleague: [
     {
-      question: 'How do I write an apology letter to a coworker?',
-      answer: 'Be professional but warm. Acknowledge the specific impact your actions had on them or their work, take responsibility, and suggest ways to make amends or work better together in the future.'
+      question: "How do I write an apology letter to a coworker?",
+      answer:
+        "Be professional but warm. Acknowledge the specific impact your actions had on them or their work, take responsibility, and suggest ways to make amends or work better together in the future.",
     },
     {
-      question: 'Should an apology to a colleague be formal?',
-      answer: 'Strike a balance between professional and friendly. It should be more formal than a note to a friend but warmer than a letter to your boss.'
-    }
+      question: "Should an apology to a colleague be formal?",
+      answer:
+        "Strike a balance between professional and friendly. It should be more formal than a note to a friend but warmer than a letter to your boss.",
+    },
   ],
   client: [
     {
-      question: 'How do I apologize to a client professionally?',
-      answer: 'Acknowledge the specific issue that affected them, take full responsibility without making excuses, explain how you\'re fixing it, and outline steps to prevent future issues. Offer compensation if appropriate.'
+      question: "How do I apologize to a client professionally?",
+      answer:
+        "Acknowledge the specific issue that affected them, take full responsibility without making excuses, explain how you're fixing it, and outline steps to prevent future issues. Offer compensation if appropriate.",
     },
     {
-      question: 'What tone should I use in a client apology letter?',
-      answer: 'Professional, sincere, and solution-focused. Show that you value their business and are committed to making things right.'
-    }
+      question: "What tone should I use in a client apology letter?",
+      answer:
+        "Professional, sincere, and solution-focused. Show that you value their business and are committed to making things right.",
+    },
   ],
   friend: [
     {
-      question: 'How do I write an apology letter to my best friend?',
-      answer: 'Be genuine and vulnerable. Acknowledge how your actions hurt them, take full responsibility, share how you feel about the situation, and express your commitment to your friendship.'
+      question: "How do I write an apology letter to my best friend?",
+      answer:
+        "Be genuine and vulnerable. Acknowledge how your actions hurt them, take full responsibility, share how you feel about the situation, and express your commitment to your friendship.",
     },
     {
-      question: 'Should an apology to a friend be formal?',
-      answer: 'No, write in your natural voice. Be sincere and heartfelt, but don\'t be overly formal unless that\'s how you normally communicate.'
-    }
+      question: "Should an apology to a friend be formal?",
+      answer:
+        "No, write in your natural voice. Be sincere and heartfelt, but don't be overly formal unless that's how you normally communicate.",
+    },
   ],
   wife: [
     {
-      question: 'How do I write an apology letter to my wife?',
-      answer: 'Be vulnerable and emotionally present. Show that you understand how your actions hurt her specifically, take full responsibility, express your love, and outline concrete changes you\'ll make.'
+      question: "How do I write an apology letter to my wife?",
+      answer:
+        "Be vulnerable and emotionally present. Show that you understand how your actions hurt her specifically, take full responsibility, express your love, and outline concrete changes you'll make.",
     },
     {
-      question: 'What should I include in an apology letter to my wife?',
-      answer: 'Acknowledgment of what you did wrong, understanding of how it affected her, genuine remorse, specific actions you\'ll take to make amends, and reaffirmation of your love and commitment.'
-    }
+      question: "What should I include in an apology letter to my wife?",
+      answer:
+        "Acknowledgment of what you did wrong, understanding of how it affected her, genuine remorse, specific actions you'll take to make amends, and reaffirmation of your love and commitment.",
+    },
   ],
   husband: [
     {
-      question: 'How do I apologize to my husband in a letter?',
-      answer: 'Be sincere and specific. Show that you understand his perspective, take full responsibility for your actions, express your love and commitment, and outline how you\'ll do better.'
+      question: "How do I apologize to my husband in a letter?",
+      answer:
+        "Be sincere and specific. Show that you understand his perspective, take full responsibility for your actions, express your love and commitment, and outline how you'll do better.",
     },
     {
-      question: 'What tone should I use in an apology letter to my husband?',
-      answer: 'Be genuine and emotionally open. Use a tone that matches your relationship - whether that\'s romantic, playful, or serious - but always sincere.'
-    }
+      question: "What tone should I use in an apology letter to my husband?",
+      answer:
+        "Be genuine and emotionally open. Use a tone that matches your relationship - whether that's romantic, playful, or serious - but always sincere.",
+    },
   ],
   mother: [
     {
-      question: 'How do I write an apology letter to my mom?',
-      answer: 'Express genuine remorse and gratitude. Acknowledge what you did wrong, show that you understand how it hurt her, and reaffirm your love and appreciation for everything she does.'
+      question: "How do I write an apology letter to my mom?",
+      answer:
+        "Express genuine remorse and gratitude. Acknowledge what you did wrong, show that you understand how it hurt her, and reaffirm your love and appreciation for everything she does.",
     },
     {
-      question: 'What should I say in an apology letter to my mother?',
-      answer: 'Acknowledge the specific action, express understanding of how it affected her, take responsibility, show genuine remorse, and thank her for her love and patience.'
-    }
+      question: "What should I say in an apology letter to my mother?",
+      answer:
+        "Acknowledge the specific action, express understanding of how it affected her, take responsibility, show genuine remorse, and thank her for her love and patience.",
+    },
   ],
   father: [
     {
-      question: 'How do I apologize to my dad in writing?',
-      answer: 'Be respectful and sincere. Acknowledge what you did wrong, show that you understand his perspective, take responsibility, and express your respect and love for him.'
+      question: "How do I apologize to my dad in writing?",
+      answer:
+        "Be respectful and sincere. Acknowledge what you did wrong, show that you understand his perspective, take responsibility, and express your respect and love for him.",
     },
     {
-      question: 'Should an apology letter to my father be formal?',
-      answer: 'It depends on your relationship, but generally balance respect with warmth. Be sincere and genuine while showing proper respect.'
-    }
+      question: "Should an apology letter to my father be formal?",
+      answer:
+        "It depends on your relationship, but generally balance respect with warmth. Be sincere and genuine while showing proper respect.",
+    },
   ],
   son: [
     {
-      question: 'How do I apologize to my son as a parent?',
-      answer: 'Model accountability by taking full responsibility. Acknowledge how your actions affected him, validate his feelings, express sincere regret, and outline how you\'ll do better as a parent.'
+      question: "How do I apologize to my son as a parent?",
+      answer:
+        "Model accountability by taking full responsibility. Acknowledge how your actions affected him, validate his feelings, express sincere regret, and outline how you'll do better as a parent.",
     },
     {
-      question: 'What should I include in an apology letter to my son?',
-      answer: 'Clear acknowledgment of what you did wrong, understanding of his perspective, genuine remorse, affirmation of your love, and commitment to being a better parent.'
-    }
+      question: "What should I include in an apology letter to my son?",
+      answer:
+        "Clear acknowledgment of what you did wrong, understanding of his perspective, genuine remorse, affirmation of your love, and commitment to being a better parent.",
+    },
   ],
   daughter: [
     {
-      question: 'How do I write an apology letter to my daughter?',
-      answer: 'Be vulnerable and authentic. Acknowledge your mistake, validate her feelings, express genuine remorse, reaffirm your unconditional love, and commit to doing better.'
+      question: "How do I write an apology letter to my daughter?",
+      answer:
+        "Be vulnerable and authentic. Acknowledge your mistake, validate her feelings, express genuine remorse, reaffirm your unconditional love, and commit to doing better.",
     },
     {
-      question: 'What should a parent say when apologizing to their daughter?',
-      answer: 'Acknowledge the specific action that hurt her, validate her feelings, take full responsibility without excuses, express your love, and outline how you\'ll be a better parent.'
-    }
+      question: "What should a parent say when apologizing to their daughter?",
+      answer:
+        "Acknowledge the specific action that hurt her, validate her feelings, take full responsibility without excuses, express your love, and outline how you'll be a better parent.",
+    },
   ],
   romantic: [
     {
-      question: 'How do I write a romantic apology letter to my partner?',
-      answer: 'Be vulnerable and emotionally present. Express how much they mean to you, acknowledge the specific way you hurt them, take full responsibility, and reaffirm your commitment to the relationship.'
+      question: "How do I write a romantic apology letter to my partner?",
+      answer:
+        "Be vulnerable and emotionally present. Express how much they mean to you, acknowledge the specific way you hurt them, take full responsibility, and reaffirm your commitment to the relationship.",
     },
     {
-      question: 'What makes a good apology letter to a romantic partner?',
-      answer: 'Genuine emotion, specific acknowledgment of what you did wrong, understanding of their perspective, taking full responsibility, expressing your love, and concrete steps to rebuild trust.'
-    }
-  ]
+      question: "What makes a good apology letter to a romantic partner?",
+      answer:
+        "Genuine emotion, specific acknowledgment of what you did wrong, understanding of their perspective, taking full responsibility, expressing your love, and concrete steps to rebuild trust.",
+    },
+  ],
 };
 
-const recipientFaqs = faqs[recipient as keyof typeof faqs] || [];
+const recipientFaqs = faqs[recipient] || [];
+
+// Other generators for cross-linking
+const otherRecipients = recipients
+  .filter((r) => r.value !== recipient)
+  .slice(0, 6);
+
+// FAQ schema for SEO
+const faqSchema =
+  recipientFaqs.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: recipientFaqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+          },
+        })),
+      }
+    : null;
+
+const schemas = faqSchema ? [faqSchema] : undefined;
 ---
 
-<Layout
-  title={meta.title}
-  description={meta.description}
->
-  <main class="container mx-auto px-4 py-12">
+<Layout title={meta.title} description={meta.description} schema={schemas}>
+  <main class="container mx-auto px-4 py-8 md:py-12">
     <div class="max-w-5xl mx-auto">
+      <!-- Breadcrumb -->
+      <nav aria-label="Breadcrumb" class="mb-8">
+        <ol class="flex items-center gap-2 text-sm text-gray-500">
+          <li>
+            <a href="/" class="hover:text-purple-600 transition-colors">Home</a>
+          </li>
+          <li aria-hidden="true">
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"></path>
+            </svg>
+          </li>
+          <li>
+            <a href="/generator" class="hover:text-purple-600 transition-colors"
+              >Generator</a
+            >
+          </li>
+          <li aria-hidden="true">
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"></path>
+            </svg>
+          </li>
+          <li>
+            <span class="text-gray-800 font-medium" aria-current="page"
+              >{recipientLabel}</span
+            >
+          </li>
+        </ol>
+      </nav>
+
       <!-- Hero Header -->
-      <div class="text-center mb-12">
-        <div class="badge badge-primary badge-lg mb-4">Free AI Generator</div>
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">
-          Apology Letter to {recipientLabel}
-          <span class="text-primary block mt-2">Generator</span>
+      <header class="text-center mb-12">
+        <div
+          class="inline-flex items-center gap-2 px-4 py-2 bg-purple-50 border border-purple-200 rounded-full mb-6"
+        >
+          <svg
+            class="w-4 h-4 text-purple-500"
+            aria-hidden="true"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+          <span class="text-sm font-semibold text-purple-700"
+            >Free AI Generator</span
+          >
+        </div>
+
+        <h1
+          class="text-4xl md:text-5xl font-bold text-gray-900 mb-5"
+          style="text-wrap: balance;"
+        >
+          Apology Letter to {recipientLabel} Generator
         </h1>
-        <p class="text-xl opacity-80 max-w-2xl mx-auto mb-6">
-          Create a sincere, {defaultTone === 'professional' ? 'professional' : 'heartfelt'} apology letter to your {recipientLabel.toLowerCase()} in seconds.
-          Free, instant, and perfectly tailored to your situation.
+
+        <p
+          class="text-lg text-gray-500 max-w-2xl mx-auto mb-8"
+          style="text-wrap: balance;"
+        >
+          Create a sincere, {
+            defaultTone === "professional" ? "professional" : "heartfelt"
+          } apology letter to your {recipientLabel.toLowerCase()} in seconds. Free,
+          instant, and perfectly tailored to your situation.
         </p>
-        <div class="flex flex-wrap gap-4 justify-center text-sm">
-          <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+
+        <div class="flex flex-wrap gap-5 justify-center text-sm text-gray-600">
+          <span class="flex items-center gap-2">
+            <svg
+              class="w-5 h-5 text-green-500"
+              aria-hidden="true"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"></path>
             </svg>
             <span>100% Free</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </span>
+          <span class="flex items-center gap-2">
+            <svg
+              class="w-5 h-5 text-green-500"
+              aria-hidden="true"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"></path>
             </svg>
             <span>No Signup Required</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </span>
+          <span class="flex items-center gap-2">
+            <svg
+              class="w-5 h-5 text-green-500"
+              aria-hidden="true"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"></path>
             </svg>
             <span>AI-Powered</span>
-          </div>
+          </span>
         </div>
-      </div>
+      </header>
 
       <!-- Generator Form Component -->
       <RecipientGenerator
@@ -277,78 +477,119 @@ const recipientFaqs = faqs[recipient as keyof typeof faqs] || [];
         defaultTone={defaultTone}
       />
 
-      <!-- Examples Section -->
-      {examples.length > 0 && (
-        <div class="mt-16">
-          <div class="text-center mb-8">
-            <h2 class="text-3xl font-bold mb-2">Example Apology Letters</h2>
-            <p class="opacity-70">See how others have apologized to their {recipientLabel.toLowerCase()}</p>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-            {examples.map((example) => (
-              <a
-                href={`/examples/${recipient}/${example.slug}`}
-                class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 group border border-base-300 hover:border-primary"
-              >
-                <div class="card-body p-6">
-                  <div class="badge badge-secondary badge-sm mb-2">
-                    {example.tone.charAt(0).toUpperCase() + example.tone.slice(1)}
-                  </div>
-                  <h3 class="card-title text-base group-hover:text-primary transition-colors line-clamp-2">
-                    {example.context}
-                  </h3>
-                  <p class="text-sm opacity-70 line-clamp-3">
-                    {example.letters[0].substring(0, 120)}...
-                  </p>
-                </div>
-              </a>
-            ))}
-          </div>
-          <div class="text-center">
-            <a href={`/examples?recipient=${recipient}`} class="btn btn-outline btn-primary">
-              View All {recipientLabel} Examples
-            </a>
-          </div>
-        </div>
-      )}
-
       <!-- FAQ Section -->
-      {recipientFaqs.length > 0 && (
-        <div class="mt-16">
-          <div class="text-center mb-8">
-            <h2 class="text-3xl font-bold mb-2">Frequently Asked Questions</h2>
-            <p class="opacity-70">Everything you need to know about apologizing to your {recipientLabel.toLowerCase()}</p>
-          </div>
-          <div class="space-y-4">
-            {recipientFaqs.map((faq) => (
-              <details class="collapse collapse-plus bg-base-200">
-                <summary class="collapse-title text-lg font-medium">
-                  {faq.question}
-                </summary>
-                <div class="collapse-content">
-                  <p class="pt-2">{faq.answer}</p>
-                </div>
-              </details>
-            ))}
-          </div>
+      {
+        recipientFaqs.length > 0 && (
+          <section class="mt-20">
+            <div class="text-center space-y-3 mb-10">
+              <span class="inline-block text-sm font-semibold tracking-widest uppercase text-purple-500">
+                FAQ
+              </span>
+              <h2
+                class="text-3xl font-bold text-gray-900"
+                style="text-wrap: balance;"
+              >
+                Frequently Asked Questions About Apologizing to Your{" "}
+                {recipientLabel}
+              </h2>
+            </div>
+            <div class="max-w-3xl mx-auto space-y-3">
+              {recipientFaqs.map((faq) => (
+                <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
+                  <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center gap-4">
+                    <span>{faq.question}</span>
+                    <svg
+                      class="w-5 h-5 text-gray-400 flex-shrink-0 transition-transform group-open:rotate-180"
+                      aria-hidden="true"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </summary>
+                  <p class="mt-4 text-gray-600 leading-relaxed">{faq.answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+      <!-- Other Generators -->
+      <section class="mt-20 mb-8">
+        <div class="text-center space-y-3 mb-10">
+          <span
+            class="inline-block text-sm font-semibold tracking-widest uppercase text-purple-500"
+            >More Generators</span
+          >
+          <h2
+            class="text-3xl font-bold text-gray-900"
+            style="text-wrap: balance;"
+          >
+            Need to Apologize to Someone Else?
+          </h2>
         </div>
-      )}
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          {
+            otherRecipients.map((r) => (
+              <a
+                href={`/generator/${r.value}`}
+                class="group flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-purple-400 shadow-sm hover:shadow-md transition-all duration-300"
+              >
+                <span class="text-2xl flex-shrink-0">
+                  {recipientIcons[r.value] || "📝"}
+                </span>
+                <div class="min-w-0">
+                  <span class="font-medium text-gray-800 group-hover:text-purple-700 transition-colors block truncate">
+                    {r.label}
+                  </span>
+                </div>
+                <svg
+                  class="w-4 h-4 text-gray-300 group-hover:text-purple-500 ml-auto flex-shrink-0 transition-colors"
+                  aria-hidden="true"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </a>
+            ))
+          }
+        </div>
+        <div class="text-center mt-8">
+          <a
+            href="/examples"
+            class="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium transition-colors"
+          >
+            <span>Or browse all example letters</span>
+            <svg
+              class="w-4 h-4"
+              aria-hidden="true"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          </a>
+        </div>
+      </section>
     </div>
   </main>
 </Layout>
-
-<style>
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-</style>
