@@ -96,26 +96,6 @@ const hasFilters = recipientFilter || toneFilter || searchTerm;
       </p>
     </div>
 
-    <!-- Stats Section -->
-    <div class="mb-12 text-center">
-      <div class="inline-flex items-center space-x-4 sm:space-x-8 bg-white/80 backdrop-blur-sm rounded-2xl px-4 sm:px-8 py-4 shadow-lg border-2 border-gray-200">
-        <div>
-          <div class="text-xl sm:text-2xl font-bold text-purple-600">{total.toLocaleString()}</div>
-          <div class="text-xs sm:text-sm text-gray-600 font-sans">Total Letters</div>
-        </div>
-        <div class="w-px h-8 bg-gray-300"></div>
-        <div>
-          <div class="text-xl sm:text-2xl font-bold text-blue-600">{recipientCount}</div>
-          <div class="text-xs sm:text-sm text-gray-600 font-sans">Recipients</div>
-        </div>
-        <div class="w-px h-8 bg-gray-300"></div>
-        <div>
-          <div class="text-xl sm:text-2xl font-bold text-green-600">{toneCount}</div>
-          <div class="text-xs sm:text-sm text-gray-600 font-sans">Tones</div>
-        </div>
-      </div>
-    </div>
-
     <!-- Filter Bar -->
     <div class="mb-8">
       <form method="get" action="/examples" class="grid grid-cols-2 sm:flex sm:items-end gap-3 sm:gap-4 w-full">
