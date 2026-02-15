@@ -6,6 +6,8 @@ export default {
 		extend: {
 			fontFamily: {
 				sans: ['Inter', 'sans-serif'],
+				serif: ['Lora', 'Georgia', 'serif'],
+				cursive: ['Dancing Script', 'cursive'],
 			},
 		},
 	},

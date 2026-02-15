@@ -9,6 +9,12 @@ const ALL_RECIPIENTS = [
   { value: 'husband', label: 'Husband', categories: ['personal'], hasGeneratorPage: true },
   { value: 'friend', label: 'Friend', categories: ['personal'], hasGeneratorPage: true },
   { value: 'romantic', label: 'Romantic', categories: ['personal'], hasGeneratorPage: true, labelAlt: 'Romantic partner' },
+  { value: 'partner', label: 'Partner', categories: ['personal'], hasGeneratorPage: true, labelAlt: 'Partner' },
+  { value: 'sibling', label: 'Sibling', categories: ['personal', 'family'], hasGeneratorPage: false },
+  { value: 'grandmother', label: 'Grandmother', categories: ['personal', 'family'], hasGeneratorPage: false },
+  { value: 'grandfather', label: 'Grandfather', categories: ['personal', 'family'], hasGeneratorPage: false },
+  { value: 'ex', label: 'Ex-Partner', categories: ['personal'], hasGeneratorPage: false },
+  { value: 'neighbor', label: 'Neighbor', categories: ['personal'], hasGeneratorPage: false },
 
   // Professional
   { value: 'boss', label: 'Boss', categories: ['professional'], hasGeneratorPage: true },
@@ -21,9 +27,10 @@ const ALL_RECIPIENTS = [
   { value: 'hr', label: 'HR', categories: ['professional'], hasGeneratorPage: false },
   { value: 'vendor', label: 'Vendor/Supplier', categories: ['professional'], hasGeneratorPage: false },
   { value: 'investor', label: 'Investor', categories: ['professional'], hasGeneratorPage: false },
-
-  // Other (wizard only)
-  { value: 'other', label: 'Other', categories: ['personal', 'professional'], hasGeneratorPage: false }
+  { value: 'employee', label: 'Employee', categories: ['professional'], hasGeneratorPage: false },
+  { value: 'professor', label: 'Professor', categories: ['professional'], hasGeneratorPage: false },
+  { value: 'classmate', label: 'Classmate', categories: ['professional'], hasGeneratorPage: false },
+  { value: 'mentor', label: 'Mentor', categories: ['professional'], hasGeneratorPage: false },
 ];
 
 // For /examples and content collections (12 recipients with generator pages)
@@ -34,7 +41,7 @@ export const recipients = ALL_RECIPIENTS
     label: r.labelAlt || r.label
   }));
 
-// For ApologyWizard - Personal (9 recipients including "other")
+// For ApologyWizard - Personal
 export const personalRecipients = ALL_RECIPIENTS
   .filter(r => r.categories.includes('personal'))
   .map(r => ({
@@ -42,7 +49,7 @@ export const personalRecipients = ALL_RECIPIENTS
     label: r.label
   }));
 
-// For ApologyWizard - Professional (9 recipients including "other")
+// For ApologyWizard - Professional
 export const professionalRecipients = ALL_RECIPIENTS
   .filter(r => r.categories.includes('professional'))
   .map(r => ({
@@ -276,17 +283,9 @@ export const contextsByRecipient = {
     "I damaged the company's reputation",
     "I didn't meet my fiduciary responsibilities",
   ],
-  other: [
-    "I made a mistake that affected you",
-    "I was disrespectful or inconsiderate",
-    "I failed to keep my promise",
-    "I hurt your feelings",
-    "I was dishonest or broke your trust",
-    "I let you down when you needed me",
-  ],
 };
 
-// Tones (9 total - including "other" for wizard)
+// Tones (9 official tones)
 export const tones = [
   { value: 'formal', label: 'Formal', emoji: '🎩', description: 'Respectful and structured.' },
   { value: 'casual', label: 'Casual', emoji: '😊', description: 'Relaxed and friendly.' },
@@ -296,5 +295,5 @@ export const tones = [
   { value: 'humorous', label: 'Humorous', emoji: '😄', description: 'Light and witty.' },
   { value: 'emotional', label: 'Emotional', emoji: '🥺', description: 'Emotional and heartfelt.' },
   { value: 'apologetic', label: 'Apologetic', emoji: '🙏', description: 'Apologetic and sincere.' },
-  { value: 'other', label: 'Other', emoji: '✏️', description: 'Custom tone' }
+  { value: 'sincere', label: 'Sincere', emoji: '💛', description: 'Honest and genuine.' }
 ];

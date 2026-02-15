@@ -5,7 +5,17 @@
       "Bash(del \"C:\\Users\\pc02\\projects\\apologify.com\\src\\lib\\recipientCategories.ts\")",
       "Bash(node:*)",
       "Bash(npx skills find:*)",
-      "Bash(pnpm astro check:*)"
+      "Bash(pnpm astro check:*)",
+      "Bash(del \"C:\\\\Users\\\\soto\\\\projects\\\\apologify\\\\src\\\\lib\\\\database.ts\")",
+      "Bash(npx astro check:*)",
+      "Bash(pnpm build:*)",
+      "Bash(git checkout:*)",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_console_messages",
+      "mcp__plugin_playwright_playwright__browser_evaluate",
+      "mcp__plugin_playwright_playwright__browser_run_code",
+      "mcp__plugin_playwright_playwright__browser_close",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": []

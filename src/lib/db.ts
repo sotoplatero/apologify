@@ -1,5 +1,18 @@
 import { turso } from './turso';
 
+export interface Letter {
+  id?: number;
+  recipient: string;
+  context: string;
+  tone: string;
+  letters: string[];
+  slug: string;
+  source: 'static' | 'generated';
+  title?: string;
+  created_at?: string;
+}
+
+// Keep for backwards compatibility with actions
 export interface GeneratedLetter {
   id?: number;
   recipient: string;
@@ -7,167 +20,239 @@ export interface GeneratedLetter {
   tone: string;
   letter: string;
   slug: string;
+  title?: string;
   created_at?: string;
 }
 
-/**
- * Check if Turso is configured
- */
 function isTursoConfigured(): boolean {
   return turso !== null;
 }
 
-/**
- * Initialize the user_letters table
- */
-export async function initDB() {
-  if (!isTursoConfigured()) {
-    throw new Error('Turso database is not configured. Please set TURSO_DATABASE_URL and TURSO_AUTH_TOKEN environment variables.');
-  }
-
-  await turso!.execute(`
-    CREATE TABLE IF NOT EXISTS user_letters (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      recipient TEXT NOT NULL,
-      context TEXT NOT NULL,
-      tone TEXT NOT NULL,
-      letter TEXT NOT NULL,
-      slug TEXT UNIQUE NOT NULL,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
-
-  // Create indexes for better query performance
-  await turso!.execute(`
-    CREATE INDEX IF NOT EXISTS idx_recipient ON user_letters(recipient)
-  `);
-
-  await turso!.execute(`
-    CREATE INDEX IF NOT EXISTS idx_tone ON user_letters(tone)
-  `);
-
-  await turso!.execute(`
-    CREATE INDEX IF NOT EXISTS idx_created_at ON user_letters(created_at)
-  `);
+function rowToLetter(row: any): Letter {
+  return {
+    id: row.id,
+    recipient: row.recipient,
+    context: row.context,
+    tone: row.tone,
+    letters: JSON.parse(row.letters),
+    slug: row.slug,
+    source: row.source,
+    title: row.title || undefined,
+    created_at: row.created_at
+  };
 }
 
 /**
  * Save a generated letter to the database
  */
-export async function saveGeneratedLetter(letter: GeneratedLetter): Promise<number> {
+export async function saveGeneratedLetter(data: {
+  recipient: string;
+  context: string;
+  tone: string;
+  letter: string;
+  slug: string;
+  title?: string;
+}): Promise<number> {
   if (!isTursoConfigured()) {
     console.warn('Turso not configured, letter not saved');
     return -1;
   }
 
   const result = await turso!.execute({
-    sql: `
-      INSERT INTO user_letters (recipient, context, tone, letter, slug)
-      VALUES (?, ?, ?, ?, ?)
-    `,
-    args: [letter.recipient, letter.context, letter.tone, letter.letter, letter.slug]
+    sql: `INSERT INTO letters (recipient, context, tone, letters, slug, source, title)
+          VALUES (?, ?, ?, ?, ?, 'generated', ?)`,
+    args: [data.recipient, data.context, data.tone, JSON.stringify([data.letter]), data.slug, data.title || null]
   });
 
   return Number(result.lastInsertRowid);
 }
 
 /**
- * Get all generated letters
+ * Get all letters with optional filters
  */
-export async function getAllGeneratedLetters(): Promise<GeneratedLetter[]> {
-  if (!isTursoConfigured()) {
-    return [];
-  }
-
-  const result = await turso!.execute('SELECT * FROM user_letters ORDER BY created_at DESC');
-  return result.rows as unknown as GeneratedLetter[];
-}
-
-/**
- * Get generated letters by recipient
- */
-export async function getGeneratedLettersByRecipient(recipient: string): Promise<GeneratedLetter[]> {
-  if (!isTursoConfigured()) {
-    return [];
-  }
-
-  const result = await turso!.execute({
-    sql: 'SELECT * FROM user_letters WHERE recipient = ? ORDER BY created_at DESC',
-    args: [recipient]
-  });
-  return result.rows as unknown as GeneratedLetter[];
-}
-
-/**
- * Get generated letters by tone
- */
-export async function getGeneratedLettersByTone(tone: string): Promise<GeneratedLetter[]> {
-  if (!isTursoConfigured()) {
-    return [];
-  }
-
-  const result = await turso!.execute({
-    sql: 'SELECT * FROM user_letters WHERE tone = ? ORDER BY created_at DESC',
-    args: [tone]
-  });
-  return result.rows as unknown as GeneratedLetter[];
-}
-
-/**
- * Get a single generated letter by slug
- */
-export async function getGeneratedLetterBySlug(slug: string): Promise<GeneratedLetter | null> {
-  if (!isTursoConfigured()) {
-    return null;
-  }
-
-  const result = await turso!.execute({
-    sql: 'SELECT * FROM user_letters WHERE slug = ? LIMIT 1',
-    args: [slug]
-  });
-
-  return result.rows.length > 0 ? (result.rows[0] as unknown as GeneratedLetter) : null;
-}
-
-/**
- * Search generated letters with filters
- */
-export async function searchGeneratedLetters(filters: {
+export async function getAllLettersFromDB(filters?: {
   recipient?: string;
   tone?: string;
   searchTerm?: string;
-}): Promise<GeneratedLetter[]> {
-  if (!isTursoConfigured()) {
-    return [];
-  }
+  source?: 'static' | 'generated' | 'all';
+}): Promise<Letter[]> {
+  if (!isTursoConfigured()) return [];
 
-  let sql = 'SELECT * FROM user_letters WHERE 1=1';
-  const args: string[] = [];
+  let sql = 'SELECT * FROM letters WHERE 1=1';
+  const args: any[] = [];
 
-  if (filters.recipient) {
+  if (filters?.recipient) {
     sql += ' AND recipient = ?';
     args.push(filters.recipient);
   }
-
-  if (filters.tone) {
+  if (filters?.tone) {
     sql += ' AND tone = ?';
     args.push(filters.tone);
   }
-
-  if (filters.searchTerm) {
-    sql += ' AND (context LIKE ? OR letter LIKE ?)';
-    const searchPattern = `%${filters.searchTerm}%`;
-    args.push(searchPattern, searchPattern);
+  if (filters?.source && filters.source !== 'all') {
+    sql += ' AND source = ?';
+    args.push(filters.source);
+  }
+  if (filters?.searchTerm) {
+    sql += ' AND (context LIKE ? OR letters LIKE ? OR title LIKE ?)';
+    const pattern = `%${filters.searchTerm}%`;
+    args.push(pattern, pattern, pattern);
   }
 
   sql += ' ORDER BY created_at DESC';
 
   const result = await turso!.execute({ sql, args });
-  return result.rows as unknown as GeneratedLetter[];
+  return result.rows.map(rowToLetter);
 }
 
 /**
- * Delete a generated letter by ID
+ * Get a single letter by recipient and slug
+ */
+export async function getLetterBySlug(recipient: string, slug: string): Promise<Letter | null> {
+  if (!isTursoConfigured()) return null;
+
+  const result = await turso!.execute({
+    sql: 'SELECT * FROM letters WHERE recipient = ? AND slug = ? LIMIT 1',
+    args: [recipient, slug]
+  });
+
+  return result.rows.length > 0 ? rowToLetter(result.rows[0]) : null;
+}
+
+/**
+ * Get letters by recipient
+ */
+export async function getLettersByRecipient(recipient: string): Promise<Letter[]> {
+  if (!isTursoConfigured()) return [];
+
+  const result = await turso!.execute({
+    sql: 'SELECT * FROM letters WHERE recipient = ? ORDER BY created_at DESC',
+    args: [recipient]
+  });
+
+  return result.rows.map(rowToLetter);
+}
+
+/**
+ * Get total letter count
+ */
+export async function getLetterCount(): Promise<number> {
+  if (!isTursoConfigured()) return 0;
+
+  const result = await turso!.execute('SELECT COUNT(*) as count FROM letters');
+  return Number(result.rows[0].count);
+}
+
+/**
+ * Get letter counts grouped by recipient
+ */
+export async function getRecipientCounts(): Promise<Record<string, number>> {
+  if (!isTursoConfigured()) return {};
+
+  const result = await turso!.execute('SELECT recipient, COUNT(*) as count FROM letters GROUP BY recipient');
+  const counts: Record<string, number> = {};
+  for (const row of result.rows) {
+    counts[row.recipient as string] = Number(row.count);
+  }
+  return counts;
+}
+
+/**
+ * Get letter counts grouped by tone
+ */
+export async function getToneCounts(): Promise<Record<string, number>> {
+  if (!isTursoConfigured()) return {};
+
+  const result = await turso!.execute('SELECT tone, COUNT(*) as count FROM letters GROUP BY tone');
+  const counts: Record<string, number> = {};
+  for (const row of result.rows) {
+    counts[row.tone as string] = Number(row.count);
+  }
+  return counts;
+}
+
+/**
+ * Get paginated letters with optional filters
+ */
+export async function getLettersPaginated(page: number, pageSize: number, filters?: {
+  recipient?: string;
+  tone?: string;
+  searchTerm?: string;
+}): Promise<{
+  letters: Letter[];
+  total: number;
+  lastPage: number;
+}> {
+  if (!isTursoConfigured()) return { letters: [], total: 0, lastPage: 1 };
+
+  const offset = (page - 1) * pageSize;
+
+  let whereClauses = '1=1';
+  const args: any[] = [];
+
+  if (filters?.recipient) {
+    whereClauses += ' AND recipient = ?';
+    args.push(filters.recipient);
+  }
+  if (filters?.tone) {
+    whereClauses += ' AND tone = ?';
+    args.push(filters.tone);
+  }
+  if (filters?.searchTerm) {
+    whereClauses += ' AND (context LIKE ? OR letters LIKE ? OR title LIKE ?)';
+    const pattern = `%${filters.searchTerm}%`;
+    args.push(pattern, pattern, pattern);
+  }
+
+  const [dataResult, countResult] = await Promise.all([
+    turso!.execute({
+      sql: `SELECT * FROM letters WHERE ${whereClauses} ORDER BY created_at DESC LIMIT ? OFFSET ?`,
+      args: [...args, pageSize, offset]
+    }),
+    turso!.execute({
+      sql: `SELECT COUNT(*) as count FROM letters WHERE ${whereClauses}`,
+      args: [...args]
+    })
+  ]);
+
+  const total = Number(countResult.rows[0].count);
+  return {
+    letters: dataResult.rows.map(rowToLetter),
+    total,
+    lastPage: Math.ceil(total / pageSize)
+  };
+}
+
+/**
+ * Get related letters (same recipient, excluding current)
+ */
+export async function getRelatedLetters(recipient: string, excludeSlug: string, limit: number = 4): Promise<Letter[]> {
+  if (!isTursoConfigured()) return [];
+
+  const result = await turso!.execute({
+    sql: 'SELECT * FROM letters WHERE recipient = ? AND slug != ? ORDER BY RANDOM() LIMIT ?',
+    args: [recipient, excludeSlug, limit]
+  });
+
+  return result.rows.map(rowToLetter);
+}
+
+/**
+ * Get random sample letters
+ */
+export async function getSampleLetters(count: number): Promise<Letter[]> {
+  if (!isTursoConfigured()) return [];
+
+  const result = await turso!.execute({
+    sql: 'SELECT * FROM letters ORDER BY RANDOM() LIMIT ?',
+    args: [count]
+  });
+
+  return result.rows.map(rowToLetter);
+}
+
+/**
+ * Delete a letter by ID
  */
 export async function deleteGeneratedLetter(id: number): Promise<void> {
   if (!isTursoConfigured()) {
@@ -175,7 +260,7 @@ export async function deleteGeneratedLetter(id: number): Promise<void> {
   }
 
   await turso!.execute({
-    sql: 'DELETE FROM user_letters WHERE id = ?',
+    sql: 'DELETE FROM letters WHERE id = ?',
     args: [id]
   });
 }

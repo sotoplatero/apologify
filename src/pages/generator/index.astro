@@ -37,7 +37,7 @@ function getErrorMessage(error: { code?: string; message?: string } | null) {
       </div>
   ) : (
     <div class="max-w-4xl mx-auto py-16">
-      <h1 class="text-3xl font-bold mb-8 text-center">Your Generated Letter</h1>
+      <h1 class="text-3xl font-bold mb-8 text-center">{result.data.title || 'Your Generated Letter'}</h1>
 
       {result?.error ? (
         <div class="alert alert-error mb-8">

@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount } from "svelte";
   export let letter: string;
+  export let context: string | undefined = undefined;
 
   let copied = false;
   let timeoutId: ReturnType<typeof setTimeout>;
@@ -17,16 +18,16 @@
         copied = false;
       }, 2000);
     } catch (err) {
-      console.error('Failed to copy text: ', err);
+      console.error("Failed to copy text: ", err);
     }
   }
 
   function downloadLetter() {
-    const blob = new Blob([letter], { type: 'text/plain' });
+    const blob = new Blob([letter], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'apology-letter.txt';
+    a.download = "apology-letter.txt";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -36,13 +37,14 @@
   // Animación de entrada cuando se monta el componente
   onMount(() => {
     if (letterRef) {
-      letterRef.style.opacity = '0';
-      letterRef.style.transform = 'translateY(20px)';
+      letterRef.style.opacity = "0";
+      letterRef.style.transform = "translateY(20px)";
 
       requestAnimationFrame(() => {
-        letterRef.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-        letterRef.style.opacity = '1';
-        letterRef.style.transform = 'translateY(0)';
+        letterRef.style.transition =
+          "opacity 0.6s ease-out, transform 0.6s ease-out";
+        letterRef.style.opacity = "1";
+        letterRef.style.transform = "translateY(0)";
       });
     }
   });
@@ -51,7 +53,6 @@
 <!-- Letter Card con diseño Editorial/Refined -->
 <div class="letter-wrapper">
   <div class="letter-card" bind:this={letterRef}>
-
     <!-- Decorative Corner Elements -->
     <div class="corner-decoration top-left"></div>
     <div class="corner-decoration top-right"></div>
@@ -63,7 +64,7 @@
       <button
         on:click={copyToClipboard}
         class="action-button"
-        class:copied={copied}
+        class:copied
         title="Copy to clipboard"
       >
         <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -74,7 +75,7 @@
             d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
           />
         </svg>
-        <span class="button-text">{copied ? 'Copied!' : 'Copy'}</span>
+        <span class="button-text">{copied ? "Copied!" : "Copy"}</span>
       </button>
 
       <button
@@ -99,13 +100,21 @@
       <!-- Paper Texture Overlay -->
       <div class="paper-texture"></div>
 
+      <!-- Context/Reason Block -->
+      {#if context}
+        <div class="context-block">
+          <span class="context-label">Reason for the apology</span>
+          <p class="context-text">{context}</p>
+        </div>
+      {/if}
+
       <!-- Decorative Header Line -->
       <div class="header-decoration">
         <div class="center-ornament">
           <svg class="ornament" viewBox="0 0 100 20" fill="none">
-            <path d="M0 10h35" stroke="currentColor" stroke-width="0.5"/>
-            <circle cx="50" cy="10" r="3" fill="currentColor"/>
-            <path d="M65 10h35" stroke="currentColor" stroke-width="0.5"/>
+            <path d="M0 10h35" stroke="currentColor" stroke-width="0.5" />
+            <circle cx="50" cy="10" r="3" fill="currentColor" />
+            <path d="M65 10h35" stroke="currentColor" stroke-width="0.5" />
           </svg>
         </div>
       </div>
@@ -119,11 +128,11 @@
       <div class="footer-decoration">
         <div class="center-ornament">
           <svg class="ornament" viewBox="0 0 100 20" fill="none">
-            <path d="M0 10h40" stroke="currentColor" stroke-width="0.5"/>
-            <circle cx="50" cy="10" r="2" fill="currentColor"/>
-            <circle cx="58" cy="10" r="1.5" fill="currentColor"/>
-            <circle cx="65" cy="10" r="1" fill="currentColor"/>
-            <path d="M70 10h30" stroke="currentColor" stroke-width="0.5"/>
+            <path d="M0 10h40" stroke="currentColor" stroke-width="0.5" />
+            <circle cx="50" cy="10" r="2" fill="currentColor" />
+            <circle cx="58" cy="10" r="1.5" fill="currentColor" />
+            <circle cx="65" cy="10" r="1" fill="currentColor" />
+            <path d="M70 10h30" stroke="currentColor" stroke-width="0.5" />
           </svg>
         </div>
       </div>
@@ -131,7 +140,12 @@
 
     <!-- Footer Tip -->
     <div class="letter-footer">
-      <svg class="footer-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg
+        class="footer-icon"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
         <path
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -145,17 +159,16 @@
 </div>
 
 <style>
-  /* IMPORTAMOS FUENTES ELEGANTES */
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;500&display=swap');
+  /* Fonts loaded globally via LayoutBase.astro */
 
   /* VARIABLES DE COLOR - PALETA SOFISTICADA */
   :global(.letter-wrapper) {
-    --letter-cream: #FAF8F5;
-    --letter-white: #FFFFFF;
-    --letter-warm-gray: #8B8680;
-    --letter-dark: #2C2825;
-    --letter-accent: #C8796B; /* Terracotta cálido */
-    --letter-accent-light: #E8C4B9;
+    --letter-cream: #faf8f5;
+    --letter-white: #ffffff;
+    --letter-warm-gray: #8b8680;
+    --letter-dark: #2c2825;
+    --letter-accent: #c8796b; /* Terracotta cálido */
+    --letter-accent-light: #e8c4b9;
     --letter-shadow: rgba(44, 40, 37, 0.08);
     --letter-border: rgba(44, 40, 37, 0.1);
   }
@@ -249,7 +262,10 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.625rem 1rem;
-    font-family: 'Inter', -apple-system, sans-serif;
+    font-family:
+      "Inter",
+      -apple-system,
+      sans-serif;
     font-size: 0.8125rem;
     font-weight: 500;
     color: var(--letter-warm-gray);
@@ -296,14 +312,13 @@
     inset: 0;
     opacity: 0.4;
     pointer-events: none;
-    background-image:
-      repeating-linear-gradient(
-        to right,
-        transparent,
-        transparent 2px,
-        rgba(44, 40, 37, 0.02) 2px,
-        rgba(44, 40, 37, 0.02) 4px
-      );
+    background-image: repeating-linear-gradient(
+      to right,
+      transparent,
+      transparent 2px,
+      rgba(44, 40, 37, 0.02) 2px,
+      rgba(44, 40, 37, 0.02) 4px
+    );
   }
 
   /* DECORACIONES DE ENCABEZADO Y PIE */
@@ -328,8 +343,8 @@
   /* TEXTO DE LA CARTA */
   .letter-text {
     position: relative;
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 1.1875rem;
+    font-family: "Dancing Script", cursive;
+    font-size: 1.35rem;
     line-height: 1.85;
     color: var(--letter-dark);
     white-space: pre-wrap;
@@ -355,6 +370,41 @@
     color: var(--letter-accent);
   }
 
+  /* CONTEXT BLOCK */
+  .context-block {
+    position: relative;
+    margin-bottom: 2rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--letter-white);
+    border-left: 3px solid var(--letter-accent);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .context-label {
+    display: block;
+    font-family:
+      "Inter",
+      -apple-system,
+      sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--letter-accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .context-text {
+    font-family:
+      "Inter",
+      -apple-system,
+      sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--letter-warm-gray);
+    margin: 0;
+  }
+
   /* FOOTER TIP */
   .letter-footer {
     display: flex;
@@ -362,7 +412,10 @@
     justify-content: center;
     gap: 0.625rem;
     padding: 1rem 1.5rem;
-    font-family: 'Inter', -apple-system, sans-serif;
+    font-family:
+      "Inter",
+      -apple-system,
+      sans-serif;
     font-size: 0.75rem;
     color: var(--letter-warm-gray);
     background: var(--letter-cream);
@@ -399,7 +452,7 @@
     }
 
     .letter-text {
-      font-size: 1.0625rem;
+      font-size: 1.2rem;
       line-height: 1.75;
     }
 
@@ -414,7 +467,8 @@
 
   /* ANIMACIONES SUAVES */
   @keyframes pulse {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 0.7;
     }
     50% {

@@ -1,36 +1,21 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
 import { recipients } from '../../../lib/apologyData';
 import LetterCard from '../../../components/LetterCard.astro';
-import type { CollectionEntry } from 'astro:content';
+import { getLettersByRecipient } from '../../../lib/db';
 
-export const prerender = true;
-
-export async function getStaticPaths() {
-  return recipients.map(recipient => ({
-    params: { recipient: recipient.value },
-    props: { recipientLabel: recipient.label }
-  }));
-}
-
-interface Props {
-  recipientLabel: string;
-}
+export const prerender = false;
 
 const { recipient } = Astro.params;
-const { recipientLabel } = Astro.props;
 
-// Find the recipient label if not provided in props
-const recipientData = recipients.find(r => r.value === recipient);
-const finalRecipientLabel = recipientLabel || recipientData?.label || 'Unknown';
-
-const allLetters = await getCollection('letters', (entry) => entry.id.startsWith(`${recipient}/`));
-
-function getSlugFromId(id: string): string {
-  const parts = id.split('/');
-  return parts[parts.length - 1].replace('.json', '');
+if (!recipient) {
+  return Astro.redirect('/examples');
 }
+
+const recipientData = recipients.find(r => r.value === recipient);
+const finalRecipientLabel = recipientData?.label || recipient;
+
+const allLetters = await getLettersByRecipient(recipient);
 
 // Breadcrumb schema
 const breadcrumbSchema = {
@@ -101,10 +86,9 @@ const collectionSchema = {
         </div>
       ) : (
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="examples-grid">
-          {allLetters.map((letter) => {
-            const slug = getSlugFromId(letter.id);
-            return <LetterCard letter={letter} slug={slug} />;
-          })}
+          {allLetters.map((letter) => (
+            <LetterCard letter={letter} slug={letter.slug} />
+          ))}
         </div>
       )}
     </div>

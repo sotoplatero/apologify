@@ -61,6 +61,11 @@ const finalOgImage = ogImage || defaultOgImage;
 		<link rel="preconnect" href="https://images.unsplash.com" />
 		<link rel="dns-prefetch" href="https://images.unsplash.com" />
 
+		<!-- Google Fonts: Lora (body), Inter (UI), Dancing Script (letters) -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
+
 		<link rel="sitemap" href="/sitemap-index.xml" />
 		<title>{title}</title>
 
@@ -74,7 +79,7 @@ const finalOgImage = ogImage || defaultOgImage;
 
 		<ViewTransitions />
 	</head>
-	<body class="flex flex-col min-h-screen overflow-x-hidden bg-gradient-to-br from-purple-50 via-white to-blue-50">
+	<body class="flex flex-col min-h-screen overflow-x-hidden bg-gradient-to-br from-purple-50 via-white to-blue-50 font-serif">
 		<slot />
 	</body>
 </html>

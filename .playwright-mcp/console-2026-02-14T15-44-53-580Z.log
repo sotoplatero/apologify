@@ -1,0 +1,11 @@
+[    3582ms] [ERROR] [astro-island] Error hydrating /src/components/LetterDirectory.svelte TypeError: Cannot read properties of undefined (reading 'source')
+    at http://localhost:4321/src/components/LetterDirectory.svelte:287:72
+    at http://localhost:4321/node_modules/.vite/deps/chunk-M34KRW3N.js?v=0668442c:307:23
+    at update_reaction (http://localhost:4321/node_modules/.vite/deps/chunk-V7WXD4RS.js:1669:23)
+    at update_effect (http://localhost:4321/node_modules/.vite/deps/chunk-V7WXD4RS.js:1788:21)
+    at create_effect (http://localhost:4321/node_modules/.vite/deps/chunk-V7WXD4RS.js:2186:7)
+    at block (http://localhost:4321/node_modules/.vite/deps/chunk-V7WXD4RS.js:2328:10)
+    at wrapper (http://localhost:4321/node_modules/.vite/deps/chunk-M34KRW3N.js?v=0668442c:306:5)
+    at http://localhost:4321/node_modules/.vite/deps/chunk-RA3E7DU5.js?v=0668442c:663:19
+    at update_reaction (http://localhost:4321/node_modules/.vite/deps/chunk-V7WXD4RS.js:1669:23)
+    at update_effect (http://localhost:4321/node_modules/.vite/deps/chunk-V7WXD4RS.js:1788:21) @ http://localhost:4321/examples:5331

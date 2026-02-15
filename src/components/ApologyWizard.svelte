@@ -4,6 +4,7 @@
   import { tones, personalRecipients, professionalRecipients } from '../lib/apologyData.js';
 
   const placeholder = `Describe the situation that requires an apology...`;
+  const MIN_CONTEXT_LENGTH = 20;
 
   export let initialType: 'personal' | 'professional' = 'personal';
 
@@ -12,17 +13,13 @@
   
   let letterType: 'personal' | 'professional' = 'personal';
   let relationship = '';
-  let customRelationship = '';
   let selectedTone = tones[0]?.value || 'formal';
-  let customTone = '';
   let context = '';
   let loading = false;
   let isTransitioning = false;
 
   // Para los inputs de texto
   let textareaElement: HTMLTextAreaElement;
-  let customRelationshipInput: HTMLInputElement;
-  let customToneInput: HTMLInputElement;
   let formElement: HTMLFormElement;
 
   // Inicializar letterType cuando initialType esté disponible
@@ -32,6 +29,13 @@
 
   $: progressWidth = `${(currentStep / totalSteps) * 100}%`;
   $: availableRecipients = letterType === 'personal' ? personalRecipients : professionalRecipients;
+  $: normalizedContext = (() => {
+    let r = context.replace(/<[^>]*>/g, '').replace(/&[a-z]+;/gi, ' ').replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, '').replace(/[^\w\s.,!?;:'"()\-\u00C0-\u024F]/g, '').replace(/\s+/g, ' ').trim();
+    const letters = r.replace(/[^a-zA-Z\u00C0-\u024F]/g, '');
+    if (letters.length > 0 && letters === letters.toUpperCase()) r = r.toLowerCase().replace(/(^\s*|[.!?]\s+)([a-z\u00E0-\u024F])/g, (_, sep, ch) => sep + ch.toUpperCase());
+    return r;
+  })();
+  $: contextLength = normalizedContext.length;
 
   onMount(() => {
     // Manejadores de teclado estilo Typeform
@@ -46,10 +50,6 @@
             if (e.ctrlKey || e.metaKey) {
               handleNext();
             }
-          } else if ((currentStep === 1 && relationship === 'other' && document.activeElement === customRelationshipInput) ||
-                     (currentStep === 2 && selectedTone === 'other' && document.activeElement === customToneInput)) {
-            // Si estamos en un input personalizado, permitir Enter para continuar
-            handleNext();
           } else {
             handleNext();
           }
@@ -76,13 +76,13 @@
     switch(step) {
       case 1:
         // Step 1: Both letterType and relationship required
-        return !!letterType && !!relationship && (relationship !== 'other' || !!customRelationship.trim());
+        return !!letterType && !!relationship;
       case 2:
         // Step 2: Tone required
-        return !!selectedTone && (selectedTone !== 'other' || !!customTone.trim());
+        return !!selectedTone;
       case 3:
-        // Step 3: Context required
-        return !!context.trim();
+        // Step 3: Context required with minimum length
+        return contextLength >= MIN_CONTEXT_LENGTH;
       default:
         return false;
     }
@@ -106,9 +106,7 @@
           currentStep++;
           isTransitioning = false;
           // Focus en elementos específicos según el paso
-          if (currentStep === 2 && selectedTone === 'other') {
-            setTimeout(() => customToneInput?.focus(), 100);
-          } else if (currentStep === 3) {
+          if (currentStep === 3) {
             setTimeout(() => textareaElement?.focus(), 100);
           }
         }, 150);
@@ -139,38 +137,24 @@
         break;
       case 'relationship':
         relationship = value;
-        // Si selecciona "other", focus en el input
-        if (value === 'other') {
-          setTimeout(() => customRelationshipInput?.focus(), 100);
-        } else if (letterType && value) {
-          // Auto-advance si ambos están seleccionados
+        // Auto-advance si ambos están seleccionados
+        if (letterType && value) {
           setTimeout(() => handleNext(), 300);
         }
         break;
       case 'tone':
         selectedTone = value;
-        // Si selecciona "other", focus en el input
-        if (value === 'other') {
-          setTimeout(() => customToneInput?.focus(), 100);
-        } else {
-          // Auto-advance para tone (excepto "other")
-          setTimeout(() => handleNext(), 300);
-        }
+        // Auto-advance para tone
+        setTimeout(() => handleNext(), 300);
         break;
     }
   }
 
   function getDisplayValue(field: 'relationship' | 'tone'): string {
     if (field === 'relationship') {
-      if (relationship === 'other') {
-        return customRelationship || 'Other';
-      }
       const recipient = availableRecipients.find(r => r.value === relationship);
       return recipient?.label || '';
     } else {
-      if (selectedTone === 'other') {
-        return customTone || 'Other';
-      }
       const tone = tones.find(t => t.value === selectedTone);
       return tone?.label || '';
     }
@@ -255,21 +239,7 @@
                     {String.fromCharCode(65 + index)}
                   </span>
                   <div class="flex-1 min-w-0">
-                    {#if recipient.value === 'other' && relationship === 'other'}
-                      <input
-                        bind:this={customRelationshipInput}
-                        bind:value={customRelationship}
-                        type="text"
-                        placeholder="Type your answer..."
-                        class="w-full text-lg font-medium bg-transparent border-none outline-none text-gray-800 placeholder-gray-400"
-                        on:click|stopPropagation
-                      />
-                    {:else}
-                      <span class="text-lg font-medium text-gray-800 block truncate">{recipient.label}</span>
-                      {#if recipient.description}
-                        <p class="text-sm text-gray-500 truncate">{recipient.description}</p>
-                      {/if}
-                    {/if}
+                    <span class="text-lg font-medium text-gray-800 block truncate">{recipient.label}</span>
                   </div>
                   {#if relationship === recipient.value}
                     <svg class="w-5 h-5 text-purple-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -306,19 +276,7 @@
                     {String.fromCharCode(65 + index)}
                   </span>
                   <div class="flex-1 min-w-0">
-                    {#if tone.value === 'other' && selectedTone === 'other'}
-                      <input
-                        bind:this={customToneInput}
-                        bind:value={customTone}
-                        type="text"
-                        placeholder="Type your answer..."
-                        class="w-full text-lg font-medium bg-transparent border-none outline-none text-gray-800 placeholder-gray-400"
-                        on:click|stopPropagation
-                      />
-                    {:else}
-                      <span class="text-lg font-medium text-gray-800 block truncate">{tone.label}</span>
-                      <!-- <p class="text-sm text-gray-500 truncate">{tone.description}</p> -->
-                    {/if}
+                    <span class="text-lg font-medium text-gray-800 block truncate">{tone.label}</span>
                   </div>
                   {#if selectedTone === tone.value}
                     <svg class="w-5 h-5 text-purple-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -353,6 +311,11 @@
                 placeholder={placeholder}
                 required
               ></textarea>
+              <div class="flex justify-end mt-2">
+                <span class="text-sm {contextLength >= MIN_CONTEXT_LENGTH ? 'text-green-600' : 'text-gray-400'}">
+                  {contextLength}/{MIN_CONTEXT_LENGTH} min characters
+                </span>
+              </div>
             </div>
           </div>
         {/if}
@@ -413,9 +376,9 @@
 
       <!-- Formulario HTML para Astro Actions -->
       <form bind:this={formElement} action={actions.createLetter} method="POST" style="display: none;">
-        <input type="hidden" name="relationship" value={relationship === 'other' ? customRelationship : relationship} />
+        <input type="hidden" name="relationship" value={relationship} />
         <input type="hidden" name="context" value={context} />
-        <input type="hidden" name="tone" value={selectedTone === 'other' ? customTone : selectedTone} />
+        <input type="hidden" name="tone" value={selectedTone} />
       </form>
     </div>
   </div>

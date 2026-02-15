@@ -9,21 +9,9 @@ const articlesCollection = defineCollection({
     image: z.string().optional(),
     photographer: z.string().optional(),
     photographerUrl: z.string().optional(),
-    // ... otros campos que puedas tener
-  }),
-});
-
-const lettersCollection = defineCollection({
-  type: 'data',
-  schema: z.object({
-    tone: z.string(),
-    recipient: z.string(),
-    context: z.string(),
-    letters: z.array(z.string()),
   }),
 });
 
 export const collections = {
   'articles': articlesCollection,
-  'letters': lettersCollection
 };

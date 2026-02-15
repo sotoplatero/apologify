@@ -1,52 +1,90 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getAllLetters, getAllRecipients, getAllTones } from '../../lib/letters';
+import { getLettersPaginated, getRecipientCounts, getToneCounts } from '../../lib/db';
+import { tones as officialTones } from '../../lib/apologyData.js';
 import LetterDirectory from '../../components/LetterDirectory.svelte';
 
-export const prerender = false; // Needs to be dynamic to show generated letters
+export const prerender = false;
 
-// Get recipient filter from URL params
+const PAGE_SIZE = 24;
+
+// Read query params
 const url = new URL(Astro.request.url);
-const recipientFilter = url.searchParams.get('recipient');
+const currentPage = Math.max(1, parseInt(url.searchParams.get('page') || '1'));
+const recipientFilter = url.searchParams.get('recipient') || undefined;
+const toneFilter = url.searchParams.get('tone') || undefined;
+const searchTerm = url.searchParams.get('q') || undefined;
 
-// Get all letters (static + generated), optionally filtered
-const allLetters = await getAllLetters(recipientFilter ? { recipient: recipientFilter } : undefined);
+// Fetch paginated letters with filters
+const { letters, total, lastPage } = await getLettersPaginated(currentPage, PAGE_SIZE, {
+  recipient: recipientFilter,
+  tone: toneFilter,
+  searchTerm,
+});
 
-// Get unique recipients with counts
-const recipientsWithCounts = await getAllRecipients();
+// Get counts for stats
+const [recipientCounts, rawToneCounts] = await Promise.all([
+  getRecipientCounts(),
+  getToneCounts(),
+]);
 
-// Get unique tones with counts
-const tonesWithCounts = await getAllTones();
+// Only show official tones in the filter
+const officialToneValues = new Set(officialTones.map(t => t.value));
+const toneCounts: Record<string, number> = {};
+for (const [tone, count] of Object.entries(rawToneCounts)) {
+  if (officialToneValues.has(tone)) {
+    toneCounts[tone] = count;
+  }
+}
 
-// Prepare letters for client-side filtering
-const lettersForClient = allLetters.map(letter => ({
+const recipientCount = Object.keys(recipientCounts).length;
+const toneCount = Object.keys(toneCounts).length;
+
+// Prepare letters for client
+const lettersForClient = letters.map(letter => ({
   slug: letter.slug,
   recipient: letter.recipient,
   context: letter.context,
   tone: letter.tone,
-  letters: letter.letters,
-  source: letter.source,
-  created_at: letter.created_at
+  title: letter.title || letter.context,
+  letters: [letter.letters[0]?.slice(0, 200) || ''],
+  source: letter.source || 'static',
+  created_at: letter.created_at,
 }));
 
-// Iconos para cada tipo de recipient
-const recipientIcons: Record<string, string> = {
-  boss: "👔",
-  client: "🤝",
-  colleague: "👥",
-  daughter: "👧",
-  father: "👨",
-  friend: "👫",
-  husband: "💑",
-  mother: "👩",
-  romantic: "💕",
-  son: "👦",
-  teacher: "📚",
-  wife: "💑"
-};
+// Build pagination URL helper
+function buildPageUrl(page: number): string {
+  const params = new URLSearchParams();
+  if (page > 1) params.set('page', String(page));
+  if (recipientFilter) params.set('recipient', recipientFilter);
+  if (toneFilter) params.set('tone', toneFilter);
+  if (searchTerm) params.set('q', searchTerm);
+  const qs = params.toString();
+  return `/examples${qs ? '?' + qs : ''}`;
+}
+
+// Generate page numbers to display
+function getPageNumbers(current: number, last: number): (number | '...')[] {
+  if (last <= 7) return Array.from({ length: last }, (_, i) => i + 1);
+
+  const pages: (number | '...')[] = [];
+  if (current <= 4) {
+    pages.push(1, 2, 3, 4, 5, '...', last);
+  } else if (current >= last - 3) {
+    pages.push(1, '...', last - 4, last - 3, last - 2, last - 1, last);
+  } else {
+    pages.push(1, '...', current - 1, current, current + 1, '...', last);
+  }
+  return pages;
+}
+
+const pageNumbers = getPageNumbers(currentPage, lastPage);
+
+// Active filter info
+const hasFilters = recipientFilter || toneFilter || searchTerm;
 ---
 
-<Layout title="Apology Letter Examples" description="Choose the recipient for your apology letter">
+<Layout title="Apology Letter Examples" description="Browse our collection of apology letter examples for every situation">
   <main class="container mx-auto px-6 py-12">
     <!-- Header Section -->
     <div class="text-center space-y-4 mb-16">
@@ -54,7 +92,7 @@ const recipientIcons: Record<string, string> = {
         Apology Letter Examples
       </h1>
       <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-        Choose the recipient to find the perfect apology letter template for your situation
+        Browse our collection of {total.toLocaleString()} apology letters for every situation
       </p>
     </div>
 
@@ -62,33 +100,138 @@ const recipientIcons: Record<string, string> = {
     <div class="mb-12 text-center">
       <div class="inline-flex items-center space-x-8 bg-white/80 backdrop-blur-sm rounded-2xl px-8 py-4 shadow-lg border-2 border-gray-200">
         <div>
-          <div class="text-2xl font-bold text-purple-600">{allLetters.length}</div>
-          <div class="text-sm text-gray-600">Total Letters</div>
+          <div class="text-2xl font-bold text-purple-600">{total.toLocaleString()}</div>
+          <div class="text-sm text-gray-600 font-sans">Total Letters</div>
         </div>
         <div class="w-px h-8 bg-gray-300"></div>
         <div>
-          <div class="text-2xl font-bold text-blue-600">{recipientsWithCounts.length}</div>
-          <div class="text-sm text-gray-600">Recipients</div>
+          <div class="text-2xl font-bold text-blue-600">{recipientCount}</div>
+          <div class="text-sm text-gray-600 font-sans">Recipients</div>
         </div>
         <div class="w-px h-8 bg-gray-300"></div>
         <div>
-          <div class="text-2xl font-bold text-green-600">{tonesWithCounts.length}</div>
-          <div class="text-sm text-gray-600">Tones</div>
+          <div class="text-2xl font-bold text-green-600">{toneCount}</div>
+          <div class="text-sm text-gray-600 font-sans">Tones</div>
         </div>
       </div>
     </div>
 
-    <!-- Letter Directory with Filters -->
+    <!-- Filter Bar -->
+    <div class="mb-8">
+      <form method="get" action="/examples" class="flex items-end space-x-4 w-full">
+        <!-- Recipient Filter -->
+        <div>
+          <label class="label font-sans text-sm"><span class="label-text">Recipient</span></label>
+          <select name="recipient" class="select select-bordered font-sans">
+            <option value="">All Recipients</option>
+            {Object.entries(recipientCounts).sort((a, b) => a[0].localeCompare(b[0])).map(([value, count]) => (
+              <option value={value} selected={recipientFilter === value}>
+                {value.charAt(0).toUpperCase() + value.slice(1)} ({count})
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <!-- Tone Filter -->
+        <div>
+          <label class="label font-sans text-sm"><span class="label-text">Tone</span></label>
+          <select name="tone" class="select select-bordered font-sans">
+            <option value="">All Tones</option>
+            {Object.entries(toneCounts).sort((a, b) => b[1] - a[1]).map(([value, count]) => (
+              <option value={value} selected={toneFilter === value}>
+                {value.charAt(0).toUpperCase() + value.slice(1)} ({count})
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <!-- Search -->
+        <div>
+          <label class="label font-sans text-sm"><span class="label-text">Search</span></label>
+          <input
+            type="text"
+            name="q"
+            value={searchTerm || ''}
+            placeholder="Search letters..."
+            class="input input-bordered font-sans w-48"
+          />
+        </div>
+
+        <button type="submit" class="btn btn-primary font-sans">Filter</button>
+        {hasFilters && (
+          <a href="/examples" class="btn btn-ghost font-sans">Clear</a>
+        )}
+      </form>
+    </div>
+
+    <!-- Letter Grid -->
     <LetterDirectory client:load initialLetters={lettersForClient} />
+
+    <!-- Pagination Controls -->
+    {lastPage > 1 && (
+      <div class="flex justify-center mt-12">
+        <div class="join font-sans">
+          {/* Previous */}
+          {currentPage > 1 ? (
+            <a href={buildPageUrl(currentPage - 1)} class="join-item btn btn-sm">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+              Prev
+            </a>
+          ) : (
+            <button class="join-item btn btn-sm btn-disabled" disabled>
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+              Prev
+            </button>
+          )}
+
+          {/* Page Numbers */}
+          {pageNumbers.map((p) => (
+            p === '...' ? (
+              <button class="join-item btn btn-sm btn-disabled" disabled>...</button>
+            ) : p === currentPage ? (
+              <button class="join-item btn btn-sm btn-primary">{p}</button>
+            ) : (
+              <a href={buildPageUrl(p)} class="join-item btn btn-sm">{p}</a>
+            )
+          ))}
+
+          {/* Next */}
+          {currentPage < lastPage ? (
+            <a href={buildPageUrl(currentPage + 1)} class="join-item btn btn-sm">
+              Next
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          ) : (
+            <button class="join-item btn btn-sm btn-disabled" disabled>
+              Next
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div class="text-center mt-4 text-sm text-gray-500 font-sans">
+        Showing {((currentPage - 1) * PAGE_SIZE) + 1}–{Math.min(currentPage * PAGE_SIZE, total)} of {total.toLocaleString()} letters
+        {hasFilters && <span> (filtered)</span>}
+      </div>
+    )}
 
     <!-- CTA Section -->
     <div class="mt-16 text-center">
       <div class="bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl p-8 text-white">
         <h2 class="text-2xl font-bold mb-4">Need a Custom Apology Letter?</h2>
         <p class="text-purple-100 mb-6">Use our AI-powered generator to create a personalized apology letter</p>
-        <a 
-          href="/generator" 
-          class="inline-flex items-center space-x-2 bg-white text-purple-600 px-6 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors duration-300"
+        <a
+          href="/generator"
+          class="inline-flex items-center space-x-2 bg-white text-purple-600 px-6 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors duration-300 font-sans"
         >
           <span>Generate Letter</span>
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -98,4 +241,4 @@ const recipientIcons: Record<string, string> = {
       </div>
     </div>
   </main>
-</Layout> 
+</Layout>

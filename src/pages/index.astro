@@ -5,24 +5,23 @@ import HowItWorks from '../components/HowItWorks.astro';
 import CallToAction from '../components/CallToAction.astro';
 import { getCollection } from 'astro:content';
 import { recipients } from '../lib/apologyData';
+import { getLetterCount, getRecipientCounts, getToneCounts, getSampleLetters } from '../lib/db';
+
+export const prerender = false;
 
 const recentArticles = (await getCollection('articles'))
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
   .slice(0, 3);
 
-// Obtener cartas de ejemplo (reducido a 2)
-const allLetters = await getCollection('letters');
-const sampleLetters = allLetters.sort(() => 0.5 - Math.random()).slice(0, 2);
+// Obtener datos de la BD
+const [letterCount, recipientCounts, toneCounts, sampleLetters] = await Promise.all([
+  getLetterCount(),
+  getRecipientCounts(),
+  getToneCounts(),
+  getSampleLetters(2)
+]);
 
-// Contar cartas por recipient para stats
-const recipientCounts = allLetters.reduce((acc, letter) => {
-  const recipient = letter.data.recipient;
-  acc[recipient] = (acc[recipient] || 0) + 1;
-  return acc;
-}, {} as Record<string, number>);
-
-// Obtener tonos únicos
-const uniqueTones = [...new Set(allLetters.map(letter => letter.data.tone))];
+const uniqueTones = Object.keys(toneCounts);
 
 // Iconos para recipients
 const recipientIcons: Record<string, string> = {
@@ -142,7 +141,7 @@ const faqSchema = {
       <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
         <div class="group">
           <div class="text-4xl md:text-5xl font-bold text-purple-600 mb-2 group-hover:scale-110 transition-transform">
-            {allLetters.length}+
+            {letterCount}+
           </div>
           <div class="text-gray-600 text-sm md:text-base">Example Letters</div>
         </div>
@@ -221,15 +220,15 @@ const faqSchema = {
             <div class="group bg-white/80 backdrop-blur-sm shadow-lg rounded-2xl overflow-hidden border-2 border-gray-200 hover:border-purple-300 transition-all duration-300 hover:scale-105 hover:shadow-xl">
               <div class="p-6 md:p-8">
                 <h3 class="text-2xl font-semibold mb-4 text-gray-800 group-hover:text-purple-700 transition-colors duration-300">
-                  Apology to {letter.data.recipient.charAt(0).toUpperCase() + letter.data.recipient.slice(1)}: {letter.data.context}
+                  Apology to {letter.recipient.charAt(0).toUpperCase() + letter.recipient.slice(1)}: {letter.title || letter.context}
                 </h3>
                 <div class="prose prose-lg max-w-none mb-6">
                   <p class="italic text-gray-700 whitespace-pre-line leading-relaxed">
-                    {truncateText(letter.data.letters[0])}
+                    {truncateText(letter.letters[0])}
                   </p>
                 </div>
-                <a 
-                  href={`/examples/${letter.data.recipient}/${letter.id.split('/')[1].replace('.json', '')}`} 
+                <a
+                  href={`/examples/${letter.recipient}/${letter.slug}`}
                   class="inline-flex items-center space-x-2 text-purple-600 hover:text-purple-700 font-medium transition-colors duration-200 group-hover:translate-x-1"
                 >
                   <span>Read more</span>

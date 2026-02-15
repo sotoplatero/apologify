@@ -1,8 +1,8 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import type { Letter } from '../lib/db';
 
 interface Props {
-  letter: CollectionEntry<'letters'>;
+  letter: Letter;
   slug: string;
 }
 
@@ -16,34 +16,34 @@ function truncateText(text: string, maxLength: number): string {
 
 <article
   class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 group example-card border border-base-300 hover:border-primary"
-  data-recipient={letter.data.recipient}
-  data-tone={letter.data.tone}
+  data-recipient={letter.recipient}
+  data-tone={letter.tone}
 >
-  <a href={`/examples/${letter.data.recipient}/${slug}`} class="card-body p-6">
+  <a href={`/examples/${letter.recipient}/${slug}`} class="card-body p-6">
     <!-- Header con badges -->
     <div class="flex gap-2 mb-3">
       <div class="badge badge-primary badge-sm">
-        {letter.data.recipient.charAt(0).toUpperCase() + letter.data.recipient.slice(1)}
+        {letter.recipient.charAt(0).toUpperCase() + letter.recipient.slice(1)}
       </div>
       <div class="badge badge-secondary badge-sm">
-        {letter.data.tone.charAt(0).toUpperCase() + letter.data.tone.slice(1)}
+        {letter.tone.charAt(0).toUpperCase() + letter.tone.slice(1)}
       </div>
     </div>
 
     <!-- Título -->
     <h2 class="card-title text-base group-hover:text-primary transition-colors line-clamp-2">
-      {letter.data.context}
+      {letter.title || letter.context}
     </h2>
 
     <!-- Preview del contenido -->
     <p class="text-sm opacity-70 line-clamp-3 flex-grow">
-      {truncateText(letter.data.letters[0], 150)}
+      {truncateText(letter.letters[0], 150)}
     </p>
 
     <!-- Footer con acción -->
     <div class="card-actions justify-between items-center mt-4 pt-4 border-t border-base-300">
       <div class="text-xs opacity-60">
-        {letter.data.letters.length} {letter.data.letters.length === 1 ? 'example' : 'examples'}
+        {letter.letters.length} {letter.letters.length === 1 ? 'example' : 'examples'}
       </div>
       <div class="flex items-center gap-2 text-primary group-hover:gap-3 transition-all">
         <span class="text-sm font-medium">Read more</span>

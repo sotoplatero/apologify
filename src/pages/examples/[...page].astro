@@ -1,38 +1,28 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import LetterCard from '../../components/LetterCard.astro';
-import { getCollection } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
+import { getLettersPaginated } from '../../lib/db';
 
-export const prerender = true;
+export const prerender = false;
 
-export async function getStaticPaths({ paginate }: { paginate: any }) {
-  const allLetters = await getCollection('letters');
-  allLetters.sort((a: CollectionEntry<'letters'>, b: CollectionEntry<'letters'>) => 
-    a.id.localeCompare(b.id)
-  );
-  
-  return paginate(allLetters, { pageSize: 12 });
+const PAGE_SIZE = 12;
+
+// Extract page number from params
+const pageParam = Astro.params.page;
+const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
+
+if (isNaN(currentPage) || currentPage < 1) {
+  return Astro.redirect('/examples');
 }
 
-type Props = {
-  page: {
-    data: CollectionEntry<'letters'>[];
-    currentPage: number;
-    lastPage: number;
-    url: {
-      prev: string | undefined;
-      next: string | undefined;
-    };
-  };
-};
+const { letters, total, lastPage } = await getLettersPaginated(currentPage, PAGE_SIZE);
 
-const { page } = Astro.props;
-
-function getSlugFromId(id: string): string {
-  const parts = id.split('/');
-  return parts[parts.length - 1].replace('.json', '');
+if (currentPage > lastPage && lastPage > 0) {
+  return Astro.redirect('/examples');
 }
+
+const prevUrl = currentPage > 1 ? (currentPage === 2 ? '/examples' : `/examples/${currentPage - 1}`) : undefined;
+const nextUrl = currentPage < lastPage ? `/examples/${currentPage + 1}` : undefined;
 ---
 
 <Layout title="Apology Letter Examples" description="Browse our collection of apology letter examples">
@@ -48,7 +38,7 @@ function getSlugFromId(id: string): string {
 
     <!-- Grid de Ejemplos -->
     <div id="examples-container">
-      {page.data.length === 0 ? (
+      {letters.length === 0 ? (
         <div class="text-center py-12">
           <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -57,10 +47,9 @@ function getSlugFromId(id: string): string {
         </div>
       ) : (
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="examples-grid">
-          {page.data.map((letter) => {
-            const slug = getSlugFromId(letter.id);
-            return <LetterCard letter={letter} slug={slug} />;
-          })}
+          {letters.map((letter) => (
+            <LetterCard letter={letter} slug={letter.slug} />
+          ))}
         </div>
       )}
     </div>
@@ -75,23 +64,23 @@ function getSlugFromId(id: string): string {
     </div>
 
     <!-- Paginación -->
-    {(page.url.prev || page.url.next) && (
+    {(prevUrl || nextUrl) && (
       <nav class="mt-12 flex justify-center items-center gap-6">
-        {page.url.prev ? (
-          <a href={page.url.prev} class="inline-flex items-center space-x-2 px-6 py-3 bg-white/80 backdrop-blur-sm text-gray-700 border-2 border-gray-300 rounded-xl hover:border-purple-300 hover:text-purple-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl">
+        {prevUrl ? (
+          <a href={prevUrl} class="inline-flex items-center space-x-2 px-6 py-3 bg-white/80 backdrop-blur-sm text-gray-700 border-2 border-gray-300 rounded-xl hover:border-purple-300 hover:text-purple-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
             </svg>
             <span>Previous</span>
           </a>
         ) : <span></span>}
-        
+
         <span class="px-4 py-2 bg-purple-100 text-purple-800 rounded-lg font-medium">
-          Page {page.currentPage} of {page.lastPage}
+          Page {currentPage} of {lastPage}
         </span>
-        
-        {page.url.next ? (
-          <a href={page.url.next} class="inline-flex items-center space-x-2 px-6 py-3 bg-white/80 backdrop-blur-sm text-gray-700 border-2 border-gray-300 rounded-xl hover:border-purple-300 hover:text-purple-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl">
+
+        {nextUrl ? (
+          <a href={nextUrl} class="inline-flex items-center space-x-2 px-6 py-3 bg-white/80 backdrop-blur-sm text-gray-700 border-2 border-gray-300 rounded-xl hover:border-purple-300 hover:text-purple-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl">
             <span>Next</span>
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
