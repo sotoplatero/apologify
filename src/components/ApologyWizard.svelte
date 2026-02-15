@@ -9,8 +9,8 @@
   export let initialType: 'personal' | 'professional' = 'personal';
 
   let currentStep = 1;
-  const totalSteps = 3;
-  
+  const totalSteps = 4;
+
   let letterType: 'personal' | 'professional' = 'personal';
   let relationship = '';
   let selectedTone = tones[0]?.value || 'formal';
@@ -18,11 +18,9 @@
   let loading = false;
   let isTransitioning = false;
 
-  // Para los inputs de texto
   let textareaElement: HTMLTextAreaElement;
   let formElement: HTMLFormElement;
 
-  // Inicializar letterType cuando initialType esté disponible
   $: if (initialType) {
     letterType = initialType;
   }
@@ -37,16 +35,19 @@
   })();
   $: contextLength = normalizedContext.length;
 
+  // Reset relationship when switching letter type
+  $: if (letterType) {
+    relationship = '';
+  }
+
   onMount(() => {
-    // Manejadores de teclado estilo Typeform
     const handleKeydown = (e: KeyboardEvent) => {
       if (loading || isTransitioning) return;
 
       switch (e.key) {
         case 'Enter':
           e.preventDefault();
-          if (currentStep === 3 && document.activeElement === textareaElement) {
-            // Si estamos en el textarea, permitir Enter normal a menos que sea Ctrl+Enter
+          if (currentStep === 4 && document.activeElement === textareaElement) {
             if (e.ctrlKey || e.metaKey) {
               handleNext();
             }
@@ -75,13 +76,12 @@
   function validateStep(step: number): boolean {
     switch(step) {
       case 1:
-        // Step 1: Both letterType and relationship required
-        return !!letterType && !!relationship;
+        return !!letterType;
       case 2:
-        // Step 2: Tone required
-        return !!selectedTone;
+        return !!relationship;
       case 3:
-        // Step 3: Context required with minimum length
+        return !!selectedTone;
+      case 4:
         return contextLength >= MIN_CONTEXT_LENGTH;
       default:
         return false;
@@ -105,8 +105,7 @@
         setTimeout(() => {
           currentStep++;
           isTransitioning = false;
-          // Focus en elementos específicos según el paso
-          if (currentStep === 3) {
+          if (currentStep === 4) {
             setTimeout(() => textareaElement?.focus(), 100);
           }
         }, 150);
@@ -122,64 +121,45 @@
     }
 
     loading = true;
-    
-    // Submit the form normally - Astro Actions will handle it
+
     if (formElement) {
       formElement.submit();
     }
   }
 
-  function selectOption(value: string, field: 'letterType' | 'relationship' | 'tone') {
-    switch(field) {
-      case 'letterType':
-        letterType = value as 'personal' | 'professional';
-        // Don't auto-advance, let user select relationship in same step
-        break;
-      case 'relationship':
-        relationship = value;
-        // Auto-advance si ambos están seleccionados
-        if (letterType && value) {
-          setTimeout(() => handleNext(), 300);
-        }
-        break;
-      case 'tone':
-        selectedTone = value;
-        // Auto-advance para tone
-        setTimeout(() => handleNext(), 300);
-        break;
-    }
+  function selectLetterType(value: 'personal' | 'professional') {
+    letterType = value;
+    setTimeout(() => handleNext(), 300);
   }
 
-  function getDisplayValue(field: 'relationship' | 'tone'): string {
-    if (field === 'relationship') {
-      const recipient = availableRecipients.find(r => r.value === relationship);
-      return recipient?.label || '';
-    } else {
-      const tone = tones.find(t => t.value === selectedTone);
-      return tone?.label || '';
-    }
+  function selectRelationship(value: string) {
+    relationship = value;
+    setTimeout(() => handleNext(), 300);
+  }
+
+  function selectTone(value: string) {
+    selectedTone = value;
+    setTimeout(() => handleNext(), 300);
   }
 </script>
 
-<!-- Fondo con gradiente estilo Typeform -->
-<div class="" >
-  
-  <!-- Barra de progreso minimalista -->
+<div class="">
+
+  <!-- Barra de progreso -->
   <div class="fixed top-0 left-0 right-0 z-50">
     <div class="h-1 bg-gray-200">
-      <div 
+      <div
         class="h-full bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-500 ease-out"
         style="width: {progressWidth}"
       ></div>
     </div>
   </div>
 
-  <!-- Contenedor principal -->
   <div class="flex flex-col justify-center py-16">
     <div class="w-full max-w-2xl mx-auto">
-      
+
       <div id="write-letter">
-        
+
         <!-- Loading State -->
         {#if loading}
           <div class="fixed inset-0 bg-white flex items-center justify-center z-50">
@@ -196,43 +176,63 @@
             </div>
           </div>
         {:else}
-        
-        <!-- Step 1: Letter Type + Relationship (Combined) -->
+
+        <!-- Step 1: Letter Type -->
         {#if currentStep === 1}
+          <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div class="space-y-4 text-center">
+              <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight tracking-tight">
+                What type of apology?
+              </h1>
+              <p class="text-xl text-gray-600">
+                Choose the category that best fits your situation
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-12 max-w-lg mx-auto">
+              <button
+                type="button"
+                on:click={() => selectLetterType('personal')}
+                class="flex flex-col items-center gap-3 p-8 rounded-xl border-2 transition-all duration-200 {letterType === 'personal' ? 'border-purple-500 bg-purple-50' : 'border-gray-300 bg-white hover:border-gray-400 hover:bg-gray-50'}"
+              >
+                <span class="flex-shrink-0 w-10 h-10 rounded border-2 flex items-center justify-center text-sm font-bold {letterType === 'personal' ? 'border-purple-500 bg-purple-500 text-white' : 'border-gray-400 bg-white text-gray-600'}">
+                  A
+                </span>
+                <span class="text-xl font-semibold text-gray-800">Personal</span>
+                <span class="text-sm text-gray-500 text-center">Family, friends, partners</span>
+              </button>
+              <button
+                type="button"
+                on:click={() => selectLetterType('professional')}
+                class="flex flex-col items-center gap-3 p-8 rounded-xl border-2 transition-all duration-200 {letterType === 'professional' ? 'border-purple-500 bg-purple-50' : 'border-gray-300 bg-white hover:border-gray-400 hover:bg-gray-50'}"
+              >
+                <span class="flex-shrink-0 w-10 h-10 rounded border-2 flex items-center justify-center text-sm font-bold {letterType === 'professional' ? 'border-purple-500 bg-purple-500 text-white' : 'border-gray-400 bg-white text-gray-600'}">
+                  B
+                </span>
+                <span class="text-xl font-semibold text-gray-800">Professional</span>
+                <span class="text-sm text-gray-500 text-center">Boss, colleagues, clients</span>
+              </button>
+            </div>
+          </div>
+        {/if}
+
+        <!-- Step 2: Recipient -->
+        {#if currentStep === 2}
           <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div class="space-y-4 text-center">
               <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight tracking-tight">
                 Who are you apologizing to?
               </h1>
               <p class="text-xl text-gray-600">
-                Choose the category and recipient
+                Select the recipient of your apology
               </p>
             </div>
 
-            <!-- Type Toggle -->
-            <div class="flex justify-center gap-4 mb-8">
-              <button
-                type="button"
-                on:click={() => selectOption('personal', 'letterType')}
-                class="px-6 py-3 rounded-xl font-medium transition-all duration-300 {letterType === 'personal' ? 'bg-purple-600 text-white shadow-lg' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
-              >
-                💕 Personal
-              </button>
-              <button
-                type="button"
-                on:click={() => selectOption('professional', 'letterType')}
-                class="px-6 py-3 rounded-xl font-medium transition-all duration-300 {letterType === 'professional' ? 'bg-purple-600 text-white shadow-lg' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
-              >
-                💼 Professional
-              </button>
-            </div>
-
-            <!-- Recipients Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {#each availableRecipients as recipient, index}
                 <button
                   type="button"
-                  on:click={() => selectOption(recipient.value, 'relationship')}
+                  on:click={() => selectRelationship(recipient.value)}
                   class="flex items-center space-x-3 p-4 rounded-lg border-2 transition-all duration-200 text-left {relationship === recipient.value ? 'border-purple-500 bg-purple-50' : 'border-gray-300 bg-white hover:border-gray-400 hover:bg-gray-50'}"
                 >
                   <span class="flex-shrink-0 w-8 h-8 rounded border-2 flex items-center justify-center text-sm font-bold {relationship === recipient.value ? 'border-purple-500 bg-purple-500 text-white' : 'border-gray-400 bg-white text-gray-600'}">
@@ -252,24 +252,23 @@
           </div>
         {/if}
 
-        <!-- Step 2: Tone -->
-        {#if currentStep === 2}
+        <!-- Step 3: Tone -->
+        {#if currentStep === 3}
           <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div class="space-y-4">
+            <div class="space-y-4 text-center">
               <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight tracking-tight">
-                What tone should we use? *
+                What tone should we use?
               </h1>
               <p class="text-xl text-gray-600">
                 Choose the style that feels right for your situation
               </p>
             </div>
 
-            <!-- Opciones estilo Typeform con letras -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-12">
               {#each tones as tone, index}
                 <button
                   type="button"
-                  on:click={() => selectOption(tone.value, 'tone')}
+                  on:click={() => selectTone(tone.value)}
                   class="flex items-center space-x-3 p-4 rounded-lg border-2 transition-all duration-200 text-left {selectedTone === tone.value ? 'border-purple-500 bg-purple-50' : 'border-gray-300 bg-white hover:border-gray-400 hover:bg-gray-50'}"
                 >
                   <span class="flex-shrink-0 w-8 h-8 rounded border-2 flex items-center justify-center text-sm font-bold {selectedTone === tone.value ? 'border-purple-500 bg-purple-500 text-white' : 'border-gray-400 bg-white text-gray-600'}">
@@ -289,18 +288,18 @@
           </div>
         {/if}
 
-        <!-- Step 3: Context (Final Step) -->
-        {#if currentStep === 3}
+        <!-- Step 4: Context (Final Step) -->
+        {#if currentStep === 4}
           <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div class="space-y-4">
+            <div class="space-y-4 text-center">
               <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight tracking-tight">
-                What happened? *
+                What happened?
               </h1>
               <p class="text-xl text-gray-600">
                 Describe the situation that requires an apology
               </p>
             </div>
-            
+
             <div class="mt-12">
               <textarea
                 bind:this={textareaElement}
@@ -320,12 +319,11 @@
           </div>
         {/if}
 
-        <!-- Botones de navegación al final del contenido -->
-        <div class="mt-16 pt-8 ">
+        <!-- Botones de navegación -->
+        <div class="mt-16 pt-8">
           <div class="flex justify-between items-center">
-            <!-- Botón Previous -->
-            <button 
-              type="button" 
+            <button
+              type="button"
               on:click={handlePrevious}
               disabled={currentStep === 1}
               class="flex items-center space-x-2 px-6 py-3 text-gray-600 hover:text-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
@@ -336,15 +334,9 @@
               <span class="font-medium">Previous</span>
             </button>
 
-            <!-- Indicador de paso -->
-            <!-- <div class="flex items-center space-x-2">
-              <span class="text-sm text-gray-500">{currentStep} of {totalSteps}</span>
-            </div> -->
-
-            <!-- Botón Next/Submit -->
             {#if currentStep === totalSteps}
-              <button 
-                type="button" 
+              <button
+                type="button"
                 on:click={handleSubmit}
                 disabled={!validateStep(currentStep)}
                 class="flex items-center space-x-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
@@ -355,8 +347,8 @@
                 </svg>
               </button>
             {:else}
-              <button 
-                type="button" 
+              <button
+                type="button"
                 on:click={handleNext}
                 disabled={!validateStep(currentStep)}
                 class="flex items-center space-x-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
@@ -374,7 +366,6 @@
 
       </div>
 
-      <!-- Formulario HTML para Astro Actions -->
       <form bind:this={formElement} action={actions.createLetter} method="POST" style="display: none;">
         <input type="hidden" name="relationship" value={relationship} />
         <input type="hidden" name="context" value={context} />
@@ -389,13 +380,13 @@
     from { opacity: 0; }
     to { opacity: 1; }
   }
-  
+
   @keyframes slide-in-from-bottom-4 {
     from { transform: translateY(1rem); }
     to { transform: translateY(0); }
   }
-  
+
   .animate-in {
     animation: fade-in 0.5s ease-out, slide-in-from-bottom-4 0.5s ease-out;
   }
-</style> 
+</style>

@@ -108,11 +108,11 @@ const getContextDescription = (context: string) => {
 const metaDescription = getContextDescription(letter.context);
 
 // Breadcrumb items for visual navigation
-const breadcrumbItems = [
+const breadcrumbItems: { name: string; href: string | undefined }[] = [
   { name: "Home", href: "/" },
   { name: "Examples", href: "/examples" },
   { name: recipientLabel, href: `/examples/${recipient}` },
-  { name: displayTitle, href: undefined },
+  { name: displayTitle || letter.context, href: undefined },
 ];
 
 // Canonical URL
