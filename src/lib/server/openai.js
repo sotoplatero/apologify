@@ -20,8 +20,6 @@ export async function callOpenAIChatCompletion({ systemPrompt, userPrompt }) {
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt }
       ],
-      temperature: 0.5,
-      top_p: 1,
     });
 
     const response = completion.choices[0].message.content;
