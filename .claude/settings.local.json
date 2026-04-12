@@ -17,7 +17,10 @@
       "mcp__plugin_playwright_playwright__browser_close",
       "Bash(dir:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "mcp__svelte__svelte-autofixer"
+      "mcp__svelte__svelte-autofixer",
+      "Bash(git add:*)",
+      "Bash(git commit -m ':*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []
