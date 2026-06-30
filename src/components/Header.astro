@@ -1,4 +1,5 @@
 ---
+import HeaderAuth from "./HeaderAuth.svelte";
 const navItems = [
   { href: "/examples", text: "Examples" },
   { href: "/articles", text: "Articles" },
@@ -45,6 +46,7 @@ const navItems = [
         </svg>
         Write an Apology
       </a>
+      <HeaderAuth client:load />
     </nav>
 
     <!-- Mobile: CTA + Hamburger -->

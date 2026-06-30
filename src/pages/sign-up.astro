@@ -1,0 +1,11 @@
+---
+import Layout from "../layouts/Layout.astro";
+import AuthForm from "../components/AuthForm.svelte";
+export const prerender = false;
+const redirect = Astro.url.searchParams.get("redirect_url") || "/generator";
+---
+<Layout title="Create account — Apologify" noindex={true}>
+  <main class="max-w-md mx-auto px-4 py-16 flex justify-center">
+    <AuthForm client:load mode="signup" redirectUrl={redirect} />
+  </main>
+</Layout>
