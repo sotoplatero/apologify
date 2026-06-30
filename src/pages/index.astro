@@ -88,7 +88,7 @@ const webSiteSchema = {
   "name": "Apologify",
   "alternateName": "Apologify.com",
   "url": "https://apologify.com",
-  "description": "Create personalized apology letters with AI-powered generator. Free templates and expert tips for sincere apologies.",
+  "description": "Write a heartfelt apology and turn it into a beautiful, shareable web page in seconds. Free apology website builder with multiple designs.",
   "potentialAction": {
     "@type": "SearchAction",
     "target": {
@@ -105,7 +105,7 @@ const organizationSchema = {
   "name": "Apologify",
   "url": "https://apologify.com",
   "logo": "https://apologify.com/favicon.svg",
-  "description": "AI-powered apology letter generator helping people craft sincere, personalized apologies.",
+  "description": "Apology website builder that turns heartfelt apologies into beautiful, shareable pages.",
   "sameAs": []
 };
 
@@ -115,57 +115,57 @@ const faqSchema = {
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "How does the apology letter generator work?",
+      "name": "How does the apology website builder work?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Our AI analyzes your situation, recipient, and desired tone to craft a personalized apology letter in under 2 minutes. Simply answer 3 quick questions about who you're apologizing to, what happened, and what tone you prefer, and receive a professional letter ready to send."
+        "text": "Tell us who the apology is for, what happened, and the tone you want. Our AI writes a sincere, personal apology; you pick a design you love and switch it live; then you publish it as a shareable web page — all in under a minute."
       }
     },
     {
       "@type": "Question",
-      "name": "Is my information private and secure?",
+      "name": "Is my apology private?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes, absolutely. We don't require any personal information or account creation. Your apology letter is generated instantly and not stored on our servers. You have complete control over your content."
+        "text": "Your page starts as a private draft that only people with the link can see. It stays private until you choose to publish it. Publishing makes it public and findable, and requires a free account so the page is tied to you."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I customize the generated letter?",
+      "name": "Can I choose how the page looks?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes! Once your letter is generated, you can copy it and edit it as needed. The AI provides a professional starting point that you can personalize further with specific details or adjust to match your exact situation."
+        "text": "Yes. After generating, pick from designs like Letter, Cute, Statement, Night, Keep Calm, Swiss, Ransom, Constructivist and Letterpress, and switch between them live until it feels right. You can also edit the details and regenerate."
       }
     },
     {
       "@type": "Question",
-      "name": "What types of apology letters can I generate?",
+      "name": "Who can I apologize to?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": `You can generate apology letters for any situation - professional (boss, client, colleague), personal (family, friends, romantic partners), or academic (teachers). We support ${Object.keys(recipientCounts).length} different recipient types and ${uniqueTones.length} tones ranging from formal to casual.`
+        "text": `Anyone — a partner, friend, or family member, your boss or clients, or even the public on behalf of a company. Choose from ${uniqueTones.length} tones, from heartfelt to formal, and the AI adapts the words to the relationship.`
       }
     },
     {
       "@type": "Question",
-      "name": "Is the service free to use?",
+      "name": "Is it free?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes! Our apology letter generator is completely free to use. No hidden fees, no credit card required, and no account needed. Generate as many letters as you need."
+        "text": "Creating and sharing your apology page is free, no credit card required. Publishing it publicly just needs a free account. Some premium designs may require an upgrade later."
       }
     },
     {
       "@type": "Question",
-      "name": "How long does it take to generate a letter?",
+      "name": "How fast is it?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The entire process takes less than 2 minutes. You'll answer 3 quick questions, and our AI generates your personalized letter instantly. You can then copy, edit, and use it right away."
+        "text": "Under a minute. Answer a few quick prompts, the AI writes your apology instantly, then choose a design and publish your page."
       }
     }
   ]
 };
 ---
 
-<Layout title="Apology Letter Generator - Write Sincere Apologies Fast" description="Create personalized apology letters with our free AI-powered generator. Choose your recipient, describe the situation, and get a heartfelt letter in under 2 minutes." schema={[webSiteSchema, organizationSchema, faqSchema]}>
+<Layout title="Apology Website Builder — Make a Sorry Page to Share Free" description="Write a heartfelt apology and turn it into a beautiful, shareable web page in seconds. Pick a design — letter, cute, formal, vintage and more — then send them the link. Free." schema={[webSiteSchema, organizationSchema, faqSchema]}>
   <Hero />
 
   <!-- ========================================== -->
@@ -175,12 +175,12 @@ const faqSchema = {
     <div class="absolute inset-0 bg-gradient-to-b from-purple-50/60 via-transparent to-transparent pointer-events-none"></div>
     <div class="container mx-auto px-6 relative">
       <div class="text-center space-y-3 mb-14">
-        <span class="inline-block text-sm font-semibold tracking-widest uppercase text-purple-500">Tailored Generators</span>
+        <span class="inline-block text-sm font-semibold tracking-widest uppercase text-purple-500">Start here</span>
         <h2 class="text-3xl md:text-5xl font-bold text-gray-900 leading-tight tracking-tight">
-          Start With Who You Need to Apologize To
+          Who do you need to apologize to?
         </h2>
         <p class="text-lg text-gray-500 max-w-2xl mx-auto">
-          Each generator is customized with situation-specific prompts and the right tone for your relationship.
+          Pick a relationship and the builder opens ready for them — write it, design it, and share the page.
         </p>
       </div>
 
@@ -232,12 +232,12 @@ const faqSchema = {
       <div class="w-screen relative left-1/2 right-1/2 -mx-[50vw] bg-gradient-to-br from-gray-50 via-purple-50/30 to-gray-50 py-20 px-6">
         <div class="max-w-7xl mx-auto">
           <div class="text-center space-y-3 mb-14">
-            <span class="inline-block text-sm font-semibold tracking-widest uppercase text-purple-500">Letter Library</span>
+            <span class="inline-block text-sm font-semibold tracking-widest uppercase text-purple-500">Examples</span>
             <h2 class="text-3xl md:text-5xl font-bold text-gray-900 leading-tight tracking-tight">
-              Browse {letterCount}+ Apology Letter Examples
+              Browse {letterCount}+ real apology examples
             </h2>
             <p class="text-lg text-gray-500 max-w-2xl mx-auto">
-              Read real letters from people in similar situations. Filter by recipient to find exactly what you need.
+              Stuck on what to say? Read apologies for situations like yours, then make your own page in a click.
             </p>
           </div>
 
@@ -288,8 +288,8 @@ const faqSchema = {
     <section class="my-28">
       <div class="text-center space-y-3 mb-14">
         <span class="inline-block text-sm font-semibold tracking-widest uppercase text-purple-500">Real Examples</span>
-        <h2 class="text-3xl md:text-5xl font-bold text-gray-900 leading-tight tracking-tight">See What a Great Apology Looks Like</h2>
-        <p class="text-lg text-gray-500 max-w-2xl mx-auto">These real letters show you the tone, structure, and sincerity that makes an apology land.</p>
+        <h2 class="text-3xl md:text-5xl font-bold text-gray-900 leading-tight tracking-tight">See what a great apology looks like</h2>
+        <p class="text-lg text-gray-500 max-w-2xl mx-auto">These real apologies show the tone, structure, and sincerity that make one land.</p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         {sampleLetters.map((letter) => (
@@ -313,7 +313,7 @@ const faqSchema = {
                 href={`/examples/${letter.recipient}/${letter.slug}`}
                 class="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium transition-all duration-200 group-hover:gap-3"
               >
-                <span>Read the full letter</span>
+                <span>Read the full apology</span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                   <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
                 </svg>
@@ -346,73 +346,73 @@ const faqSchema = {
           <div class="max-w-3xl mx-auto space-y-3">
             <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
               <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
-                <span>How does the apology letter generator work?</span>
+                <span>How does the apology website builder work?</span>
                 <svg class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </summary>
               <p class="mt-4 text-gray-600 leading-relaxed">
-                Our AI analyzes your situation, recipient, and desired tone to craft a personalized apology letter in under 2 minutes. Simply answer 3 quick questions about who you're apologizing to, what happened, and what tone you prefer, and receive a professional letter ready to send.
+                Tell us who the apology is for, what happened, and the tone you want. Our AI writes a sincere, personal apology; you pick a design you love and switch it live; then you publish it as a shareable web page — all in under a minute.
               </p>
             </details>
 
             <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
               <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
-                <span>Is my information private and secure?</span>
+                <span>Is my apology private?</span>
                 <svg class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </summary>
               <p class="mt-4 text-gray-600 leading-relaxed">
-                Yes, absolutely. We don't require any personal information or account creation. Your apology letter is generated instantly and not stored on our servers. You have complete control over your content.
+                Your page starts as a private draft that only people with the link can see. It stays private until you choose to publish it. Publishing makes it public and findable, and requires a free account so the page is tied to you.
               </p>
             </details>
 
             <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
               <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
-                <span>Can I customize the generated letter?</span>
+                <span>Can I choose how the page looks?</span>
                 <svg class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </summary>
               <p class="mt-4 text-gray-600 leading-relaxed">
-                Yes! Once your letter is generated, you can copy it and edit it as needed. The AI provides a professional starting point that you can personalize further with specific details or adjust to match your exact situation.
+                Yes. After generating, pick from designs like Letter, Cute, Statement, Night, Keep Calm, Swiss, Ransom, Constructivist and Letterpress, and switch between them live until it feels right. You can also edit the details and regenerate.
               </p>
             </details>
 
             <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
               <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
-                <span>What types of apology letters can I generate?</span>
+                <span>Who can I apologize to?</span>
                 <svg class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </summary>
               <p class="mt-4 text-gray-600 leading-relaxed">
-                You can generate apology letters for any situation - professional (boss, client, colleague), personal (family, friends, romantic partners), or academic (teachers). We support {Object.keys(recipientCounts).length} different recipient types and {uniqueTones.length} tones ranging from formal to casual.
+                Anyone — a partner, friend, or family member, your boss or clients, or even the public on behalf of a company. Choose from {uniqueTones.length} tones, from heartfelt to formal, and the AI adapts the words to the relationship.
               </p>
             </details>
 
             <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
               <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
-                <span>Is the service free to use?</span>
+                <span>Is it free?</span>
                 <svg class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </summary>
               <p class="mt-4 text-gray-600 leading-relaxed">
-                Yes! Our apology letter generator is completely free to use. No hidden fees, no credit card required, and no account needed. Generate as many letters as you need.
+                Creating and sharing your apology page is free, no credit card required. Publishing it publicly just needs a free account. Some premium designs may require an upgrade later.
               </p>
             </details>
 
             <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
               <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
-                <span>How long does it take to generate a letter?</span>
+                <span>How fast is it?</span>
                 <svg class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </summary>
               <p class="mt-4 text-gray-600 leading-relaxed">
-                The entire process takes less than 2 minutes. You'll answer 3 quick questions, and our AI generates your personalized letter instantly. You can then copy, edit, and use it right away.
+                Under a minute. Answer a few quick prompts, the AI writes your apology instantly, then choose a design and publish your page.
               </p>
             </details>
           </div>
