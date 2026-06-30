@@ -1,13 +1,48 @@
 ---
-export const prerender = false;
-
 import Layout from '../../layouts/Layout.astro';
-import ApologyWizard from '../../components/ApologyWizard.svelte';
+import { recipients } from '../../lib/apologyData.js';
 
+const recipientIcons: Record<string, string> = {
+  boss: "👔", client: "🤝", colleague: "👥", daughter: "👧", father: "👨",
+  friend: "👫", husband: "💑", mother: "👩", romantic: "💕", partner: "💕",
+  girlfriend: "💝", boyfriend: "💙", son: "👦", teacher: "📚", wife: "💑",
+  public: "🏛️",
+};
+
+const title = "Apology Website Builder — Make a Free Sorry Page";
+const description = "Create a shareable apology website for anyone — a partner, friend, or family — or a public statement for your company. Pick a theme and share the link. Free.";
 ---
 
-<Layout title="Apology Letter Generator">
-  <div class="w-full mx-auto py-16">
-    <ApologyWizard client:load initialType="personal" />
-  </div>
+<Layout title={title} description={description}>
+  <main class="max-w-screen-lg mx-auto px-4 py-16">
+    <header class="text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4" style="text-wrap: balance;">
+        Apology Website Builder
+      </h1>
+      <p class="text-lg text-gray-500 max-w-2xl mx-auto" style="text-wrap: balance;">
+        Create a shareable apology page for anyone — or a public statement for your company.
+        Who are you apologizing to?
+      </p>
+    </header>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+      {recipients.map((r) => (
+        <a
+          href={`/generator/${r.value}`}
+          class="group flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-purple-400 shadow-sm hover:shadow-md transition-all duration-300"
+        >
+          <span class="text-2xl flex-shrink-0">{recipientIcons[r.value] || "📝"}</span>
+          <span class="font-medium text-gray-800 group-hover:text-purple-700 transition-colors truncate">
+            {r.label}
+          </span>
+        </a>
+      ))}
+    </div>
+
+    <div class="text-center mt-12">
+      <a href="/examples" class="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium transition-colors">
+        Or browse apology examples →
+      </a>
+    </div>
+  </main>
 </Layout>
