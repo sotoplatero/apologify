@@ -1,0 +1,36 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PublishButton from "../components/PublishButton.svelte";
+import { isLikelySlug } from "../lib/slug.js";
+import { getApologyPageBySlug } from "../lib/apologyPages";
+
+export const prerender = false;
+
+const slug = Astro.url.searchParams.get("slug") || "";
+if (!isLikelySlug(slug)) return Astro.redirect("/404");
+
+// Publishing requires an account. Bounce to sign-up and return here afterwards.
+if (!Astro.locals.user) {
+  return Astro.redirect(`/sign-up?redirect_url=${encodeURIComponent("/publish?slug=" + slug)}`);
+}
+
+const page = await getApologyPageBySlug(slug);
+if (!page) return Astro.redirect("/404");
+
+// Already live → just open it.
+if (page.visibility === "public") return Astro.redirect(`/sorry/${slug}`);
+---
+
+<Layout title="Publish your apology page — Apologify" noindex={true}>
+  <main class="max-w-md mx-auto px-4 py-16 text-center">
+    <h1 class="text-3xl font-bold text-gray-900 mb-3">Publish this page?</h1>
+    <p class="text-gray-500 mb-8">
+      Publishing makes “{page.title}” public and findable on Google. You can share the
+      link either way — publishing also lists it on Apologify.
+    </p>
+    <PublishButton client:load slug={slug} />
+    <p class="mt-6">
+      <a href={`/sorry/${slug}`} class="text-sm text-gray-400 hover:text-purple-600">Preview the page first →</a>
+    </p>
+  </main>
+</Layout>

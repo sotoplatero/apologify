@@ -1,7 +1,7 @@
 import { defineAction, ActionError } from 'astro:actions';
 import { z } from 'astro:schema';
 import { callOpenAIChatCompletion } from '../lib/server/openai';
-import { saveApologyPage } from '../lib/apologyPages';
+import { saveApologyPage, publishApologyPage as runPublish } from '../lib/apologyPages';
 import { buildApologySlug } from '../lib/slug.js';
 import { isPremiumTheme } from '../lib/themes.js';
 
@@ -37,7 +37,6 @@ export const server = {
       recipientName: z.string().max(60).nullish().transform((v) => (v ? v.trim() : undefined)),
       senderName: z.string().max(80).nullish().transform((v) => (v ? v.trim() : undefined)),
       audience: z.enum(['person', 'public']).default('person'),
-      requestedVisibility: z.enum(['private', 'public']).default('private'),
       context: z.string().transform(normalizeContext).pipe(
         z.string().min(20, "Please describe what happened (at least 20 characters)").max(1000)
           .refine((val) => !urlPattern.test(val), "URLs are not allowed")
@@ -48,8 +47,8 @@ export const server = {
     handler: async (input, context) => {
       try {
         const userId = context.locals.user?.id ?? null;
-        const visibility: 'private' | 'public' =
-          input.requestedVisibility === 'public' && userId ? 'public' : 'private';
+        // Always created as a draft; going public happens via the publish step.
+        const visibility: 'private' | 'public' = 'private';
 
         const { title, message } = await generateApologyContent({
           relationship: input.relationship,
@@ -85,6 +84,21 @@ export const server = {
           message: error instanceof Error ? error.message : 'Failed to create your apology page. Please try again.',
         });
       }
+    },
+  }),
+
+  publishApologyPage: defineAction({
+    input: z.object({ slug: z.string().min(3).max(90) }),
+    handler: async (input, context) => {
+      const userId = context.locals.user?.id;
+      if (!userId) {
+        throw new ActionError({ code: 'UNAUTHORIZED', message: 'You must be signed in to publish.' });
+      }
+      const published = await runPublish(input.slug, userId);
+      if (!published) {
+        throw new ActionError({ code: 'FORBIDDEN', message: 'This page can no longer be published.' });
+      }
+      return { published: true, slug: input.slug };
     },
   }),
 }

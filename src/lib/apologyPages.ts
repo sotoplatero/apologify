@@ -51,6 +51,21 @@ export async function getAllPublicSlugs(): Promise<{ slug: string; createdAt?: s
   return r.rows.map((row: any) => ({ slug: row.slug, createdAt: row.created_at }));
 }
 
+/**
+ * Publish a draft page: make it public + claim ownership. Only the existing
+ * owner or an unowned (anonymous-draft) page can be published. Returns true if
+ * a row was published.
+ */
+export async function publishApologyPage(slug: string, userId: string): Promise<boolean> {
+  if (!turso) throw new Error('Turso not configured');
+  const r = await turso.execute({
+    sql: `UPDATE apology_pages SET visibility = 'public', owner_id = COALESCE(owner_id, ?)
+          WHERE slug = ? AND (owner_id IS NULL OR owner_id = ?)`,
+    args: [userId, slug, userId],
+  });
+  return r.rowsAffected > 0;
+}
+
 export async function markApologyPagePaid(slug: string): Promise<void> {
   if (!turso) throw new Error('Turso not configured');
   await turso.execute({ sql: 'UPDATE apology_pages SET is_paid = 1 WHERE slug = ?', args: [slug] });
