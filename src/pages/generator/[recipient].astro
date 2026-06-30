@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { recipients } from "../../lib/apologyData.js";
+import ApologyPageBuilder from "../../components/ApologyPageBuilder.svelte";
 
 export async function getStaticPaths() {
   return recipients.map((recipient) => ({
@@ -16,6 +17,8 @@ if (!recipientData) {
 }
 
 const recipientLabel = recipientData.label;
+const audience = recipient === "public" ? "public" : "person";
+const isPublic = recipient === "public";
 
 // Iconos para recipients
 const recipientIcons: Record<string, string> = {
@@ -129,11 +132,20 @@ const recipientMeta: Record<
   },
 };
 
-const meta = recipientMeta[recipient] || {
-  title: `Apology Letter to ${recipientLabel} Generator`,
-  description: `Generate a sincere apology letter to your ${recipientLabel.toLowerCase()}. Free, instant, and heartfelt.`,
-  keywords: `apology letter to ${recipient}, sorry letter to ${recipient}`,
-};
+// The product is an apology-website builder, so all generator landings use
+// "apology website / sorry page" wording to match search intent (the legacy
+// letter-oriented recipientMeta map above is intentionally no longer used).
+const meta = isPublic
+  ? {
+      title: `Public Apology Website Builder — Free Statement Page`,
+      description: `Publish a sincere public apology as its own shareable web page in seconds. Free — for companies and anyone apologizing publicly.`,
+      keywords: `public apology, company apology statement, apology website, sorry page`,
+    }
+  : {
+      title: `Apology Website Builder for ${recipientLabel} — Free Sorry Page`,
+      description: `Make a shareable apology website for your ${recipientLabel.toLowerCase()} in seconds and send the link. Free, no signup to create. Pick a theme and share instantly.`,
+      keywords: `sorry website for ${recipient}, apology website for ${recipient}, apology page, sorry link`,
+    };
 
 // Get recommended tone based on recipient
 const defaultTone = ["boss", "teacher", "client", "colleague"].includes(
@@ -396,7 +408,7 @@ const schemas = faqSchema ? [faqSchema] : undefined;
               d="M13 10V3L4 14h7v7l9-11h-7z"></path>
           </svg>
           <span class="text-sm font-semibold text-purple-700"
-            >Free AI Generator</span
+            >Free Apology Website Builder</span
           >
         </div>
 
@@ -404,17 +416,16 @@ const schemas = faqSchema ? [faqSchema] : undefined;
           class="text-4xl md:text-5xl font-bold text-gray-900 mb-5"
           style="text-wrap: balance;"
         >
-          Apology Letter to {recipientLabel} Generator
+          {isPublic ? "Public Apology Website Builder" : `Sorry Page Builder for ${recipientLabel}`}
         </h1>
 
         <p
           class="text-lg text-gray-500 max-w-2xl mx-auto mb-8"
           style="text-wrap: balance;"
         >
-          Create a sincere, {
-            defaultTone === "professional" ? "professional" : "heartfelt"
-          } apology letter to your {recipientLabel.toLowerCase()} in seconds. Free,
-          instant, and perfectly tailored to your situation.
+          {isPublic
+            ? "Publish a sincere public apology as its own web page in seconds, then share the link anywhere."
+            : `Make a cute, shareable apology website for your ${recipientLabel.toLowerCase()} in seconds — then send them the link. Free, instant.`}
         </p>
 
         <div class="flex flex-wrap gap-5 justify-center text-sm text-gray-600">
@@ -470,7 +481,13 @@ const schemas = faqSchema ? [faqSchema] : undefined;
       </header>
 
       <!-- Generator Form Component -->
-      {/* generator component added in Task 12 */}
+      <ApologyPageBuilder
+        client:load
+        recipient={recipient}
+        defaultTone={defaultTone}
+        audience={audience}
+        signUpUrl={`/sign-up?redirect_url=/generator/${recipient}`}
+      />
 
       <!-- FAQ Section -->
       {

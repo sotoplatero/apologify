@@ -2,13 +2,19 @@
   import { actions } from "astro:actions";
   import { tones, contextsByRecipient } from "../lib/apologyData.js";
   import { listThemes } from "../lib/themes.js";
+  import { authClient } from "../lib/auth-client";
   import ApologyShareResult from "./ApologyShareResult.svelte";
 
   export let recipient: string;
   export let defaultTone: string;
   export let audience: "person" | "public" = "person";
-  export let isSignedIn = false;
   export let signUpUrl = "/sign-up";
+
+  // Signed-in state is resolved client-side so the generator landing pages can
+  // stay static (good for SEO and avoids ISR caching a per-user auth UI). The
+  // real publish gate is enforced server-side in the createApologyPage action.
+  const session = authClient.useSession();
+  $: isSignedIn = !!$session.data;
 
   $: contexts = contextsByRecipient[recipient as keyof typeof contextsByRecipient] || [];
   const themes = listThemes();
