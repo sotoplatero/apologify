@@ -11,6 +11,19 @@ if (!secret && (typeof import.meta !== "undefined" && (import.meta as any).env?.
   throw new Error("BETTER_AUTH_SECRET is required in production");
 }
 
+// Social providers are enabled only when their credentials are configured, so
+// the app runs fine with email/password alone in environments without OAuth.
+const socialProviders: Record<string, { clientId: string; clientSecret: string }> = {};
+if (E.GOOGLE_CLIENT_ID && E.GOOGLE_CLIENT_SECRET) {
+  socialProviders.google = { clientId: E.GOOGLE_CLIENT_ID, clientSecret: E.GOOGLE_CLIENT_SECRET };
+}
+if (E.GITHUB_CLIENT_ID && E.GITHUB_CLIENT_SECRET) {
+  socialProviders.github = { clientId: E.GITHUB_CLIENT_ID, clientSecret: E.GITHUB_CLIENT_SECRET };
+}
+
+/** Names of the social providers that have credentials configured. */
+export const enabledSocialProviders = Object.keys(socialProviders);
+
 export const auth = betterAuth({
   database: {
     dialect: new LibsqlDialect({
@@ -20,6 +33,7 @@ export const auth = betterAuth({
     type: "sqlite",
   },
   emailAndPassword: { enabled: true },
+  socialProviders,
   secret,
   baseURL: E.BETTER_AUTH_URL,
 });

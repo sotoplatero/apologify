@@ -2,8 +2,17 @@
   import { authClient } from "../lib/auth-client";
   export let mode: "signin" | "signup" = "signin";
   export let redirectUrl = "/generator";
+  export let providers: string[] = [];
 
   let name = "", email = "", password = "", error = "", loading = false;
+
+  const providerLabels: Record<string, string> = { google: "Google", github: "GitHub" };
+
+  async function social(provider: string) {
+    loading = true; error = "";
+    const { error: e } = await authClient.signIn.social({ provider, callbackURL: redirectUrl });
+    if (e) { error = e.message || "Social sign-in failed."; loading = false; }
+  }
 
   async function submit() {
     loading = true; error = "";
@@ -18,6 +27,20 @@
 
 <form on:submit|preventDefault={submit} class="w-full max-w-sm bg-white rounded-2xl shadow-md border border-gray-200 p-6 md:p-8">
   <h1 class="text-2xl font-bold text-gray-900 mb-6 text-center">{mode === "signup" ? "Create your account" : "Sign in"}</h1>
+
+  {#if providers.length}
+    <div class="space-y-2 mb-4">
+      {#each providers as p}
+        <button type="button" on:click={() => social(p)} disabled={loading} class="w-full px-4 py-3 border border-gray-300 rounded-xl font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors">
+          Continue with {providerLabels[p] || p}
+        </button>
+      {/each}
+    </div>
+    <div class="flex items-center gap-3 my-4 text-xs text-gray-400">
+      <span class="flex-1 h-px bg-gray-200"></span>or<span class="flex-1 h-px bg-gray-200"></span>
+    </div>
+  {/if}
+
   {#if mode === "signup"}
     <input bind:value={name} placeholder="Name" required class="w-full mb-3 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500" />
   {/if}

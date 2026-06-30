@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import AuthForm from "../components/AuthForm.svelte";
+import { enabledSocialProviders } from "../lib/auth";
 export const prerender = false;
 const rawRedirect = Astro.url.searchParams.get("redirect_url") || "/generator";
 // Only allow same-origin relative paths to prevent open-redirect phishing.
@@ -8,6 +9,6 @@ const redirect = rawRedirect.startsWith("/") && !rawRedirect.startsWith("//") ? 
 ---
 <Layout title="Create account — Apologify" noindex={true}>
   <main class="max-w-md mx-auto px-4 py-16 flex justify-center">
-    <AuthForm client:load mode="signup" redirectUrl={redirect} />
+    <AuthForm client:load mode="signup" redirectUrl={redirect} providers={enabledSocialProviders} />
   </main>
 </Layout>
