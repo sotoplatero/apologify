@@ -19,7 +19,7 @@ export async function getStaticPaths({ paginate }: { paginate: PaginateFunction 
     // Filter out articles with invalid dates and sort
     const validArticles = articles.filter(article => {
       if (!article.data || !article.data.date) {
-        console.warn(`Article ${article.slug} has no date`);
+        console.warn(`Article ${article.id} has no date`);
         return false;
       }
       return true;
@@ -67,7 +67,7 @@ if (!page) {
             )}
             
             <h2 class="mt-0 mb-2">
-              <a href={`/articles/${article.slug}`} class="text-link">
+              <a href={`/articles/${article.id}`} class="text-link">
                 {article.data.title}
               </a>
             </h2>

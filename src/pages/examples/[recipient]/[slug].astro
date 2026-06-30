@@ -26,7 +26,7 @@ const getRelatedArticles = (
 
   return allArticles
     .filter((article) => {
-      const slug = article.slug.toLowerCase();
+      const slug = article.id.toLowerCase();
       const title = article.data.title.toLowerCase();
       const description = article.data.description?.toLowerCase() || "";
 
@@ -329,7 +329,7 @@ const letterSchema = {
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             {getRelatedArticles(recipient, letter.context).map((article) => (
               <a
-                href={`/articles/${article.slug}`}
+                href={`/articles/${article.id}`}
                 class="group block bg-white hover:bg-purple-50 rounded-xl p-6 transition-all duration-300 border-2 border-gray-200 hover:border-purple-400 shadow-md hover:shadow-xl transform hover:-translate-y-1"
               >
                 <div class="flex items-start gap-3">

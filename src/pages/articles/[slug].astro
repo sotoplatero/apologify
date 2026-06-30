@@ -1,19 +1,18 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import UnsplashImage from '@/components/UnsplashImage.astro';
 import CallToAction from '@/components/CallToAction.astro';
 import CtaMini from '@/components/CtaMini.astro';
 import Breadcrumb from '@/components/Breadcrumb.astro';
-import { insertRelatedLinksMarkdown } from '@/lib/insertRelatedLinksMarkdown';
 
 export const prerender = true;
 
 export async function getStaticPaths() {
   const articleEntries = await getCollection('articles');
   return articleEntries.map(entry => ({
-    params: { slug: entry.slug },
+    params: { slug: entry.id },
     props: { entry },
   }));
 }
@@ -25,14 +24,14 @@ if (!entry) {
   throw new Error('Entry prop is undefined. Check getStaticPaths function.');
 }
 
-const { Content } = await entry.render();
+const { Content } = await render(entry);
 
 const articles = await getCollection('articles');
 const sortedArticles = articles.sort((a, b) => 
   new Date(b.data.date || 0).getTime() - new Date(a.data.date || 0).getTime()
 );
 
-const currentIndex = sortedArticles.findIndex(article => article.slug === entry.slug);
+const currentIndex = sortedArticles.findIndex(article => article.id === entry.id);
 const prevArticle = sortedArticles[currentIndex + 1];
 const nextArticle = sortedArticles[currentIndex - 1];
 
@@ -41,7 +40,7 @@ const getRelatedArticles = (currentArticle: CollectionEntry<'articles'>, allArti
   const currentTags = currentArticle.data.tags || [];
 
   return allArticles
-    .filter(article => article.slug !== currentArticle.slug)
+    .filter(article => article.id !== currentArticle.id)
     .map(article => ({
       article,
       score: (article.data.tags || []).filter((tag: string) => currentTags.includes(tag)).length
@@ -74,7 +73,7 @@ const schema = {
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": `https://apologify.com/articles/${entry.slug}`
+    "@id": `https://apologify.com/articles/${entry.id}`
   }
 };
 
@@ -154,7 +153,7 @@ const breadcrumbItems = [
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {getRelatedArticles(entry, sortedArticles).map((article) => (
           <a
-            href={`/articles/${article.slug}`}
+            href={`/articles/${article.id}`}
             class="group block bg-white hover:bg-purple-50 rounded-xl p-6 transition-all duration-300 border-2 border-gray-200 hover:border-purple-400 shadow-md hover:shadow-xl transform hover:-translate-y-1"
           >
             <div class="flex items-start gap-4">
@@ -191,12 +190,12 @@ const breadcrumbItems = [
   <!-- Navigation links -->
   <div class="flex justify-between my-8">
     {prevArticle && (
-      <a href={`/articles/${prevArticle.slug}`} class="text-blue-500 hover:underline">
+      <a href={`/articles/${prevArticle.id}`} class="text-blue-500 hover:underline">
         ← {prevArticle.data.title}
       </a>
     )}
     {nextArticle && (
-      <a href={`/articles/${nextArticle.slug}`} class="text-blue-500 hover:underline ml-auto">
+      <a href={`/articles/${nextArticle.id}`} class="text-blue-500 hover:underline ml-auto">
         {nextArticle.data.title} →
       </a>
     )}

@@ -2,7 +2,7 @@ import { getCollection } from 'astro:content';
 
 export async function insertRelatedLinksMarkdown(content, currentSlug) {
   const allArticles = await getCollection('articles');
-  const otherArticles = allArticles.filter(article => article.slug !== currentSlug);
+  const otherArticles = allArticles.filter(article => article.id !== currentSlug);
   
   // Seleccionar aleatoriamente dos artículos
   const relatedArticles = otherArticles.sort(() => 0.5 - Math.random()).slice(0, 2);
@@ -18,7 +18,7 @@ export async function insertRelatedLinksMarkdown(content, currentSlug) {
         position = Math.floor(Math.random() * lines.length);
     } while (lines[position].trim().startsWith('#') || lines[position].trim() === '');
     
-    const linkMarkdown = `\n> *Artículo relacionado: [${article.data.title}](/articles/${article.slug})*\n`;
+    const linkMarkdown = `\n> *Artículo relacionado: [${article.data.title}](/articles/${article.id})*\n`;
     lines.splice(position, 0, linkMarkdown);
 
   };
