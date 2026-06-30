@@ -17,4 +17,9 @@ export default {
 		require('@tailwindcss/typography'),
 		require('daisyui'),
 	],
+	daisyui: {
+		// Themes must be listed here for data-theme to work. "wireframe" is the
+		// default (the layout sets <html data-theme="wireframe">).
+		themes: ['wireframe', 'light', 'dark'],
+	},
 }
