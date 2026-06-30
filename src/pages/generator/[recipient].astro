@@ -1,6 +1,5 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import RecipientGenerator from "../../components/RecipientGenerator.svelte";
 import { recipients } from "../../lib/apologyData.js";
 
 export async function getStaticPaths() {
@@ -471,11 +470,7 @@ const schemas = faqSchema ? [faqSchema] : undefined;
       </header>
 
       <!-- Generator Form Component -->
-      <RecipientGenerator
-        client:load
-        recipient={recipient}
-        defaultTone={defaultTone}
-      />
+      {/* generator component added in Task 12 */}
 
       <!-- FAQ Section -->
       {

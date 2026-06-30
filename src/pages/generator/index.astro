@@ -2,78 +2,12 @@
 export const prerender = false;
 
 import Layout from '../../layouts/Layout.astro';
-import { actions } from 'astro:actions';
-import Letter from '../../components/Letter.svelte';
 import ApologyWizard from '../../components/ApologyWizard.svelte';
-
-const result = Astro.getActionResult(actions.createLetter);
-
-// If letter was successfully saved, redirect to the letter page
-if (result?.data?.saved && result?.data?.slug) {
-  // We need the recipient from the form submission
-  // For now, show the letter with a link to view it in examples
-}
-
-// Helper function to get error message
-function getErrorMessage(error: { code?: string; message?: string } | null) {
-  if (!error) return 'An error occurred while generating your letter. Please try again.';
-  
-  switch (error.code) {
-    case 'TOO_MANY_REQUESTS':
-      return 'Too many requests. Please try again later.';
-    case 'INTERNAL_SERVER_ERROR':
-      return 'An error occurred while generating your letter. Please try again.';
-    default:
-      return error.message || 'An error occurred while generating your letter. Please try again.';
-  }
-}
 
 ---
 
 <Layout title="Apology Letter Generator">
-  {!result?.data ? (
-      <div class="w-full mx-auto py-16">
-          <ApologyWizard client:load initialType="personal" />
-      </div>
-  ) : (
-    <div class="max-w-4xl mx-auto py-16">
-      <h1 class="text-3xl font-bold mb-8 text-center">{result.data.title || 'Your Generated Letter'}</h1>
-
-      {result?.error ? (
-        <div class="alert alert-error mb-8">
-          <div>
-            <h3 class="font-bold">Error generating letter</h3>
-            <p class="text-sm">{getErrorMessage((result as any)?.error)}</p>
-          </div>
-        </div>
-      ) : result?.data ? (
-        <>
-          <Letter client:load letter={result.data.letter} />
-
-          {result.data.saved && result.data.slug && result.data.recipient && (
-            <div class="alert alert-success mt-6">
-              <div class="flex flex-col items-center gap-2">
-                <p class="font-semibold">✅ Your letter has been saved!</p>
-                <a
-                  href={`/examples/${result.data.recipient}/${result.data.slug}`}
-                  class="btn btn-sm btn-outline"
-                >
-                  View in Examples Directory
-                </a>
-              </div>
-            </div>
-          )}
-        </>
-      ) : null}
-
-      <div class="text-center mt-8 space-x-4">
-        <a href="/generator" class="btn btn-primary">
-          Write Another Letter
-        </a>
-        <a href="/examples" class="btn btn-outline">
-          Browse Examples
-        </a>
-      </div>
-    </div>
-  )}
+  <div class="w-full mx-auto py-16">
+    <ApologyWizard client:load initialType="personal" />
+  </div>
 </Layout>
