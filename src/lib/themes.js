@@ -17,7 +17,7 @@ export const THEMES = [
     id: 'classic', label: 'Classic', emoji: '💌', premium: false,
     bgClass: 'bg-gradient-to-br from-purple-100 via-pink-50 to-rose-100',
     cardClass: 'bg-white/80 backdrop-blur border border-white/70',
-    accentClass: 'text-purple-800', bodyClass: 'text-gray-700', font: 'font-serif',
+    accentClass: 'text-purple-800', bodyClass: 'text-gray-700', font: 'font-display',
   },
   {
     id: 'cute-duck', label: 'Cute', emoji: '🐤', premium: false,
@@ -29,19 +29,19 @@ export const THEMES = [
     id: 'formal', label: 'Formal', emoji: '🏛️', premium: false,
     bgClass: 'bg-gradient-to-br from-slate-100 via-gray-50 to-slate-100',
     cardClass: 'bg-white/90 border border-slate-200',
-    accentClass: 'text-slate-800', bodyClass: 'text-slate-700', font: 'font-serif',
+    accentClass: 'text-slate-800', bodyClass: 'text-slate-700', font: 'font-display',
   },
   {
     id: 'hearts', label: 'Hearts', emoji: '💕', premium: true,
     bgClass: 'bg-gradient-to-br from-rose-200 via-pink-100 to-red-100',
     cardClass: 'bg-white/80 backdrop-blur border border-rose-100',
-    accentClass: 'text-rose-700', bodyClass: 'text-gray-700', font: 'font-serif',
+    accentClass: 'text-rose-700', bodyClass: 'text-gray-700', font: 'font-display',
   },
   {
     id: 'starry', label: 'Starry', emoji: '🌙', premium: true,
     bgClass: 'bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-950',
     cardClass: 'bg-white/10 backdrop-blur border border-white/20',
-    accentClass: 'text-indigo-100', bodyClass: 'text-indigo-50/90', font: 'font-serif',
+    accentClass: 'text-indigo-100', bodyClass: 'text-indigo-50/90', font: 'font-display',
   },
   {
     id: 'petals', label: 'Petals', emoji: '🌸', premium: true,

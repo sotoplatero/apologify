@@ -8,6 +8,7 @@ export default {
 				sans: ['Inter', 'sans-serif'],
 				serif: ['Lora', 'Georgia', 'serif'],
 				cursive: ['Dancing Script', 'cursive'],
+				display: ['Fraunces', 'Georgia', 'serif'],
 			},
 		},
 	},

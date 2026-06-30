@@ -29,24 +29,31 @@ const pageSchema = {
 ---
 
 <LayoutBase title={title} description={description} canonicalUrl={canonicalUrl} schema={[pageSchema]} noindex={noindex}>
-  <main class={`min-h-screen w-full flex flex-col items-center justify-center px-4 py-16 ${theme.bgClass} ${theme.font}`}>
-    <article class={`max-w-xl w-full rounded-3xl shadow-xl p-8 md:p-12 ${theme.cardClass}`}>
-      {heading && (
-        <h1 class={`text-3xl md:text-4xl font-bold mb-8 text-center ${theme.accentClass}`} style="text-wrap: balance;">
-          {heading}
+  <main class={`min-h-screen w-full flex flex-col items-center justify-center px-5 py-16 sm:py-24 ${theme.bgClass} ${theme.font}`}>
+    <div class="w-full max-w-2xl">
+      <header class="text-center mb-10">
+        <p class={`text-[0.7rem] uppercase tracking-[0.3em] mb-4 opacity-60 ${theme.accentClass}`}>An apology</p>
+        <h1 class={`text-4xl sm:text-5xl font-semibold leading-[1.1] ${theme.accentClass}`} style="text-wrap: balance;">
+          {page.title}
         </h1>
-      )}
-      <div class={`space-y-5 text-lg md:text-xl leading-relaxed ${theme.bodyClass}`}>
-        {paragraphs.map((p) => <p set:html={p} />)}
-      </div>
-      {page.senderName && (
-        <p class={`mt-10 text-right text-xl ${theme.accentClass}`}>— {page.senderName}</p>
-      )}
-    </article>
+      </header>
+
+      <article class={`rounded-[1.75rem] shadow-2xl shadow-black/5 px-7 py-9 sm:px-12 sm:py-14 ${theme.cardClass}`}>
+        {heading && <p class={`text-xl sm:text-2xl mb-7 ${theme.accentClass}`}>{heading}</p>}
+        <div class={`space-y-5 text-lg sm:text-xl leading-[1.75] ${theme.bodyClass}`}>
+          {paragraphs.map((p) => <p set:html={p} />)}
+        </div>
+        {page.senderName && (
+          <p class={`mt-12 text-right text-3xl sm:text-4xl font-cursive leading-none ${theme.accentClass}`}>
+            {page.senderName}
+          </p>
+        )}
+      </article>
+    </div>
 
     {!page.isPaid && (
-      <a href="/generator" class={`mt-8 text-sm transition-opacity opacity-60 hover:opacity-100 ${theme.accentClass}`}>
-        Made with 💜 apologify.com — make your own
+      <a href="/generator" class={`mt-10 text-xs tracking-wide transition-opacity opacity-50 hover:opacity-90 ${theme.accentClass}`}>
+        Made with 💜 on apologify.com — make your own
       </a>
     )}
   </main>
