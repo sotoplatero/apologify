@@ -27,8 +27,8 @@ const topTones = tones.filter((t) => t.value !== "other").slice(0, 6);
               Apologify
             </a>
             <p class="text-sm text-gray-500 mt-2 max-w-md font-sans">
-              Create sincere, personalized apology letters in seconds with our
-              AI-powered generator. Free, private, and easy to use.
+              Turn a heartfelt apology into a beautiful, shareable web page in
+              seconds. Free to create — pick a design and send the link.
             </p>
           </div>
         </div>
@@ -37,7 +37,7 @@ const topTones = tones.filter((t) => t.value !== "other").slice(0, 6);
             <a
               href="/generator"
               class="text-gray-500 hover:text-purple-600 transition-colors"
-              >AI Generator</a
+              >Apology Builder</a
             >
           </li>
           <li>
@@ -68,13 +68,6 @@ const topTones = tones.filter((t) => t.value !== "other").slice(0, 6);
               >Contact</a
             >
           </li>
-          <li>
-            <a
-              href="/privacy"
-              class="text-gray-500 hover:text-purple-600 transition-colors"
-              >Privacy Policy</a
-            >
-          </li>
         </ul>
       </div>
 
@@ -93,7 +86,7 @@ const topTones = tones.filter((t) => t.value !== "other").slice(0, 6);
                   href={`/generator/${r.value}`}
                   class="text-gray-500 hover:text-purple-600 transition-colors"
                 >
-                  To {r.label}
+                  Sorry to {r.label.toLowerCase()}
                 </a>
               </li>
             ))
@@ -116,7 +109,7 @@ const topTones = tones.filter((t) => t.value !== "other").slice(0, 6);
                   href={`/examples?recipient=${r.value}`}
                   class="text-gray-500 hover:text-purple-600 transition-colors"
                 >
-                  To {r.label}
+                  {r.label} examples
                 </a>
               </li>
             ))
@@ -139,7 +132,7 @@ const topTones = tones.filter((t) => t.value !== "other").slice(0, 6);
                   href={`/examples?tone=${t.value}`}
                   class="text-gray-500 hover:text-purple-600 transition-colors"
                 >
-                  {t.label} Letters
+                  {t.label} apologies
                 </a>
               </li>
             ))
