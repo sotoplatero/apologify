@@ -7,11 +7,13 @@ import { getApologyPageBySlug } from "../lib/apologyPages";
 export const prerender = false;
 
 const slug = Astro.url.searchParams.get("slug") || "";
+const theme = Astro.url.searchParams.get("theme") || "";
 if (!isLikelySlug(slug)) return Astro.redirect("/404");
 
 // Publishing requires an account. Bounce to sign-up and return here afterwards.
 if (!Astro.locals.user) {
-  return Astro.redirect(`/sign-up?redirect_url=${encodeURIComponent("/publish?slug=" + slug)}`);
+  const back = "/publish?slug=" + slug + (theme ? "&theme=" + theme : "");
+  return Astro.redirect(`/sign-up?redirect_url=${encodeURIComponent(back)}`);
 }
 
 const page = await getApologyPageBySlug(slug);
@@ -28,7 +30,7 @@ if (page.visibility === "public") return Astro.redirect(`/sorry/${slug}`);
       Publishing makes “{page.title}” public and findable on Google. You can share the
       link either way — publishing also lists it on Apologify.
     </p>
-    <PublishButton client:load slug={slug} />
+    <PublishButton client:load slug={slug} theme={theme} />
     <p class="mt-6">
       <a href={`/sorry/${slug}`} class="text-sm text-gray-400 hover:text-purple-600">Preview the page first →</a>
     </p>

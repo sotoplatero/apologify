@@ -1,12 +1,13 @@
 <script lang="ts">
   import { actions } from "astro:actions";
   export let slug: string;
+  export let theme = "";
   let loading = false;
   let error = "";
 
   async function publish() {
     loading = true; error = "";
-    const { data, error: actionError } = await actions.publishApologyPage({ slug });
+    const { data, error: actionError } = await actions.publishApologyPage({ slug, theme: theme || undefined });
     if (actionError) { error = actionError.message; loading = false; }
     else if (data?.published) window.location.href = `/sorry/${slug}`;
   }

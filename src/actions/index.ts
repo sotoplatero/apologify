@@ -33,50 +33,45 @@ export const server = {
   createApologyPage: defineAction({
     accept: 'form',
     input: z.object({
-      relationship: z.string().min(1).max(100),
-      recipientName: z.string().max(60).nullish().transform((v) => (v ? v.trim() : undefined)),
+      // "A quién" — free text (a name like "Mia", or a phrase like "our customers").
+      relationship: z.string().min(1, "Tell us who this is for").max(100),
+      // "Firma" — who is apologizing (optional).
       senderName: z.string().max(80).nullish().transform((v) => (v ? v.trim() : undefined)),
-      audience: z.enum(['person', 'public']).default('person'),
       context: z.string().transform(normalizeContext).pipe(
         z.string().min(20, "Please describe what happened (at least 20 characters)").max(1000)
           .refine((val) => !urlPattern.test(val), "URLs are not allowed")
       ),
       tone: z.string().min(1).max(50),
-      theme: z.string().min(1).max(40),
     }),
     handler: async (input, context) => {
       try {
         const userId = context.locals.user?.id ?? null;
-        // Always created as a draft; going public happens via the publish step.
-        const visibility: 'private' | 'public' = 'private';
 
         const { title, message } = await generateApologyContent({
           relationship: input.relationship,
-          recipientName: input.recipientName,
-          audience: input.audience,
           tone: input.tone,
           context: input.context,
         });
-        const slug = buildApologySlug({ recipientName: input.recipientName, recipient: input.relationship, title });
-        const theme = isPremiumTheme(input.theme) ? 'classic' : input.theme;
+        const slug = buildApologySlug({ recipientName: input.relationship, recipient: input.relationship, title });
         try {
           await saveApologyPage({
             slug,
             recipient: input.relationship,
-            recipientName: input.recipientName ?? null,
+            recipientName: input.relationship,
             senderName: input.senderName ?? null,
-            audience: input.audience,
-            visibility,
+            audience: 'person',
+            // Always created as a private draft; the theme is finalized at publish.
+            visibility: 'private',
             ownerId: userId ?? null,
             message,
             title,
-            theme,
+            theme: 'classic',
             tone: input.tone,
           });
-          return { slug, title, visibility, saved: true };
+          return { slug, title, message, saved: true };
         } catch (dbError) {
           console.error('Failed to save apology page:', dbError);
-          return { slug, title, visibility, saved: false };
+          return { slug, title, message, saved: false };
         }
       } catch (error) {
         throw new ActionError({
@@ -88,13 +83,17 @@ export const server = {
   }),
 
   publishApologyPage: defineAction({
-    input: z.object({ slug: z.string().min(3).max(90) }),
+    input: z.object({ slug: z.string().min(3).max(90), theme: z.string().max(40).optional() }),
     handler: async (input, context) => {
       const userId = context.locals.user?.id;
       if (!userId) {
         throw new ActionError({ code: 'UNAUTHORIZED', message: 'You must be signed in to publish.' });
       }
-      const published = await runPublish(input.slug, userId);
+      // Premium themes downgrade to classic until paid (paywall: future phase).
+      const theme = input.theme
+        ? (isPremiumTheme(input.theme) ? 'classic' : input.theme)
+        : undefined;
+      const published = await runPublish(input.slug, userId, theme);
       if (!published) {
         throw new ActionError({ code: 'FORBIDDEN', message: 'This page can no longer be published.' });
       }
@@ -104,25 +103,19 @@ export const server = {
 }
 
 async function generateApologyContent(input: {
-  relationship: string; recipientName?: string; audience: 'person' | 'public'; tone: string; context: string;
+  relationship: string; tone: string; context: string;
 }): Promise<{ title: string; message: string }> {
-  const { relationship, recipientName, audience, tone, context } = input;
-  const isPublic = audience === 'public';
-  const who = isPublic
-    ? `the public / our customers`
-    : (recipientName ? `${relationship} named ${recipientName}` : relationship);
+  const { relationship, tone, context } = input;
 
-  const systemPrompt = isPublic
-    ? `You write sincere public apology statements for organizations. The statement will be published on a public web page. Take clear accountability, avoid corporate weasel words and non-apologies ("we're sorry if anyone was offended"), state concrete corrective actions. No greeting, no signature.`
-    : `You write short, sincere, heartfelt personal apology messages meant to be read on a personal web page shared privately with one recipient. Write like a real person, never corporate. No greeting line, no signature.`;
+  const systemPrompt = `You write short, sincere apology messages to be read on a web page the sender shares. Write like a real person, never corporate boilerplate. Take clear accountability, show genuine understanding of the impact, and avoid non-apologies ("sorry if anyone was offended"). No greeting line and no signature — those are added separately.`;
 
-  const userPrompt = `Write an apology to ${who}.
+  const userPrompt = `Write an apology to: ${relationship}.
 Tone: ${tone}.
 What happened: ${context}
 
 Respond with a valid JSON object (no markdown fences) with exactly two keys:
 - "title": a concise 4-8 word summary of the reason (e.g. "Forgetting Our Anniversary", "Service Outage Apology"). Do NOT include the recipient.
-- "message": ${isPublic ? '120-200 words, 2-3 short paragraphs' : '90-160 words, 2 short paragraphs'} separated by blank lines. Own the mistake, show understanding of the impact, ${isPublic ? 'state concrete corrective steps' : 'be warm and specific'}. No "Dear ..." greeting and no sign-off/signature.
+- "message": 90-180 words, 2-3 short paragraphs separated by blank lines. Own the mistake, show you understand the impact, be specific and human. No "Dear ..." greeting and no sign-off/signature.
 
 Respond with the JSON now:`;
 

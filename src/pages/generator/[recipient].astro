@@ -1,7 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { recipients } from "../../lib/apologyData.js";
-import ApologyPageBuilder from "../../components/ApologyPageBuilder.svelte";
+import ApologyGenerator from "../../components/ApologyGenerator.svelte";
 
 export async function getStaticPaths() {
   return recipients.map((recipient) => ({
@@ -17,8 +17,9 @@ if (!recipientData) {
 }
 
 const recipientLabel = recipientData.label;
-const audience = recipient === "public" ? "public" : "person";
 const isPublic = recipient === "public";
+// SEO landings prefill the free-text "to whom" field of the unified generator.
+const initialToWhom = isPublic ? "our customers" : `my ${recipientLabel.toLowerCase()}`;
 
 // Iconos para recipients
 const recipientIcons: Record<string, string> = {
@@ -481,12 +482,7 @@ const schemas = faqSchema ? [faqSchema] : undefined;
       </header>
 
       <!-- Generator Form Component -->
-      <ApologyPageBuilder
-        client:load
-        recipient={recipient}
-        defaultTone={defaultTone}
-        audience={audience}
-      />
+      <ApologyGenerator client:load initialToWhom={initialToWhom} />
 
       <!-- FAQ Section -->
       {

@@ -1,48 +1,41 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ApologyGenerator from '../../components/ApologyGenerator.svelte';
 import { recipients } from '../../lib/apologyData.js';
 
-const recipientIcons: Record<string, string> = {
-  boss: "👔", client: "🤝", colleague: "👥", daughter: "👧", father: "👨",
-  friend: "👫", husband: "💑", mother: "👩", romantic: "💕", partner: "💕",
-  girlfriend: "💝", boyfriend: "💙", son: "👦", teacher: "📚", wife: "💑",
-  public: "🏛️",
-};
-
 const title = "Apology Website Builder — Make a Free Sorry Page";
-const description = "Create a shareable apology website for anyone — a partner, friend, or family — or a public statement for your company. Pick a theme and share the link. Free.";
+const description = "Write a heartfelt apology and turn it into a shareable web page in seconds. Say who it's for, what happened, pick a theme, and publish. Free.";
+
+// Internal links to the SEO landing pages (each prefills the generator).
+const popular = recipients.filter((r) => r.value !== "public");
 ---
 
 <Layout title={title} description={description}>
   <main class="max-w-screen-lg mx-auto px-4 py-16">
-    <header class="text-center mb-12">
+    <header class="text-center mb-10">
       <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4" style="text-wrap: balance;">
         Apology Website Builder
       </h1>
       <p class="text-lg text-gray-500 max-w-2xl mx-auto" style="text-wrap: balance;">
-        Create a shareable apology page for anyone — or a public statement for your company.
-        Who are you apologizing to?
+        Write a sincere apology and turn it into a beautiful, shareable page. Tell us who it's
+        for and what happened — we'll handle the words.
       </p>
     </header>
 
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-      {recipients.map((r) => (
-        <a
-          href={`/generator/${r.value}`}
-          class="group flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-purple-400 shadow-sm hover:shadow-md transition-all duration-300"
-        >
-          <span class="text-2xl flex-shrink-0">{recipientIcons[r.value] || "📝"}</span>
-          <span class="font-medium text-gray-800 group-hover:text-purple-700 transition-colors truncate">
-            {r.label}
-          </span>
-        </a>
-      ))}
-    </div>
+    <ApologyGenerator client:load />
 
-    <div class="text-center mt-12">
-      <a href="/examples" class="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium transition-colors">
-        Or browse apology examples →
-      </a>
-    </div>
+    <section class="mt-16 text-center">
+      <h2 class="text-sm font-semibold tracking-widest uppercase text-gray-400 mb-4">Popular apologies</h2>
+      <div class="flex flex-wrap justify-center gap-2 max-w-2xl mx-auto">
+        {popular.map((r) => (
+          <a href={`/generator/${r.value}`} class="text-sm px-3 py-1.5 rounded-full bg-white border border-gray-200 text-gray-600 hover:border-purple-400 hover:text-purple-700 transition-colors">
+            Sorry to {r.label.toLowerCase()}
+          </a>
+        ))}
+        <a href="/generator/public" class="text-sm px-3 py-1.5 rounded-full bg-white border border-gray-200 text-gray-600 hover:border-purple-400 hover:text-purple-700 transition-colors">
+          Public / company apology
+        </a>
+      </div>
+    </section>
   </main>
 </Layout>

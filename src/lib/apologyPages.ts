@@ -56,13 +56,15 @@ export async function getAllPublicSlugs(): Promise<{ slug: string; createdAt?: s
  * owner or an unowned (anonymous-draft) page can be published. Returns true if
  * a row was published.
  */
-export async function publishApologyPage(slug: string, userId: string): Promise<boolean> {
+export async function publishApologyPage(slug: string, userId: string, theme?: string): Promise<boolean> {
   if (!turso) throw new Error('Turso not configured');
-  const r = await turso.execute({
-    sql: `UPDATE apology_pages SET visibility = 'public', owner_id = COALESCE(owner_id, ?)
-          WHERE slug = ? AND (owner_id IS NULL OR owner_id = ?)`,
-    args: [userId, slug, userId],
-  });
+  const sql = theme
+    ? `UPDATE apology_pages SET visibility = 'public', owner_id = COALESCE(owner_id, ?), theme = ?
+       WHERE slug = ? AND (owner_id IS NULL OR owner_id = ?)`
+    : `UPDATE apology_pages SET visibility = 'public', owner_id = COALESCE(owner_id, ?)
+       WHERE slug = ? AND (owner_id IS NULL OR owner_id = ?)`;
+  const args = theme ? [userId, theme, slug, userId] : [userId, slug, userId];
+  const r = await turso.execute({ sql, args });
   return r.rowsAffected > 0;
 }
 
