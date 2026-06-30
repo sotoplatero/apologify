@@ -35,8 +35,8 @@ export const server = {
     input: z.object({
       // "A quién" — free text (a name like "Mia", or a phrase like "our customers").
       relationship: z.string().min(1, "Tell us who this is for").max(100),
-      // "Firma" — who is apologizing (optional).
-      senderName: z.string().max(80).nullish().transform((v) => (v ? v.trim() : undefined)),
+      // "Firma" — who is apologizing (required, shown on the page).
+      senderName: z.string().min(1, "Add who's apologizing").max(80).transform((v) => v.trim()),
       context: z.string().transform(normalizeContext).pipe(
         z.string().min(20, "Please describe what happened (at least 20 characters)").max(1000)
           .refine((val) => !urlPattern.test(val), "URLs are not allowed")

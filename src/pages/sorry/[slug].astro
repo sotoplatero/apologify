@@ -7,6 +7,11 @@ import LetterTemplate from "../../components/templates/LetterTemplate.astro";
 import CuteTemplate from "../../components/templates/CuteTemplate.astro";
 import StatementTemplate from "../../components/templates/StatementTemplate.astro";
 import NightTemplate from "../../components/templates/NightTemplate.astro";
+import KeepCalmTemplate from "../../components/templates/KeepCalmTemplate.astro";
+import SwissTemplate from "../../components/templates/SwissTemplate.astro";
+import RansomTemplate from "../../components/templates/RansomTemplate.astro";
+import ConstructivistTemplate from "../../components/templates/ConstructivistTemplate.astro";
+import LetterpressTemplate from "../../components/templates/LetterpressTemplate.astro";
 
 export const prerender = false;
 
@@ -24,7 +29,12 @@ const TEMPLATES: Record<string, any> = {
   "classic": LetterTemplate,
   "cute-duck": CuteTemplate,
   "formal": StatementTemplate,
+  "keep-calm": KeepCalmTemplate,
+  "swiss": SwissTemplate,
+  "ransom": RansomTemplate,
   "starry": NightTemplate,
+  "constructivist": ConstructivistTemplate,
+  "letterpress": LetterpressTemplate,
 };
 const Template = TEMPLATES[templateId] || LetterTemplate;
 

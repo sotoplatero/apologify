@@ -22,7 +22,11 @@ export function looksLikeName(value) {
  * @returns {string | null}
  */
 export function apologyHeading(toWhom) {
-  return toWhom && looksLikeName(toWhom) ? `Dear ${toWhom.trim()},` : null;
+  if (!toWhom) return null;
+  const t = toWhom.trim();
+  // "who" is mandatory and always shown: a name reads "Dear Mia,", a phrase
+  // reads "To my girlfriend," / "To our customers,".
+  return looksLikeName(t) ? `Dear ${t},` : `To ${t},`;
 }
 
 function escapeHtml(s) {

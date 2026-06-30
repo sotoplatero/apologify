@@ -9,6 +9,7 @@ export default {
 				serif: ['Lora', 'Georgia', 'serif'],
 				cursive: ['Dancing Script', 'cursive'],
 				display: ['Fraunces', 'Georgia', 'serif'],
+				poster: ['Anton', 'Impact', 'sans-serif'],
 			},
 		},
 	},

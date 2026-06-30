@@ -27,6 +27,7 @@
 
   async function generate() {
     if (!toWhom.trim()) { error = "Tell us who this apology is for."; return; }
+    if (!signature.trim()) { error = "Add a signature — who is apologizing?"; return; }
     if (reason.trim().length < 20) { error = "Describe what happened (at least 20 characters)."; return; }
     isGenerating = true; error = "";
     try {
@@ -75,7 +76,7 @@
           </select>
         </div>
         <div>
-          <label for="sig" class="font-semibold text-gray-900 block mb-2">Signature <span class="text-gray-400 font-normal">(optional)</span></label>
+          <label for="sig" class="font-semibold text-gray-900 block mb-2">Signature</label>
           <input id="sig" bind:value={signature} maxlength="80" placeholder="Who's apologizing? e.g. Sam"
             class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500" />
         </div>
