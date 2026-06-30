@@ -1,0 +1,52 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getApologyPageBySlug } from "../../lib/apologyPages";
+import { resolveTheme } from "../../lib/themes.js";
+import { isLikelySlug } from "../../lib/slug.js";
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+if (!slug || !isLikelySlug(slug)) return Astro.redirect("/404");
+const page = await getApologyPageBySlug(slug);
+if (!page) return Astro.redirect("/404");
+
+const theme = resolveTheme(page.theme);
+const isPublic = page.audience === "public";
+const noindex = page.visibility !== "public";
+const heading = isPublic
+  ? `An apology from ${page.senderName || "us"}`
+  : page.recipientName ? `Dear ${page.recipientName},` : "I'm sorry.";
+const paragraphs = page.message.split(/\n{2,}/).filter(Boolean);
+const title = `${page.title} — An Apology | Apologify`;
+const description = (isPublic ? `A public apology: ${page.title}. ` :
+  `A personal apology${page.recipientName ? " for " + page.recipientName : ""}: ${page.title}. `)
+  .concat("Made on apologify.com.").slice(0, 160);
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+const pageSchema = {
+  "@context": "https://schema.org", "@type": "CreativeWork",
+  headline: `${page.title} — Apology`, description, genre: page.tone,
+  dateCreated: page.createdAt ? new Date(page.createdAt).toISOString() : undefined,
+  author: { "@type": "Organization", name: "Apologify" },
+  publisher: { "@type": "Organization", name: "Apologify", url: "https://apologify.com" },
+};
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schema={[pageSchema]} noindex={noindex}>
+  <section class={`min-h-[80vh] ${theme.bgClass} ${theme.font} flex items-center justify-center px-4 py-16 -mx-4`}>
+    <article class="max-w-xl w-full bg-white/70 backdrop-blur rounded-3xl shadow-xl p-8 md:p-12 text-center">
+      <h1 class={`text-3xl md:text-4xl font-bold mb-6 ${theme.accentClass}`} style="text-wrap: balance;">{heading}</h1>
+      <div class="space-y-4 text-lg text-gray-700 leading-relaxed text-left">
+        {paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+      {page.senderName && !isPublic && (<p class={`mt-8 text-xl ${theme.accentClass}`}>— {page.senderName}</p>)}
+    </article>
+  </section>
+  {!page.isPaid && (
+    <div class="text-center py-6">
+      <a href="/generator" class="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-purple-600 transition-colors">
+        Made with 💜 apologify.com — make your own
+      </a>
+    </div>
+  )}
+</Layout>
