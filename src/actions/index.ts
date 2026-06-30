@@ -34,8 +34,8 @@ export const server = {
     accept: 'form',
     input: z.object({
       relationship: z.string().min(1).max(100),
-      recipientName: z.string().max(60).optional().transform((v) => (v ? v.trim() : undefined)),
-      senderName: z.string().max(80).optional().transform((v) => (v ? v.trim() : undefined)),
+      recipientName: z.string().max(60).nullish().transform((v) => (v ? v.trim() : undefined)),
+      senderName: z.string().max(80).nullish().transform((v) => (v ? v.trim() : undefined)),
       audience: z.enum(['person', 'public']).default('person'),
       requestedVisibility: z.enum(['private', 'public']).default('private'),
       context: z.string().transform(normalizeContext).pipe(

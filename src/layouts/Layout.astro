@@ -6,7 +6,7 @@ import Footer from '../components/Footer.astro';
 interface Props {
 	title: string;
 	description?: string;
-	schema?: Record<string, any>;
+	schema?: Record<string, any> | Record<string, any>[];
 	canonicalUrl?: string;
 	ogImage?: string;
 	noindex?: boolean;

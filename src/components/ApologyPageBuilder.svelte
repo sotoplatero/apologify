@@ -46,7 +46,8 @@
       fd.append("theme", selectedTheme);
       const { data, error: actionError } = await actions.createApologyPage(fd);
       if (actionError) error = actionError.message;
-      else if (data) { slug = data.slug; resultVisibility = data.visibility; }
+      else if (data && data.saved) { slug = data.slug; resultVisibility = data.visibility; }
+      else error = "We couldn't save your apology page. Please try again.";
     } catch (e) { error = "Something went wrong. Please try again."; console.error(e); }
     finally { isGenerating = false; }
   }

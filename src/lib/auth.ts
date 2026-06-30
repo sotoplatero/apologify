@@ -5,6 +5,12 @@ import { LibsqlDialect } from "@libsql/kysely-libsql";
 const E: Record<string, string | undefined> =
   (typeof import.meta !== "undefined" && (import.meta as any).env) || process.env;
 
+const secret = E.BETTER_AUTH_SECRET;
+// Fail fast in production: a missing secret means unsigned/forgeable sessions.
+if (!secret && (typeof import.meta !== "undefined" && (import.meta as any).env?.PROD)) {
+  throw new Error("BETTER_AUTH_SECRET is required in production");
+}
+
 export const auth = betterAuth({
   database: {
     dialect: new LibsqlDialect({
@@ -14,6 +20,6 @@ export const auth = betterAuth({
     type: "sqlite",
   },
   emailAndPassword: { enabled: true },
-  secret: E.BETTER_AUTH_SECRET,
+  secret,
   baseURL: E.BETTER_AUTH_URL,
 });
