@@ -20,6 +20,6 @@ export default {
 	daisyui: {
 		// Themes must be listed here for data-theme to work. "wireframe" is the
 		// default (the layout sets <html data-theme="wireframe">).
-		themes: ['wireframe', 'light', 'dark'],
+		themes: ['corporate', 'light', 'dark'],
 	},
 }
