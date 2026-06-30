@@ -9,6 +9,7 @@ interface Props {
 	schema?: Record<string, any>;
 	canonicalUrl?: string;
 	ogImage?: string;
+	noindex?: boolean;
 }
 
 const {
@@ -16,7 +17,8 @@ const {
 	description = 'Create heartfelt apology letters with our easy-to-use generator. Mend relationships and express sincere regret effectively. Free templates and expert tips.',
 	schema,
 	canonicalUrl,
-	ogImage
+	ogImage,
+	noindex = false
 } = Astro.props;
 
 const currentUrl = new URL(Astro.url.pathname, Astro.site);
@@ -32,6 +34,7 @@ const finalOgImage = ogImage || defaultOgImage;
 		<meta name="description" content={description} />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		{noindex && <meta name="robots" content="noindex,nofollow" />}
 		<meta name="generator" content={Astro.generator} />
 
 		<!-- Canonical URL -->

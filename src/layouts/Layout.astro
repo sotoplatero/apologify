@@ -9,12 +9,13 @@ interface Props {
 	schema?: Record<string, any>;
 	canonicalUrl?: string;
 	ogImage?: string;
+	noindex?: boolean;
 }
 
-const { title, description = title, schema, canonicalUrl, ogImage } = Astro.props;
+const { title, description = title, schema, canonicalUrl, ogImage, noindex = false } = Astro.props;
 ---
 
-<LayoutBase title={title} description={description} schema={schema} canonicalUrl={canonicalUrl} ogImage={ogImage}>
+<LayoutBase title={title} description={description} schema={schema} canonicalUrl={canonicalUrl} ogImage={ogImage} noindex={noindex}>
 	<Header />
 	<main class="flex-grow w-full max-w-screen-xl mx-auto px-4">
 		<slot />
