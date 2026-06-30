@@ -24,3 +24,34 @@ export function looksLikeName(value) {
 export function apologyHeading(toWhom) {
   return toWhom && looksLikeName(toWhom) ? `Dear ${toWhom.trim()},` : null;
 }
+
+function escapeHtml(s) {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+/**
+ * Render the limited Markdown the generator produces (**bold**, *italic*,
+ * _italic_) into safe HTML paragraphs. HTML is escaped FIRST, so model output
+ * can never inject markup — only bold/italic spans are re-introduced. Returns
+ * one HTML string per paragraph (blank-line separated); single newlines become
+ * <br>.
+ * @param {string | null | undefined} message
+ * @returns {string[]}
+ */
+export function apologyParagraphsHtml(message) {
+  if (!message) return [];
+  return message
+    .split(/\n{2,}/)
+    .map((p) => p.trim())
+    .filter(Boolean)
+    .map((p) =>
+      escapeHtml(p)
+        .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+        .replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>")
+        .replace(/_([^_\n]+)_/g, "<em>$1</em>")
+        .replace(/\n/g, "<br>")
+    );
+}

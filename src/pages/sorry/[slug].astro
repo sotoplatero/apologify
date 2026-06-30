@@ -1,9 +1,9 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import LayoutBase from "../../layouts/LayoutBase.astro";
 import { getApologyPageBySlug } from "../../lib/apologyPages";
 import { resolveTheme } from "../../lib/themes.js";
 import { isLikelySlug } from "../../lib/slug.js";
-import { apologyHeading } from "../../lib/display.js";
+import { apologyHeading, apologyParagraphsHtml } from "../../lib/display.js";
 
 export const prerender = false;
 
@@ -15,7 +15,7 @@ if (!page) return Astro.redirect("/404");
 const theme = resolveTheme(page.theme);
 const noindex = page.visibility !== "public";
 const heading = apologyHeading(page.recipientName);
-const paragraphs = page.message.split(/\n{2,}/).filter(Boolean);
+const paragraphs = apologyParagraphsHtml(page.message);
 const title = `${page.title} — An Apology | Apologify`;
 const description = `${page.title} — a sincere apology${page.recipientName ? " for " + page.recipientName : ""}. Made on apologify.com.`.slice(0, 160);
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
@@ -28,21 +28,26 @@ const pageSchema = {
 };
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schema={[pageSchema]} noindex={noindex}>
-  <section class={`min-h-[80vh] ${theme.bgClass} ${theme.font} flex items-center justify-center px-4 py-16 -mx-4`}>
-    <article class="max-w-xl w-full bg-white/70 backdrop-blur rounded-3xl shadow-xl p-8 md:p-12 text-center">
-      {heading && <h1 class={`text-3xl md:text-4xl font-bold mb-6 ${theme.accentClass}`} style="text-wrap: balance;">{heading}</h1>}
-      <div class="space-y-4 text-lg text-gray-700 leading-relaxed text-left">
-        {paragraphs.map((p) => <p>{p}</p>)}
+<LayoutBase title={title} description={description} canonicalUrl={canonicalUrl} schema={[pageSchema]} noindex={noindex}>
+  <main class={`min-h-screen w-full flex flex-col items-center justify-center px-4 py-16 ${theme.bgClass} ${theme.font}`}>
+    <article class={`max-w-xl w-full rounded-3xl shadow-xl p-8 md:p-12 ${theme.cardClass}`}>
+      {heading && (
+        <h1 class={`text-3xl md:text-4xl font-bold mb-8 text-center ${theme.accentClass}`} style="text-wrap: balance;">
+          {heading}
+        </h1>
+      )}
+      <div class={`space-y-5 text-lg md:text-xl leading-relaxed ${theme.bodyClass}`}>
+        {paragraphs.map((p) => <p set:html={p} />)}
       </div>
-      {page.senderName && (<p class={`mt-8 text-xl ${theme.accentClass}`}>— {page.senderName}</p>)}
+      {page.senderName && (
+        <p class={`mt-10 text-right text-xl ${theme.accentClass}`}>— {page.senderName}</p>
+      )}
     </article>
-  </section>
-  {!page.isPaid && (
-    <div class="text-center py-6">
-      <a href="/generator" class="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-purple-600 transition-colors">
+
+    {!page.isPaid && (
+      <a href="/generator" class={`mt-8 text-sm transition-opacity opacity-60 hover:opacity-100 ${theme.accentClass}`}>
         Made with 💜 apologify.com — make your own
       </a>
-    </div>
-  )}
-</Layout>
+    )}
+  </main>
+</LayoutBase>

@@ -2,7 +2,7 @@
   import { actions } from "astro:actions";
   import { tones } from "../lib/apologyData.js";
   import { listThemes, resolveTheme, isPremiumTheme } from "../lib/themes.js";
-  import { apologyHeading } from "../lib/display.js";
+  import { apologyHeading, apologyParagraphsHtml } from "../lib/display.js";
 
   // Optional prefill for the "to whom" field (used by SEO landing pages).
   export let initialToWhom = "";
@@ -25,7 +25,7 @@
 
   $: theme = resolveTheme(selectedTheme);
   $: heading = apologyHeading(toWhom);
-  $: paragraphs = message.split(/\n{2,}/).filter(Boolean);
+  $: paragraphsHtml = apologyParagraphsHtml(message);
   $: premiumSelected = isPremiumTheme(selectedTheme);
 
   async function generate() {
@@ -96,48 +96,45 @@
     </form>
   </div>
 {:else}
-  <!-- Step 2: live WYSIWYG preview with hot-swappable theme -->
-  <div class="max-w-2xl mx-auto">
-    <p class="text-center text-sm font-medium text-gray-400 mb-3 uppercase tracking-widest">Preview — not published yet</p>
-
-    <!-- This mirrors how the live /sorry/[slug] page renders -->
-    <div class={`rounded-3xl overflow-hidden border border-gray-200 shadow-sm ${theme.bgClass} ${theme.font}`}>
-      <div class="flex items-center justify-center px-4 py-12">
-        <article class="max-w-xl w-full bg-white/70 backdrop-blur rounded-3xl shadow-xl p-8 md:p-10 text-center">
-          {#if heading}<h1 class={`text-2xl md:text-3xl font-bold mb-5 ${theme.accentClass}`} style="text-wrap: balance;">{heading}</h1>{/if}
-          <div class="space-y-4 text-base md:text-lg text-gray-700 leading-relaxed text-left">
-            {#each paragraphs as p}<p>{p}</p>{/each}
-          </div>
-          {#if signature.trim()}<p class={`mt-7 text-lg ${theme.accentClass}`}>— {signature.trim()}</p>{/if}
-        </article>
-      </div>
+  <!-- Step 2: full-screen, dedicated WYSIWYG preview with hot-swappable theme -->
+  <div class={`fixed inset-0 z-50 overflow-y-auto ${theme.bgClass} ${theme.font}`}>
+    <div class="sticky top-0 z-10 flex justify-between items-center px-4 py-3">
+      <span class={`text-xs uppercase tracking-widest font-semibold opacity-70 ${theme.accentClass}`}>Preview — not published</span>
+      <button on:click={editDetails} class={`text-sm font-medium opacity-70 hover:opacity-100 transition-opacity ${theme.accentClass}`}>← Edit &amp; regenerate</button>
     </div>
 
-    <!-- Theme picker (hot swap, no regeneration) -->
-    <div class="mt-6">
-      <span class="font-semibold text-gray-900 block mb-2">Theme</span>
-      <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
-        {#each themes as th}
-          <button type="button" on:click={() => (selectedTheme = th.id)}
-            class="relative flex flex-col items-center gap-1 p-3 rounded-xl border-2 transition-all {selectedTheme === th.id ? 'border-purple-500 bg-purple-50' : 'border-gray-200 hover:border-purple-300'}">
-            <span class="text-2xl">{th.emoji}</span>
-            <span class="text-xs text-gray-700">{th.label}</span>
-            {#if th.premium}<span class="absolute top-1 right-1 text-[10px] bg-amber-400 text-white px-1 rounded">PRO</span>{/if}
-          </button>
-        {/each}
-      </div>
-      {#if premiumSelected}
-        <p class="text-xs text-amber-600 mt-2">PRO theme — it will publish as Classic until you upgrade.</p>
-      {/if}
+    <div class="flex items-start justify-center px-4 pt-6 pb-64 md:pb-56">
+      <article class={`max-w-xl w-full rounded-3xl shadow-xl p-8 md:p-12 ${theme.cardClass}`}>
+        {#if heading}<h1 class={`text-3xl md:text-4xl font-bold mb-8 text-center ${theme.accentClass}`} style="text-wrap: balance;">{heading}</h1>{/if}
+        <div class={`space-y-5 text-lg md:text-xl leading-relaxed ${theme.bodyClass}`}>
+          {#each paragraphsHtml as p}<p>{@html p}</p>{/each}
+        </div>
+        {#if signature.trim()}<p class={`mt-10 text-right text-xl ${theme.accentClass}`}>— {signature.trim()}</p>{/if}
+      </article>
     </div>
 
-    <!-- Publish CTA (no share URL until published) -->
-    <a href={`/publish?slug=${slug}&theme=${selectedTheme}`}
-      class="mt-6 block px-6 py-4 bg-purple-600 text-white text-lg font-semibold rounded-xl hover:bg-purple-700 transition-colors shadow-md text-center">
-      Publish this page →
-    </a>
-    <p class="text-center text-xs text-gray-400 mt-2">Publishing makes it public &amp; gives you a shareable link.</p>
-
-    <button on:click={editDetails} class="mt-5 mx-auto block text-sm text-gray-400 hover:text-purple-600">← Edit details &amp; regenerate</button>
+    <!-- Floating control bar -->
+    <div class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur border-t border-gray-200 px-4 py-4 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
+      <div class="max-w-2xl mx-auto">
+        <div class="flex gap-2 overflow-x-auto pb-3 -mx-1 px-1">
+          {#each themes as th}
+            <button type="button" on:click={() => (selectedTheme = th.id)} title={th.label}
+              class="relative flex-shrink-0 flex flex-col items-center gap-1 focus:outline-none">
+              <span class={`block w-14 h-10 rounded-lg ${th.bgClass} border-2 transition-all ${selectedTheme === th.id ? 'border-purple-600 ring-2 ring-purple-200' : 'border-gray-200'}`}></span>
+              <span class={`text-[11px] ${selectedTheme === th.id ? 'text-purple-700 font-semibold' : 'text-gray-500'}`}>{th.label}</span>
+              {#if th.premium}<span class="absolute -top-1 -right-1 text-[9px] bg-amber-400 text-white px-1 rounded">PRO</span>{/if}
+            </button>
+          {/each}
+        </div>
+        {#if premiumSelected}
+          <p class="text-xs text-amber-600 mb-2">PRO theme — it will publish as Classic until you upgrade.</p>
+        {/if}
+        <a href={`/publish?slug=${slug}&theme=${selectedTheme}`}
+          class="block w-full px-6 py-3.5 bg-purple-600 text-white text-center text-lg font-semibold rounded-xl hover:bg-purple-700 transition-colors shadow-md">
+          Publish this page →
+        </a>
+        <p class="text-center text-xs text-gray-400 mt-1.5">Publishing makes it public &amp; gives you a shareable link.</p>
+      </div>
+    </div>
   </div>
 {/if}

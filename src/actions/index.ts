@@ -49,6 +49,7 @@ export const server = {
 
         const { title, message } = await generateApologyContent({
           relationship: input.relationship,
+          senderName: input.senderName,
           tone: input.tone,
           context: input.context,
         });
@@ -103,19 +104,38 @@ export const server = {
 }
 
 async function generateApologyContent(input: {
-  relationship: string; tone: string; context: string;
+  relationship: string; senderName?: string; tone: string; context: string;
 }): Promise<{ title: string; message: string }> {
-  const { relationship, tone, context } = input;
+  const { relationship, senderName, tone, context } = input;
 
-  const systemPrompt = `You write short, sincere apology messages to be read on a web page the sender shares. Write like a real person, never corporate boilerplate. Take clear accountability, show genuine understanding of the impact, and avoid non-apologies ("sorry if anyone was offended"). No greeting line and no signature — those are added separately.`;
+  const systemPrompt = `You are the most thoughtful apology writer in the world. Your apologies feel personal, specific and genuinely human — never generic, never templated, never corporate filler.
 
-  const userPrompt = `Write an apology to: ${relationship}.
-Tone: ${tone}.
-What happened: ${context}
+Read the situation closely and infer the real relationship and register from BOTH who it is for and what happened:
+- a partner or someone loved → intimate, tender, vulnerable
+- a friend → warm, honest, informal
+- a boss, client or the public/customers → respectful, accountable, composed
+Choose the right voice and level of intimacy from those clues. If the recipient is described vaguely, look in the situation text for who is really being addressed.
+
+How to write:
+- Be specific to THIS situation — reference what actually happened. No vague "I'm sorry for my actions" filler.
+- Take real accountability and show you understand how it felt for them. Never a non-apology ("sorry if you were upset").
+- Keep it easy to read: short paragraphs with breathing room (usually 2–4 short paragraphs). Never a wall of text.
+- No greeting line ("Dear …") and no sign-off/signature — those are added around your text.
+
+Formatting — Markdown, used with restraint and only when it genuinely adds feeling:
+- You MAY use **bold** for the core promise or the heart of the apology, and *italics* for a tender or emphasized phrase — a light touch at most.
+- Emojis: only for warm, casual or romantic registers, at most one or two, and only where they truly belong.
+- For formal or professional apologies: NO emojis and essentially no decorative formatting — clean, dignified prose.
+- Never add formatting just to use it. If plain prose reads better, write plain prose.`;
+
+  const userPrompt = `Write an apology.
+For (the recipient): ${relationship}
+Tone: ${tone}${senderName ? `\nFrom (who is apologizing): ${senderName}` : ''}
+What happened (the sender's own words): ${context}
 
 Respond with a valid JSON object (no markdown fences) with exactly two keys:
-- "title": a concise 4-8 word summary of the reason (e.g. "Forgetting Our Anniversary", "Service Outage Apology"). Do NOT include the recipient.
-- "message": 90-180 words, 2-3 short paragraphs separated by blank lines. Own the mistake, show you understand the impact, be specific and human. No "Dear ..." greeting and no sign-off/signature.
+- "title": a concise 4-8 word summary of the reason (e.g. "Forgetting Our Anniversary", "Service Outage Apology"). Do NOT include the recipient and do NOT use quotes.
+- "message": the apology body in Markdown, 2–4 short paragraphs separated by blank lines, following the formatting rules above. No greeting and no signature.
 
 Respond with the JSON now:`;
 
