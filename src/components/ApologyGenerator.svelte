@@ -1,8 +1,7 @@
 <script lang="ts">
   import { actions } from "astro:actions";
   import { tones } from "../lib/apologyData.js";
-  import { listThemes, resolveTheme, isPremiumTheme } from "../lib/themes.js";
-  import { apologyHeading, apologyParagraphsHtml } from "../lib/display.js";
+  import { listThemes, isPremiumTheme } from "../lib/themes.js";
 
   export let initialToWhom = "";
 
@@ -18,15 +17,13 @@
 
   // Draft result (preview step)
   let slug = "";
-  let title = "";
-  let message = "";
   let selectedTheme = "classic";
   let drawerOpen = true;
 
-  $: theme = resolveTheme(selectedTheme);
-  $: heading = apologyHeading(toWhom);
-  $: paragraphsHtml = apologyParagraphsHtml(message);
   $: premiumSelected = isPremiumTheme(selectedTheme);
+  // The preview is the real apology page rendered in an iframe — perfectly
+  // faithful, and each template is defined only once (server-side).
+  $: previewSrc = slug ? `/sorry/${slug}?preview=1&theme=${selectedTheme}` : "";
 
   async function generate() {
     if (!toWhom.trim()) { error = "Tell us who this apology is for."; return; }
@@ -40,15 +37,13 @@
       fd.append("tone", selectedTone);
       const { data, error: actionError } = await actions.createApologyPage(fd);
       if (actionError) error = actionError.message;
-      else if (data && data.saved) { slug = data.slug; title = data.title; message = data.message; selectedTheme = "classic"; drawerOpen = true; }
+      else if (data && data.saved) { slug = data.slug; selectedTheme = "classic"; drawerOpen = true; }
       else error = "We couldn't create your page. Please try again.";
     } catch (e) { error = "Something went wrong. Please try again."; console.error(e); }
     finally { isGenerating = false; }
   }
 
-  function editDetails() {
-    slug = ""; message = ""; title = ""; error = "";
-  }
+  function editDetails() { slug = ""; error = ""; }
 </script>
 
 {#if !slug}
@@ -95,26 +90,11 @@
     </form>
   </div>
 {:else}
-  <!-- Step 2: full-screen dedicated preview + control drawer -->
-  <div class={`fixed inset-0 z-50 overflow-y-auto ${theme.bgClass} ${theme.font}`}>
-    <div class="min-h-full w-full flex flex-col items-center justify-center px-5 py-16 sm:py-24">
-      <div class="w-full max-w-2xl">
-        <header class="text-center mb-10">
-          <p class={`text-[0.7rem] uppercase tracking-[0.3em] mb-4 opacity-60 ${theme.accentClass}`}>Preview · not published</p>
-          <h1 class={`text-4xl sm:text-5xl font-semibold leading-[1.1] ${theme.accentClass}`} style="text-wrap: balance;">{title}</h1>
-        </header>
-        <article class={`rounded-[1.75rem] shadow-2xl shadow-black/5 px-7 py-9 sm:px-12 sm:py-14 ${theme.cardClass}`}>
-          {#if heading}<p class={`text-xl sm:text-2xl mb-7 ${theme.accentClass}`}>{heading}</p>{/if}
-          <div class={`space-y-5 text-lg sm:text-xl leading-[1.75] ${theme.bodyClass}`}>
-            {#each paragraphsHtml as p}<p>{@html p}</p>{/each}
-          </div>
-          {#if signature.trim()}<p class={`mt-12 text-right text-3xl sm:text-4xl font-cursive leading-none ${theme.accentClass}`}>{signature.trim()}</p>{/if}
-        </article>
-      </div>
-    </div>
+  <!-- Step 2: full-screen dedicated preview (real page in an iframe) + control drawer -->
+  <div class="fixed inset-0 z-50 bg-gray-100">
+    <iframe src={previewSrc} title="Apology preview" class="w-full h-full border-0"></iframe>
   </div>
 
-  <!-- Drawer toggle (when closed) -->
   {#if !drawerOpen}
     <button on:click={() => (drawerOpen = true)}
       class="fixed top-5 right-5 z-[70] flex items-center gap-2 px-4 py-2.5 rounded-full bg-gray-900 text-white text-sm font-medium shadow-lg hover:bg-gray-800 transition-colors">
@@ -123,12 +103,10 @@
     </button>
   {/if}
 
-  <!-- Scrim -->
   {#if drawerOpen}
-    <button aria-label="Close panel" on:click={() => (drawerOpen = false)} class="fixed inset-0 z-[60] bg-black/30 sm:bg-black/10"></button>
+    <button aria-label="Close panel" on:click={() => (drawerOpen = false)} class="fixed inset-0 z-[60] bg-black/30"></button>
   {/if}
 
-  <!-- Control drawer -->
   <aside class={`fixed top-0 right-0 z-[65] h-full w-full sm:w-[384px] bg-white shadow-2xl flex flex-col transition-transform duration-300 ease-out ${drawerOpen ? 'translate-x-0' : 'translate-x-full'}`}>
     <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
       <div>
@@ -147,19 +125,19 @@
       </button>
 
       <div>
-        <h3 class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">Theme</h3>
-        <div class="grid grid-cols-3 gap-3">
+        <h3 class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">Template</h3>
+        <div class="grid grid-cols-2 gap-3">
           {#each themes as th}
             <button type="button" on:click={() => (selectedTheme = th.id)} title={th.label}
               class="group relative text-left">
-              <span class={`block h-16 w-full rounded-xl ${th.bgClass} border-2 transition-all ${selectedTheme === th.id ? 'border-gray-900 ring-2 ring-gray-900/10' : 'border-gray-200 group-hover:border-gray-400'}`}></span>
-              <span class={`block mt-1.5 text-xs ${selectedTheme === th.id ? 'text-gray-900 font-semibold' : 'text-gray-500'}`}>{th.emoji} {th.label}</span>
+              <span class={`block h-20 w-full rounded-xl ${th.bgClass} border-2 transition-all ${selectedTheme === th.id ? 'border-gray-900 ring-2 ring-gray-900/10' : 'border-gray-200 group-hover:border-gray-400'}`}></span>
+              <span class={`block mt-1.5 text-sm ${selectedTheme === th.id ? 'text-gray-900 font-semibold' : 'text-gray-600'}`}>{th.emoji} {th.label}</span>
               {#if th.premium}<span class="absolute top-1.5 right-1.5 text-[9px] font-bold bg-amber-400 text-white px-1 rounded">PRO</span>{/if}
             </button>
           {/each}
         </div>
         {#if premiumSelected}
-          <p class="text-xs text-amber-600 mt-3 leading-relaxed">This is a PRO theme — it will publish as Classic until you upgrade.</p>
+          <p class="text-xs text-amber-600 mt-3 leading-relaxed">This is a PRO template — it will publish as Letter until you upgrade.</p>
         {/if}
       </div>
     </div>

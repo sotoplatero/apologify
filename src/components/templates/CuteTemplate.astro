@@ -1,0 +1,36 @@
+---
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
+---
+<main class="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center px-5 py-16 font-sans"
+  style="background:linear-gradient(135deg,#fff1b8,#ffd6e7 55%,#ffe3c2);">
+  <div class="pointer-events-none absolute inset-0 select-none text-4xl">
+    <span class="absolute left-[8%] top-[14%] animate-bounce" style="animation-duration:3s">🐤</span>
+    <span class="absolute right-[10%] top-[20%] animate-bounce" style="animation-duration:3.6s">💛</span>
+    <span class="absolute left-[13%] bottom-[16%] animate-bounce" style="animation-duration:4.2s">✨</span>
+    <span class="absolute right-[12%] bottom-[22%] animate-bounce" style="animation-duration:3.3s">🌈</span>
+  </div>
+
+  <div class="relative w-full max-w-lg">
+    <p class="text-center text-sm font-bold tracking-widest uppercase text-pink-500 mb-3">Apologify · an apology</p>
+    <div class="relative bg-white rounded-[2.5rem] shadow-[0_18px_50px_-10px_rgba(236,72,153,0.4)] px-7 py-10 sm:px-10 text-center">
+      <span class="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-pink-200/70 rotate-[-3deg] rounded"></span>
+      <div class="text-5xl mb-3">🥺</div>
+      <h1 class="text-3xl font-extrabold text-gray-800 mb-4" style="text-wrap: balance;">{title}</h1>
+      {heading && <p class="text-lg font-semibold text-pink-500 mb-3">{heading}</p>}
+      <div class="space-y-4 text-base leading-relaxed text-gray-600">
+        {paragraphs.map((p: string) => <p set:html={p} />)}
+      </div>
+      {senderName && <p class="mt-8 text-3xl font-cursive text-pink-500">{senderName}</p>}
+
+      <div class="mt-8 flex justify-center">
+        <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+          acceptLabel="I forgive you 💛"
+          primaryClass="px-7 py-3 rounded-full bg-pink-500 text-white font-bold hover:bg-pink-600 hover:scale-105 transition-all"
+          secondaryClass="px-6 py-3 rounded-full bg-pink-100 text-pink-600 font-bold hover:bg-pink-200 transition-colors"
+          mutedClass="text-sm text-pink-400 font-medium" />
+      </div>
+    </div>
+    <a href="/generator" class="block text-center mt-6 text-xs font-semibold text-pink-500/80 hover:text-pink-600 transition-colors">Made on apologify.com — make your own →</a>
+  </div>
+</main>

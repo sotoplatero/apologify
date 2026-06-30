@@ -20,9 +20,13 @@ async function init() {
       theme TEXT NOT NULL DEFAULT 'classic',
       tone TEXT NOT NULL DEFAULT 'heartfelt',
       is_paid INTEGER NOT NULL DEFAULT 0,
+      accepted_at DATETIME DEFAULT NULL,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
+  // Add accepted_at to pre-existing tables (ignore if it already exists).
+  try { await turso.execute(`ALTER TABLE apology_pages ADD COLUMN accepted_at DATETIME DEFAULT NULL`); }
+  catch (_) { /* column already exists */ }
   await turso.execute(`CREATE INDEX IF NOT EXISTS idx_apology_pages_slug ON apology_pages(slug)`);
   await turso.execute(`CREATE INDEX IF NOT EXISTS idx_apology_pages_visibility ON apology_pages(visibility, created_at)`);
   await turso.execute(`CREATE INDEX IF NOT EXISTS idx_apology_pages_owner ON apology_pages(owner_id)`);

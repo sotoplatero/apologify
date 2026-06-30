@@ -1,7 +1,7 @@
 import { defineAction, ActionError } from 'astro:actions';
 import { z } from 'astro:schema';
 import { callOpenAIChatCompletion } from '../lib/server/openai';
-import { saveApologyPage, publishApologyPage as runPublish } from '../lib/apologyPages';
+import { saveApologyPage, publishApologyPage as runPublish, acceptApology as runAccept } from '../lib/apologyPages';
 import { buildApologySlug } from '../lib/slug.js';
 import { isPremiumTheme } from '../lib/themes.js';
 
@@ -99,6 +99,14 @@ export const server = {
         throw new ActionError({ code: 'FORBIDDEN', message: 'This page can no longer be published.' });
       }
       return { published: true, slug: input.slug };
+    },
+  }),
+
+  acceptApology: defineAction({
+    input: z.object({ slug: z.string().min(3).max(90) }),
+    handler: async (input) => {
+      const acceptedAt = await runAccept(input.slug);
+      return { acceptedAt };
     },
   }),
 }

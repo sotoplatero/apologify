@@ -3,7 +3,8 @@ import { turso } from './turso';
 export interface ApologyPage {
   id?: number; slug: string; recipient: string; recipientName: string | null; senderName: string | null;
   audience: 'person' | 'public'; visibility: 'private' | 'public'; ownerId: string | null;
-  message: string; title: string; theme: string; tone: string; isPaid: boolean; createdAt?: string;
+  message: string; title: string; theme: string; tone: string; isPaid: boolean;
+  acceptedAt: string | null; createdAt?: string;
 }
 
 function rowToPage(row: any): ApologyPage {
@@ -14,8 +15,19 @@ function rowToPage(row: any): ApologyPage {
     visibility: row.visibility === 'public' ? 'public' : 'private',
     ownerId: row.owner_id ?? null,
     message: row.message, title: row.title, theme: row.theme, tone: row.tone,
-    isPaid: Number(row.is_paid) === 1, createdAt: row.created_at,
+    isPaid: Number(row.is_paid) === 1, acceptedAt: row.accepted_at ?? null, createdAt: row.created_at,
   };
+}
+
+/** Mark an apology as accepted by the recipient (idempotent). Returns the timestamp. */
+export async function acceptApology(slug: string): Promise<string | null> {
+  if (!turso) throw new Error('Turso not configured');
+  await turso.execute({
+    sql: `UPDATE apology_pages SET accepted_at = COALESCE(accepted_at, CURRENT_TIMESTAMP) WHERE slug = ?`,
+    args: [slug],
+  });
+  const r = await turso.execute({ sql: 'SELECT accepted_at FROM apology_pages WHERE slug = ? LIMIT 1', args: [slug] });
+  return r.rows.length ? ((r.rows[0].accepted_at as string) ?? null) : null;
 }
 
 export async function saveApologyPage(data: {

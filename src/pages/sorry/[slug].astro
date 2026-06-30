@@ -1,9 +1,12 @@
 ---
 import LayoutBase from "../../layouts/LayoutBase.astro";
 import { getApologyPageBySlug } from "../../lib/apologyPages";
-import { resolveTheme } from "../../lib/themes.js";
 import { isLikelySlug } from "../../lib/slug.js";
 import { apologyHeading, apologyParagraphsHtml } from "../../lib/display.js";
+import LetterTemplate from "../../components/templates/LetterTemplate.astro";
+import CuteTemplate from "../../components/templates/CuteTemplate.astro";
+import StatementTemplate from "../../components/templates/StatementTemplate.astro";
+import NightTemplate from "../../components/templates/NightTemplate.astro";
 
 export const prerender = false;
 
@@ -12,13 +15,34 @@ if (!slug || !isLikelySlug(slug)) return Astro.redirect("/404");
 const page = await getApologyPageBySlug(slug);
 if (!page) return Astro.redirect("/404");
 
-const theme = resolveTheme(page.theme);
-const noindex = page.visibility !== "public";
-const heading = apologyHeading(page.recipientName);
-const paragraphs = apologyParagraphsHtml(page.message);
-const title = `${page.title} — An Apology | Apologify`;
+// Preview (iframe) may override the template id so the drawer can hot-swap.
+const preview = Astro.url.searchParams.get("preview") === "1";
+const themeOverride = Astro.url.searchParams.get("theme");
+const templateId = preview && themeOverride ? themeOverride : page.theme;
+
+const TEMPLATES: Record<string, any> = {
+  "classic": LetterTemplate,
+  "cute-duck": CuteTemplate,
+  "formal": StatementTemplate,
+  "starry": NightTemplate,
+};
+const Template = TEMPLATES[templateId] || LetterTemplate;
+
+const data = {
+  title: page.title,
+  heading: apologyHeading(page.recipientName),
+  paragraphs: apologyParagraphsHtml(page.message),
+  recipientName: page.recipientName,
+  senderName: page.senderName,
+  slug: page.slug,
+  acceptedAt: page.acceptedAt,
+  preview,
+};
+
+const noindex = preview || page.visibility !== "public";
+const metaTitle = `${page.title} — An Apology | Apologify`;
 const description = `${page.title} — a sincere apology${page.recipientName ? " for " + page.recipientName : ""}. Made on apologify.com.`.slice(0, 160);
-const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+const canonicalUrl = new URL("/sorry/" + page.slug, Astro.site).href;
 const pageSchema = {
   "@context": "https://schema.org", "@type": "CreativeWork",
   headline: `${page.title} — Apology`, description, genre: page.tone,
@@ -28,33 +52,6 @@ const pageSchema = {
 };
 ---
 
-<LayoutBase title={title} description={description} canonicalUrl={canonicalUrl} schema={[pageSchema]} noindex={noindex}>
-  <main class={`min-h-screen w-full flex flex-col items-center justify-center px-5 py-16 sm:py-24 ${theme.bgClass} ${theme.font}`}>
-    <div class="w-full max-w-2xl">
-      <header class="text-center mb-10">
-        <p class={`text-[0.7rem] uppercase tracking-[0.3em] mb-4 opacity-60 ${theme.accentClass}`}>An apology</p>
-        <h1 class={`text-4xl sm:text-5xl font-semibold leading-[1.1] ${theme.accentClass}`} style="text-wrap: balance;">
-          {page.title}
-        </h1>
-      </header>
-
-      <article class={`rounded-[1.75rem] shadow-2xl shadow-black/5 px-7 py-9 sm:px-12 sm:py-14 ${theme.cardClass}`}>
-        {heading && <p class={`text-xl sm:text-2xl mb-7 ${theme.accentClass}`}>{heading}</p>}
-        <div class={`space-y-5 text-lg sm:text-xl leading-[1.75] ${theme.bodyClass}`}>
-          {paragraphs.map((p) => <p set:html={p} />)}
-        </div>
-        {page.senderName && (
-          <p class={`mt-12 text-right text-3xl sm:text-4xl font-cursive leading-none ${theme.accentClass}`}>
-            {page.senderName}
-          </p>
-        )}
-      </article>
-    </div>
-
-    {!page.isPaid && (
-      <a href="/generator" class={`mt-10 text-xs tracking-wide transition-opacity opacity-50 hover:opacity-90 ${theme.accentClass}`}>
-        Made with 💜 on apologify.com — make your own
-      </a>
-    )}
-  </main>
+<LayoutBase title={metaTitle} description={description} canonicalUrl={canonicalUrl} schema={[pageSchema]} noindex={noindex}>
+  <Template {...data} />
 </LayoutBase>
