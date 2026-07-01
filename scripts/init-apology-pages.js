@@ -34,5 +34,19 @@ async function init() {
   await turso.execute(`CREATE INDEX IF NOT EXISTS idx_apology_pages_visibility ON apology_pages(visibility, created_at)`);
   await turso.execute(`CREATE INDEX IF NOT EXISTS idx_apology_pages_owner ON apology_pages(owner_id)`);
   console.log('✅ apology_pages ready');
+
+  // One like per (page, voter) — server-side dedup so the counter can't be
+  // farmed by clearing localStorage. voter_key is a salted hash of IP + UA.
+  console.log('🚀 Creating page_likes table...');
+  await turso.execute(`
+    CREATE TABLE IF NOT EXISTS page_likes (
+      slug TEXT NOT NULL,
+      voter_key TEXT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY (slug, voter_key)
+    )
+  `);
+  await turso.execute(`CREATE INDEX IF NOT EXISTS idx_page_likes_slug ON page_likes(slug)`);
+  console.log('✅ page_likes ready');
 }
 init().catch((e) => { console.error('❌', e); process.exit(1); });

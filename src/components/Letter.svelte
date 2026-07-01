@@ -161,16 +161,16 @@
 <style>
   /* Fonts loaded globally via LayoutBase.astro */
 
-  /* VARIABLES DE COLOR - PALETA SOFISTICADA */
+  /* Brand palette — ink on warm paper (matches the "apology" theme). */
   :global(.letter-wrapper) {
-    --letter-cream: #faf8f5;
-    --letter-white: #ffffff;
-    --letter-warm-gray: #8b8680;
-    --letter-dark: #2c2825;
-    --letter-accent: #c8796b; /* Terracotta cálido */
-    --letter-accent-light: #e8c4b9;
-    --letter-shadow: rgba(44, 40, 37, 0.08);
-    --letter-border: rgba(44, 40, 37, 0.1);
+    --letter-cream: #f5f1e8;
+    --letter-white: #fffdf8;
+    --letter-warm-gray: #6b6257;
+    --letter-dark: #241f1a;
+    --letter-accent: #2c4a6e; /* fountain-pen ink blue */
+    --letter-accent-light: #dce6f0;
+    --letter-shadow: rgba(36, 31, 26, 0.08);
+    --letter-border: rgba(36, 31, 26, 0.1);
   }
 
   /* CONTENEDOR PRINCIPAL */
@@ -340,11 +340,11 @@
     height: 24px;
   }
 
-  /* TEXTO DE LA CARTA */
+  /* Letter body — readable serif (was a hard-to-read cursive). */
   .letter-text {
     position: relative;
-    font-family: "Dancing Script", cursive;
-    font-size: 1.35rem;
+    font-family: "Lora", Georgia, serif;
+    font-size: 1.125rem;
     line-height: 1.85;
     color: var(--letter-dark);
     white-space: pre-wrap;
@@ -452,7 +452,7 @@
     }
 
     .letter-text {
-      font-size: 1.2rem;
+      font-size: 1.0625rem;
       line-height: 1.75;
     }
 

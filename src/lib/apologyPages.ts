@@ -20,9 +20,31 @@ function rowToPage(row: any): ApologyPage {
   };
 }
 
-/** Increment a page's like counter and return the new total. */
-export async function likeApology(slug: string): Promise<number> {
+/**
+ * Register one like from a given voter and return the new total. A voter can
+ * only like a page once (server-side dedup via page_likes); repeat calls are
+ * no-ops that just return the current count. If no voterKey is given we fall
+ * back to a plain increment (should not happen in normal flow).
+ */
+export async function likeApology(slug: string, voterKey?: string): Promise<number> {
   if (!turso) throw new Error('Turso not configured');
+  if (voterKey) {
+    try {
+      const ins = await turso.execute({
+        sql: 'INSERT OR IGNORE INTO page_likes (slug, voter_key) VALUES (?, ?)',
+        args: [slug, voterKey],
+      });
+      // This voter already liked — return the current count, no increment.
+      if (ins.rowsAffected === 0) {
+        const cur = await turso.execute({ sql: 'SELECT likes FROM apology_pages WHERE slug = ? LIMIT 1', args: [slug] });
+        return cur.rows.length ? Number(cur.rows[0].likes) || 0 : 0;
+      }
+    } catch (e) {
+      // page_likes table not migrated yet — fall through to a plain increment so
+      // liking still works (dedup resumes once `pnpm db:init` has been run).
+      console.warn('page_likes unavailable, liking without dedup:', e);
+    }
+  }
   await turso.execute({ sql: 'UPDATE apology_pages SET likes = likes + 1 WHERE slug = ?', args: [slug] });
   const r = await turso.execute({ sql: 'SELECT likes FROM apology_pages WHERE slug = ? LIMIT 1', args: [slug] });
   return r.rows.length ? Number(r.rows[0].likes) || 0 : 0;
@@ -96,6 +118,19 @@ export async function publishApologyPage(slug: string, userId: string, theme?: s
        WHERE slug = ? AND (owner_id IS NULL OR owner_id = ?)`;
   const args = theme ? [userId, theme, slug, userId] : [userId, slug, userId];
   const r = await turso.execute({ sql, args });
+  return r.rowsAffected > 0;
+}
+
+/**
+ * Take a page down: revert it to private so it drops out of the public
+ * directory, sitemap and search. Owner-only. Returns true if a row changed.
+ */
+export async function unpublishApologyPage(slug: string, ownerId: string): Promise<boolean> {
+  if (!turso) throw new Error('Turso not configured');
+  const r = await turso.execute({
+    sql: "UPDATE apology_pages SET visibility = 'private' WHERE slug = ? AND owner_id = ?",
+    args: [slug, ownerId],
+  });
   return r.rowsAffected > 0;
 }
 

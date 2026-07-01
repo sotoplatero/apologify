@@ -1,9 +1,25 @@
 import { defineAction, ActionError } from 'astro:actions';
 import { z } from 'astro:schema';
+import { createHash } from 'node:crypto';
 import { callLLM } from '../lib/server/anthropic';
-import { saveApologyPage, publishApologyPage as runPublish, likeApology as runLike, getApologyLikes as runGetLikes, updatePageTheme as runUpdateTheme } from '../lib/apologyPages';
+import { saveApologyPage, publishApologyPage as runPublish, likeApology as runLike, getApologyLikes as runGetLikes, updatePageTheme as runUpdateTheme, unpublishApologyPage as runUnpublish, getApologyPageBySlug } from '../lib/apologyPages';
 import { buildApologySlug } from '../lib/slug.js';
 import { isPremiumTheme } from '../lib/themes.js';
+import { moderateApologyContent } from '../lib/server/moderation';
+
+/**
+ * Stable, non-reversible per-visitor key for like dedup. Salted hash of the
+ * client IP + user-agent — good enough to stop casual counter farming without
+ * storing anything personally identifying.
+ */
+function voterKeyFrom(context: { clientAddress?: string; request: Request }): string {
+  let ip = '';
+  try { ip = context.clientAddress ?? ''; } catch { /* clientAddress can throw when prerendered */ }
+  if (!ip) ip = context.request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '';
+  const ua = context.request.headers.get('user-agent') ?? '';
+  const salt = process.env.BETTER_AUTH_SECRET ?? 'apologify-like-salt';
+  return createHash('sha256').update(`${salt}|${ip}|${ua}`).digest('hex').slice(0, 32);
+}
 
 const urlPattern = /https?:\/\/|www\.|\.com\b|\.net\b|\.org\b|\.io\b|\.co\b|\.me\b|\.info\b|\.xyz\b|\.dev\b|\.app\b/i;
 
@@ -47,12 +63,28 @@ export const server = {
       try {
         const userId = context.locals.user?.id ?? null;
 
+        // Gate the user's free text before spending an LLM call on it.
+        const preCheck = moderateApologyContent({
+          context: input.context,
+          senderName: input.senderName,
+          recipient: input.relationship,
+        });
+        if (!preCheck.ok) {
+          throw new ActionError({ code: 'BAD_REQUEST', message: preCheck.reason ?? 'This content can’t be published.' });
+        }
+
         const { title, message } = await generateApologyContent({
           relationship: input.relationship,
           senderName: input.senderName,
           tone: input.tone,
           context: input.context,
         });
+
+        // Belt-and-suspenders: also check what actually got generated.
+        const postCheck = moderateApologyContent({ message, title });
+        if (!postCheck.ok) {
+          throw new ActionError({ code: 'BAD_REQUEST', message: postCheck.reason ?? 'This content can’t be published.' });
+        }
         const slug = buildApologySlug({ recipientName: input.relationship, recipient: input.relationship, title });
         try {
           await saveApologyPage({
@@ -75,6 +107,8 @@ export const server = {
           return { slug, title, message, saved: false };
         }
       } catch (error) {
+        // Preserve intentional client errors (e.g. moderation rejections).
+        if (error instanceof ActionError) throw error;
         throw new ActionError({
           code: 'INTERNAL_SERVER_ERROR',
           message: error instanceof Error ? error.message : 'Failed to create your apology page. Please try again.',
@@ -90,6 +124,20 @@ export const server = {
       if (!userId) {
         throw new ActionError({ code: 'UNAUTHORIZED', message: 'You must be signed in to publish.' });
       }
+      // Re-moderate before this content becomes public + indexable.
+      const page = await getApologyPageBySlug(input.slug);
+      if (page) {
+        const check = moderateApologyContent({
+          context: undefined,
+          message: page.message,
+          title: page.title,
+          senderName: page.senderName ?? undefined,
+          recipient: page.recipient,
+        });
+        if (!check.ok) {
+          throw new ActionError({ code: 'BAD_REQUEST', message: check.reason ?? 'This page can’t be published.' });
+        }
+      }
       // Premium themes downgrade to classic until paid (paywall: future phase).
       const theme = input.theme
         ? (isPremiumTheme(input.theme) ? 'classic' : input.theme)
@@ -104,9 +152,21 @@ export const server = {
 
   likeApology: defineAction({
     input: z.object({ slug: z.string().min(3).max(90) }),
-    handler: async (input) => {
-      const likes = await runLike(input.slug);
+    handler: async (input, context) => {
+      const likes = await runLike(input.slug, voterKeyFrom(context));
       return { likes };
+    },
+  }),
+
+  // Take a page down (revert to private). Owner-only.
+  unpublishApology: defineAction({
+    input: z.object({ slug: z.string().min(3).max(90) }),
+    handler: async (input, context) => {
+      const userId = context.locals.user?.id;
+      if (!userId) throw new ActionError({ code: 'UNAUTHORIZED', message: 'Sign in to manage your page.' });
+      const ok = await runUnpublish(input.slug, userId);
+      if (!ok) throw new ActionError({ code: 'FORBIDDEN', message: 'You can only unpublish your own pages.' });
+      return { unpublished: true, slug: input.slug };
     },
   }),
 

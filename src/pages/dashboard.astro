@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import SignOutButton from "../components/SignOutButton.svelte";
+import UnpublishButton from "../components/UnpublishButton.svelte";
 import { getPublishedPagesByOwner } from "../lib/apologyPages";
 
 export const prerender = false;
@@ -66,6 +67,7 @@ function fmtDate(d?: string): string {
               <div class="flex items-center gap-2 shrink-0">
                 <a href={`/customize?slug=${p.slug}`} class="btn btn-sm btn-ghost">Change design</a>
                 <a href={`/sorry/${p.slug}`} class="btn btn-sm btn-outline">View</a>
+                <UnpublishButton slug={p.slug} client:load />
               </div>
             </div>
           </div>
