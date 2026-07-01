@@ -17,7 +17,21 @@ export default defineConfig({
   integrations: [ tailwind(), sitemap(), svelte(), preact(), sitemapCopier()],
   adapter: vercel({
     isr: {
-      exclude: [ "/generator", "/examples" ]
+      // Never ISR-cache auth, session, or per-user/dynamic routes — a cached
+      // OAuth endpoint returns a stale `state` (→ "state_not_found" on the
+      // callback) and a cached /api/auth/get-session leaks/staled sessions.
+      exclude: [
+        "/generator",
+        "/examples",
+        "/dashboard",
+        "/publish",
+        "/customize",
+        "/demo",
+        "/sign-in",
+        "/sign-up",
+        /^\/api\/.*/,
+        /^\/sorry\/.*/,
+      ],
     },
   }),
 
