@@ -4,7 +4,7 @@ export interface ApologyPage {
   id?: number; slug: string; recipient: string; recipientName: string | null; senderName: string | null;
   audience: 'person' | 'public'; visibility: 'private' | 'public'; ownerId: string | null;
   message: string; title: string; theme: string; tone: string; isPaid: boolean;
-  acceptedAt: string | null; createdAt?: string;
+  acceptedAt: string | null; likes: number; createdAt?: string;
 }
 
 function rowToPage(row: any): ApologyPage {
@@ -15,19 +15,24 @@ function rowToPage(row: any): ApologyPage {
     visibility: row.visibility === 'public' ? 'public' : 'private',
     ownerId: row.owner_id ?? null,
     message: row.message, title: row.title, theme: row.theme, tone: row.tone,
-    isPaid: Number(row.is_paid) === 1, acceptedAt: row.accepted_at ?? null, createdAt: row.created_at,
+    isPaid: Number(row.is_paid) === 1, acceptedAt: row.accepted_at ?? null,
+    likes: Number(row.likes) || 0, createdAt: row.created_at,
   };
 }
 
-/** Mark an apology as accepted by the recipient (idempotent). Returns the timestamp. */
-export async function acceptApology(slug: string): Promise<string | null> {
+/** Increment a page's like counter and return the new total. */
+export async function likeApology(slug: string): Promise<number> {
   if (!turso) throw new Error('Turso not configured');
-  await turso.execute({
-    sql: `UPDATE apology_pages SET accepted_at = COALESCE(accepted_at, CURRENT_TIMESTAMP) WHERE slug = ?`,
-    args: [slug],
-  });
-  const r = await turso.execute({ sql: 'SELECT accepted_at FROM apology_pages WHERE slug = ? LIMIT 1', args: [slug] });
-  return r.rows.length ? ((r.rows[0].accepted_at as string) ?? null) : null;
+  await turso.execute({ sql: 'UPDATE apology_pages SET likes = likes + 1 WHERE slug = ?', args: [slug] });
+  const r = await turso.execute({ sql: 'SELECT likes FROM apology_pages WHERE slug = ? LIMIT 1', args: [slug] });
+  return r.rows.length ? Number(r.rows[0].likes) || 0 : 0;
+}
+
+/** Current like count for a page. */
+export async function getApologyLikes(slug: string): Promise<number> {
+  if (!turso) return 0;
+  const r = await turso.execute({ sql: 'SELECT likes FROM apology_pages WHERE slug = ? LIMIT 1', args: [slug] });
+  return r.rows.length ? Number(r.rows[0].likes) || 0 : 0;
 }
 
 export async function saveApologyPage(data: {
@@ -49,6 +54,20 @@ export async function getApologyPageBySlug(slug: string): Promise<ApologyPage | 
   if (!turso) return null;
   const r = await turso.execute({ sql: 'SELECT * FROM apology_pages WHERE slug = ? LIMIT 1', args: [slug] });
   return r.rows.length ? rowToPage(r.rows[0]) : null;
+}
+
+/**
+ * A user's PUBLISHED pages, newest first — for the dashboard. Unpublished
+ * drafts are just saved rows in the DB, not pages the user "has"; they only
+ * become real (and appear here) once published.
+ */
+export async function getPublishedPagesByOwner(ownerId: string): Promise<ApologyPage[]> {
+  if (!turso) return [];
+  const r = await turso.execute({
+    sql: "SELECT * FROM apology_pages WHERE owner_id = ? AND visibility = 'public' ORDER BY created_at DESC",
+    args: [ownerId],
+  });
+  return r.rows.map(rowToPage);
 }
 
 export async function getRecentPublicPages(limit: number): Promise<ApologyPage[]> {
@@ -77,6 +96,16 @@ export async function publishApologyPage(slug: string, userId: string, theme?: s
        WHERE slug = ? AND (owner_id IS NULL OR owner_id = ?)`;
   const args = theme ? [userId, theme, slug, userId] : [userId, slug, userId];
   const r = await turso.execute({ sql, args });
+  return r.rowsAffected > 0;
+}
+
+/** Change the design/template of an existing page. Owner-only. Returns true if updated. */
+export async function updatePageTheme(slug: string, ownerId: string, theme: string): Promise<boolean> {
+  if (!turso) throw new Error('Turso not configured');
+  const r = await turso.execute({
+    sql: 'UPDATE apology_pages SET theme = ? WHERE slug = ? AND owner_id = ?',
+    args: [theme, slug, ownerId],
+  });
   return r.rowsAffected > 0;
 }
 

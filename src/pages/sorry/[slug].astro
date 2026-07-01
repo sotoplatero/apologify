@@ -12,6 +12,18 @@ import SwissTemplate from "../../components/templates/SwissTemplate.astro";
 import RansomTemplate from "../../components/templates/RansomTemplate.astro";
 import ConstructivistTemplate from "../../components/templates/ConstructivistTemplate.astro";
 import LetterpressTemplate from "../../components/templates/LetterpressTemplate.astro";
+import HandwrittenTemplate from "../../components/templates/HandwrittenTemplate.astro";
+import TypewriterTemplate from "../../components/templates/TypewriterTemplate.astro";
+import MinimalTemplate from "../../components/templates/MinimalTemplate.astro";
+import StickyNoteTemplate from "../../components/templates/StickyNoteTemplate.astro";
+import WatercolorTemplate from "../../components/templates/WatercolorTemplate.astro";
+import BoardingPassTemplate from "../../components/templates/BoardingPassTemplate.astro";
+import MixtapeTemplate from "../../components/templates/MixtapeTemplate.astro";
+import ChalkboardTemplate from "../../components/templates/ChalkboardTemplate.astro";
+import IlluminatedTemplate from "../../components/templates/IlluminatedTemplate.astro";
+import TelegramTemplate from "../../components/templates/TelegramTemplate.astro";
+import NewspaperTemplate from "../../components/templates/NewspaperTemplate.astro";
+import ZineTemplate from "../../components/templates/ZineTemplate.astro";
 
 export const prerender = false;
 
@@ -35,6 +47,18 @@ const TEMPLATES: Record<string, any> = {
   "starry": NightTemplate,
   "constructivist": ConstructivistTemplate,
   "letterpress": LetterpressTemplate,
+  "handwritten": HandwrittenTemplate,
+  "typewriter": TypewriterTemplate,
+  "minimal": MinimalTemplate,
+  "sticky-note": StickyNoteTemplate,
+  "watercolor": WatercolorTemplate,
+  "boarding-pass": BoardingPassTemplate,
+  "mixtape": MixtapeTemplate,
+  "chalkboard": ChalkboardTemplate,
+  "illuminated": IlluminatedTemplate,
+  "telegram": TelegramTemplate,
+  "newspaper": NewspaperTemplate,
+  "zine": ZineTemplate,
 };
 const Template = TEMPLATES[templateId] || LetterTemplate;
 

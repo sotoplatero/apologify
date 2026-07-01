@@ -78,15 +78,15 @@ const breadcrumbItems = [
   schema={[schema, breadcrumbSchema]}
 >
   {/* Reading Progress Indicator */}
-  <div id="reading-progress" class="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
-    <div id="reading-progress-bar" class="h-full bg-gradient-to-r from-purple-600 to-blue-600 transition-all duration-150" style="width: 0%"></div>
+  <div id="reading-progress" class="fixed top-0 left-0 w-full h-1 bg-base-300 z-50">
+    <div id="reading-progress-bar" class="h-full bg-primary transition-all duration-150" style="width: 0%"></div>
   </div>
 
   <Breadcrumb items={breadcrumbItems} />
 
 <article class="prose prose-xl mx-auto mt-8" id="article-content">
   {date && (
-    <time datetime={date.toISOString()} class="text-gray-500">
+    <time datetime={date.toISOString()} class="text-base-content/60">
         {date.toLocaleDateString()}
       </time>
     )}
@@ -101,18 +101,18 @@ const breadcrumbItems = [
 
   {/* Related Articles Section */}
   {related.length > 0 && (
-    <section class="max-w-4xl mx-auto mt-16 mb-12 py-12 px-6 bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl shadow-lg">
+    <section class="max-w-4xl mx-auto mt-16 mb-12 py-12 px-6 bg-primary/10 rounded-2xl shadow-lg">
       <div class="flex items-center gap-3 mb-8">
-        <svg class="w-8 h-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg class="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
         </svg>
-        <h2 class="text-3xl font-bold text-gray-800">Related Articles</h2>
+        <h2 class="text-3xl font-display font-bold text-base-content">Related Articles</h2>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {related.map((rel) => (
           <a
             href={`/articles/${rel.slug}`}
-            class="group block bg-white hover:bg-purple-50 rounded-xl p-6 transition-all duration-300 border-2 border-gray-200 hover:border-purple-400 shadow-md hover:shadow-xl transform hover:-translate-y-1"
+            class="group block bg-base-100 hover:bg-primary/10 rounded-xl p-6 transition-all duration-300 border-2 border-base-300 hover:border-primary/40 shadow-md hover:shadow-xl transform hover:-translate-y-1"
           >
             <div class="flex items-start gap-4">
               {rel.data.image && (
@@ -125,13 +125,13 @@ const breadcrumbItems = [
                 </div>
               )}
               <div class="flex-1">
-                <h3 class="font-bold text-gray-800 group-hover:text-purple-700 mb-2 line-clamp-2 text-lg leading-tight">
+                <h3 class="font-bold text-base-content group-hover:text-primary mb-2 line-clamp-2 text-lg leading-tight">
                   {rel.data.title}
                 </h3>
-                <p class="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+                <p class="text-sm text-base-content/70 line-clamp-2 leading-relaxed">
                   {rel.data.description}
                 </p>
-                <div class="mt-3 flex items-center text-purple-600 font-medium text-sm group-hover:translate-x-1 transition-transform duration-200">
+                <div class="mt-3 flex items-center text-primary font-medium text-sm group-hover:translate-x-1 transition-transform duration-200">
                   <span>Read more</span>
                   <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -148,12 +148,12 @@ const breadcrumbItems = [
   <!-- Navigation links -->
   <div class="flex justify-between my-8">
     {prevArticle && (
-      <a href={`/articles/${prevArticle.slug}`} class="text-blue-500 hover:underline">
+      <a href={`/articles/${prevArticle.slug}`} class="text-primary hover:underline">
         ← {prevArticle.data.title}
       </a>
     )}
     {nextArticle && (
-      <a href={`/articles/${nextArticle.slug}`} class="text-blue-500 hover:underline ml-auto">
+      <a href={`/articles/${nextArticle.slug}`} class="text-primary hover:underline ml-auto">
         {nextArticle.data.title} →
       </a>
     )}
@@ -204,9 +204,9 @@ const breadcrumbItems = [
 
 <style is:global>
   pre {
-    @apply !bg-gray-100 !text-black !p-8 !rounded-md !border border-gray-200 !text-wrap;
+    @apply !bg-base-200 !text-base-content !p-8 !rounded-md !border border-base-300 !text-wrap;
   }
   blockquote {
-    @apply bg-blue-50 border-l-4 border-blue-500 p-4 my-4 italic;
+    @apply bg-base-200 border-l-4 border-primary p-4 my-4 italic;
   }
 </style>

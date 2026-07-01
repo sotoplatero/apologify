@@ -1,0 +1,261 @@
+---
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
+---
+<main class="min-h-screen w-full flex flex-col items-center justify-center px-4 py-14 tg-stage">
+  <div class="w-full max-w-2xl">
+    <p class="tg-eyebrow reveal" style="--d:0ms">— WESTERN UNION TELEGRAM —</p>
+
+    <article class="form reveal" style="--d:100ms">
+      <header class="form-head">
+        <div class="marks" aria-hidden="true">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <div class="head-mid">
+          <h2 class="brand">WESTERN UNION</h2>
+          <p class="sub">TELEGRAM · CABLEGRAM · FULL RATE</p>
+        </div>
+        <div class="stamp" aria-hidden="true">
+          <span>RECEIVED</span>
+          <strong>TODAY</strong>
+        </div>
+      </header>
+
+      <div class="routing">
+        <span>RX 274</span><span>CHECK 27</span><span>VIA WU</span><span>PD COLLECT</span>
+      </div>
+
+      <h1 class="title">{title}</h1>
+
+      {heading && <p class="greet line" style="--i:0">{heading}</p>}
+
+      <div class="tape">
+        {paragraphs.map((p: string, i: number) => (
+          <p class="line" style={`--i:${i + 1}`} set:html={p} />
+        ))}
+      </div>
+
+      {senderName && <p class="sign line" style={`--i:${(paragraphs?.length ?? 0) + 1}`}>— {senderName}</p>}
+
+      <div class="foot-marks">
+        <span>END</span>
+        <span class="stop">STOP</span>
+        <span>MSG ENDS</span>
+      </div>
+
+      <div class="actions reveal" style="--d:900ms">
+        <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+          acceptLabel="Reply 💛"
+          primaryClass="px-6 py-3 bg-[#3a3226] text-[#f4ecd6] font-mono text-sm tracking-[0.15em] uppercase hover:bg-[#2a2419] transition-colors"
+          secondaryClass="px-6 py-3 border border-[#8a7444] text-[#5a4a2c] font-mono text-sm tracking-[0.15em] uppercase hover:bg-[#e8dcb8] transition-colors"
+          mutedClass="text-sm font-mono text-[#8a7444]" />
+      </div>
+    </article>
+
+    <a href="/generator" class="footer-link reveal" style="--d:1000ms">Made on apologify.com — write your own →</a>
+  </div>
+</main>
+
+<style>
+  .tg-stage {
+    background:
+      radial-gradient(circle at 80% 0%, rgba(120,90,40,0.12), transparent 55%),
+      linear-gradient(160deg, #6a5638 0%, #4a3d26 100%);
+    font-family: ui-monospace, 'SFMono-Regular', 'Courier New', monospace;
+  }
+  .tg-eyebrow {
+    text-align: center;
+    font-size: 0.7rem;
+    letter-spacing: 0.32em;
+    color: #d9c68e;
+    margin-bottom: 1rem;
+  }
+
+  .form {
+    position: relative;
+    background:
+      repeating-linear-gradient(0deg, rgba(120,90,40,0.05) 0 27px, rgba(120,90,40,0.12) 27px 28px),
+      radial-gradient(circle at 15% 12%, rgba(150,120,60,0.18), transparent 40%),
+      radial-gradient(circle at 88% 90%, rgba(120,90,40,0.22), transparent 45%),
+      #f4ecd6;
+    color: #3a3226;
+    padding: 1.6rem 1.6rem 1.9rem;
+    border: 1px solid #cbb573;
+    box-shadow: 0 22px 46px rgba(0,0,0,0.4), inset 0 0 60px rgba(150,120,60,0.15);
+    border-radius: 2px;
+  }
+  /* aged foxing at the edges */
+  .form::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 5% 95%, rgba(110,80,30,0.18), transparent 12%),
+      radial-gradient(circle at 95% 8%, rgba(110,80,30,0.15), transparent 10%);
+    mix-blend-mode: multiply;
+  }
+
+  .form-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 3px double #8a7444;
+  }
+  .marks .star { color: #8a7444; letter-spacing: 0.15em; font-size: 0.8rem; }
+  .head-mid { text-align: center; }
+  .brand {
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: #2a2419;
+  }
+  .sub {
+    font-size: 0.55rem;
+    letter-spacing: 0.24em;
+    color: #6a5a34;
+    margin-top: 0.2rem;
+  }
+  .stamp {
+    border: 2px solid #9a3b2e;
+    color: #9a3b2e;
+    padding: 0.25rem 0.5rem;
+    text-align: center;
+    transform: rotate(-7deg);
+    opacity: 0.82;
+    border-radius: 3px;
+  }
+  .stamp span { display: block; font-size: 0.5rem; letter-spacing: 0.18em; }
+  .stamp strong { font-size: 0.85rem; letter-spacing: 0.1em; }
+
+  .routing {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.1rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    color: #6a5a34;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid rgba(138,116,68,0.4);
+  }
+
+  .title {
+    font-size: clamp(1.1rem, 4.5vw, 1.55rem);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #2a2419;
+    margin: 1.1rem 0 1rem;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  .greet {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.85rem;
+    color: #4a3d26;
+    margin-bottom: 0.9rem;
+  }
+
+  .tape :global(p),
+  .tape p {
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: #2a2419;
+    background: #fbf5e3;
+    padding: 0.45rem 0.7rem;
+    margin-bottom: 0.55rem;
+    box-shadow: 0 1px 0 rgba(138,116,68,0.35), 0 3px 6px rgba(0,0,0,0.08);
+    /* torn teletype-tape edges */
+    clip-path: polygon(0 6%, 3% 0, 97% 3%, 100% 8%, 100% 94%, 96% 100%, 4% 97%, 0 92%);
+  }
+
+  .sign {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.85rem;
+    color: #4a3d26;
+    text-align: right;
+    margin-top: 1rem;
+    font-weight: 600;
+  }
+
+  .foot-marks {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.9rem;
+    margin-top: 1.3rem;
+    padding-top: 0.9rem;
+    border-top: 3px double #8a7444;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: #6a5a34;
+  }
+  .foot-marks .stop {
+    border: 1px solid #9a3b2e;
+    color: #9a3b2e;
+    padding: 0.15rem 0.5rem;
+    font-weight: 700;
+    border-radius: 2px;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.6rem;
+  }
+  .footer-link {
+    display: block;
+    text-align: center;
+    margin-top: 1.6rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: #d9c68e;
+    transition: color 0.2s;
+  }
+  .footer-link:hover { color: #f4ecd6; }
+
+  /* teletype line-by-line reveal */
+  .line {
+    opacity: 0;
+    animation: type 0.5s steps(1, end) forwards;
+    animation-delay: calc(360ms + var(--i) * 220ms);
+  }
+  @keyframes type {
+    0% { opacity: 0; transform: translateY(6px); clip-path: inset(0 100% 0 0); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  .tape p.line { animation-name: typeTape; }
+  @keyframes typeTape {
+    0% { opacity: 0; transform: translateX(-10px) rotate(-0.4deg); }
+    100% { opacity: 1; transform: translateX(0) rotate(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    animation: drop 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+    animation-delay: var(--d, 0ms);
+  }
+  @keyframes drop {
+    from { opacity: 0; transform: translateY(-12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 460px) {
+    .form-head { flex-direction: column; }
+    .stamp { transform: rotate(-4deg); }
+    .routing { font-size: 0.55rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .line, .reveal { animation: none !important; opacity: 1 !important; transform: none !important; clip-path: none !important; }
+    .tape p.line { clip-path: polygon(0 6%, 3% 0, 97% 3%, 100% 8%, 100% 94%, 96% 100%, 4% 97%, 0 92%) !important; }
+  }
+</style>

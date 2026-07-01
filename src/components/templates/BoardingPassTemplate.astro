@@ -1,0 +1,369 @@
+---
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
+---
+<main class="min-h-screen w-full flex flex-col items-center justify-center px-4 py-14 bp-stage">
+  <div class="w-full max-w-2xl">
+    <p class="bp-eyebrow reveal" style="--d:0ms">✈ NOW BOARDING · RECONCILIATION AIR</p>
+
+    <article class="ticket reveal" style="--d:120ms">
+      <div class="ticket-body">
+        <div class="stub-edge" aria-hidden="true"></div>
+
+        <div class="ticket-main">
+          <div class="ticket-head">
+            <div>
+              <span class="lbl">CARRIER</span>
+              <span class="val">RECONCILIATION AIR</span>
+            </div>
+            <div class="text-right">
+              <span class="lbl">CLASS</span>
+              <span class="val">SINCERE</span>
+            </div>
+          </div>
+
+          <div class="route">
+            <div class="node">
+              <span class="lbl">FROM</span>
+              <span class="code">ME</span>
+            </div>
+            <div class="path" aria-hidden="true">
+              <span class="plane">✈</span>
+            </div>
+            <div class="node text-right">
+              <span class="lbl">TO</span>
+              <span class="code">YOU</span>
+            </div>
+          </div>
+
+          <div class="dest">
+            <span class="lbl">DESTINATION</span>
+            <span class="dest-val">US · A FRESH START</span>
+          </div>
+
+          <div class="headline">
+            <span class="lbl">MESSAGE</span>
+            <h1>{title}</h1>
+          </div>
+
+          {heading && <p class="greet">{heading}</p>}
+
+          <div class="note">
+            {paragraphs.map((p: string) => <p set:html={p} />)}
+          </div>
+
+          {senderName && <p class="sign">{senderName}</p>}
+
+          <div class="fields">
+            <div class="field"><span class="lbl">SEAT</span><span class="fval">1A</span></div>
+            <div class="field"><span class="lbl">GATE</span><span class="fval">FORGIVE</span></div>
+            <div class="field"><span class="lbl">DATE</span><span class="fval">TODAY</span></div>
+          </div>
+        </div>
+
+        <div class="ticket-stub">
+          <div class="stub-head">
+            <span class="lbl">BOARDING</span>
+            <span class="val">PASS</span>
+          </div>
+          <div class="stub-route">ME → YOU</div>
+          <div class="barcode" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <span class="stub-no">NO. 000-274-💛</span>
+        </div>
+      </div>
+
+      <div class="actions reveal" style="--d:340ms">
+        <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+          acceptLabel="Like this 💛"
+          primaryClass="px-6 py-3 rounded-md bg-[#1b3a4b] text-[#f7f3e8] font-mono text-sm tracking-wider uppercase hover:bg-[#132a37] transition-colors"
+          secondaryClass="px-6 py-3 rounded-md border border-[#1b3a4b] text-[#1b3a4b] font-mono text-sm tracking-wider uppercase hover:bg-[#e9e1cd] transition-colors"
+          mutedClass="text-sm font-mono text-[#8a7a54]" />
+      </div>
+    </article>
+
+    <a href="/generator" class="footer-link reveal" style="--d:460ms">Made on apologify.com — write your own →</a>
+  </div>
+</main>
+
+<style>
+  .bp-stage {
+    background:
+      radial-gradient(circle at 20% 10%, #dcefff 0, rgba(220,239,255,0) 45%),
+      linear-gradient(160deg, #cfe4f2 0%, #eaf3fb 55%, #f4efe2 100%);
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .bp-eyebrow {
+    text-align: center;
+    font-family: ui-monospace, 'SFMono-Regular', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.28em;
+    color: #2f5266;
+    margin-bottom: 1.1rem;
+  }
+
+  .ticket {
+    filter: drop-shadow(0 26px 50px rgba(27, 58, 75, 0.28));
+  }
+  .ticket-body {
+    display: flex;
+    background: #f7f3e8;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+  }
+  .ticket-main {
+    flex: 1 1 auto;
+    padding: 1.6rem 1.5rem 1.9rem;
+    background:
+      repeating-linear-gradient(0deg, rgba(27,58,75,0.03) 0 1px, transparent 1px 4px),
+      #f7f3e8;
+  }
+  .stub-edge {
+    position: absolute;
+    top: 0; bottom: 0;
+    right: 132px;
+    width: 0;
+    border-left: 2px dashed rgba(27,58,75,0.35);
+    z-index: 2;
+  }
+  .stub-edge::before, .stub-edge::after {
+    content: "";
+    position: absolute;
+    right: -11px;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, rgba(207,228,242,1) 60%, transparent 61%);
+  }
+  .stub-edge::before { top: -10px; }
+  .stub-edge::after { bottom: -10px; }
+
+  .lbl {
+    display: block;
+    font-family: ui-monospace, monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.22em;
+    color: #8a7a54;
+    text-transform: uppercase;
+  }
+  .val {
+    display: block;
+    font-family: ui-monospace, monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    color: #1b3a4b;
+    font-weight: 600;
+  }
+
+  .ticket-head {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid rgba(27,58,75,0.15);
+  }
+
+  .route {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin: 1.1rem 0 0.4rem;
+  }
+  .node .code {
+    display: block;
+    font-family: ui-monospace, monospace;
+    font-size: 2.1rem;
+    line-height: 1;
+    font-weight: 700;
+    color: #1b3a4b;
+    letter-spacing: 0.05em;
+  }
+  .path {
+    flex: 1 1 auto;
+    position: relative;
+    height: 2rem;
+    border-bottom: 2px dotted rgba(27,58,75,0.4);
+  }
+  .path .plane {
+    position: absolute;
+    left: 0; bottom: -0.75em;
+    font-size: 1.3rem;
+    color: #2f5266;
+    animation: taxi 6s ease-in-out infinite;
+  }
+  @keyframes taxi {
+    0%, 100% { left: 4%; transform: translateY(0); }
+    50% { left: 82%; transform: translateY(-4px); }
+  }
+
+  .dest {
+    margin: 0.9rem 0 1.1rem;
+    padding: 0.6rem 0.8rem;
+    background: rgba(27,58,75,0.05);
+    border-radius: 8px;
+  }
+  .dest-val {
+    display: block;
+    font-family: ui-monospace, monospace;
+    font-size: 1.05rem;
+    color: #1b3a4b;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+
+  .headline { margin-bottom: 0.9rem; }
+  .headline h1 {
+    font-family: 'Fraunces', ui-serif, serif;
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    line-height: 1.12;
+    color: #163140;
+    margin-top: 0.25rem;
+    text-wrap: balance;
+  }
+
+  .greet {
+    font-family: 'Lora', ui-serif, serif;
+    font-size: 1.05rem;
+    color: #3a4c56;
+    margin-bottom: 0.6rem;
+  }
+  .note {
+    font-family: 'Lora', ui-serif, serif;
+    color: #3a4c56;
+    line-height: 1.75;
+    font-size: 1rem;
+  }
+  .note :global(p) { margin-bottom: 0.85rem; }
+  .sign {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.9rem;
+    color: #2f5266;
+    text-align: right;
+    margin-top: 1rem;
+  }
+
+  .fields {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.3rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid rgba(27,58,75,0.15);
+  }
+  .fval {
+    display: block;
+    font-family: ui-monospace, monospace;
+    font-size: 1rem;
+    color: #1b3a4b;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+
+  .ticket-stub {
+    flex: 0 0 132px;
+    padding: 1.4rem 0.9rem;
+    background:
+      repeating-linear-gradient(45deg, rgba(27,58,75,0.04) 0 6px, transparent 6px 12px),
+      #efe7d1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.9rem;
+  }
+  .stub-head .val { font-size: 1rem; }
+  .stub-route {
+    font-family: ui-monospace, monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    color: #1b3a4b;
+    font-weight: 700;
+  }
+  .barcode {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 58px;
+    margin-top: auto;
+    overflow: hidden;
+  }
+  .barcode span {
+    width: 2px;
+    height: 100%;
+    background: #1b3a4b;
+  }
+  .barcode span:nth-child(3n) { width: 4px; opacity: 0.85; }
+  .barcode span:nth-child(4n) { width: 1px; opacity: 0.6; }
+  .barcode span:nth-child(2n) { height: 88%; }
+  .barcode span:nth-child(5n) { height: 74%; }
+  .barcode::after {
+    content: "";
+    position: absolute;
+    width: 42px;
+    height: 58px;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,0.75), transparent);
+    animation: shimmer 3.4s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0% { transform: translateX(-60px); }
+    60%, 100% { transform: translateX(120px); }
+  }
+  .barcode { position: relative; }
+  .stub-no {
+    font-family: ui-monospace, monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    color: #8a7a54;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.6rem;
+  }
+  .footer-link {
+    display: block;
+    text-align: center;
+    margin-top: 1.6rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: #2f5266;
+    transition: color 0.2s;
+  }
+  .footer-link:hover { color: #163140; }
+
+  /* Load motion: ticket tears/slides in, elements stagger */
+  .reveal {
+    opacity: 0;
+    animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+    animation-delay: var(--d, 0ms);
+  }
+  .ticket.reveal {
+    animation: tearIn 0.85s cubic-bezier(0.16, 0.9, 0.24, 1) forwards;
+    animation-delay: var(--d, 0ms);
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes tearIn {
+    0% { opacity: 0; transform: translateX(-24px) rotate(-1.5deg) scale(0.98); }
+    100% { opacity: 1; transform: translateX(0) rotate(0) scale(1); }
+  }
+
+  @media (max-width: 460px) {
+    .ticket-body { flex-direction: column; }
+    .ticket-stub { flex-basis: auto; flex-direction: row; justify-content: space-between; padding: 1rem; }
+    .stub-edge { display: none; }
+    .barcode { margin-top: 0; height: 44px; }
+    .fields { gap: 1rem; flex-wrap: wrap; }
+    .node .code { font-size: 1.6rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .ticket.reveal { animation: none !important; opacity: 1 !important; transform: none !important; }
+    .path .plane, .barcode::after { animation: none !important; }
+    .barcode::after { display: none; }
+  }
+</style>

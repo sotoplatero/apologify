@@ -5,7 +5,10 @@
 </script>
 
 {#if $session.data}
-  <button on:click={signOut} class="text-sm font-medium text-purple-700 hover:text-purple-900">Sign out</button>
+  <span class="flex items-center gap-3">
+    <a href="/dashboard" class="text-sm font-medium text-base-content/70 hover:text-primary">Dashboard</a>
+    <button onclick={signOut} class="text-sm font-medium text-primary hover:text-primary/80">Sign out</button>
+  </span>
 {:else}
-  <a href="/sign-in" class="text-sm font-medium text-purple-700 hover:text-purple-900">Sign in</a>
+  <a href="/sign-in" class="text-sm font-medium text-primary hover:text-primary/80">Sign in</a>
 {/if}

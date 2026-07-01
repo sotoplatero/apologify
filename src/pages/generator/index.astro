@@ -13,10 +13,10 @@ const popular = recipients.filter((r) => r.value !== "public");
 <Layout title={title} description={description}>
   <main class="max-w-screen-lg mx-auto px-4 py-16">
     <header class="text-center mb-10">
-      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4" style="text-wrap: balance;">
+      <h1 class="font-display text-4xl md:text-5xl font-semibold text-base-content mb-4" style="text-wrap: balance;">
         Apology Website Builder
       </h1>
-      <p class="text-lg text-gray-500 max-w-2xl mx-auto" style="text-wrap: balance;">
+      <p class="text-lg text-base-content/60 max-w-2xl mx-auto" style="text-wrap: balance;">
         Write a sincere apology and turn it into a beautiful, shareable page. Tell us who it's
         for and what happened — we'll handle the words.
       </p>
@@ -24,15 +24,15 @@ const popular = recipients.filter((r) => r.value !== "public");
 
     <ApologyGenerator client:load />
 
-    <section class="mt-16 text-center">
-      <h2 class="text-sm font-semibold tracking-widest uppercase text-gray-400 mb-4">Popular apologies</h2>
+    <section class="mt-16 text-center font-sans">
+      <h2 class="text-sm font-semibold tracking-widest uppercase text-base-content/50 mb-4">Popular apologies</h2>
       <div class="flex flex-wrap justify-center gap-2 max-w-2xl mx-auto">
         {popular.map((r) => (
-          <a href={`/generator/${r.value}`} class="text-sm px-3 py-1.5 rounded-full bg-white border border-gray-200 text-gray-600 hover:border-purple-400 hover:text-purple-700 transition-colors">
+          <a href={`/generator/${r.value}`} class="text-sm px-3 py-1.5 rounded-full bg-base-100 border border-base-300 text-base-content/70 hover:border-primary hover:text-primary transition-colors">
             Sorry to {r.label.toLowerCase()}
           </a>
         ))}
-        <a href="/generator/public" class="text-sm px-3 py-1.5 rounded-full bg-white border border-gray-200 text-gray-600 hover:border-purple-400 hover:text-purple-700 transition-colors">
+        <a href="/generator/public" class="text-sm px-3 py-1.5 rounded-full bg-base-100 border border-base-300 text-base-content/70 hover:border-primary hover:text-primary transition-colors">
           Public / company apology
         </a>
       </div>

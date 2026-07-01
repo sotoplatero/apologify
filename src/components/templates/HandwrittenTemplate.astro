@@ -1,0 +1,140 @@
+---
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
+---
+<main
+  class="hw-root min-h-screen w-full flex flex-col items-center justify-center px-5 py-16"
+  style="background:
+    radial-gradient(120% 90% at 78% 8%, rgba(120,102,74,0.10), transparent 55%),
+    radial-gradient(60% 50% at 22% 88%, rgba(60,80,120,0.06), transparent 60%),
+    linear-gradient(180deg, #f7f3e8 0%, #f4efdf 100%);
+    background-color:#f4efdf;"
+>
+  <div class="w-full max-w-xl">
+    <article
+      class="hw-paper relative px-7 py-11 sm:px-12 sm:py-14 rounded-[3px]"
+    >
+      <span class="hw-kicker block mb-6 text-[0.72rem] tracking-[0.28em] uppercase text-[#8a8168]">
+        A note for you
+      </span>
+
+      <h1 class="hw-line hw-title text-3xl sm:text-4xl leading-tight text-[#2c3550] mb-5" style="text-wrap:balance;">{title}</h1>
+
+      {heading && <p class="hw-line hw-greeting text-2xl sm:text-3xl text-[#2f3a58] mb-6">{heading}</p>}
+
+      <div class="hw-body text-[1.55rem] sm:text-[1.7rem] leading-[1.55] text-[#33406a] space-y-4">
+        {paragraphs.map((p: string) => <p class="hw-line" set:html={p} />)}
+      </div>
+
+      {senderName && <p class="hw-line hw-sign mt-10 text-3xl sm:text-4xl text-[#2b3450]">{senderName}</p>}
+
+      <div class="hw-line hw-actions mt-11 pt-7">
+        <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+          acceptLabel="I mean it 💛"
+          primaryClass="hw-btn-primary px-6 py-3 rounded-full bg-[#2f3a58] text-[#f7f3e8] font-medium hover:bg-[#232c45] transition-colors"
+          secondaryClass="hw-btn-secondary px-6 py-3 rounded-full border border-[#c9c0a3] text-[#4a4a63] hover:bg-[#efe8d2] transition-colors"
+          mutedClass="text-sm text-[#8a8168] italic" />
+      </div>
+    </article>
+
+    <a href="/generator" class="hw-line hw-footer block text-center mt-8 text-xs tracking-wide text-[#9a916f] hover:text-[#4a4a63] transition-colors">
+      Made on apologify.com — write your own →
+    </a>
+  </div>
+</main>
+
+<style>
+  .hw-root {
+    font-family: system-ui, sans-serif;
+  }
+
+  .hw-paper {
+    background-color: #fbf7ec;
+    /* subtle paper grain via layered gradients */
+    background-image:
+      radial-gradient(circle at 15% 25%, rgba(0,0,0,0.015) 0.5px, transparent 1px),
+      radial-gradient(circle at 65% 60%, rgba(0,0,0,0.012) 0.5px, transparent 1px),
+      radial-gradient(circle at 40% 85%, rgba(0,0,0,0.010) 0.5px, transparent 1px);
+    background-size: 7px 7px, 11px 11px, 9px 9px;
+    /* faint fold + coffee-ring shadow */
+    box-shadow:
+      0 28px 60px -30px rgba(70,60,40,0.5),
+      inset 0 0 60px rgba(150,130,90,0.05);
+    border: 1px solid #e8dfc6;
+  }
+  /* faint vertical fold line */
+  .hw-paper::before {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: 33%;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, rgba(120,105,70,0.10) 20%, rgba(120,105,70,0.10) 80%, transparent);
+    pointer-events: none;
+  }
+  /* faint coffee-ring */
+  .hw-paper::after {
+    content: "";
+    position: absolute;
+    right: -18px; bottom: 34px;
+    width: 96px; height: 96px;
+    border-radius: 50%;
+    border: 7px solid rgba(150,110,60,0.06);
+    box-shadow: inset 0 0 20px rgba(150,110,60,0.05);
+    pointer-events: none;
+  }
+
+  .hw-greeting, .hw-body, .hw-sign {
+    font-family: "Dancing Script", "Segoe Script", cursive;
+  }
+  .hw-body :global(p) {
+    font-family: "Dancing Script", "Segoe Script", cursive;
+  }
+  .hw-title {
+    font-family: "Dancing Script", "Segoe Script", cursive;
+    font-weight: 700;
+  }
+  .hw-sign {
+    text-align: left;
+  }
+  .hw-body :global(strong) { font-weight: 700; }
+  .hw-body :global(em) { font-style: italic; }
+
+  /* lines "write in" — gentle staggered fade + slide-up */
+  .hw-line {
+    opacity: 0;
+    transform: translateY(14px);
+    animation: hwWriteIn 0.85s cubic-bezier(0.22, 0.68, 0.32, 1) forwards;
+  }
+  .hw-kicker { animation-delay: 0.05s; }
+  .hw-title  { animation-delay: 0.20s; }
+  .hw-greeting { animation-delay: 0.42s; }
+  .hw-body .hw-line:nth-child(1) { animation-delay: 0.66s; }
+  .hw-body .hw-line:nth-child(2) { animation-delay: 0.92s; }
+  .hw-body .hw-line:nth-child(3) { animation-delay: 1.18s; }
+  .hw-body .hw-line:nth-child(4) { animation-delay: 1.44s; }
+  .hw-body .hw-line:nth-child(5) { animation-delay: 1.70s; }
+  .hw-body .hw-line:nth-child(n+6) { animation-delay: 1.95s; }
+  .hw-sign { animation-delay: 2.15s; }
+  .hw-actions { animation-delay: 2.4s; }
+  .hw-footer { animation-delay: 2.6s; }
+
+  @keyframes hwWriteIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* hover micro-interaction on the paper */
+  .hw-paper { transition: transform 0.5s ease, box-shadow 0.5s ease; }
+  .hw-paper:hover {
+    transform: translateY(-2px) rotate(-0.15deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hw-line {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+    .hw-paper { transition: none; }
+    .hw-paper:hover { transform: none; }
+  }
+</style>

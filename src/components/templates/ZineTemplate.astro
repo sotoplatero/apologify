@@ -1,0 +1,113 @@
+---
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
+---
+<main
+  class="min-h-screen w-full flex flex-col items-center justify-center px-4 py-14 relative overflow-hidden"
+  style="background:#f3efe4;background-image:radial-gradient(circle at 80% 20%, #fbe9f2, #f3efe4 60%);font-family:'Inter',system-ui,sans-serif;"
+>
+  <!-- Halftone dot field -->
+  <div class="dots" aria-hidden="true"></div>
+  <div class="copygrain" aria-hidden="true"></div>
+
+  <div class="w-full max-w-xl relative z-10">
+    <article class="zine relative px-6 py-9 sm:px-10 sm:py-11">
+
+      <!-- Eyebrow / cut-out header -->
+      <div class="pop-in" style="--d:0s">
+        <span class="inline-block bg-[#ff3d8b] text-[#fffbe6] text-[0.62rem] tracking-[0.35em] uppercase px-3 py-1 -rotate-2 shadow-[3px_3px_0_#1f6fff]">Issue #1 · handmade</span>
+      </div>
+
+      <!-- Title with two-color misregistration -->
+      <h1 class="misreg text-4xl sm:text-5xl font-black leading-[0.95] mt-5 pop-in" style="--d:0.08s;text-wrap:balance;" data-text={title}>{title}</h1>
+
+      <p class="anno text-[#1f6fff] text-lg mt-3 -rotate-1 pop-in" style="--d:0.16s">↑ i really mean this one</p>
+
+      {heading && <p class="mt-6 text-xl font-bold text-[#20140f] bg-[#ffe14d] inline-block px-2 py-1 -rotate-1 pop-in" style="--d:0.2s">{heading}</p>}
+
+      <div class="mt-6 space-y-4 text-[1.02rem] leading-[1.75] text-[#241d19] pop-in" style="--d:0.26s">
+        {paragraphs.map((p: string) => <p set:html={p} />)}
+      </div>
+
+      <p class="anno text-[#ff3d8b] text-lg mt-6 rotate-1 pop-in" style="--d:0.32s">(cut + pasted with care ✂)</p>
+
+      {senderName && <p class="anno mt-7 text-right text-3xl text-[#1f6fff] rotate-1 pop-in" style="--d:0.36s">xoxo, {senderName}</p>}
+
+      <div class="mt-9 pt-6 border-t-4 border-dashed border-[#ff3d8b] flex justify-center pop-in" style="--d:0.42s">
+        <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+          acceptLabel="Like it"
+          primaryClass="px-6 py-3 bg-[#ff3d8b] text-[#fffbe6] font-black uppercase text-sm tracking-wide -rotate-1 shadow-[4px_4px_0_#1f6fff] hover:translate-y-[-2px] transition-transform"
+          secondaryClass="px-6 py-3 bg-[#1f6fff] text-[#fffbe6] font-black uppercase text-sm tracking-wide rotate-1 shadow-[4px_4px_0_#ff3d8b] hover:translate-y-[-2px] transition-transform"
+          mutedClass="anno text-lg text-[#1f6fff]" />
+      </div>
+    </article>
+
+    <a href="/generator" class="block text-center mt-7 text-xs tracking-wide text-[#8a6f7d] hover:text-[#ff3d8b] transition-colors">Made on apologify.com — write your own →</a>
+  </div>
+</main>
+
+<style>
+  .anno { font-family: 'Dancing Script', 'Segoe Script', cursive; font-weight: 700; }
+
+  .zine {
+    background: #fffef7;
+    border: 2px solid #241d19;
+    box-shadow: 8px 8px 0 rgba(31,111,255,0.25), -4px -4px 0 rgba(255,61,139,0.18);
+    transform: rotate(-0.5deg);
+  }
+
+  /* Two-color misregistered headline */
+  .misreg {
+    position: relative;
+    color: #ff3d8b;
+    animation: jitterPink 3.5s ease-in-out infinite;
+  }
+  .misreg::before {
+    content: attr(data-text);
+    position: absolute; left: 0; top: 0;
+    color: #1f6fff;
+    mix-blend-mode: multiply;
+    z-index: -1;
+    animation: jitterBlue 3.5s ease-in-out infinite;
+  }
+
+  /* Ambient misregister jitter — gentle, warm, not menacing */
+  @keyframes jitterPink {
+    0%,100% { transform: translate(0,0); }
+    50%     { transform: translate(1.2px, -1px); }
+  }
+  @keyframes jitterBlue {
+    0%,100% { transform: translate(2px, 2px); }
+    50%     { transform: translate(3.4px, 0.6px); }
+  }
+
+  /* Halftone dots layer with slow drift */
+  .dots {
+    position: absolute; inset: -20px; pointer-events: none; z-index: 0;
+    background-image: radial-gradient(rgba(255,61,139,0.18) 1.4px, transparent 1.6px);
+    background-size: 10px 10px;
+    animation: drift 8s ease-in-out infinite;
+  }
+  .copygrain {
+    position: fixed; inset: 0; pointer-events: none; z-index: 20;
+    opacity: 0.07; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  @keyframes drift {
+    0%,100% { transform: translate(0,0); }
+    50%     { transform: translate(4px, 3px); }
+  }
+
+  .pop-in {
+    opacity: 0; transform: translateY(12px) rotate(-1deg);
+    animation: pop 0.55s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    animation-delay: var(--d, 0s);
+  }
+  @keyframes pop { to { opacity: 1; transform: translateY(0) rotate(0deg); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .misreg, .misreg::before, .dots, .pop-in { animation: none !important; }
+    .pop-in { opacity: 1; transform: none; }
+    .misreg::before { transform: translate(2px, 2px); }
+  }
+</style>

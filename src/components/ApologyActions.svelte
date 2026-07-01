@@ -1,24 +1,44 @@
 <script lang="ts">
   import { actions } from "astro:actions";
+  import { onMount } from "svelte";
 
   export let slug: string;
+  // Legacy prop, still passed by templates; absorbed so there's no unknown-prop warning.
   export let acceptedAt: string | null = null;
   export let preview = false;
-  export let acceptLabel = "Accept this apology";
+  export let acceptLabel = "Like this 💛";
   // Template-provided styling so the buttons match each design.
   export let primaryClass = "";
   export let secondaryClass = "";
   export let mutedClass = "";
 
-  let accepted = !!acceptedAt;
+  // The recipient's response is a lightweight "like" — a heart tap. The count is
+  // the total likes on the page; localStorage stops the same browser re-liking.
+  let likeCount = 0;
+  let liked = false;
   let busy = false;
   let copied = false;
 
-  async function accept() {
-    if (busy || accepted) return;
+  const storageKey = `apologify_liked_${slug}`;
+
+  onMount(async () => {
+    if (preview) return;
+    try { liked = localStorage.getItem(storageKey) === "1"; } catch (_) {}
+    try {
+      const { data } = await actions.getApologyLikes({ slug });
+      if (data) likeCount = data.likes;
+    } catch (_) {}
+  });
+
+  async function like() {
+    if (busy || liked) return;
     busy = true;
-    try { await actions.acceptApology({ slug }); accepted = true; }
-    catch (_) { accepted = true; } // optimistic — acceptance is low-stakes
+    liked = true; likeCount += 1; // optimistic
+    try { localStorage.setItem(storageKey, "1"); } catch (_) {}
+    try {
+      const { data } = await actions.likeApology({ slug });
+      if (data) likeCount = data.likes;
+    } catch (_) { /* keep optimistic count */ }
     finally { busy = false; }
   }
 
@@ -34,16 +54,16 @@
 </script>
 
 {#if preview}
-  <p class={mutedClass}>Your recipient will be able to accept &amp; share here 💛</p>
-{:else if accepted}
-  <div class="flex flex-col items-center gap-3">
-    <p class={primaryClass + " pointer-events-none select-none"}>💛 Apology accepted</p>
+  <p class={mutedClass}>Your recipient can like this 💛</p>
+{:else if liked}
+  <div class="flex flex-wrap items-center justify-center gap-3">
+    <span class={primaryClass + " pointer-events-none select-none"}>{`💛 Liked${likeCount > 0 ? ` · ${likeCount}` : ""}`}</span>
     <button on:click={share} class={secondaryClass}>{copied ? "Link copied!" : "Share"}</button>
   </div>
 {:else}
   <div class="flex flex-wrap items-center justify-center gap-3">
-    <button on:click={accept} disabled={busy} class={primaryClass}>
-      {busy ? "…" : acceptLabel}
+    <button on:click={like} disabled={busy} class={primaryClass}>
+      {`${acceptLabel}${likeCount > 0 ? ` · ${likeCount}` : ""}`}
     </button>
     <button on:click={share} class={secondaryClass}>{copied ? "Link copied!" : "Share"}</button>
   </div>

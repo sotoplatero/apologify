@@ -1,0 +1,148 @@
+---
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
+---
+<main
+  class="wc min-h-screen w-full flex flex-col items-center justify-center px-5 py-16 relative overflow-hidden"
+  style="background:#fbf7f4;"
+>
+  <!-- layered bleeding watercolor washes that slowly breathe -->
+  <div class="wash w-rose" aria-hidden="true"></div>
+  <div class="wash w-sage" aria-hidden="true"></div>
+  <div class="wash w-slate" aria-hidden="true"></div>
+  <div class="wash w-rose2" aria-hidden="true"></div>
+
+  <div class="w-full max-w-2xl relative">
+    <div class="wc-eyebrow text-center mb-6">
+      <span class="text-[0.68rem] tracking-[0.4em] uppercase text-[#a2778a]">◦ a soft word ◦</span>
+    </div>
+
+    <article class="wc-paper relative px-8 py-12 sm:px-14 sm:py-16">
+      <div class="text-center mb-8">
+        <p class="wc-reveal r1 text-[0.66rem] uppercase tracking-[0.45em] text-[#a2778a] mb-3">An apology</p>
+        <h1 class="wc-reveal r2 wc-title text-3xl sm:text-4xl leading-tight">{title}</h1>
+        <div class="wc-reveal r2 mt-5 mx-auto wc-rule"></div>
+      </div>
+
+      {heading && <p class="wc-reveal r3 wc-heading text-lg sm:text-xl mb-6">{heading}</p>}
+
+      <div class="wc-reveal r4 wc-body space-y-5 text-lg leading-[1.85]">
+        {paragraphs.map((p: string) => <p set:html={p} />)}
+      </div>
+
+      {senderName && <p class="wc-reveal r5 wc-sign mt-12 text-right text-4xl sm:text-5xl">{senderName}</p>}
+
+      <div class="wc-reveal r6 mt-12 pt-8 border-t border-[#e7d3da] flex justify-center">
+        <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+          acceptLabel="Like this 💛"
+          primaryClass="px-6 py-3 rounded-full bg-[#b07d92] text-[#fdf9f8] font-medium hover:bg-[#96677b] transition-colors"
+          secondaryClass="px-6 py-3 rounded-full border border-[#cbb0bb] text-[#96677b] hover:bg-[#f6ecf0] transition-colors"
+          mutedClass="text-sm text-[#a2778a]" />
+      </div>
+    </article>
+
+    <a href="/generator" class="wc-reveal r6 block text-center mt-8 text-xs tracking-wide text-[#a2778a] hover:text-[#96677b] transition-colors">Made on apologify.com — write your own →</a>
+  </div>
+</main>
+
+<style>
+  .wc {
+    font-family: "Fraunces", "Lora", ui-serif, Georgia, serif;
+  }
+
+  /* soft bleeding washes: large blurred radial-gradient blobs */
+  .wash {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+    will-change: transform;
+  }
+  .w-rose {
+    width: 60vw; height: 60vw; max-width: 640px; max-height: 640px;
+    top: -12%; left: -10%;
+    background: radial-gradient(circle at 40% 40%, rgba(211, 150, 168, 0.55), rgba(211, 150, 168, 0) 70%);
+    animation: breathe-a 16s ease-in-out infinite;
+  }
+  .w-sage {
+    width: 55vw; height: 55vw; max-width: 560px; max-height: 560px;
+    bottom: -14%; right: -8%;
+    background: radial-gradient(circle at 50% 50%, rgba(158, 184, 158, 0.5), rgba(158, 184, 158, 0) 70%);
+    animation: breathe-b 20s ease-in-out infinite;
+  }
+  .w-slate {
+    width: 48vw; height: 48vw; max-width: 500px; max-height: 500px;
+    top: 30%; right: 18%;
+    background: radial-gradient(circle at 50% 50%, rgba(122, 146, 176, 0.4), rgba(122, 146, 176, 0) 70%);
+    animation: breathe-c 24s ease-in-out infinite;
+  }
+  .w-rose2 {
+    width: 40vw; height: 40vw; max-width: 420px; max-height: 420px;
+    bottom: 8%; left: 12%;
+    background: radial-gradient(circle at 50% 50%, rgba(224, 178, 190, 0.42), rgba(224, 178, 190, 0) 70%);
+    animation: breathe-b 18s ease-in-out infinite reverse;
+  }
+
+  .wc-paper {
+    /* translucent paper with a soft bloom, letting washes glow through */
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.95) 0%, rgba(253,249,248,0.82) 100%);
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(231, 211, 218, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 24px 70px -26px rgba(150, 103, 123, 0.45);
+  }
+
+  .wc-title {
+    font-family: "Fraunces", "Lora", ui-serif, Georgia, serif;
+    font-weight: 500;
+    color: #5c4451;
+    text-wrap: balance;
+  }
+  .wc-rule {
+    width: 4.5rem; height: 2px;
+    background: linear-gradient(90deg, transparent, #cbb0bb, transparent);
+  }
+  .wc-heading { color: #7a5c69; font-style: italic; }
+  .wc-body { color: #4d3d46; font-family: "Lora", ui-serif, Georgia, serif; }
+  .wc-sign {
+    font-family: "Dancing Script", cursive;
+    color: #96677b;
+  }
+
+  /* gentle staggered reveal */
+  .wc-reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: rise 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  }
+  .r1 { animation-delay: 0.2s; }
+  .r2 { animation-delay: 0.4s; }
+  .r3 { animation-delay: 0.6s; }
+  .r4 { animation-delay: 0.8s; }
+  .r5 { animation-delay: 1.1s; }
+  .r6 { animation-delay: 1.3s; }
+
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes breathe-a {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(3%, 4%) scale(1.08); }
+  }
+  @keyframes breathe-b {
+    0%, 100% { transform: translate(0, 0) scale(1.05); }
+    50% { transform: translate(-4%, -3%) scale(1); }
+  }
+  @keyframes breathe-c {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-3%, 5%) scale(1.1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wc-reveal, .wash {
+      animation: none !important;
+    }
+    .wc-reveal { opacity: 1; transform: none; }
+  }
+</style>

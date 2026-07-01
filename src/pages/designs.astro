@@ -1,0 +1,72 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { listThemes } from "../lib/themes.js";
+
+const themes = listThemes();
+
+const title = `Apology Page Designs — ${themes.length} Templates | Apologify`;
+const description =
+  "Browse every Apologify design — from a handwritten note to a Swiss poster, a telegram, a mixtape or a front-page correction. Pick one and turn your apology into a shareable page, free.";
+
+const canonicalUrl = new URL("/designs", Astro.site).href;
+const collectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Apology Page Designs",
+  description,
+  url: canonicalUrl,
+  mainEntity: {
+    "@type": "ItemList",
+    numberOfItems: themes.length,
+    itemListElement: themes.map((t, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: `${t.label} apology page design`,
+    })),
+  },
+};
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schema={[collectionSchema]}>
+  <main class="container mx-auto px-6 py-16">
+    <header class="text-center max-w-2xl mx-auto mb-14">
+      <span class="inline-block text-sm font-semibold tracking-widest uppercase text-primary font-sans">Designs</span>
+      <h1 class="font-display text-4xl md:text-5xl font-semibold text-base-content mt-3 mb-4" style="text-wrap: balance;">
+        A design for every apology
+      </h1>
+      <p class="text-lg text-base-content/60 mb-8">
+        {themes.length} distinct looks — tender or formal, playful or grave. Tap any one to see it live, then make it yours.
+      </p>
+      <a href="/generator" class="btn btn-primary btn-lg">Make my apology page</a>
+    </header>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
+      {themes.map((t) => (
+        <a
+          href={`/demo?theme=${t.id}`}
+          class="group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-base-100"
+        >
+          <div class="relative overflow-hidden rounded-xl">
+            <img
+              src={`/designs/${t.id}.jpg`}
+              alt={`${t.label} apology page design`}
+              loading="lazy"
+              width="820"
+              height="1040"
+              class="w-full h-auto group-hover:scale-[1.02] transition-transform duration-500"
+            />
+            {t.premium && (
+              <span class="absolute top-2 right-2 text-[10px] font-bold bg-warning text-warning-content px-1.5 py-0.5 rounded shadow">PRO</span>
+            )}
+          </div>
+          <p class="mt-2.5 text-sm text-base-content/60 font-sans group-hover:text-base-content transition-colors"><span aria-hidden="true">{t.emoji}</span> {t.label}</p>
+        </a>
+      ))}
+    </div>
+
+    <div class="text-center mt-14">
+      <a href="/generator" class="btn btn-primary btn-lg">Make my apology page</a>
+      <p class="text-sm text-base-content/50 mt-3 font-sans">Free to create · pick any design · share with a link</p>
+    </div>
+  </main>
+</Layout>

@@ -15,7 +15,7 @@ const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = As
     {senderName && <p class="mt-8 text-2xl font-semibold">— {senderName}</p>}
     <div class="mt-10 flex justify-center">
       <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
-        acceptLabel="Accept this apology"
+        acceptLabel="Like this"
         primaryClass="px-7 py-3 bg-white text-[#b3122b] font-bold uppercase tracking-wide hover:bg-white/90 transition-colors"
         secondaryClass="px-6 py-3 border-2 border-white/70 text-white font-bold uppercase tracking-wide hover:bg-white/10 transition-colors"
         mutedClass="text-sm text-white/70" />

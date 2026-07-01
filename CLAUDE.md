@@ -4,263 +4,151 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Apologify.com is an Astro-based web application that helps users generate personalized apology letters. The site combines:
-- A static content library of pre-written apology letter examples
-- An interactive AI-powered generator that creates custom apology letters
-- Educational articles about writing effective apologies
+Apologify.com is an Astro web app that turns a written apology into a **beautiful, shareable web page**. The core flow:
+
+1. The user says who the apology is for and what happened, and picks a tone.
+2. AI writes a sincere, personal apology.
+3. The user picks a **design** (one of ~21 distinct full-page templates) and previews it live.
+4. They publish it as its own page and share the link; the recipient can read it and **like** it (a heart).
+
+The product also keeps a **legacy library of example apology letters** (static + generated) under `/examples`, used mainly as SEO content that funnels into the builder.
 
 ## Tech Stack
 
-- **Framework**: Astro 5 with hybrid rendering (static + server)
-- **UI Components**:
-  - Astro components for static pages
-  - Svelte for interactive components (wizard, letter display, copy functionality)
-  - Preact for specific interactive elements
-  - React support available
-- **Styling**: Tailwind CSS + DaisyUI
-- **Content**: Astro Content Collections (articles and letters)
-- **AI Integration**: OpenAI GPT-4o-mini for letter generation
-- **Authentication**: Auth.js with GitHub provider (configured but not actively used in current flow)
-- **Deployment**: Vercel with ISR (Incremental Static Regeneration)
-- **Package Manager**: pnpm
+- **Framework**: Astro 5, hybrid rendering (static + SSR). Vercel adapter.
+- **UI**: Astro components + Svelte islands for interactivity (generator, like button, publish, theme picker). Preact/React also available.
+- **Styling**: Tailwind CSS + DaisyUI. The brand shell uses a **custom DaisyUI theme `apology`** ("ink on paper" — warm paper base, fountain-pen-ink-blue primary, postmark-red accent, sage success). Defined in `tailwind.config.mjs`; set via `<html data-theme="apology">` in `src/layouts/LayoutBase.astro`. Fonts: Fraunces (display), Lora (body serif), Inter (UI sans), Dancing Script (script), Anton (poster).
+- **AI**: OpenAI via `src/lib/server/openai.js`. **The model and its params are configured there — do NOT change the model.**
+- **Database**: Turso (libsql) — `src/lib/turso.ts`.
+- **Auth**: better-auth (`src/lib/auth.ts` / `auth-client.ts`). Email + optional social. Required only to publish publicly.
+- **Package manager**: pnpm.
 
 ## Development Commands
 
 ```bash
-# Install dependencies
-pnpm install
-
-# Run dev server (localhost:4321)
-pnpm dev
-
-# Build for production (includes type checking)
-pnpm build
-
-# Build with remote database
-pnpm build:remote
-
-# Preview production build locally
-pnpm preview
-
-# Type checking only
-pnpm astro check
-
-# Generate new content (articles)
-pnpm injest
+pnpm install          # install deps
+pnpm dev              # dev server (localhost:4321)
+pnpm build            # production build (astro check + astro build) — the real gate before deploy
+pnpm build:remote     # build against the remote DB
+pnpm preview          # preview the production build
+pnpm astro check      # type-check only
+pnpm db:init          # init legacy user_letters table
+pnpm db:init-pages    # init / migrate the apology_pages table (adds columns idempotently)
+pnpm injest           # generate articles
 ```
+
+Note: after large edits the Astro dev server's HMR can get into a bad state (500s / stale CSS). If that happens, restart it (`npx astro dev stop` then `pnpm dev`) — it is not a code error if `astro check` / `pnpm build` pass.
 
 ## Architecture
 
-### Hybrid Content System
+### Apology pages (the current product)
 
-The site uses a hybrid approach combining static content and dynamic database storage:
+Stored in the **`apology_pages`** Turso table. Data access + types live in **`src/lib/apologyPages.ts`** (`ApologyPage` interface). Key columns: `slug`, `recipient`, `recipient_name`, `sender_name`, `visibility` (`private`|`public`), `owner_id`, `message`, `title`, `theme`, `tone`, `accepted_at`, `likes`, `created_at`.
 
-1. **Articles** (`src/content/articles/`): Educational blog posts about apology writing
-   - Stored as markdown files with frontmatter
-   - Include Unsplash images with photographer attribution
-   - Organized by slug in individual directories
+Key functions in `apologyPages.ts`:
+- `saveApologyPage(...)` — insert a page.
+- `getApologyPageBySlug(slug)` — fetch one (anyone with the link can view; drafts are `noindex`).
+- `publishApologyPage(slug, userId, theme?)` — make public + claim ownership (owner or unowned only).
+- `updatePageTheme(slug, ownerId, theme)` — change design (owner-only).
+- `likeApology(slug)` / `getApologyLikes(slug)` — like counter.
+- `getPublishedPagesByOwner(ownerId)` — the dashboard list (published only).
+- `getRecentPublicPages` / `getAllPublicSlugs` — public directory / sitemap.
 
-2. **Static Letters** (`src/content/letters/`): Pre-written example apology letters
-   - Stored as JSON files organized by recipient type (boss, friend, family, etc.)
-   - Each file contains tone, recipient, context, and multiple letter variations
-   - Used for curated examples (113 letters)
+### Generation & publish flow
 
-3. **Generated Letters** (Turso Database): User-generated apology letters
-   - Stored in `user_letters` table in Turso DB
-   - Created when users use the AI generator at `/generator`
-   - Automatically appear in the `/examples` directory
-   - Fields: id, recipient, context, tone, letter, slug, created_at
+1. `ApologyGenerator.svelte` (on `/generator` and `/generator/[recipient]`) collects: who it's for, what happened, tone, signature.
+2. Submits Astro action `createApologyPage` (`src/actions/index.ts`) → calls OpenAI (`src/lib/server/openai.js`) → saves a **private draft** to `apology_pages`, returns the slug.
+3. Step 2 is a full-screen editor: a live preview (`/sorry/[slug]?preview=1&theme=…` in an iframe) + a design picker (thumbnail grid on desktop, horizontal filmstrip bottom-sheet on mobile). Body scroll is locked while open.
+4. **Publish** (in the editor) calls the `publishApologyPage` action directly:
+   - signed in → publishes and goes to `/dashboard` (one click);
+   - anonymous → redirected to `/sign-up?redirect_url=/publish?...`; after auth, `/publish` completes it.
+5. The live page is `/sorry/[slug]`, rendered with the chosen template; the recipient can **like** it.
 
-### Unified Letter System
+### Designs / templates
 
-The `src/lib/letters.ts` module provides a unified interface that:
-- Merges static letters from content collections with generated letters from DB
-- Provides consistent filtering and search across both sources
-- Uses `UnifiedLetter` interface for both static and generated content
-- Functions like `getAllLetters()`, `getLettersByRecipient()`, `getLetterBySlug()` work transparently across both sources
+- Each design is a self-contained full-page Astro component in `src/components/templates/` receiving `{ title, heading, paragraphs, senderName, slug, acceptedAt, preview }`. They hardcode their own colors/motion (each is its own visual world) and include `@media (prefers-reduced-motion: reduce)`.
+- The catalog is `src/lib/themes.js` (`THEMES` array: `id`, `label`, `emoji`, `premium`, `bgClass`). `listThemes()`, `resolveTheme()`, `isPremiumTheme()`.
+- The **template map** (id → component) is duplicated in `src/pages/sorry/[slug].astro` and `src/pages/demo.astro` — **add new templates in both**.
+- `src/pages/demo.astro` (`/demo?theme=`) renders any template with fixed sample content (no DB) — used for previews and thumbnails.
+- Thumbnails: `public/designs/<id>.jpg`, ~820×1040, captured from `/demo?theme=<id>` (remove the `astro-dev-toolbar` element before screenshotting). Used by the picker, the home grid, and `/designs`.
+- **Premium/paywall is deferred**: all designs are currently `premium: false`. `publishApologyPage`/`updateApologyTheme` still downgrade `premium: true` themes to `classic`, so when monetization ships, flip the flags and add the paywall.
 
-### Key Pages & Routes
+### Legacy letters library (still live, mostly SEO)
 
-- `/` - Homepage with hero and call-to-action
-- `/generator` - Interactive AI letter generator (server-rendered, saves to DB)
-- `/examples` - Directory with filters showing ALL letters (static + generated)
-- `/examples/[recipient]` - Browse letters by recipient type (static only currently)
-- `/examples/[recipient]/[slug]` - Individual letter pages (supports both static and generated)
-- `/articles/[slug]` - Individual article pages
-- `/articles/[...page]` - Paginated article listing
+- Static examples in `src/content/letters/` (JSON by recipient). Generated ones in the `user_letters` Turso table (`src/lib/db.ts`).
+- `src/lib/letters.ts` unifies both; `src/lib/database.ts` queries static content collections.
+- Surfaces at `/examples`, `/examples/[recipient]`, `/examples/[recipient]/[slug]` and feeds the home "Made in the open" section. This is the older system; the strategic direction is for public apology pages to become the living example library.
 
-**Important**: `/examples` and `/generator` are excluded from ISR and always server-rendered to show fresh generated content.
+### Articles
 
-### Letter Generation Flow
+Markdown under `src/content/articles/` (loaded via `src/lib/articles`). Generated by `injest.js` (patterns in `src/lib/patterns.js`, prompts in `src/lib/prompts.js`, Unsplash images). Routes: `/articles/[slug]`, `/articles/[...page]`.
 
-1. User interacts with `ApologyWizard.svelte` component on `/generator`
-2. Wizard collects: relationship, context, and tone
-3. Form submits to Astro action `createLetter` in `src/actions/index.ts`
-4. Action calls OpenAI API via `src/lib/server/openai.js`
-5. Action generates unique slug and saves letter to Turso DB via `src/lib/db.ts`
-6. Generated letter displays in `Letter.svelte` with copy functionality
-7. User sees success message with link to view letter in examples directory
-8. Letter immediately appears in `/examples` with "AI Generated" badge
-9. Letter is accessible at `/examples/[recipient]/[slug]`
+### Key routes
 
-### Content Generation System
+- `/` — homepage (hero with a live product mockup, "why a page", **designs grid (3×2)**, how it works, "made in the open", recipients, FAQ, articles, CTA).
+- `/generator`, `/generator/[recipient]` — the builder (SEO landing per recipient prefills it).
+- `/designs` — **gallery of all designs** (indexable); cards open `/demo?theme=`.
+- `/sorry/[slug]` — the live apology page (public = indexable; draft/preview = `noindex`).
+- `/customize?slug=` — change an existing page's design (owner-only).
+- `/publish?slug=&theme=` — publish confirmation / post-sign-up completion.
+- `/dashboard` — the owner's **published** pages (change design / view).
+- `/demo?theme=` — sample-content preview (`noindex`).
+- `/examples*`, `/articles*` — legacy library + blog.
 
-The `injest.js` script automates article creation:
-- Uses OpenAI to generate articles based on patterns in `src/lib/patterns.js`
-- Prompts defined in `src/lib/prompts.js`
-- Fetches hero images from Unsplash API
-- Creates slug-based directories with markdown files
-- Prevents duplicate content by checking existing slugs
-
-### Database Layer
-
-**Static Content (`src/lib/database.ts`)**:
-- Helper functions to query letter collections from Astro content
-- Functions: `getAllApologyLetters()`, `getApologyLettersByRecipient()`, `searchLettersWithFilters()`
-- Uses Astro's `getCollection()` API for type-safe content queries
-
-**Dynamic Content (`src/lib/db.ts`)**:
-- Turso database operations for user-generated letters
-- Functions: `saveGeneratedLetter()`, `getAllGeneratedLetters()`, `getGeneratedLetterBySlug()`, etc.
-- Initialize with `pnpm db:init` (creates tables and indexes)
-
-**Unified Interface (`src/lib/letters.ts`)**:
-- Combines static and generated letters seamlessly
-- Provides filtering across both sources
-- Returns `UnifiedLetter` objects with `source` field ('static' or 'generated')
-
-### Build Configuration
-
-- Output mode: `static` (generates static HTML)
-- Vercel adapter with ISR enabled
-- ISR excludes `/generator` route (always server-rendered)
-- Custom sitemap copier integration (`sitemap-copier.ts`)
+`noindex`: `/demo`, `/customize`, `/publish`, `/sign-in`, `/sign-up`, `/dashboard`, and non-public `/sorry` pages. `/designs` and public pages are indexable.
 
 ## Important Files
 
-**Letter Generation & Storage**:
-- `src/actions/index.ts` - Server actions for letter generation (generates + saves to DB)
-- `src/lib/server/openai.js` - OpenAI API integration
-- `src/lib/db.ts` - Turso database operations for generated letters
-- `src/lib/letters.ts` - Unified interface merging static + generated letters
-- `src/lib/database.ts` - Content collection query helpers (static letters only)
-
-**Components**:
-- `src/components/ApologyWizard.svelte` - Main interactive wizard
-- `src/components/Letter.svelte` - Letter display with copy functionality
-- `src/components/LetterDirectory.svelte` - Directory with client-side filtering
-- `src/components/LetterFilters.svelte` - Filter UI component
-
-**Content Generation**:
-- `injest.js` - Article content generation script
-- `src/lib/patterns.js` - Content generation patterns
-- `src/lib/prompts.js` - OpenAI prompts for content generation
-
-**Database**:
-- `scripts/init-db.js` - Database initialization script
-- `src/lib/turso.ts` - Turso client configuration
+- `src/actions/index.ts` — actions: `createApologyPage`, `publishApologyPage`, `likeApology`, `getApologyLikes`, `updateApologyTheme` (+ `generateApologyContent` prompt).
+- `src/lib/apologyPages.ts` — apology-page DB layer + types.
+- `src/lib/themes.js` — design catalog.
+- `src/lib/server/openai.js` — OpenAI integration (**model configured here; do not change it**).
+- `src/lib/display.js` — `apologyHeading()` / `apologyParagraphsHtml()` (shared render helpers).
+- `src/components/ApologyGenerator.svelte` — the builder + editor.
+- `src/components/CustomizeTheme.svelte` — change-design editor.
+- `src/components/ApologyActions.svelte` — the recipient's like + share.
+- `src/components/templates/*` — the ~21 design templates.
+- `scripts/init-apology-pages.js` — apology_pages schema/migrations.
 
 ## Environment Variables
 
-Required environment variables (see `.env.example`):
-- `OPENAI_API_KEY` - Required for letter generation
-- `TURSO_DATABASE_URL` - Turso database URL (libsql://...)
-- `TURSO_AUTH_TOKEN` - Turso authentication token
-- `UNSPLASH_ACCESS_KEY` - Required for content generation script
-- `GITHUB_CLIENT_ID` & `GITHUB_CLIENT_SECRET` - For auth (currently unused)
+See `.env.example`:
+- `OPENAI_API_KEY` — apology generation.
+- `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN` — database.
+- better-auth secrets (see `src/lib/auth.ts`) — auth / publishing.
+- `UNSPLASH_ACCESS_KEY` — article generation only.
 
-## Setup & Initialization
+## Setup
 
-### First Time Setup
-
-1. Install dependencies: `pnpm install`
-2. Set up environment variables in `.env`
-3. Initialize Turso database: `pnpm db:init`
-4. Run dev server: `pnpm dev`
-
-### Turso Database Setup
-
-If you haven't set up Turso yet:
-
-```bash
-# Install Turso CLI (if not installed)
-# See TURSO_SETUP.md for installation instructions
-
-# Create database
-turso db create apologify-db
-
-# Get database URL
-turso db show apologify-db --url
-
-# Create auth token
-turso db tokens create apologify-db
-
-# Add to .env file
-TURSO_DATABASE_URL=<url>
-TURSO_AUTH_TOKEN=<token>
-
-# Initialize tables
-pnpm db:init
-```
+1. `pnpm install`
+2. Set `.env` (OpenAI, Turso, auth).
+3. `pnpm db:init && pnpm db:init-pages`
+4. `pnpm dev`
 
 ## Testing & Validation
 
-- Run `astro check` before builds to catch TypeScript errors
-- No formal test suite currently implemented
-- Manual testing recommended for generator functionality
-- Preview builds locally with `pnpm preview` before deploying
+- No formal test suite. Run **`pnpm build`** before deploying — it runs `astro check` and the full Vercel build, the real production gate.
+- Manually test the generator → publish → like flow; `pnpm preview` to check the production build locally.
 
 ## Common Patterns
 
-### Working with Generated Letters
+### Add a new design template
 
-**View all generated letters**:
-```typescript
-import { getAllGeneratedLetters } from '@/lib/db';
-const letters = await getAllGeneratedLetters();
-```
+1. Create `src/components/templates/XxxTemplate.astro` following the props contract above (include motion + `prefers-reduced-motion`; hardcode its palette).
+2. Register it in `src/lib/themes.js` (`id`, `label`, `emoji`, `premium`, `bgClass`).
+3. Add the `id → component` entry to **both** `src/pages/sorry/[slug].astro` and `src/pages/demo.astro`.
+4. Generate `public/designs/<id>.jpg` by screenshotting `/demo?theme=<id>` (~820×1040, remove `astro-dev-toolbar` first).
 
-**Search across static + generated**:
-```typescript
-import { getAllLetters } from '@/lib/letters';
-const results = await getAllLetters({
-  recipient: 'boss',
-  tone: 'formal',
-  searchTerm: 'deadline'
-});
-```
+### Change / regenerate a page's design
 
-**Delete a generated letter** (for moderation):
-```typescript
-import { deleteGeneratedLetter } from '@/lib/db';
-await deleteGeneratedLetter(letterId);
-```
+Owner-only via `updateApologyTheme` (action) → `updatePageTheme` (db). UI at `/customize?slug=`.
 
-### Adding Static Letter Examples
+### Moderation
 
-1. Create JSON file in `src/content/letters/[recipient]/[slug].json`
-2. Follow schema: `{ tone, recipient, context, letters: [] }`
-3. Letters array should contain multiple variations (typically 3-5)
+Public pages are user content — delete via a `apology_pages` query by slug/owner (add a helper if needed). Keep the public directory clean since it is indexable and reusable.
 
-### Adding New Articles
+### Modifying the generator
 
-1. Use `pnpm injest` to auto-generate from patterns
-2. Or manually create `src/content/articles/[slug]/index.md`
-3. Include required frontmatter: title, description, date, image, photographer, photographerUrl
-4. Articles support optional tags array
-
-### Modifying the Generator
-
-1. Update form validation in `src/actions/index.ts` (Zod schema)
-2. Modify prompts in `generateLetter()` function
-3. Adjust UI in `ApologyWizard.svelte` for multi-step flow
-4. Letter display handled in `Letter.svelte` (includes copy/download features)
-
-### SEO Optimization
-
-**User-generated content benefits**:
-- Each generated letter = new indexed page
-- Unique URL structure: `/examples/[recipient]/[slug-timestamp]`
-- Automatic badges distinguish AI-generated content
-- Filters allow users to find exactly what they need
-- Directory grows organically with user engagement
+- Validation: Zod schema in `createApologyPage` (`src/actions/index.ts`).
+- Prompt: `generateApologyContent()` in the same file.
+- UI: `ApologyGenerator.svelte`.

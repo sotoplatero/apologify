@@ -1,5 +1,6 @@
 <script lang="ts">
   import { actions } from "astro:actions";
+  import { onDestroy } from "svelte";
   import { tones } from "../lib/apologyData.js";
   import { listThemes, isPremiumTheme } from "../lib/themes.js";
 
@@ -18,7 +19,6 @@
   // Draft result (preview step)
   let slug = "";
   let selectedTheme = "classic";
-  let drawerOpen = true;
 
   $: premiumSelected = isPremiumTheme(selectedTheme);
   // The preview is the real apology page rendered in an iframe — perfectly
@@ -38,117 +38,167 @@
       fd.append("tone", selectedTone);
       const { data, error: actionError } = await actions.createApologyPage(fd);
       if (actionError) error = actionError.message;
-      else if (data && data.saved) { slug = data.slug; selectedTheme = "classic"; drawerOpen = true; }
+      else if (data && data.saved) { slug = data.slug; selectedTheme = "classic"; }
       else error = "We couldn't create your page. Please try again.";
     } catch (e) { error = "Something went wrong. Please try again."; console.error(e); }
     finally { isGenerating = false; }
   }
 
   function editDetails() { slug = ""; error = ""; }
+
+  // Publish directly from here. Signed-in users go straight to their live page
+  // in one click; anonymous users are sent to sign-up and finish on /publish
+  // (so there's never a second "Publish" button for someone already signed in).
+  let publishing = false;
+  let publishError = "";
+  async function publish() {
+    publishing = true; publishError = "";
+    const { data, error: e } = await actions.publishApologyPage({ slug, theme: selectedTheme || undefined });
+    if (e) {
+      if ((e as any).code === "UNAUTHORIZED") {
+        const back = `/publish?slug=${slug}&theme=${selectedTheme}`;
+        window.location.href = `/sign-up?redirect_url=${encodeURIComponent(back)}`;
+        return;
+      }
+      publishError = e.message || "Couldn't publish. Please try again.";
+      publishing = false;
+      return;
+    }
+    if (data?.published) window.location.href = "/dashboard";
+    else { publishError = "Couldn't publish. Please try again."; publishing = false; }
+  }
+
+  // Lock background scroll while the full-screen editor is open, so there's no
+  // double scrollbar and the page behind can't move. Restored on close/unmount.
+  function setScrollLock(on: boolean) {
+    if (typeof document === "undefined") return;
+    document.documentElement.classList.toggle("overflow-hidden", on);
+    document.body.classList.toggle("overflow-hidden", on);
+  }
+  $: setScrollLock(!!slug);
+  onDestroy(() => setScrollLock(false));
 </script>
 
 {#if !slug}
   <!-- Step 1: the generator form -->
-  <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-md border border-gray-200 p-6 md:p-8">
+  <div class="max-w-2xl mx-auto bg-base-100 rounded-2xl shadow-sm border border-base-300 p-6 md:p-8 font-sans">
     <form on:submit|preventDefault={generate}>
       <div class="mb-5">
-        <label for="towhom" class="font-semibold text-gray-900 block mb-2">Who is this apology for?</label>
+        <label for="towhom" class="font-semibold text-base-content block mb-2">Who is this apology for?</label>
         <input id="towhom" bind:value={toWhom} maxlength="100" placeholder="e.g. Mia, my girlfriend, our customers"
-          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500" />
+          class="input input-bordered w-full bg-base-100" />
       </div>
 
       <div class="mb-5">
         <div class="flex items-baseline justify-between mb-2">
-          <label for="reason" class="font-semibold text-gray-900">What happened?</label>
-          <span class="text-xs text-gray-400 tabular-nums">{reason.length}/500</span>
+          <label for="reason" class="font-semibold text-base-content">What happened?</label>
+          <span class="text-xs text-base-content/50 tabular-nums">{reason.length}/500</span>
         </div>
         <textarea id="reason" bind:value={reason} maxlength="500" autocomplete="off"
           placeholder="Describe what you did and why you want to apologize..."
-          class="w-full h-28 px-4 py-3 border border-gray-300 rounded-xl resize-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"></textarea>
+          class="textarea textarea-bordered w-full h-28 resize-none bg-base-100 text-base leading-relaxed"></textarea>
       </div>
 
       <div class="grid sm:grid-cols-2 gap-4 mb-6">
         <div>
-          <label for="tone" class="font-semibold text-gray-900 block mb-2">Tone</label>
-          <select id="tone" bind:value={selectedTone}
-            class="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+          <label for="tone" class="font-semibold text-base-content block mb-2">Tone</label>
+          <select id="tone" bind:value={selectedTone} class="select select-bordered w-full bg-base-100">
             {#each tones as t (t.value)}<option value={t.value}>{t.emoji} {t.label}</option>{/each}
           </select>
         </div>
         <div>
-          <label for="sig" class="font-semibold text-gray-900 block mb-2">Signature</label>
+          <label for="sig" class="font-semibold text-base-content block mb-2">Signature</label>
           <input id="sig" bind:value={signature} maxlength="80" placeholder="Who's apologizing? e.g. Sam"
-            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500" />
+            class="input input-bordered w-full bg-base-100" />
         </div>
       </div>
 
-      {#if error}<div class="p-4 mb-6 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm" role="alert">{error}</div>{/if}
+      {#if error}<div class="p-4 mb-6 bg-error/10 border border-error/25 rounded-xl text-error text-sm" role="alert">{error}</div>{/if}
 
-      <button type="submit" disabled={isGenerating}
-        class="w-full px-6 py-4 bg-purple-600 text-white text-lg font-medium rounded-xl hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md">
+      <button type="submit" disabled={isGenerating} class="btn btn-primary btn-lg w-full text-base">
         {isGenerating ? "Writing your apology..." : "Generate my apology page"}
       </button>
     </form>
   </div>
 {:else}
-  <!-- Step 2: full-screen dedicated preview (real page in an iframe) + control drawer -->
-  <div class="fixed inset-0 z-50 bg-gray-100">
-    <iframe src={previewSrc} title="Apology preview" class="w-full h-full border-0"></iframe>
-  </div>
-
-  {#if !drawerOpen}
-    <button on:click={() => (drawerOpen = true)}
-      class="fixed top-5 right-5 z-[70] flex items-center gap-2 px-4 py-2.5 rounded-full bg-gray-900 text-white text-sm font-medium shadow-lg hover:bg-gray-800 transition-colors">
-      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-      Customize
-    </button>
-  {/if}
-
-  {#if drawerOpen}
-    <button aria-label="Close panel" on:click={() => (drawerOpen = false)} class="fixed inset-0 z-[60] bg-black/30"></button>
-  {/if}
-
-  <aside class={`fixed top-0 right-0 z-[65] h-full w-full sm:w-[384px] bg-white shadow-2xl flex flex-col transition-transform duration-300 ease-out ${drawerOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-    <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
-      <div>
-        <h2 class="font-display text-xl font-semibold text-gray-900 leading-none">Your apology page</h2>
-        <p class="text-xs text-gray-400 mt-1">Draft — only you can see it</p>
-      </div>
-      <button on:click={() => (drawerOpen = false)} aria-label="Close" class="p-2 -mr-2 text-gray-400 hover:text-gray-700 transition-colors">
-        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
+  <!-- Step 2: full-screen editor — live preview + a design panel.
+       Desktop: preview left, persistent panel right.
+       Mobile: preview on top, bottom sheet with a horizontal design filmstrip. -->
+  <div class="fixed inset-0 z-50 flex flex-col lg:flex-row bg-base-200 font-sans">
+    <!-- Live preview (real page in an iframe) -->
+    <div class="relative flex-1 min-h-0">
+      <iframe src={previewSrc} title="Apology preview" class="w-full h-full border-0"></iframe>
     </div>
 
-    <div class="flex-1 overflow-y-auto px-6 py-6 space-y-7">
-      <button on:click={editDetails} class="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
-        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-        Edit details &amp; regenerate
-      </button>
+    <!-- Control panel: sidebar on desktop, bottom sheet on mobile -->
+    <aside class="shrink-0 flex flex-col bg-base-100 border-t border-base-300 lg:border-t-0 lg:border-l lg:w-[380px] lg:h-full max-h-[46vh] lg:max-h-none shadow-[0_-10px_30px_-12px_rgba(0,0,0,0.18)] lg:shadow-none">
+      <!-- Header -->
+      <div class="flex items-center justify-between gap-3 px-5 py-3.5 border-b border-base-300">
+        <div class="min-w-0">
+          <h2 class="font-display text-lg font-semibold text-base-content leading-none truncate">Your apology page</h2>
+          <p class="text-xs text-base-content/50 mt-1">Draft — only you can see it</p>
+        </div>
+        <button on:click={editDetails} class="btn btn-ghost btn-sm gap-1.5 shrink-0">
+          <svg class="w-4 h-4" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          Edit
+        </button>
+      </div>
 
-      <div>
-        <h3 class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">Template</h3>
-        <div class="grid grid-cols-2 gap-3">
+      <!-- Scrollable body: design picker -->
+      <div class="flex-1 overflow-y-auto overscroll-contain px-5 py-4">
+        <h3 class="text-xs font-semibold uppercase tracking-widest text-base-content/50 mb-3">Choose a design</h3>
+        <div
+          role="radiogroup"
+          aria-label="Apology page design"
+          class="flex gap-3 overflow-x-auto overscroll-x-contain pb-2 -mx-1 px-1 lg:grid lg:grid-cols-2 lg:gap-3 lg:overflow-visible"
+        >
           {#each themes as th}
-            <button type="button" on:click={() => (selectedTheme = th.id)} title={th.label}
-              class="group relative text-left">
-              <span class={`block h-20 w-full rounded-xl ${th.bgClass} border-2 transition-all ${selectedTheme === th.id ? 'border-gray-900 ring-2 ring-gray-900/10' : 'border-gray-200 group-hover:border-gray-400'}`}></span>
-              <span class={`block mt-1.5 text-sm ${selectedTheme === th.id ? 'text-gray-900 font-semibold' : 'text-gray-600'}`}>{th.emoji} {th.label}</span>
-              {#if th.premium}<span class="absolute top-1.5 right-1.5 text-[9px] font-bold bg-amber-400 text-white px-1 rounded">PRO</span>{/if}
+            <button
+              type="button"
+              role="radio"
+              aria-checked={selectedTheme === th.id}
+              on:click={() => (selectedTheme = th.id)}
+              class="group shrink-0 w-32 lg:w-auto text-left rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base-100"
+            >
+              <div class={`relative rounded-lg overflow-hidden border-2 transition-all ${selectedTheme === th.id ? 'border-primary ring-2 ring-primary/20' : 'border-base-300 group-hover:border-base-content/30'}`}>
+                <img
+                  src={`/designs/${th.id}.jpg`}
+                  alt={`${th.label} design preview`}
+                  loading="lazy"
+                  width="320"
+                  height="240"
+                  class="w-full aspect-[4/3] object-cover object-top bg-base-200"
+                />
+                {#if th.premium}
+                  <span class="absolute top-1.5 left-1.5 text-[9px] font-bold bg-warning text-warning-content px-1 rounded">PRO</span>
+                {/if}
+                {#if selectedTheme === th.id}
+                  <span class="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-primary text-primary-content flex items-center justify-center shadow" aria-hidden="true">
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                  </span>
+                {/if}
+              </div>
+              <span class={`block mt-1.5 text-xs ${selectedTheme === th.id ? 'text-base-content font-semibold' : 'text-base-content/70'}`}>
+                <span aria-hidden="true">{th.emoji}</span> {th.label}
+              </span>
             </button>
           {/each}
         </div>
         {#if premiumSelected}
-          <p class="text-xs text-amber-600 mt-3 leading-relaxed">This is a PRO template — it will publish as Letter until you upgrade.</p>
+          <p class="text-xs text-warning mt-3 leading-relaxed">This is a PRO design — it will publish as Letter until you upgrade.</p>
         {/if}
       </div>
-    </div>
 
-    <div class="px-6 py-5 border-t border-gray-100">
-      <a href={`/publish?slug=${slug}&theme=${selectedTheme}`}
-        class="block w-full px-6 py-3.5 bg-gray-900 text-white text-center text-base font-semibold rounded-xl hover:bg-gray-800 transition-colors">
-        Publish &amp; get a shareable link →
-      </a>
-      <p class="text-center text-xs text-gray-400 mt-2.5">No link until you publish · sign-in required</p>
-    </div>
-  </aside>
+      <!-- Footer: publish -->
+      <div class="px-5 py-3.5 border-t border-base-300">
+        {#if publishError}
+          <p class="text-error text-sm mb-2 text-center" role="alert">{publishError}</p>
+        {/if}
+        <button on:click={publish} disabled={publishing} class="btn btn-primary btn-block">
+          {publishing ? "Publishing…" : "Publish & get a shareable link →"}
+        </button>
+        <p class="text-center text-xs text-base-content/50 mt-2">Makes your page public &amp; findable · free account required</p>
+      </div>
+    </aside>
+  </div>
 {/if}

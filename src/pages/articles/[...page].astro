@@ -33,7 +33,7 @@ if (!page) {
                 <UnsplashImage article={article} />
             )}
             {date && (
-              <time datetime={date.toISOString()} class="text-sm text-gray-500">
+              <time datetime={date.toISOString()} class="text-sm text-base-content/60">
                 {date.toLocaleDateString()}
               </time>
             )}
@@ -44,11 +44,11 @@ if (!page) {
               </a>
             </h2>
 
-            <p class="text-gray-600 mb-4">{article.data.description}</p>
+            <p class="text-base-content/70 mb-4">{article.data.description}</p>
           </article>
         </li>
       ); }) : (
-        <li class="text-center text-gray-500">
+        <li class="text-center text-base-content/60">
           <p>No articles found.</p>
         </li>
       )}
@@ -56,13 +56,13 @@ if (!page) {
 
     <nav class="mt-8 flex justify-between">
       {page.url.prev ? (
-        <a href={page.url.prev} class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        <a href={page.url.prev} class="btn btn-primary">
           &larr; Newer articles
         </a>
       ) : <span></span>}
 
       {page.url.next ? (
-        <a href={page.url.next} class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        <a href={page.url.next} class="btn btn-primary">
           Older articles &rarr;
         </a>
       ) : <span></span>}

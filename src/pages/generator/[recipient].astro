@@ -344,10 +344,10 @@ const schemas = faqSchema ? [faqSchema] : undefined;
   <main class="container mx-auto px-4 py-8 md:py-12">
     <div class="max-w-5xl mx-auto">
       <!-- Breadcrumb -->
-      <nav aria-label="Breadcrumb" class="mb-8">
-        <ol class="flex items-center gap-2 text-sm text-gray-500">
+      <nav aria-label="Breadcrumb" class="mb-8 font-sans">
+        <ol class="flex items-center gap-2 text-sm text-base-content/50">
           <li>
-            <a href="/" class="hover:text-purple-600 transition-colors">Home</a>
+            <a href="/" class="hover:text-primary transition-colors">Home</a>
           </li>
           <li aria-hidden="true">
             <svg
@@ -364,7 +364,7 @@ const schemas = faqSchema ? [faqSchema] : undefined;
             </svg>
           </li>
           <li>
-            <a href="/generator" class="hover:text-purple-600 transition-colors"
+            <a href="/generator" class="hover:text-primary transition-colors"
               >Generator</a
             >
           </li>
@@ -383,7 +383,7 @@ const schemas = faqSchema ? [faqSchema] : undefined;
             </svg>
           </li>
           <li>
-            <span class="text-gray-800 font-medium" aria-current="page"
+            <span class="text-base-content font-medium" aria-current="page"
               >{recipientLabel}</span
             >
           </li>
@@ -393,10 +393,10 @@ const schemas = faqSchema ? [faqSchema] : undefined;
       <!-- Hero Header -->
       <header class="text-center mb-12">
         <div
-          class="inline-flex items-center gap-2 px-4 py-2 bg-purple-50 border border-purple-200 rounded-full mb-6"
+          class="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full mb-6 font-sans"
         >
           <svg
-            class="w-4 h-4 text-purple-500"
+            class="w-4 h-4 text-primary"
             aria-hidden="true"
             fill="none"
             viewBox="0 0 24 24"
@@ -408,20 +408,20 @@ const schemas = faqSchema ? [faqSchema] : undefined;
               stroke-width="2"
               d="M13 10V3L4 14h7v7l9-11h-7z"></path>
           </svg>
-          <span class="text-sm font-semibold text-purple-700"
+          <span class="text-sm font-semibold text-primary"
             >Free Apology Website Builder</span
           >
         </div>
 
         <h1
-          class="text-4xl md:text-5xl font-bold text-gray-900 mb-5"
+          class="font-display text-4xl md:text-5xl font-semibold text-base-content mb-5"
           style="text-wrap: balance;"
         >
           {isPublic ? "Public Apology Website Builder" : `Sorry Page Builder for ${recipientLabel}`}
         </h1>
 
         <p
-          class="text-lg text-gray-500 max-w-2xl mx-auto mb-8"
+          class="text-lg text-base-content/60 max-w-2xl mx-auto mb-8"
           style="text-wrap: balance;"
         >
           {isPublic
@@ -429,10 +429,10 @@ const schemas = faqSchema ? [faqSchema] : undefined;
             : `Make a cute, shareable apology website for your ${recipientLabel.toLowerCase()} in seconds — then send them the link. Free, instant.`}
         </p>
 
-        <div class="flex flex-wrap gap-5 justify-center text-sm text-gray-600">
+        <div class="flex flex-wrap gap-5 justify-center text-sm text-base-content/70 font-sans">
           <span class="flex items-center gap-2">
             <svg
-              class="w-5 h-5 text-green-500"
+              class="w-5 h-5 text-success"
               aria-hidden="true"
               fill="none"
               viewBox="0 0 24 24"
@@ -448,7 +448,7 @@ const schemas = faqSchema ? [faqSchema] : undefined;
           </span>
           <span class="flex items-center gap-2">
             <svg
-              class="w-5 h-5 text-green-500"
+              class="w-5 h-5 text-success"
               aria-hidden="true"
               fill="none"
               viewBox="0 0 24 24"
@@ -464,7 +464,7 @@ const schemas = faqSchema ? [faqSchema] : undefined;
           </span>
           <span class="flex items-center gap-2">
             <svg
-              class="w-5 h-5 text-green-500"
+              class="w-5 h-5 text-success"
               aria-hidden="true"
               fill="none"
               viewBox="0 0 24 24"
@@ -489,11 +489,11 @@ const schemas = faqSchema ? [faqSchema] : undefined;
         recipientFaqs.length > 0 && (
           <section class="mt-20">
             <div class="text-center space-y-3 mb-10">
-              <span class="inline-block text-sm font-semibold tracking-widest uppercase text-purple-500">
+              <span class="inline-block text-sm font-semibold tracking-widest uppercase text-primary font-sans">
                 FAQ
               </span>
               <h2
-                class="text-3xl font-bold text-gray-900"
+                class="font-display text-3xl font-semibold text-base-content"
                 style="text-wrap: balance;"
               >
                 Frequently Asked Questions About Apologizing to Your{" "}
@@ -502,11 +502,11 @@ const schemas = faqSchema ? [faqSchema] : undefined;
             </div>
             <div class="max-w-3xl mx-auto space-y-3">
               {recipientFaqs.map((faq) => (
-                <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
+                <details class="group bg-base-100 p-6 rounded-xl shadow-sm border border-base-300 hover:border-primary/40 transition-all">
                   <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center gap-4">
                     <span>{faq.question}</span>
                     <svg
-                      class="w-5 h-5 text-gray-400 flex-shrink-0 transition-transform group-open:rotate-180"
+                      class="w-5 h-5 text-base-content/50 flex-shrink-0 transition-transform group-open:rotate-180"
                       aria-hidden="true"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -520,7 +520,7 @@ const schemas = faqSchema ? [faqSchema] : undefined;
                       />
                     </svg>
                   </summary>
-                  <p class="mt-4 text-gray-600 leading-relaxed">{faq.answer}</p>
+                  <p class="mt-4 text-base-content/70 leading-relaxed font-sans">{faq.answer}</p>
                 </details>
               ))}
             </div>
@@ -532,33 +532,33 @@ const schemas = faqSchema ? [faqSchema] : undefined;
       <section class="mt-20 mb-8">
         <div class="text-center space-y-3 mb-10">
           <span
-            class="inline-block text-sm font-semibold tracking-widest uppercase text-purple-500"
+            class="inline-block text-sm font-semibold tracking-widest uppercase text-primary font-sans"
             >More Generators</span
           >
           <h2
-            class="text-3xl font-bold text-gray-900"
+            class="font-display text-3xl font-semibold text-base-content"
             style="text-wrap: balance;"
           >
             Need to Apologize to Someone Else?
           </h2>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 font-sans">
           {
             otherRecipients.map((r) => (
               <a
                 href={`/generator/${r.value}`}
-                class="group flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-purple-400 shadow-sm hover:shadow-md transition-all duration-300"
+                class="group flex items-center gap-3 p-4 bg-base-100 rounded-xl border border-base-300 hover:border-primary/50 shadow-sm hover:shadow-md transition-all duration-300"
               >
                 <span class="text-2xl flex-shrink-0">
                   {recipientIcons[r.value] || "📝"}
                 </span>
                 <div class="min-w-0">
-                  <span class="font-medium text-gray-800 group-hover:text-purple-700 transition-colors block truncate">
+                  <span class="font-medium text-base-content group-hover:text-primary transition-colors block truncate">
                     {r.label}
                   </span>
                 </div>
                 <svg
-                  class="w-4 h-4 text-gray-300 group-hover:text-purple-500 ml-auto flex-shrink-0 transition-colors"
+                  class="w-4 h-4 text-base-content/30 group-hover:text-primary ml-auto flex-shrink-0 transition-colors"
                   aria-hidden="true"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -578,7 +578,7 @@ const schemas = faqSchema ? [faqSchema] : undefined;
         <div class="text-center mt-8">
           <a
             href="/examples"
-            class="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium transition-colors"
+            class="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors font-sans"
           >
             <span>Or browse all example letters</span>
             <svg

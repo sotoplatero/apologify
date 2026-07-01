@@ -21,11 +21,14 @@ async function init() {
       tone TEXT NOT NULL DEFAULT 'heartfelt',
       is_paid INTEGER NOT NULL DEFAULT 0,
       accepted_at DATETIME DEFAULT NULL,
+      likes INTEGER NOT NULL DEFAULT 0,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
-  // Add accepted_at to pre-existing tables (ignore if it already exists).
+  // Add columns to pre-existing tables (ignore if they already exist).
   try { await turso.execute(`ALTER TABLE apology_pages ADD COLUMN accepted_at DATETIME DEFAULT NULL`); }
+  catch (_) { /* column already exists */ }
+  try { await turso.execute(`ALTER TABLE apology_pages ADD COLUMN likes INTEGER NOT NULL DEFAULT 0`); }
   catch (_) { /* column already exists */ }
   await turso.execute(`CREATE INDEX IF NOT EXISTS idx_apology_pages_slug ON apology_pages(slug)`);
   await turso.execute(`CREATE INDEX IF NOT EXISTS idx_apology_pages_visibility ON apology_pages(visibility, created_at)`);

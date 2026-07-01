@@ -9,17 +9,17 @@
     loading = true; error = "";
     const { data, error: actionError } = await actions.publishApologyPage({ slug, theme: theme || undefined });
     if (actionError) { error = actionError.message; loading = false; }
-    else if (data?.published) window.location.href = `/sorry/${slug}`;
+    else if (data?.published) window.location.href = "/dashboard";
   }
 </script>
 
 <button
   on:click={publish}
   disabled={loading}
-  class="w-full px-6 py-4 bg-purple-600 text-white text-lg font-semibold rounded-xl hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md"
+  class="btn btn-primary btn-lg w-full"
 >
   {loading ? "Publishing…" : "Publish now"}
 </button>
 {#if error}
-  <p class="mt-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">{error}</p>
+  <p class="mt-4 p-3 bg-error/10 border border-error/25 rounded-xl text-error text-sm">{error}</p>
 {/if}

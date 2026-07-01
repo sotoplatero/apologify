@@ -1,0 +1,148 @@
+---
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
+---
+<main
+  class="min-h-screen w-full flex flex-col items-center justify-center px-5 py-16"
+  style="background:#1a1614;background-image:radial-gradient(circle at 20% 10%, #2a2320 0%, #14100e 60%, #0d0a09 100%);font-family:'Inter',system-ui,sans-serif;"
+>
+  <div class="hiss" aria-hidden="true"></div>
+
+  <div class="w-full max-w-xl relative z-10">
+    <div class="text-center mb-6 fade-in" style="--d:0s">
+      <span class="text-[0.7rem] tracking-[0.4em] uppercase text-[#e8c86a]">A mixtape for you</span>
+    </div>
+
+    <!-- The cassette -->
+    <div class="cassette fade-in" style="--d:0.12s">
+      <div class="flex items-center justify-between px-6 pt-6">
+        <span class="text-[0.65rem] tracking-[0.35em] uppercase text-[#12100e] bg-[#e8c86a] px-2 py-1 rounded-sm font-bold">Side A</span>
+        <span class="text-[0.65rem] tracking-[0.3em] uppercase text-[#cbb98f]">C-90 · Dolby</span>
+      </div>
+
+      <!-- Handwritten label -->
+      <div class="label mx-5 mt-4">
+        <p class="marker text-[#c23b3b] text-2xl leading-none">Side A: I'm sorry</p>
+        <h1 class="marker text-[#1c1712] text-3xl sm:text-4xl leading-tight mt-2" style="text-wrap:balance;">{title}</h1>
+      </div>
+
+      <!-- Reels -->
+      <div class="flex items-center justify-center gap-16 py-8">
+        <div class="reel"><div class="spool spin"><span></span><span></span><span></span></div></div>
+        <div class="reel"><div class="spool spin spin-slow"><span></span><span></span><span></span></div></div>
+      </div>
+      <div class="window-strip"></div>
+    </div>
+
+    <!-- Liner notes -->
+    <article class="liner mt-8 px-7 py-9 sm:px-10 fade-in" style="--d:0.24s">
+      <p class="text-[0.62rem] tracking-[0.4em] uppercase text-[#b58b3c] mb-5">Liner notes</p>
+
+      {heading && <p class="marker text-2xl text-[#3a2a1a] mb-6">{heading}</p>}
+
+      <div class="space-y-4 text-[1.02rem] leading-[1.8] text-[#3c342b]">
+        {paragraphs.map((p: string) => <p set:html={p} />)}
+      </div>
+
+      {senderName && <p class="marker mt-9 text-right text-3xl text-[#c23b3b]">— {senderName}</p>}
+
+      <div class="mt-9 pt-7 border-t border-dashed border-[#d8c9a8] flex justify-center">
+        <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+          acceptLabel="Play 💛"
+          primaryClass="px-6 py-3 rounded-full bg-[#c23b3b] text-[#fff7ec] font-semibold hover:bg-[#a52f2f] transition-colors shadow-[0_6px_16px_-6px_rgba(194,59,59,0.7)]"
+          secondaryClass="px-6 py-3 rounded-full border border-[#d8c9a8] text-[#7a5c34] hover:bg-[#f3e9d3] transition-colors"
+          mutedClass="text-sm text-[#b58b3c] marker text-lg" />
+      </div>
+    </article>
+
+    <a href="/generator" class="block text-center mt-8 text-xs tracking-wide text-[#8a7c63] hover:text-[#e8c86a] transition-colors fade-in" style="--d:0.36s">Made on apologify.com — write your own →</a>
+  </div>
+</main>
+
+<style>
+  .marker {
+    font-family: 'Dancing Script', 'Segoe Script', cursive;
+    font-weight: 700;
+  }
+
+  /* Cassette shell */
+  .cassette {
+    background: linear-gradient(160deg, #35302b 0%, #26221e 55%, #1c1815 100%);
+    border-radius: 14px;
+    border: 1px solid #4a433b;
+    box-shadow: 0 30px 60px -25px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.06);
+    padding-bottom: 1.25rem;
+  }
+  .label {
+    background: #f4ecda;
+    border-radius: 4px;
+    padding: 0.9rem 1.1rem 1.1rem;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.25);
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 26px, rgba(120,90,50,0.12) 27px);
+    transform: rotate(-0.4deg);
+  }
+  .reel {
+    width: 74px; height: 74px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #0f0d0b 0 28%, #6b5a3f 29% 32%, #241f1a 33%);
+    display: grid; place-items: center;
+    box-shadow: inset 0 0 12px rgba(0,0,0,0.8);
+  }
+  .spool {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: #d9cba8;
+    position: relative;
+    box-shadow: 0 0 0 3px #0f0d0b;
+  }
+  .spool span {
+    position: absolute; top: 50%; left: 50%;
+    width: 3px; height: 15px; background: #5a4a2e;
+    transform-origin: center; border-radius: 2px;
+  }
+  .spool span:nth-child(1){ transform: translate(-50%,-50%) rotate(0deg); }
+  .spool span:nth-child(2){ transform: translate(-50%,-50%) rotate(60deg); }
+  .spool span:nth-child(3){ transform: translate(-50%,-50%) rotate(120deg); }
+  .window-strip {
+    height: 10px; margin: 0 3.5rem;
+    background: linear-gradient(#0a0806, #1a1512);
+    border-radius: 3px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.9);
+  }
+
+  .liner {
+    background: #fbf5e6;
+    border-radius: 8px;
+    border: 1px solid #e6d8ba;
+    box-shadow: 0 24px 60px -28px rgba(120,90,50,0.55);
+    background-image:
+      radial-gradient(rgba(120,90,50,0.05) 1px, transparent 1px);
+    background-size: 6px 6px;
+  }
+
+  /* Tape-hiss grain overlay */
+  .hiss {
+    position: fixed; inset: 0; pointer-events: none; z-index: 20;
+    opacity: 0.05; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: flicker 5s steps(4) infinite;
+  }
+
+  .spin { animation: spin 4s linear infinite; }
+  .spin-slow { animation-duration: 5.5s; }
+
+  .fade-in {
+    opacity: 0; transform: translateY(14px);
+    animation: rise 0.7s cubic-bezier(0.22,1,0.36,1) forwards;
+    animation-delay: var(--d, 0s);
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+  @keyframes flicker { 0%,100%{opacity:0.05} 50%{opacity:0.08} }
+
+  @media (prefers-reduced-motion: reduce) {
+    .spin, .spin-slow, .hiss { animation: none !important; }
+    .fade-in { animation: none !important; opacity: 1; transform: none; }
+  }
+</style>

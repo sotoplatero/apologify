@@ -28,11 +28,12 @@ const finalOgImage = ogImage || defaultOgImage;
 ---
 
 <!doctype html>
-<html lang="en" data-theme="corporate">
+<html lang="en" data-theme="apology">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content={description} />
 		<meta name="viewport" content="width=device-width" />
+		<meta name="theme-color" content="#F5F1E8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		{noindex && <meta name="robots" content="noindex,nofollow" />}
 		<meta name="generator" content={Astro.generator} />
@@ -82,7 +83,7 @@ const finalOgImage = ogImage || defaultOgImage;
 
 		<ClientRouter />
 	</head>
-	<body class="flex flex-col min-h-screen overflow-x-hidden bg-gradient-to-br from-purple-50 via-white to-blue-50 font-serif">
+	<body class="flex flex-col min-h-screen overflow-x-hidden bg-base-100 text-base-content font-serif">
 		<slot />
 	</body>
 </html>

@@ -1,0 +1,76 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SignOutButton from "../components/SignOutButton.svelte";
+import { getPublishedPagesByOwner } from "../lib/apologyPages";
+
+export const prerender = false;
+
+// Auth gate: the dashboard is private. Bounce to sign-in and return here after.
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect(`/sign-in?redirect_url=${encodeURIComponent("/dashboard")}`);
+}
+
+const pages = await getPublishedPagesByOwner(user.id);
+
+function fmtDate(d?: string): string {
+  if (!d) return "";
+  const dt = new Date(d.includes("T") ? d : d.replace(" ", "T") + "Z");
+  return isNaN(dt.getTime())
+    ? ""
+    : dt.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+}
+---
+
+<Layout title="Your dashboard — Apologify" description="Manage your apology pages." noindex={true}>
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+      <div>
+        <h1 class="text-3xl font-bold text-base-content">Your apology pages</h1>
+        <p class="text-base-content/60 mt-1 font-sans">Signed in as {user.email}</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="/generator" class="btn btn-primary">New apology page</a>
+        <SignOutButton client:load />
+      </div>
+    </div>
+
+    {pages.length === 0 ? (
+      <div class="card bg-base-200 border border-base-300">
+        <div class="card-body items-center text-center py-16">
+          <span class="text-5xl mb-2" role="img" aria-label="Letter">💌</span>
+          <h2 class="card-title">No pages yet</h2>
+          <p class="text-base-content/60 max-w-sm">
+            Create your first apology page and it'll show up here.
+          </p>
+          <div class="card-actions mt-4">
+            <a href="/generator" class="btn btn-primary">Create one</a>
+          </div>
+        </div>
+      </div>
+    ) : (
+      <div class="grid gap-4">
+        {pages.map((p) => (
+          <div class="card bg-base-100 border border-base-300 shadow-sm">
+            <div class="card-body flex-col sm:flex-row sm:items-center gap-4 py-5">
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <h2 class="font-semibold text-base-content truncate">{p.title}</h2>
+                  {p.likes > 0 && <span class="badge badge-sm badge-success gap-1">💛 {p.likes}</span>}
+                </div>
+                <p class="text-sm text-base-content/60 mt-1 font-sans">
+                  To {p.recipientName || p.recipient}
+                  {p.createdAt && <span> · {fmtDate(p.createdAt)}</span>}
+                </p>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <a href={`/customize?slug=${p.slug}`} class="btn btn-sm btn-ghost">Change design</a>
+                <a href={`/sorry/${p.slug}`} class="btn btn-sm btn-outline">View</a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </main>
+</Layout>

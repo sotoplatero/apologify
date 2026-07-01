@@ -5,18 +5,24 @@ import HowItWorks from '../components/HowItWorks.astro';
 import CallToAction from '../components/CallToAction.astro';
 import { articles } from '@/lib/articles';
 import { recipients } from '../lib/apologyData';
-import { getLetterCount, getRecipientCounts, getToneCounts, getSampleLetters } from '../lib/db';
+import { getLetterCount, getToneCounts, getSampleLetters } from '../lib/db';
+import { listThemes } from '../lib/themes.js';
 
 export const prerender = false;
 
 const recentArticles = articles.slice(0, 3);
+const themes = listThemes();
+// Six featured designs for the home "See it live" grid (a diverse spread).
+const featuredIds = ["classic", "handwritten", "cute-duck", "starry", "boarding-pass", "ransom"];
+const featured = featuredIds
+  .map((id) => themes.find((t) => t.id === id))
+  .filter((t): t is (typeof themes)[number] => Boolean(t));
 
-// Obtener datos de la BD
-const [letterCount, recipientCounts, toneCounts, sampleLetters] = await Promise.all([
+// Data from the DB
+const [letterCount, toneCounts, sampleLetters] = await Promise.all([
   getLetterCount(),
-  getRecipientCounts(),
   getToneCounts(),
-  getSampleLetters(2)
+  getSampleLetters(3)
 ]);
 
 const uniqueTones = Object.keys(toneCounts);
@@ -58,25 +64,11 @@ const recipientDescriptions: Record<string, string> = {
   teacher: "Show respect for their role",
 };
 
-// Top 12 recipients sorted by letter count
-const top12Recipients = Object.entries(recipientCounts)
-  .sort(([, a], [, b]) => b - a)
-  .slice(0, 12)
-  .map(([value, count]) => {
-    const recipientData = recipients.find(r => r.value === value);
-    return {
-      value,
-      label: recipientData?.label || value.charAt(0).toUpperCase() + value.slice(1),
-      count,
-      icon: recipientIcons[value] || "📝"
-    };
-  });
-
-function truncateText(text: string, maxLength: number = 280): string {
+function truncateText(text: string, maxLength: number = 200): string {
   if (text.length <= maxLength) return text;
   const truncated = text.slice(0, maxLength);
   const lastSpace = truncated.lastIndexOf(' ');
-  return truncated.slice(0, lastSpace) + '...';
+  return truncated.slice(0, lastSpace) + '…';
 }
 
 // Schema.org structured data
@@ -116,15 +108,31 @@ const faqSchema = {
       "name": "How does the apology website builder work?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Tell us who the apology is for, what happened, and the tone you want. Our AI writes a sincere, personal apology; you pick a design you love and switch it live; then you publish it as a shareable web page — all in under a minute."
+        "text": "Tell us who the apology is for, what happened, and the tone you want. Our AI writes a sincere, personal apology; you pick a design you love and switch it live; then you share it as its own web page — all in under a minute."
       }
     },
     {
       "@type": "Question",
-      "name": "Is my apology private?",
+      "name": "Who can see my apology?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Your page starts as a private draft that only people with the link can see. It stays private until you choose to publish it. Publishing makes it public and findable, and requires a free account so the page is tied to you."
+        "text": "By default your page is a private draft — only people you send the link to can see it. It stays private until you decide to publish. Publishing makes it public and findable, and that is always your choice."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I apologize without using my name?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Leave the signature off and let the situation speak for itself. The page can be public while staying anonymous — only the person it is really for will recognize the moment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why would I make my apology public?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Publishing is a way to own it out loud — a clear signal you are not hiding from your mistake. It also helps others facing the same situation find the words. It is always optional."
       }
     },
     {
@@ -132,15 +140,7 @@ const faqSchema = {
       "name": "Can I choose how the page looks?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. After generating, pick from designs like Letter, Cute, Statement, Night, Keep Calm, Swiss, Ransom, Constructivist and Letterpress, and switch between them live until it feels right. You can also edit the details and regenerate."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Who can I apologize to?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": `Anyone — a partner, friend, or family member, your boss or clients, or even the public on behalf of a company. Choose from ${uniqueTones.length} tones, from heartfelt to formal, and the AI adapts the words to the relationship.`
+        "text": "Yes. Pick from designs like Letter, Cute, Statement, Night, Keep Calm, Swiss, Ransom, Constructivist and Letterpress, and switch between them live until it feels right. You can also edit the details and regenerate."
       }
     },
     {
@@ -149,14 +149,6 @@ const faqSchema = {
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "Creating and sharing your apology page is free, no credit card required. Publishing it publicly just needs a free account. Some premium designs may require an upgrade later."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How fast is it?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Under a minute. Answer a few quick prompts, the AI writes your apology instantly, then choose a design and publish your page."
       }
     }
   ]
@@ -167,17 +159,172 @@ const faqSchema = {
   <Hero />
 
   <!-- ========================================== -->
-  <!-- SECTION 1: Generate for Specific Recipient -->
+  <!-- Why a page (problem → payoff)              -->
   <!-- ========================================== -->
-  <section class="home-section relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-b from-purple-50/60 via-transparent to-transparent pointer-events-none"></div>
-    <div class="container mx-auto px-6 relative">
+  <section class="home-section">
+    <div class="container mx-auto px-6">
       <div class="text-center space-y-3 mb-14">
-        <span class="inline-block text-sm font-semibold tracking-widest uppercase text-purple-500">Start here</span>
-        <h2 class="text-3xl md:text-5xl font-bold text-gray-900 leading-tight tracking-tight">
+        <span class="inline-block text-sm font-semibold tracking-widest uppercase text-primary font-sans">Why a page</span>
+        <h2 class="font-display text-3xl md:text-5xl font-semibold text-base-content leading-tight tracking-tight" style="text-wrap: balance;">
+          A text gets ignored. A template sounds fake.
+        </h2>
+        <p class="text-lg text-base-content/60 max-w-2xl mx-auto">
+          When it really matters, the medium is the message. Here's what usually goes wrong — and what we do instead.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl mx-auto">
+        <div class="p-6 rounded-2xl border border-base-300 bg-base-200/50">
+          <div class="w-11 h-11 rounded-xl bg-base-300/60 flex items-center justify-center text-base-content/50 mb-4">
+            <svg class="w-5 h-5" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10.5h8M8 14h5M21 12a8 8 0 01-11.7 7.1L3 21l1.9-6.3A8 8 0 1121 12z"/></svg>
+          </div>
+          <h3 class="font-semibold text-base-content mb-1.5">A plain text</h3>
+          <p class="text-sm text-base-content/60 leading-relaxed font-sans">Buried in the thread within the hour, and read as barely any effort at all.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-base-300 bg-base-200/50">
+          <div class="w-11 h-11 rounded-xl bg-base-300/60 flex items-center justify-center text-base-content/50 mb-4">
+            <svg class="w-5 h-5" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h8M8 11h8M8 15h5M6 3h9l5 5v13a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z"/></svg>
+          </div>
+          <h3 class="font-semibold text-base-content mb-1.5">A copied template</h3>
+          <p class="text-sm text-base-content/60 leading-relaxed font-sans">Generic lines they've read a hundred times. They can tell it isn't really you.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-base-300 bg-base-200/50">
+          <div class="w-11 h-11 rounded-xl bg-base-300/60 flex items-center justify-center text-base-content/50 mb-4">
+            <svg class="w-5 h-5" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3h6v3H9zM4 21h16M12 6v3m-4 0h8a4 4 0 014 4v2a4 4 0 01-4 4H8a4 4 0 01-4-4v-2a4 4 0 014-4z"/></svg>
+          </div>
+          <h3 class="font-semibold text-base-content mb-1.5">A wall of AI text</h3>
+          <p class="text-sm text-base-content/60 leading-relaxed font-sans">Decent words with nowhere to live — nothing you can actually give them.</p>
+        </div>
+      </div>
+
+      <p class="text-center text-xl md:text-2xl text-base-content max-w-3xl mx-auto mt-12 leading-snug" style="text-wrap: balance;">
+        Apologify gives you all three at once: <span class="text-primary font-semibold">words that sound like you</span>, a <span class="text-primary font-semibold">page that shows you cared</span>, and a <span class="text-primary font-semibold">link you know they opened</span>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- Showcase: one apology, every design         -->
+  <!-- ========================================== -->
+  <section id="showcase" class="home-section scroll-mt-20 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-base-200 via-transparent to-transparent pointer-events-none"></div>
+    <div class="container mx-auto px-6 relative">
+      <div class="text-center space-y-3 mb-12">
+        <span class="inline-block text-sm font-semibold tracking-widest uppercase text-primary font-sans">See it live</span>
+        <h2 class="font-display text-3xl md:text-5xl font-semibold text-base-content leading-tight tracking-tight" style="text-wrap: balance;">
+          One apology, {themes.length} ways to send it
+        </h2>
+        <p class="text-lg text-base-content/60 max-w-2xl mx-auto">
+          Write it once, then switch the look until it feels like you — from a handwritten note to a front-page correction.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-5 sm:gap-7 max-w-5xl mx-auto">
+        {featured.map((t) => (
+          <a href="/designs" class="group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-base-100">
+            <div class="overflow-hidden rounded-xl">
+              <img
+                src={`/designs/${t.id}.jpg`}
+                alt={`${t.label} apology page design`}
+                loading="lazy"
+                width="820"
+                height="1040"
+                class="w-full h-auto group-hover:scale-[1.02] transition-transform duration-500"
+              />
+            </div>
+            <p class="mt-2.5 text-sm text-base-content/60 font-sans group-hover:text-base-content transition-colors"><span aria-hidden="true">{t.emoji}</span> {t.label}</p>
+          </a>
+        ))}
+      </div>
+
+      <div class="text-center mt-10 flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="/generator" class="btn btn-primary btn-lg">Make my apology page</a>
+        <a href="/designs" class="btn btn-ghost btn-lg">See all {themes.length} designs →</a>
+      </div>
+    </div>
+  </section>
+
+  <main class="container mx-auto px-6">
+    <!-- ========================================== -->
+    <!-- How It Works                               -->
+    <!-- ========================================== -->
+    <div class="pt-16">
+      <HowItWorks />
+    </div>
+
+    <!-- ========================================== -->
+    <!-- Made in the open (public + reuse + library) -->
+    <!-- ========================================== -->
+    <section class="my-8">
+      <div class="w-screen relative left-1/2 right-1/2 -mx-[50vw] bg-base-200 py-20 px-6">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center space-y-3 mb-14">
+            <span class="inline-block text-sm font-semibold tracking-widest uppercase text-primary font-sans">Made in the open</span>
+            <h2 class="font-display text-3xl md:text-5xl font-semibold text-base-content leading-tight tracking-tight" style="text-wrap: balance;">
+              Real apologies, out in the open
+            </h2>
+            <p class="text-lg text-base-content/60 max-w-2xl mx-auto">
+              Some people publish theirs — owning it in public, with no name required. Read {letterCount}+ real ones and start from one that fits your situation.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {sampleLetters.map((letter) => (
+              <div class="group flex flex-col bg-base-100 shadow-md rounded-2xl overflow-hidden border border-base-300 hover:border-primary/40 transition-all duration-300 hover:shadow-xl">
+                <div class="p-6 flex flex-col flex-1">
+                  <div class="flex items-center gap-2 mb-4">
+                    <span class="text-2xl" aria-hidden="true">{recipientIcons[letter.recipient] || "📝"}</span>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full font-sans">
+                      {letter.tone}
+                    </span>
+                  </div>
+                  <h3 class="font-display text-lg font-semibold mb-3 text-base-content group-hover:text-primary transition-colors leading-snug">
+                    {letter.title || `Apology to ${letter.recipient.charAt(0).toUpperCase() + letter.recipient.slice(1)}`}
+                  </h3>
+                  <p class="italic text-base-content/70 whitespace-pre-line leading-relaxed text-[15px] mb-5 line-clamp-4">
+                    {truncateText(letter.letters[0])}
+                  </p>
+                  <a
+                    href={`/examples/${letter.recipient}/${letter.slug}`}
+                    class="mt-auto inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium text-sm font-sans transition-all duration-200 group-hover:gap-3"
+                  >
+                    <span>Read it &amp; make it yours</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" aria-hidden="true" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div class="text-center mt-12">
+            <a
+              href="/examples"
+              class="inline-flex items-center gap-2 px-7 py-3.5 bg-base-100 text-base-content/80 border-2 border-base-300 rounded-xl hover:border-primary hover:text-primary transition-all duration-300 font-medium shadow-sm hover:shadow-md font-sans"
+            >
+              <span>Browse all public apologies</span>
+              <svg class="w-5 h-5" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- By relationship (SEO entry points)         -->
+    <!-- ========================================== -->
+    <section class="my-28">
+      <div class="text-center space-y-3 mb-14">
+        <span class="inline-block text-sm font-semibold tracking-widest uppercase text-primary font-sans">By relationship</span>
+        <h2 class="font-display text-3xl md:text-5xl font-semibold text-base-content leading-tight tracking-tight">
           Who do you need to apologize to?
         </h2>
-        <p class="text-lg text-gray-500 max-w-2xl mx-auto">
+        <p class="text-lg text-base-content/60 max-w-2xl mx-auto">
           Pick a relationship and the builder opens ready for them — write it, design it, and share the page.
         </p>
       </div>
@@ -186,22 +333,22 @@ const faqSchema = {
         {recipients.map(recipient => (
           <a
             href={`/generator/${recipient.value}`}
-            class="group relative flex items-start gap-5 p-6 bg-white rounded-2xl border border-gray-200 hover:border-purple-400 shadow-sm hover:shadow-lg transition-all duration-300"
+            class="group relative flex items-start gap-5 p-6 bg-base-100 rounded-2xl border border-base-300 hover:border-primary/50 shadow-sm hover:shadow-lg transition-all duration-300"
           >
-            <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-purple-50 group-hover:bg-purple-100 flex items-center justify-center text-3xl transition-colors duration-300">
+            <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center text-3xl transition-colors duration-300" aria-hidden="true">
               {recipientIcons[recipient.value] || "📝"}
             </div>
             <div class="min-w-0">
               <div class="flex items-center gap-2 mb-1">
-                <h3 class="font-semibold text-gray-900 group-hover:text-purple-700 transition-colors">
+                <h3 class="font-semibold text-base-content group-hover:text-primary transition-colors">
                   Apologize to Your {recipient.label}
                 </h3>
-                <svg class="w-4 h-4 text-gray-300 group-hover:text-purple-500 group-hover:translate-x-0.5 transition-all flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-4 h-4 text-base-content/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all flex-shrink-0" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
               </div>
-              <p class="text-sm text-gray-500 leading-relaxed">
-                {recipientDescriptions[recipient.value] || "Generate a personalized apology letter"}
+              <p class="text-sm text-base-content/60 leading-relaxed font-sans">
+                {recipientDescriptions[recipient.value] || "Generate a personalized apology"}
               </p>
             </div>
           </a>
@@ -209,208 +356,93 @@ const faqSchema = {
       </div>
 
       <div class="text-center mt-10">
-        <a
-          href="/generator"
-          class="inline-flex items-center gap-2 px-7 py-3.5 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-all duration-300 font-medium shadow-md hover:shadow-lg"
-        >
-          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-          </svg>
-          <span>Or Write a Custom Apology</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================== -->
-  <!-- SECTION 2: Browse by Recipient Directory   -->
-  <!-- ========================================== -->
-  <section class="home-section">
-    <div class="container mx-auto px-6">
-      <div class="w-screen relative left-1/2 right-1/2 -mx-[50vw] bg-gradient-to-br from-gray-50 via-purple-50/30 to-gray-50 py-20 px-6">
-        <div class="max-w-7xl mx-auto">
-          <div class="text-center space-y-3 mb-14">
-            <span class="inline-block text-sm font-semibold tracking-widest uppercase text-purple-500">Examples</span>
-            <h2 class="text-3xl md:text-5xl font-bold text-gray-900 leading-tight tracking-tight">
-              Browse {letterCount}+ real apology examples
-            </h2>
-            <p class="text-lg text-gray-500 max-w-2xl mx-auto">
-              Stuck on what to say? Read apologies for situations like yours, then make your own page in a click.
-            </p>
-          </div>
-
-          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-            {top12Recipients.map(recipient => (
-              <a
-                href={`/examples?recipient=${recipient.value}`}
-                class="group flex flex-col items-center text-center p-6 bg-white rounded-2xl border border-gray-200 hover:border-purple-400 shadow-sm hover:shadow-lg transition-all duration-300"
-              >
-                <span class="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">
-                  {recipient.icon}
-                </span>
-                <span class="font-semibold text-gray-800 group-hover:text-purple-700 transition-colors">
-                  {recipient.label}
-                </span>
-                <span class="text-sm text-gray-400 mt-1 tabular-nums">
-                  {recipient.count} {recipient.count === 1 ? 'letter' : 'letters'}
-                </span>
-              </a>
-            ))}
-          </div>
-
-          <div class="text-center mt-12">
-            <a
-              href="/examples"
-              class="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-gray-700 border-2 border-gray-300 rounded-xl hover:border-purple-500 hover:text-purple-700 transition-all duration-300 font-medium shadow-sm hover:shadow-md"
-            >
-              <span>Browse the Full Directory</span>
-              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <main class="container mx-auto py-20 px-6">
-    <!-- ========================================== -->
-    <!-- SECTION 3: How It Works                    -->
-    <!-- ========================================== -->
-    <HowItWorks />
-
-    <!-- ========================================== -->
-    <!-- SECTION 4: Sample Letters                  -->
-    <!-- ========================================== -->
-    <section class="my-28">
-      <div class="text-center space-y-3 mb-14">
-        <span class="inline-block text-sm font-semibold tracking-widest uppercase text-purple-500">Real Examples</span>
-        <h2 class="text-3xl md:text-5xl font-bold text-gray-900 leading-tight tracking-tight">See what a great apology looks like</h2>
-        <p class="text-lg text-gray-500 max-w-2xl mx-auto">These real apologies show the tone, structure, and sincerity that make one land.</p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {sampleLetters.map((letter) => (
-          <div class="group bg-white shadow-md rounded-2xl overflow-hidden border border-gray-200 hover:border-purple-300 transition-all duration-300 hover:shadow-xl">
-            <div class="p-6 md:p-8">
-              <div class="flex items-center gap-2 mb-4">
-                <span class="text-2xl">{recipientIcons[letter.recipient] || "📝"}</span>
-                <span class="text-xs font-semibold uppercase tracking-wider text-purple-500 bg-purple-50 px-3 py-1 rounded-full">
-                  {letter.tone}
-                </span>
-              </div>
-              <h3 class="text-xl font-semibold mb-4 text-gray-900 group-hover:text-purple-700 transition-colors duration-300 leading-snug">
-                Apology to {letter.recipient.charAt(0).toUpperCase() + letter.recipient.slice(1)}: {letter.title || letter.context}
-              </h3>
-              <div class="prose max-w-none mb-6">
-                <p class="italic text-gray-600 whitespace-pre-line leading-relaxed text-[15px]">
-                  {truncateText(letter.letters[0])}
-                </p>
-              </div>
-              <a
-                href={`/examples/${letter.recipient}/${letter.slug}`}
-                class="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium transition-all duration-200 group-hover:gap-3"
-              >
-                <span>Read the full apology</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-              </a>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div class="text-center mt-10">
-        <a href="/examples" class="inline-flex items-center gap-2 px-7 py-3.5 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-all duration-300 font-medium shadow-md hover:shadow-lg">
-          <span>View More Examples</span>
-          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg>
+        <a href="/generator" class="btn btn-primary btn-lg">
+          Or write a custom apology
         </a>
       </div>
     </section>
 
     <!-- ========================================== -->
-    <!-- SECTION 5: FAQ                             -->
+    <!-- FAQ (privacy-first)                        -->
     <!-- ========================================== -->
     <section class="my-28">
-      <div class="w-screen relative left-1/2 right-1/2 -mx-[50vw] bg-gradient-to-br from-purple-50 via-blue-50 to-purple-50 py-20">
+      <div class="w-screen relative left-1/2 right-1/2 -mx-[50vw] bg-base-200 py-20">
         <div class="container mx-auto px-6">
           <div class="text-center space-y-3 mb-14">
-            <span class="inline-block text-sm font-semibold tracking-widest uppercase text-purple-500">FAQ</span>
-            <h2 class="text-3xl md:text-5xl font-bold text-gray-900">Frequently Asked Questions</h2>
-            <p class="text-lg text-gray-500">Everything you need to know about Apologify</p>
+            <span class="inline-block text-sm font-semibold tracking-widest uppercase text-primary font-sans">FAQ</span>
+            <h2 class="font-display text-3xl md:text-5xl font-semibold text-base-content">Questions, answered</h2>
+            <p class="text-lg text-base-content/60">Privacy, control, and how it all works.</p>
           </div>
           <div class="max-w-3xl mx-auto space-y-3">
-            <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
-              <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
+            <details class="group bg-base-100 p-6 rounded-xl shadow-sm border border-base-300 hover:border-primary/40 transition-all">
+              <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center gap-4">
                 <span>How does the apology website builder work?</span>
-                <svg class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-5 h-5 text-base-content/50 flex-shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </summary>
-              <p class="mt-4 text-gray-600 leading-relaxed">
-                Tell us who the apology is for, what happened, and the tone you want. Our AI writes a sincere, personal apology; you pick a design you love and switch it live; then you publish it as a shareable web page — all in under a minute.
+              <p class="mt-4 text-base-content/70 leading-relaxed font-sans">
+                Tell us who the apology is for, what happened, and the tone you want. Our AI writes a sincere, personal apology; you pick a design you love and switch it live; then you share it as its own web page — all in under a minute.
               </p>
             </details>
 
-            <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
-              <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
-                <span>Is my apology private?</span>
-                <svg class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <details class="group bg-base-100 p-6 rounded-xl shadow-sm border border-base-300 hover:border-primary/40 transition-all">
+              <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center gap-4">
+                <span>Who can see my apology?</span>
+                <svg class="w-5 h-5 text-base-content/50 flex-shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </summary>
-              <p class="mt-4 text-gray-600 leading-relaxed">
-                Your page starts as a private draft that only people with the link can see. It stays private until you choose to publish it. Publishing makes it public and findable, and requires a free account so the page is tied to you.
+              <p class="mt-4 text-base-content/70 leading-relaxed font-sans">
+                By default your page is a private draft — only people you send the link to can open it. It stays private until you decide to publish. Publishing makes it public and findable, and that's always your choice.
               </p>
             </details>
 
-            <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
-              <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
+            <details class="group bg-base-100 p-6 rounded-xl shadow-sm border border-base-300 hover:border-primary/40 transition-all">
+              <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center gap-4">
+                <span>Can I apologize without using my name?</span>
+                <svg class="w-5 h-5 text-base-content/50 flex-shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <p class="mt-4 text-base-content/70 leading-relaxed font-sans">
+                Yes. Leave the signature off and let the situation speak for itself. The page can be public while staying anonymous — only the person it's really for will recognize the moment.
+              </p>
+            </details>
+
+            <details class="group bg-base-100 p-6 rounded-xl shadow-sm border border-base-300 hover:border-primary/40 transition-all">
+              <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center gap-4">
+                <span>Why would I make my apology public?</span>
+                <svg class="w-5 h-5 text-base-content/50 flex-shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <p class="mt-4 text-base-content/70 leading-relaxed font-sans">
+                Publishing is a way to own it out loud — a clear signal you're not hiding from your mistake. It also helps someone in the same situation find the words. It's always optional.
+              </p>
+            </details>
+
+            <details class="group bg-base-100 p-6 rounded-xl shadow-sm border border-base-300 hover:border-primary/40 transition-all">
+              <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center gap-4">
                 <span>Can I choose how the page looks?</span>
-                <svg class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-5 h-5 text-base-content/50 flex-shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </summary>
-              <p class="mt-4 text-gray-600 leading-relaxed">
-                Yes. After generating, pick from designs like Letter, Cute, Statement, Night, Keep Calm, Swiss, Ransom, Constructivist and Letterpress, and switch between them live until it feels right. You can also edit the details and regenerate.
+              <p class="mt-4 text-base-content/70 leading-relaxed font-sans">
+                Yes. Pick from designs like Letter, Cute, Statement, Night, Keep Calm, Swiss, Ransom, Constructivist and Letterpress, and switch between them live until it feels right. You can also edit the details and regenerate.
               </p>
             </details>
 
-            <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
-              <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
-                <span>Who can I apologize to?</span>
-                <svg class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </summary>
-              <p class="mt-4 text-gray-600 leading-relaxed">
-                Anyone — a partner, friend, or family member, your boss or clients, or even the public on behalf of a company. Choose from {uniqueTones.length} tones, from heartfelt to formal, and the AI adapts the words to the relationship.
-              </p>
-            </details>
-
-            <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
-              <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
+            <details class="group bg-base-100 p-6 rounded-xl shadow-sm border border-base-300 hover:border-primary/40 transition-all">
+              <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center gap-4">
                 <span>Is it free?</span>
-                <svg class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-5 h-5 text-base-content/50 flex-shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </summary>
-              <p class="mt-4 text-gray-600 leading-relaxed">
-                Creating and sharing your apology page is free, no credit card required. Publishing it publicly just needs a free account. Some premium designs may require an upgrade later.
-              </p>
-            </details>
-
-            <details class="group bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 transition-all">
-              <summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">
-                <span>How fast is it?</span>
-                <svg class="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </summary>
-              <p class="mt-4 text-gray-600 leading-relaxed">
-                Under a minute. Answer a few quick prompts, the AI writes your apology instantly, then choose a design and publish your page.
+              <p class="mt-4 text-base-content/70 leading-relaxed font-sans">
+                Creating and sharing your apology page is free, no credit card required. Choose from {uniqueTones.length} tones, and publishing publicly just needs a free account. Some premium designs may require an upgrade later.
               </p>
             </details>
           </div>
@@ -419,31 +451,31 @@ const faqSchema = {
     </section>
 
     <!-- ========================================== -->
-    <!-- SECTION 6: Recent Articles                 -->
+    <!-- Guides & Articles                          -->
     <!-- ========================================== -->
     <section class="my-28">
       <div class="text-center space-y-3 mb-14">
-        <span class="inline-block text-sm font-semibold tracking-widest uppercase text-purple-500">Guides & Tips</span>
-        <h2 class="text-3xl md:text-5xl font-bold text-gray-900 leading-tight tracking-tight">Learn How to Apologize the Right Way</h2>
-        <p class="text-lg text-gray-500 max-w-2xl mx-auto">Expert advice on crafting apologies that actually repair relationships.</p>
+        <span class="inline-block text-sm font-semibold tracking-widest uppercase text-primary font-sans">Guides &amp; Tips</span>
+        <h2 class="font-display text-3xl md:text-5xl font-semibold text-base-content leading-tight tracking-tight">Learn how to apologize the right way</h2>
+        <p class="text-lg text-base-content/60 max-w-2xl mx-auto">Expert advice on crafting apologies that actually repair relationships.</p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
         {recentArticles.map((article) => (
-          <article class="group bg-white shadow-md rounded-2xl overflow-hidden border border-gray-200 hover:border-purple-300 transition-all duration-300 hover:shadow-xl">
+          <article class="group bg-base-100 shadow-md rounded-2xl overflow-hidden border border-base-300 hover:border-primary/40 transition-all duration-300 hover:shadow-xl">
             {article.data.image && (
               <div class="overflow-hidden aspect-video">
-                <img src={article.data.image} alt={article.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                <img src={article.data.image} alt={article.data.title} width="800" height="450" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
             )}
             <div class="p-6">
-              <h3 class="text-lg font-semibold mb-3 text-gray-900 group-hover:text-purple-700 transition-colors duration-300 leading-snug line-clamp-2">
+              <h3 class="font-display text-lg font-semibold mb-3 text-base-content group-hover:text-primary transition-colors duration-300 leading-snug line-clamp-2">
                 <a href={`/articles/${article.slug}`}>
                   {article.data.title}
                 </a>
               </h3>
-              <a href={`/articles/${article.slug}`} class="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium text-sm transition-all duration-200 group-hover:gap-3">
+              <a href={`/articles/${article.slug}`} class="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium text-sm transition-all duration-200 group-hover:gap-3 font-sans">
                 <span>Read article</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" aria-hidden="true" viewBox="0 0 20 20" fill="currentColor">
                   <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
                 </svg>
               </a>
@@ -452,17 +484,14 @@ const faqSchema = {
         ))}
       </div>
       <div class="text-center mt-10">
-        <a href="/articles" class="inline-flex items-center gap-2 px-7 py-3.5 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-all duration-300 font-medium shadow-md hover:shadow-lg">
-          <span>View All Articles</span>
-          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg>
+        <a href="/articles" class="btn btn-primary btn-lg">
+          View all articles
         </a>
       </div>
     </section>
 
     <!-- ========================================== -->
-    <!-- SECTION 7: Final CTA                       -->
+    <!-- Final CTA                                  -->
     <!-- ========================================== -->
     <CallToAction />
   </main>
@@ -472,12 +501,5 @@ const faqSchema = {
   .home-section {
     padding-top: 5rem;
     padding-bottom: 5rem;
-  }
-
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
   }
 </style>

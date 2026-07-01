@@ -1,0 +1,119 @@
+---
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
+---
+<main
+  class="tw-root min-h-screen w-full flex flex-col items-center justify-center px-5 py-16"
+  style="background:
+    radial-gradient(130% 100% at 50% 0%, #f5ecd6, #eadfc2 70%, #e4d8b8 100%);
+    background-color:#eadfc2;"
+>
+  <div class="w-full max-w-2xl">
+    <article class="tw-sheet relative px-7 py-10 sm:px-14 sm:py-14">
+      <span class="tw-reveal tw-kicker block mb-7 text-[0.7rem] tracking-[0.3em] uppercase text-[#8a7c5a]">
+        &gt; typed with care
+      </span>
+
+      <h1 class="tw-reveal tw-title text-2xl sm:text-3xl leading-snug text-[#332b1c] mb-6" style="text-wrap:balance;">{title}</h1>
+
+      {heading && <p class="tw-reveal tw-greeting text-lg sm:text-xl text-[#4a4029] mb-6">{heading}</p>}
+
+      <div class="tw-body space-y-5 text-[1.02rem] sm:text-[1.08rem] leading-[1.9] text-[#3d3421]">
+        {paragraphs.map((p: string) => <p class="tw-reveal" set:html={p} />)}
+        <span class="tw-caret" aria-hidden="true"></span>
+      </div>
+
+      {senderName && <p class="tw-reveal tw-sign mt-10 text-[#4a4029]">— {senderName}</p>}
+
+      <div class="tw-reveal tw-actions mt-11 pt-7 border-t border-dashed border-[#cbb98a]">
+        <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+          acceptLabel="Like this"
+          primaryClass="tw-btn px-6 py-3 bg-[#332b1c] text-[#f5ecd6] font-medium border border-[#332b1c] hover:bg-[#4a4029] transition-colors"
+          secondaryClass="tw-btn px-6 py-3 bg-transparent text-[#4a4029] border border-[#a89469] hover:bg-[#e0d3ad] transition-colors"
+          mutedClass="text-sm text-[#8a7c5a]" />
+      </div>
+    </article>
+
+    <a href="/generator" class="tw-reveal tw-footer block text-center mt-8 text-xs tracking-wide text-[#8a7c5a] hover:text-[#4a4029] transition-colors">
+      Made on apologify.com — write your own →
+    </a>
+  </div>
+</main>
+
+<style>
+  .tw-root { font-family: "Courier New", Courier, monospace; }
+
+  .tw-sheet {
+    background-color: #f6efdc;
+    /* cream paper with faint horizontal ruling texture */
+    background-image:
+      repeating-linear-gradient(180deg, transparent 0, transparent 31px, rgba(120,100,60,0.035) 32px),
+      radial-gradient(circle at 20% 30%, rgba(0,0,0,0.012) 0.5px, transparent 1px);
+    background-size: auto, 6px 6px;
+    box-shadow: 0 24px 55px -28px rgba(80,65,35,0.5);
+    border: 1px solid #e3d6b4;
+  }
+
+  .tw-kicker, .tw-title, .tw-greeting, .tw-sign,
+  .tw-body :global(p), .tw-body {
+    font-family: "Courier New", Courier, monospace;
+  }
+  .tw-title { font-weight: 700; letter-spacing: -0.01em; }
+
+  /* slightly uneven ink weight via a faint text-shadow smudge */
+  .tw-body :global(p) {
+    text-shadow: 0.35px 0 0 rgba(50,40,20,0.18);
+  }
+  .tw-body :global(strong) { font-weight: 700; }
+  .tw-body :global(em) { font-style: italic; }
+
+  /* restrained typed-reveal: blocks appear in sequence, under ~2s total */
+  .tw-reveal {
+    opacity: 0;
+    transform: translateY(6px);
+    animation: twReveal 0.28s steps(1, end) forwards;
+  }
+  .tw-kicker  { animation-delay: 0.10s; }
+  .tw-title   { animation-delay: 0.32s; }
+  .tw-greeting{ animation-delay: 0.58s; }
+  .tw-body .tw-reveal:nth-child(1) { animation-delay: 0.82s; }
+  .tw-body .tw-reveal:nth-child(2) { animation-delay: 1.06s; }
+  .tw-body .tw-reveal:nth-child(3) { animation-delay: 1.30s; }
+  .tw-body .tw-reveal:nth-child(4) { animation-delay: 1.54s; }
+  .tw-body .tw-reveal:nth-child(n+5) { animation-delay: 1.74s; }
+  .tw-sign    { animation-delay: 1.86s; }
+  .tw-actions { animation-delay: 2.02s; }
+  .tw-footer  { animation-delay: 2.18s; }
+
+  @keyframes twReveal {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* blinking caret after the last line */
+  .tw-caret {
+    display: inline-block;
+    width: 0.6ch;
+    height: 1.05em;
+    margin-left: 0.1ch;
+    vertical-align: text-bottom;
+    background: #3d3421;
+    opacity: 0;
+    animation:
+      twCaretIn 0.01s linear 2.1s forwards,
+      twBlink 1.05s step-end 2.1s infinite;
+  }
+  @keyframes twCaretIn { to { opacity: 1; } }
+  @keyframes twBlink {
+    0%, 50% { opacity: 1; }
+    50.01%, 100% { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tw-reveal {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+    .tw-caret { animation: none; opacity: 0; display: none; }
+  }
+</style>

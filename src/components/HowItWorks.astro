@@ -33,24 +33,26 @@ const steps = [
 
 <section class="mb-32">
   <div class="text-center space-y-4 mb-16">
-    <h2 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight tracking-tight">How It Works</h2>
-    <p class="text-xl text-gray-600">From sorry to sent in under a minute.</p>
+    <h2 class="font-display text-4xl md:text-5xl font-semibold text-base-content leading-tight tracking-tight">How It Works</h2>
+    <p class="text-xl text-base-content/70">From sorry to sent in under a minute.</p>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
     {steps.map((step, index) => (
-      <div class="group flex flex-col items-center text-center bg-white/80 backdrop-blur-sm shadow-lg rounded-2xl p-8 border-2 border-gray-200 hover:border-purple-300 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-        <div class="mb-6 bg-purple-100 rounded-full p-4 w-20 h-20 flex items-center justify-center group-hover:bg-purple-200 transition-colors duration-300">
-          <div class="text-purple-600">
-            <Fragment set:html={step.icon} />
+      <div class="card group items-center text-center bg-base-100/80 backdrop-blur-sm shadow-lg border-2 border-base-300 hover:border-primary/40 transition-all duration-300 hover:scale-105 hover:shadow-xl">
+        <div class="card-body items-center">
+          <div class="mb-6 bg-primary/10 rounded-full p-4 w-20 h-20 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300">
+            <div class="text-primary" aria-hidden="true">
+              <Fragment set:html={step.icon} />
+            </div>
           </div>
+          <div class="flex items-center justify-center mb-4">
+            <span class="badge badge-primary badge-lg font-bold mr-3">
+              {index + 1}
+            </span>
+            <h3 class="card-title text-2xl text-base-content group-hover:text-primary transition-colors duration-300">{step.title}</h3>
+          </div>
+          <p class="text-base-content/70 text-lg leading-relaxed">{step.description}</p>
         </div>
-        <div class="flex items-center justify-center mb-4">
-          <span class="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center text-sm font-bold mr-3">
-            {index + 1}
-          </span>
-          <h3 class="text-2xl font-semibold text-gray-800 group-hover:text-purple-700 transition-colors duration-300">{step.title}</h3>
-        </div>
-        <p class="text-gray-600 text-lg leading-relaxed">{step.description}</p>
       </div>
     ))}
   </div>

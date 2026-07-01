@@ -1,7 +1,7 @@
 import { defineAction, ActionError } from 'astro:actions';
 import { z } from 'astro:schema';
 import { callOpenAIChatCompletion } from '../lib/server/openai';
-import { saveApologyPage, publishApologyPage as runPublish, acceptApology as runAccept } from '../lib/apologyPages';
+import { saveApologyPage, publishApologyPage as runPublish, likeApology as runLike, getApologyLikes as runGetLikes, updatePageTheme as runUpdateTheme } from '../lib/apologyPages';
 import { buildApologySlug } from '../lib/slug.js';
 import { isPremiumTheme } from '../lib/themes.js';
 
@@ -102,11 +102,33 @@ export const server = {
     },
   }),
 
-  acceptApology: defineAction({
+  likeApology: defineAction({
     input: z.object({ slug: z.string().min(3).max(90) }),
     handler: async (input) => {
-      const acceptedAt = await runAccept(input.slug);
-      return { acceptedAt };
+      const likes = await runLike(input.slug);
+      return { likes };
+    },
+  }),
+
+  getApologyLikes: defineAction({
+    input: z.object({ slug: z.string().min(3).max(90) }),
+    handler: async (input) => {
+      const likes = await runGetLikes(input.slug);
+      return { likes };
+    },
+  }),
+
+  // Change the design of an existing (already-saved) page. Owner-only.
+  updateApologyTheme: defineAction({
+    input: z.object({ slug: z.string().min(3).max(90), theme: z.string().min(1).max(40) }),
+    handler: async (input, context) => {
+      const userId = context.locals.user?.id;
+      if (!userId) throw new ActionError({ code: 'UNAUTHORIZED', message: 'Sign in to edit your page.' });
+      // Premium themes downgrade to classic until paid (paywall: future phase).
+      const theme = isPremiumTheme(input.theme) ? 'classic' : input.theme;
+      const ok = await runUpdateTheme(input.slug, userId, theme);
+      if (!ok) throw new ActionError({ code: 'FORBIDDEN', message: 'You can only edit your own pages.' });
+      return { updated: true, theme };
     },
   }),
 }
