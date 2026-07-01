@@ -1,6 +1,6 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
-import { getCollection } from "astro:content";
+import { articles as allArticles } from "@/lib/articles";
 import { recipients } from "../../../lib/apologyData";
 import Letter from "@/components/Letter.svelte";
 import CallToAction from "@/components/CallToAction.astro";
@@ -11,9 +11,6 @@ import { getRelatedLetters } from "../../../lib/db";
 export const prerender = false; // Changed to false to support generated letters
 
 const { recipient, slug } = Astro.params;
-
-// Get related articles for internal linking
-const allArticles = await getCollection("articles");
 
 // Find articles related to this recipient/context
 const getRelatedArticles = (
@@ -201,7 +198,7 @@ const letterSchema = {
     {
       letter.source === "generated" && (
         <div class="text-center mb-4">
-          <span class="inline-flex items-center px-3 py-1 rounded-lg text-sm font-medium bg-green-100 text-green-800">
+          <span class="inline-flex items-center px-3 py-1 rounded-lg text-sm font-medium bg-success/15 text-success">
             ✨ AI Generated Letter
           </span>
         </div>
@@ -222,7 +219,7 @@ const letterSchema = {
         <section class="my-12">
           <div class="flex items-center gap-3 mb-6">
             <svg
-              class="w-6 h-6 text-purple-600"
+              class="w-6 h-6 text-primary"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -234,7 +231,7 @@ const letterSchema = {
                 d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
               />
             </svg>
-            <h2 class="text-2xl font-bold text-gray-800">
+            <h2 class="text-2xl font-display font-bold text-base-content">
               More {recipientLabel} Apology Letters
             </h2>
           </div>
@@ -242,15 +239,15 @@ const letterSchema = {
             {relatedLetters.map((relatedLetter) => (
               <a
                 href={`/examples/${recipient}/${relatedLetter.slug}`}
-                class="group block bg-white hover:bg-purple-50 rounded-lg p-5 border-2 border-gray-200 hover:border-purple-400 transition-all duration-200 shadow-sm hover:shadow-md"
+                class="group block bg-base-100 hover:bg-primary/10 rounded-lg p-5 border-2 border-base-300 hover:border-primary/40 transition-all duration-200 shadow-sm hover:shadow-md"
               >
                 <div class="flex items-start justify-between gap-3">
                   <div class="flex-1">
-                    <h3 class="font-semibold text-gray-800 group-hover:text-purple-700 mb-1 line-clamp-1">
+                    <h3 class="font-semibold text-base-content group-hover:text-primary mb-1 line-clamp-1">
                       {relatedLetter.title || relatedLetter.context}
                     </h3>
-                    <div class="flex items-center gap-2 text-sm text-gray-500">
-                      <span class="inline-block px-2 py-1 bg-gray-100 rounded text-xs">
+                    <div class="flex items-center gap-2 text-sm text-base-content/60">
+                      <span class="inline-block px-2 py-1 bg-base-200 rounded text-xs">
                         {relatedLetter.tone}
                       </span>
                       <span class="line-clamp-1">
@@ -259,7 +256,7 @@ const letterSchema = {
                     </div>
                   </div>
                   <svg
-                    class="w-5 h-5 text-purple-600 flex-shrink-0 group-hover:translate-x-1 transition-transform duration-200"
+                    class="w-5 h-5 text-primary flex-shrink-0 group-hover:translate-x-1 transition-transform duration-200"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -282,7 +279,7 @@ const letterSchema = {
     <div class="my-16 flex justify-center">
       <a
         href={`/examples/${recipient}`}
-        class="inline-flex items-center gap-2 px-8 py-4 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl hover:scale-105"
+        class="btn btn-primary btn-lg gap-2 transition-all duration-300 hover:scale-105"
       >
         <svg
           class="w-5 h-5"
@@ -303,10 +300,10 @@ const letterSchema = {
     {/* Related Articles Section - Internal Linking */}
     {
       getRelatedArticles(recipient, letter.context).length > 0 && (
-        <section class="my-16 py-12 bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl px-6 shadow-lg">
+        <section class="my-16 py-12 bg-primary/10 rounded-2xl px-6 shadow-lg">
           <div class="flex items-center gap-3 mb-8">
             <svg
-              class="w-8 h-8 text-purple-600"
+              class="w-8 h-8 text-primary"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -318,11 +315,11 @@ const letterSchema = {
                 d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
               />
             </svg>
-            <h2 class="text-3xl font-bold text-gray-800">
+            <h2 class="text-3xl font-display font-bold text-base-content">
               Related Articles & Tips
             </h2>
           </div>
-          <p class="text-gray-600 mb-8 text-lg">
+          <p class="text-base-content/70 mb-8 text-lg">
             Learn more about writing effective apologies with these helpful
             guides:
           </p>
@@ -330,12 +327,12 @@ const letterSchema = {
             {getRelatedArticles(recipient, letter.context).map((article) => (
               <a
                 href={`/articles/${article.slug}`}
-                class="group block bg-white hover:bg-purple-50 rounded-xl p-6 transition-all duration-300 border-2 border-gray-200 hover:border-purple-400 shadow-md hover:shadow-xl transform hover:-translate-y-1"
+                class="group block bg-base-100 hover:bg-primary/10 rounded-xl p-6 transition-all duration-300 border-2 border-base-300 hover:border-primary/40 shadow-md hover:shadow-xl transform hover:-translate-y-1"
               >
                 <div class="flex items-start gap-3">
-                  <div class="flex-shrink-0 w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center group-hover:bg-purple-200 transition-colors">
+                  <div class="flex-shrink-0 w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                     <svg
-                      class="w-6 h-6 text-purple-600"
+                      class="w-6 h-6 text-primary"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -349,15 +346,15 @@ const letterSchema = {
                     </svg>
                   </div>
                   <div class="flex-1">
-                    <h3 class="font-bold text-gray-800 group-hover:text-purple-700 mb-2 line-clamp-2 text-lg leading-tight">
+                    <h3 class="font-bold text-base-content group-hover:text-primary mb-2 line-clamp-2 text-lg leading-tight">
                       {article.data.title}
                     </h3>
-                    <p class="text-sm text-gray-600 line-clamp-3 leading-relaxed">
+                    <p class="text-sm text-base-content/70 line-clamp-3 leading-relaxed">
                       {article.data.description}
                     </p>
                   </div>
                 </div>
-                <div class="mt-4 flex items-center text-purple-600 font-medium text-sm group-hover:translate-x-1 transition-transform duration-200">
+                <div class="mt-4 flex items-center text-primary font-medium text-sm group-hover:translate-x-1 transition-transform duration-200">
                   <span>Read more</span>
                   <svg
                     class="w-4 h-4 ml-1"

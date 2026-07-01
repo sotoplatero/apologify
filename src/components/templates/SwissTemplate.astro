@@ -1,0 +1,33 @@
+---
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
+---
+<main class="min-h-screen w-full bg-white flex flex-col justify-center px-6 sm:px-16 py-16 font-sans">
+  <div class="w-full max-w-3xl mx-auto">
+    <div class="flex items-center gap-3 mb-14">
+      <span class="w-3 h-3 bg-red-600"></span>
+      <span class="text-xs uppercase tracking-[0.3em] text-gray-900">Apologify — An Apology</span>
+    </div>
+
+    <h1 class="text-5xl sm:text-7xl font-bold tracking-tight text-gray-900 leading-[0.95] mb-12" style="text-wrap: balance;">{title}</h1>
+
+    <div class="grid sm:grid-cols-[1fr_2fr] gap-8 border-t-2 border-gray-900 pt-8">
+      <div class="text-sm uppercase tracking-widest text-red-600 font-medium">{heading}</div>
+      <div>
+        <div class="space-y-4 text-lg leading-relaxed text-gray-800">
+          {paragraphs.map((p: string) => <p set:html={p} />)}
+        </div>
+        {senderName && <p class="mt-6 font-bold text-gray-900">— {senderName}</p>}
+      </div>
+    </div>
+
+    <div class="mt-12">
+      <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+        acceptLabel="Like this"
+        primaryClass="px-6 py-3 bg-red-600 text-white font-medium hover:bg-red-700 transition-colors"
+        secondaryClass="px-6 py-3 border border-gray-900 text-gray-900 font-medium hover:bg-gray-100 transition-colors"
+        mutedClass="text-sm text-gray-400" />
+    </div>
+    <a href="/generator" class="block mt-10 text-xs text-gray-400 hover:text-gray-900 transition-colors">Made on apologify.com</a>
+  </div>
+</main>

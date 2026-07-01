@@ -1,0 +1,240 @@
+---
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
+---
+<main class="min-h-screen w-full flex flex-col items-center justify-center px-4 py-16 sn-stage">
+  <div class="w-full max-w-md">
+    <p class="sn-eyebrow reveal" style="--d:0ms">stuck to the fridge for you 🧲</p>
+
+    <article class="note-wrap">
+      <div class="magnet" aria-hidden="true"></div>
+
+      <div class="note drop">
+        <span class="tape" aria-hidden="true"></span>
+        <div class="curl" aria-hidden="true"></div>
+
+        <h1 class="title">{title}</h1>
+        {heading && <p class="greet">{heading}</p>}
+
+        <div class="body">
+          {paragraphs.map((p: string) => <p set:html={p} />)}
+        </div>
+
+        {senderName && <p class="sign">— {senderName}</p>}
+      </div>
+
+      <div class="mini-note drop" style="--d:260ms" aria-hidden="true">
+        <span class="mini-tape"></span>
+        p.s. i mean it
+      </div>
+    </article>
+
+    <div class="actions reveal" style="--d:420ms">
+      <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+        acceptLabel="💛"
+        primaryClass="px-6 py-3 rounded-lg bg-[#3a3428] text-[#fff6b0] font-cursive text-xl hover:bg-[#2a251c] transition-colors"
+        secondaryClass="px-6 py-3 rounded-lg border border-[#c9b96a] text-[#5a4f2c] font-cursive text-xl hover:bg-[#f3e98a] transition-colors"
+        mutedClass="text-sm font-cursive text-[#8a7a3a]" />
+    </div>
+
+    <a href="/generator" class="footer-link reveal" style="--d:520ms">Made on apologify.com — write your own →</a>
+  </div>
+</main>
+
+<style>
+  .sn-stage {
+    background:
+      linear-gradient(0deg, rgba(0,0,0,0.04), rgba(0,0,0,0.04)),
+      repeating-linear-gradient(0deg, #eef1f2 0 3px, #e7eaec 3px 6px),
+      #eceff0;
+    /* subtle brushed-metal / fridge surface */
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .sn-eyebrow {
+    text-align: center;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.15rem;
+    color: #7a8288;
+    margin-bottom: 1.5rem;
+  }
+
+  .note-wrap {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+
+  .note {
+    position: relative;
+    width: 100%;
+    max-width: 22rem;
+    padding: 2.4rem 1.9rem 2rem;
+    background:
+      linear-gradient(160deg, #fff59a 0%, #ffe94f 100%);
+    box-shadow:
+      0 1px 1px rgba(0,0,0,0.12),
+      0 14px 26px -10px rgba(90,80,20,0.5);
+    transform: rotate(-1.6deg);
+    transform-origin: 50% 0;
+    border-radius: 2px 2px 4px 4px;
+  }
+  /* faint paper fiber + bottom shadow for curl */
+  .note::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 90% 100%, rgba(120,100,20,0.18), transparent 30%);
+    pointer-events: none;
+    border-radius: inherit;
+  }
+  .curl {
+    position: absolute;
+    right: 0; bottom: 0;
+    width: 46px; height: 40px;
+    background: linear-gradient(135deg, transparent 46%, rgba(200,180,60,0.55) 50%, #e9d84a 60%);
+    box-shadow: -3px -3px 8px rgba(0,0,0,0.15);
+    border-radius: 0 0 4px 0;
+    transform-origin: bottom right;
+  }
+
+  .tape {
+    position: absolute;
+    top: -14px; left: 50%;
+    transform: translateX(-50%) rotate(-3deg);
+    width: 96px; height: 30px;
+    background: rgba(255,255,255,0.42);
+    border-left: 1px dashed rgba(255,255,255,0.6);
+    border-right: 1px dashed rgba(255,255,255,0.6);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+    backdrop-filter: blur(0.5px);
+  }
+
+  .title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.7rem, 8vw, 2.3rem);
+    line-height: 1.1;
+    color: #4a3f10;
+    text-wrap: balance;
+    margin-bottom: 0.7rem;
+  }
+  .greet {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.4rem;
+    color: #5a4c18;
+    margin-bottom: 0.6rem;
+  }
+  .body {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.32rem;
+    line-height: 1.5;
+    color: #453a12;
+  }
+  .body :global(p) { margin-bottom: 0.6rem; }
+  .body :global(p:last-child) { margin-bottom: 0; }
+  .sign {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    color: #5a4c18;
+    text-align: right;
+    margin-top: 1.2rem;
+    transform: rotate(-1deg);
+  }
+
+  .magnet {
+    position: absolute;
+    top: -16px; left: 50%;
+    width: 22px; height: 22px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #ff8a8a, #c0392b 70%);
+    box-shadow: 0 3px 5px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.5);
+    z-index: 3;
+  }
+
+  .mini-note {
+    position: absolute;
+    right: -18px; bottom: -30px;
+    width: 118px;
+    padding: 0.9rem 0.7rem 0.7rem;
+    background: linear-gradient(160deg, #bfe9ff, #8fd3f4);
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.05rem;
+    color: #1c4a5e;
+    transform: rotate(5deg);
+    box-shadow: 0 8px 16px -6px rgba(30,70,90,0.5);
+    border-radius: 2px;
+  }
+  .mini-tape {
+    position: absolute;
+    top: -9px; left: 50%;
+    transform: translateX(-50%) rotate(4deg);
+    width: 46px; height: 18px;
+    background: rgba(255,255,255,0.45);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  }
+
+  .actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 3.4rem;
+  }
+  .footer-link {
+    display: block;
+    text-align: center;
+    margin-top: 1.5rem;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.05rem;
+    color: #7a8288;
+    transition: color 0.2s;
+  }
+  .footer-link:hover { color: #4a3f10; }
+
+  /* the note "sticks": drops in, overshoots, settles + a gentle sway on hover */
+  .drop {
+    opacity: 0;
+    animation: stick 0.85s cubic-bezier(0.34, 1.56, 0.5, 1) forwards;
+    animation-delay: var(--d, 120ms);
+  }
+  @keyframes stick {
+    0% { opacity: 0; transform: translateY(-60px) rotate(-1.6deg) scale(1.04); }
+    60% { opacity: 1; transform: translateY(6px) rotate(-1.6deg) scale(1); }
+    80% { transform: translateY(-2px) rotate(-1deg); }
+    100% { opacity: 1; transform: translateY(0) rotate(-1.6deg); }
+  }
+  .mini-note.drop { animation-name: stickMini; }
+  @keyframes stickMini {
+    0% { opacity: 0; transform: translateY(-40px) rotate(5deg); }
+    70% { opacity: 1; transform: translateY(4px) rotate(6deg); }
+    100% { opacity: 1; transform: translateY(0) rotate(5deg); }
+  }
+
+  .note:hover {
+    animation: sway 2.6s ease-in-out infinite;
+  }
+  @keyframes sway {
+    0%, 100% { transform: rotate(-1.6deg); }
+    50% { transform: rotate(-0.4deg) translateY(-2px); }
+  }
+
+  .reveal {
+    opacity: 0;
+    animation: fade 0.7s ease forwards;
+    animation-delay: var(--d, 0ms);
+  }
+  @keyframes fade {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 400px) {
+    .mini-note { right: -6px; bottom: -40px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .drop, .reveal, .mini-note.drop { animation: none !important; opacity: 1 !important; }
+    .drop { transform: rotate(-1.6deg) !important; }
+    .mini-note.drop { transform: rotate(5deg) !important; }
+    .note:hover { animation: none !important; }
+  }
+</style>

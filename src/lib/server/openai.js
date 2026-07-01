@@ -16,6 +16,11 @@ export async function callOpenAIChatCompletion({ systemPrompt, userPrompt }) {
   try {
     const completion = await openai.chat.completions.create({
       model: 'gpt-5-mini',
+      // gpt-5-mini is a reasoning model; without this it "thinks" before every
+      // reply, which is the main latency source for a simple text task. 'minimal'
+      // keeps it fast (near non-reasoning speed). This tunes the model, it does
+      // NOT change which model is used.
+      reasoning_effort: 'minimal',
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt }
@@ -23,7 +28,6 @@ export async function callOpenAIChatCompletion({ systemPrompt, userPrompt }) {
     });
 
     const response = completion.choices[0].message.content;
-    console.log(response);
     return response;
 
   } catch (error) {

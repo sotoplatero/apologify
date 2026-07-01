@@ -1,0 +1,36 @@
+---
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
+const chars = [...String(title)];
+const bgs = ['bg-white', 'bg-yellow-300', 'bg-neutral-900', 'bg-red-600', 'bg-white', 'bg-neutral-700'];
+const fgs = ['text-black', 'text-black', 'text-white', 'text-white', 'text-black', 'text-white'];
+const fonts = ['font-serif', 'font-sans', 'font-poster', 'font-mono', 'font-display', 'font-sans'];
+const rots = ['rotate-2', '-rotate-3', 'rotate-1', '-rotate-2', 'rotate-3', '-rotate-1'];
+---
+<main class="min-h-screen w-full flex flex-col items-center justify-center px-6 py-16 font-mono" style="background:#d9d2c5;">
+  <div class="w-full max-w-xl">
+    <p class="text-center text-[0.7rem] uppercase tracking-[0.4em] text-neutral-600 mb-5">Apologify · an apology</p>
+    <h1 class="flex flex-wrap justify-center gap-1 mb-8">
+      {chars.map((c, i) => (
+        c === ' '
+          ? <span class="w-3"></span>
+          : <span class={`inline-block px-2 py-1 text-2xl sm:text-3xl font-black leading-none shadow-sm ${bgs[i % bgs.length]} ${fgs[i % fgs.length]} ${fonts[i % fonts.length]} ${rots[i % rots.length]}`}>{c}</span>
+      ))}
+    </h1>
+    <div class="bg-white/85 border border-neutral-400 p-6 sm:p-8 shadow-sm">
+      {heading && <p class="text-base font-bold text-neutral-900 mb-3">{heading}</p>}
+      <div class="space-y-3 text-sm sm:text-base leading-relaxed text-neutral-800">
+        {paragraphs.map((p: string) => <p set:html={p} />)}
+      </div>
+      {senderName && <p class="mt-6 text-right text-xl font-cursive text-neutral-900">{senderName}</p>}
+    </div>
+    <div class="mt-8 flex justify-center">
+      <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+        acceptLabel="Like it"
+        primaryClass="px-6 py-3 bg-neutral-900 text-white font-bold uppercase tracking-wide hover:bg-black transition-colors"
+        secondaryClass="px-6 py-3 bg-yellow-300 text-black font-bold uppercase tracking-wide hover:bg-yellow-400 transition-colors"
+        mutedClass="text-sm text-neutral-600" />
+    </div>
+    <a href="/generator" class="block text-center mt-8 text-xs text-neutral-600 hover:text-neutral-900 transition-colors">Made on apologify.com</a>
+  </div>
+</main>

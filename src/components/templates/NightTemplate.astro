@@ -1,0 +1,28 @@
+---
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
+---
+<main class="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center px-5 py-16 font-display text-indigo-50"
+  style="background:radial-gradient(ellipse at 50% 0%, #2a1a52, #0b0a1f 70%);">
+  <div class="pointer-events-none absolute inset-0"
+    style="background-image:radial-gradient(1px 1px at 20% 30%, #fff, transparent),radial-gradient(1px 1px at 70% 18%, #fff, transparent),radial-gradient(1px 1px at 42% 68%, #cdd, transparent),radial-gradient(1.5px 1.5px at 85% 55%, #fff, transparent),radial-gradient(1px 1px at 15% 82%, #fff, transparent),radial-gradient(1px 1px at 58% 40%, #fff, transparent);opacity:.6;"></div>
+
+  <div class="relative w-full max-w-2xl text-center">
+    <p class="text-[0.7rem] uppercase tracking-[0.4em] text-indigo-300/70 mb-5">Apologify · an apology</p>
+    <h1 class="text-4xl sm:text-6xl font-semibold leading-[1.05]" style="text-wrap: balance; text-shadow:0 0 40px rgba(165,140,255,0.45);">{title}</h1>
+    {heading && <p class="text-lg text-indigo-200/90 mt-6 mb-8">{heading}</p>}
+    <div class="space-y-5 text-lg sm:text-xl leading-[1.8] text-indigo-50/90 max-w-xl mx-auto text-left sm:text-center">
+      {paragraphs.map((p: string) => <p set:html={p} />)}
+    </div>
+    {senderName && <p class="mt-12 text-4xl font-cursive text-indigo-100" style="text-shadow:0 0 30px rgba(165,140,255,0.5);">{senderName}</p>}
+
+    <div class="mt-12 flex justify-center">
+      <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+        acceptLabel="Like this 💛"
+        primaryClass="px-7 py-3 rounded-full bg-indigo-400/90 text-indigo-950 font-semibold hover:bg-indigo-300 transition-colors shadow-[0_0_30px_rgba(165,140,255,0.5)]"
+        secondaryClass="px-6 py-3 rounded-full border border-indigo-300/40 text-indigo-100 hover:bg-white/10 transition-colors"
+        mutedClass="text-sm text-indigo-300/70" />
+    </div>
+    <a href="/generator" class="block mt-10 text-xs tracking-wide text-indigo-300/60 hover:text-indigo-200 transition-colors">Made on apologify.com — write your own →</a>
+  </div>
+</main>

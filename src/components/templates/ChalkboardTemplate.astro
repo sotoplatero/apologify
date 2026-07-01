@@ -1,0 +1,167 @@
+---
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
+---
+<main
+  class="chalk min-h-screen w-full flex flex-col items-center justify-center px-5 py-16"
+  style="background:
+    radial-gradient(ellipse at 30% 20%, #2f4038 0%, #22322b 55%, #182420 100%);"
+>
+  <div class="w-full max-w-2xl">
+    <div class="chalk-frame relative px-7 py-11 sm:px-14 sm:py-16">
+      <!-- faint eraser smudges -->
+      <span class="smudge s1" aria-hidden="true"></span>
+      <span class="smudge s2" aria-hidden="true"></span>
+      <span class="smudge s3" aria-hidden="true"></span>
+      <!-- drifting chalk dust -->
+      <span class="dust d1" aria-hidden="true"></span>
+      <span class="dust d2" aria-hidden="true"></span>
+      <span class="dust d3" aria-hidden="true"></span>
+
+      <div class="relative">
+        <div class="text-center mb-7">
+          <span class="chalk-write w1 text-[0.68rem] tracking-[0.4em] uppercase text-[#a9c4b4]">✧ a note on the board ✧</span>
+        </div>
+
+        <div class="text-center mb-8">
+          <h1 class="chalk-write w2 chalk-title text-4xl sm:text-5xl leading-tight">{title}</h1>
+          <div class="chalk-write w2 mt-5 mx-auto chalk-rule"></div>
+        </div>
+
+        {heading && <p class="chalk-write w3 chalk-heading text-lg sm:text-xl mb-6">{heading}</p>}
+
+        <div class="chalk-write w4 chalk-body space-y-5 text-lg leading-[1.85]">
+          {paragraphs.map((p: string) => <p set:html={p} />)}
+        </div>
+
+        {senderName && <p class="chalk-write w5 chalk-sign mt-12 text-right text-4xl sm:text-5xl">{senderName}</p>}
+
+        <div class="chalk-write w6 mt-12 pt-8 border-t border-dashed border-[#5c6f66] flex justify-center">
+          <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+            acceptLabel="Like this"
+            primaryClass="px-6 py-3 rounded-md bg-[#e9f0ea] text-[#22322b] font-medium hover:bg-white transition-colors"
+            secondaryClass="px-6 py-3 rounded-md border border-[#8aa89a] text-[#dbe8e0] hover:bg-[#33453c] transition-colors"
+            mutedClass="text-sm text-[#a9c4b4]" />
+        </div>
+      </div>
+    </div>
+
+    <a href="/generator" class="chalk-write w6 block text-center mt-8 text-xs tracking-wide text-[#8aa89a] hover:text-[#dbe8e0] transition-colors">Made on apologify.com — write your own →</a>
+  </div>
+</main>
+
+<style>
+  .chalk {
+    font-family: "Dancing Script", cursive;
+  }
+
+  .chalk-frame {
+    /* slate board texture: subtle grain + vignette */
+    background:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.03), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(255,255,255,0.025), transparent 45%),
+      repeating-linear-gradient(115deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 3px),
+      linear-gradient(160deg, #2b3b33 0%, #1e2c26 100%);
+    border: 10px solid #6b4f34; /* wooden frame */
+    border-radius: 6px;
+    box-shadow:
+      inset 0 0 60px rgba(0,0,0,0.5),
+      0 24px 60px -20px rgba(0,0,0,0.6);
+    overflow: hidden;
+  }
+
+  .chalk-title {
+    font-family: "Dancing Script", cursive;
+    font-weight: 700;
+    color: #f2f7f3;
+    text-shadow: 0 0 1px rgba(255,255,255,0.5);
+    text-wrap: balance;
+  }
+  .chalk-rule {
+    width: 5rem;
+    height: 0;
+    border-top: 2px dashed rgba(233, 240, 234, 0.75);
+    opacity: 0.7;
+  }
+  .chalk-heading {
+    color: #e2ede6;
+    font-size: 1.5rem;
+  }
+  .chalk-body {
+    /* body kept legible with a clean hand-serif fallback stack */
+    font-family: "Lora", ui-serif, Georgia, serif;
+    color: #eaf1ec;
+    /* penance-lines motif: faint ruled guide behind the text */
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent calc(1.85 * 1rem - 1px),
+      rgba(180, 205, 190, 0.14) calc(1.85 * 1rem - 1px),
+      rgba(180, 205, 190, 0.14) calc(1.85 * 1rem)
+    );
+    text-shadow: 0 0 1px rgba(255,255,255,0.25);
+  }
+  .chalk-sign {
+    color: #f7fbf8;
+    text-shadow: 0 0 2px rgba(255,255,255,0.4);
+  }
+
+  /* eraser smudges */
+  .smudge {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(255,255,255,0.06), transparent 70%);
+    filter: blur(4px);
+    pointer-events: none;
+  }
+  .s1 { width: 160px; height: 60px; top: 12%; right: 8%; transform: rotate(-12deg); }
+  .s2 { width: 120px; height: 45px; bottom: 22%; left: 6%; transform: rotate(8deg); }
+  .s3 { width: 200px; height: 70px; top: 46%; left: 30%; transform: rotate(-4deg); opacity: 0.6; }
+
+  /* drifting chalk dust */
+  .dust {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    filter: blur(0.5px);
+    pointer-events: none;
+    opacity: 0;
+    animation: drift 9s linear infinite;
+  }
+  .d1 { left: 22%; top: 30%; animation-delay: 0s; }
+  .d2 { left: 60%; top: 20%; animation-delay: 3s; }
+  .d3 { left: 78%; top: 55%; animation-delay: 6s; }
+
+  /* text "writes on" reveal */
+  .chalk-write {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(3px);
+    animation: write-on 1s ease-out forwards;
+  }
+  .w1 { animation-delay: 0.15s; }
+  .w2 { animation-delay: 0.4s; }
+  .w3 { animation-delay: 0.7s; }
+  .w4 { animation-delay: 1.0s; }
+  .w5 { animation-delay: 1.4s; }
+  .w6 { animation-delay: 1.7s; }
+
+  @keyframes write-on {
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+  @keyframes drift {
+    0% { opacity: 0; transform: translate(0, 0); }
+    15% { opacity: 0.7; }
+    100% { opacity: 0; transform: translate(24px, 40px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chalk-write, .dust {
+      animation: none !important;
+    }
+    .chalk-write { opacity: 1; transform: none; filter: none; }
+    .dust { display: none; }
+  }
+</style>

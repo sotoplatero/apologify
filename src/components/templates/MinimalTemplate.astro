@@ -1,0 +1,66 @@
+---
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
+---
+<main
+  class="mn-root min-h-screen w-full flex flex-col items-center justify-center text-center px-6 py-24"
+  style="background:#fbfbfd;"
+>
+  <div class="mn-rise w-full max-w-xl mx-auto">
+    <span class="mn-heart block mx-auto mb-10 text-2xl" aria-hidden="true">♥</span>
+
+    <h1 class="text-4xl sm:text-5xl font-semibold tracking-[-0.02em] text-[#1d1d1f] leading-[1.08]" style="text-wrap:balance;">{title}</h1>
+
+    {heading && <p class="mt-6 text-xl sm:text-2xl font-normal text-[#424245]">{heading}</p>}
+
+    <div class="mn-rule mx-auto mt-10 mb-10 w-12 h-px bg-[#d2d2d7]"></div>
+
+    <div class="mn-body space-y-6 text-lg sm:text-xl leading-[1.6] font-light text-[#3a3a3c]">
+      {paragraphs.map((p: string) => <p set:html={p} />)}
+    </div>
+
+    {senderName && <p class="mt-12 text-lg text-[#6e6e73] font-normal">{senderName}</p>}
+
+    <div class="mt-14 flex justify-center">
+      <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+        acceptLabel="Like"
+        primaryClass="px-7 py-3 rounded-full bg-[#1d1d1f] text-white text-[0.95rem] font-medium hover:bg-[#000] transition-colors"
+        secondaryClass="px-7 py-3 rounded-full border border-[#d2d2d7] text-[#1d1d1f] text-[0.95rem] hover:bg-[#f5f5f7] transition-colors"
+        mutedClass="text-sm text-[#86868b]" />
+    </div>
+
+    <a href="/generator" class="block mt-14 text-xs tracking-wide text-[#a1a1a6] hover:text-[#1d1d1f] transition-colors">
+      Made on apologify.com — write your own →
+    </a>
+  </div>
+</main>
+
+<style>
+  .mn-root {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .mn-body :global(strong) { font-weight: 600; color: #1d1d1f; }
+  .mn-body :global(em) { font-style: italic; }
+
+  .mn-heart { color: #ff375f; }
+
+  /* a slow, singular fade-up of the whole message on load */
+  .mn-rise {
+    opacity: 0;
+    transform: translateY(18px);
+    animation: mnRise 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+  }
+  @keyframes mnRise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mn-rise {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

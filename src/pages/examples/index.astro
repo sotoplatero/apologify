@@ -88,10 +88,10 @@ const hasFilters = recipientFilter || toneFilter || searchTerm;
   <main class="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
     <!-- Header Section -->
     <div class="text-center space-y-3 sm:space-y-4 mb-10 sm:mb-16">
-      <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold text-gray-800 leading-tight tracking-tight">
+      <h1 class="text-3xl sm:text-4xl md:text-6xl font-display font-bold text-base-content leading-tight tracking-tight">
         Apology Letter Examples
       </h1>
-      <p class="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
+      <p class="text-lg sm:text-xl text-base-content/70 max-w-2xl mx-auto">
         Browse our collection of {total.toLocaleString()} apology letters for every situation
       </p>
     </div>
@@ -200,7 +200,7 @@ const hasFilters = recipientFilter || toneFilter || searchTerm;
         </div>
       </div>
 
-      <div class="text-center mt-4 text-sm text-gray-500 font-sans">
+      <div class="text-center mt-4 text-sm text-base-content/60 font-sans">
         Showing {((currentPage - 1) * PAGE_SIZE) + 1}–{Math.min(currentPage * PAGE_SIZE, total)} of {total.toLocaleString()} letters
         {hasFilters && <span> (filtered)</span>}
       </div>
@@ -208,12 +208,12 @@ const hasFilters = recipientFilter || toneFilter || searchTerm;
 
     <!-- CTA Section -->
     <div class="mt-12 sm:mt-16 text-center">
-      <div class="bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl p-6 sm:p-8 text-white">
-        <h2 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Need a Custom Apology Letter?</h2>
-        <p class="text-purple-100 mb-4 sm:mb-6 text-sm sm:text-base">Use our AI-powered generator to create a personalized apology letter</p>
+      <div class="bg-primary rounded-2xl p-6 sm:p-8 text-primary-content">
+        <h2 class="text-xl sm:text-2xl font-display font-bold mb-3 sm:mb-4">Need a Custom Apology Letter?</h2>
+        <p class="text-primary-content/80 mb-4 sm:mb-6 text-sm sm:text-base">Use our AI-powered generator to create a personalized apology letter</p>
         <a
           href="/generator"
-          class="inline-flex items-center space-x-2 bg-white text-purple-600 px-6 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors duration-300 font-sans"
+          class="btn bg-base-100 text-primary hover:bg-base-200 border-0 font-sans"
         >
           <span>Generate Letter</span>
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

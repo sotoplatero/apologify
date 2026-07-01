@@ -73,7 +73,7 @@ const { items } = Astro.props;
   }
 
   .breadcrumb-link {
-    @apply text-purple-600 hover:text-purple-700 transition-colors duration-200;
+    @apply text-primary hover:text-primary/80 transition-colors duration-200;
     text-decoration: none;
   }
 
@@ -82,11 +82,11 @@ const { items } = Astro.props;
   }
 
   .breadcrumb-separator {
-    @apply w-4 h-4 text-gray-400;
+    @apply w-4 h-4 text-base-content/40;
     flex-shrink: 0;
   }
 
   .breadcrumb-current {
-    @apply text-gray-700 font-medium;
+    @apply text-base-content/70 font-medium;
   }
 </style>

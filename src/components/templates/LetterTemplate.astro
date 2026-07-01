@@ -1,0 +1,36 @@
+---
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
+---
+<main class="min-h-screen w-full flex flex-col items-center justify-center px-5 py-16 font-display"
+  style="background:radial-gradient(circle at 30% 15%, #fdf6ec, #f0e6d2);">
+  <div class="w-full max-w-2xl">
+    <div class="text-center mb-7">
+      <span class="text-xs tracking-[0.35em] uppercase text-[#a9854f]">✷ Apologify ✷</span>
+    </div>
+
+    <article class="relative bg-[#fffdf8] shadow-[0_24px_70px_-24px_rgba(120,90,50,0.4)] border border-[#ece0c8] px-8 py-12 sm:px-14 sm:py-16">
+      <div class="text-center mb-8">
+        <p class="text-[0.7rem] uppercase tracking-[0.4em] text-[#b3925a] mb-3">An apology</p>
+        <h1 class="text-3xl sm:text-4xl font-semibold text-[#3a2f22] leading-tight" style="text-wrap: balance;">{title}</h1>
+        <div class="mt-5 mx-auto w-16 h-px bg-[#cdb486]"></div>
+      </div>
+
+      {heading && <p class="text-lg sm:text-xl text-[#5a4a36] mb-6">{heading}</p>}
+      <div class="space-y-5 text-lg leading-[1.85] text-[#4a3d2c]">
+        {paragraphs.map((p: string) => <p set:html={p} />)}
+      </div>
+      {senderName && <p class="mt-12 text-right text-4xl font-cursive text-[#7a5c34]">{senderName}</p>}
+
+      <div class="mt-12 pt-8 border-t border-[#ece0c8] flex justify-center">
+        <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+          acceptLabel="Like this 💛"
+          primaryClass="px-6 py-3 rounded-full bg-[#7a5c34] text-[#fffdf8] font-medium hover:bg-[#5f4727] transition-colors"
+          secondaryClass="px-6 py-3 rounded-full border border-[#cdb486] text-[#7a5c34] hover:bg-[#f3e9d8] transition-colors"
+          mutedClass="text-sm text-[#b3925a]" />
+      </div>
+    </article>
+
+    <a href="/generator" class="block text-center mt-8 text-xs tracking-wide text-[#b3925a] hover:text-[#7a5c34] transition-colors">Made on apologify.com — write your own →</a>
+  </div>
+</main>

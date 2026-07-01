@@ -1,0 +1,80 @@
+---
+import LayoutBase from "../layouts/LayoutBase.astro";
+import { apologyHeading, apologyParagraphsHtml } from "../lib/display.js";
+import LetterTemplate from "../components/templates/LetterTemplate.astro";
+import CuteTemplate from "../components/templates/CuteTemplate.astro";
+import StatementTemplate from "../components/templates/StatementTemplate.astro";
+import NightTemplate from "../components/templates/NightTemplate.astro";
+import KeepCalmTemplate from "../components/templates/KeepCalmTemplate.astro";
+import SwissTemplate from "../components/templates/SwissTemplate.astro";
+import RansomTemplate from "../components/templates/RansomTemplate.astro";
+import ConstructivistTemplate from "../components/templates/ConstructivistTemplate.astro";
+import LetterpressTemplate from "../components/templates/LetterpressTemplate.astro";
+import HandwrittenTemplate from "../components/templates/HandwrittenTemplate.astro";
+import TypewriterTemplate from "../components/templates/TypewriterTemplate.astro";
+import MinimalTemplate from "../components/templates/MinimalTemplate.astro";
+import StickyNoteTemplate from "../components/templates/StickyNoteTemplate.astro";
+import WatercolorTemplate from "../components/templates/WatercolorTemplate.astro";
+import BoardingPassTemplate from "../components/templates/BoardingPassTemplate.astro";
+import MixtapeTemplate from "../components/templates/MixtapeTemplate.astro";
+import ChalkboardTemplate from "../components/templates/ChalkboardTemplate.astro";
+import IlluminatedTemplate from "../components/templates/IlluminatedTemplate.astro";
+import TelegramTemplate from "../components/templates/TelegramTemplate.astro";
+import NewspaperTemplate from "../components/templates/NewspaperTemplate.astro";
+import ZineTemplate from "../components/templates/ZineTemplate.astro";
+
+export const prerender = false;
+
+// A fixed, tasteful sample apology so every design can be previewed on the
+// homepage showcase without touching the database. Reads ?theme= to pick the
+// design; falls back to the Letter design.
+const TEMPLATES: Record<string, any> = {
+  "classic": LetterTemplate,
+  "cute-duck": CuteTemplate,
+  "formal": StatementTemplate,
+  "keep-calm": KeepCalmTemplate,
+  "swiss": SwissTemplate,
+  "ransom": RansomTemplate,
+  "starry": NightTemplate,
+  "constructivist": ConstructivistTemplate,
+  "letterpress": LetterpressTemplate,
+  "handwritten": HandwrittenTemplate,
+  "typewriter": TypewriterTemplate,
+  "minimal": MinimalTemplate,
+  "sticky-note": StickyNoteTemplate,
+  "watercolor": WatercolorTemplate,
+  "boarding-pass": BoardingPassTemplate,
+  "mixtape": MixtapeTemplate,
+  "chalkboard": ChalkboardTemplate,
+  "illuminated": IlluminatedTemplate,
+  "telegram": TelegramTemplate,
+  "newspaper": NewspaperTemplate,
+  "zine": ZineTemplate,
+};
+const themeId = Astro.url.searchParams.get("theme") ?? "classic";
+const Template = TEMPLATES[themeId] || LetterTemplate;
+
+const SAMPLE = {
+  recipientName: "Mia",
+  senderName: "Sam",
+  title: "For missing the night that mattered",
+  message:
+    "I know tonight was important to you, and I wasn't there. There's no excuse — I let work crowd out the one place I'd promised to be, and I understand why that hurt.\n\nYou deserve someone who shows up, not just says he will. I'm sorry, and I'm going to prove it in how I act, not only in what I write here.",
+};
+
+const data = {
+  title: SAMPLE.title,
+  heading: apologyHeading(SAMPLE.recipientName),
+  paragraphs: apologyParagraphsHtml(SAMPLE.message),
+  recipientName: SAMPLE.recipientName,
+  senderName: SAMPLE.senderName,
+  slug: "demo",
+  acceptedAt: null,
+  // preview=true keeps the accept/share actions inert on the marketing demo.
+  preview: true,
+};
+---
+
+<LayoutBase title="Apology page preview — Apologify" description="A live preview of an Apologify apology page." noindex={true}>
+  <Template {...data} />
+</LayoutBase>

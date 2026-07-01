@@ -1,0 +1,30 @@
+---
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
+---
+<main class="relative min-h-screen w-full overflow-hidden bg-[#e8e2d6] flex flex-col items-center justify-center px-6 py-16 font-poster">
+  <div class="absolute -right-24 -top-24 w-96 h-96 bg-red-600 rotate-45"></div>
+  <div class="absolute -left-28 bottom-0 w-80 h-44 bg-black -rotate-12"></div>
+
+  <div class="relative w-full max-w-xl">
+    <p class="text-xs uppercase tracking-[0.4em] text-red-600 mb-4 font-sans font-bold">Apologify</p>
+    <h1 class="text-5xl sm:text-7xl uppercase leading-[0.9] text-black mb-8 -rotate-2" style="text-wrap: balance;">{title}</h1>
+
+    <div class="bg-black text-white p-6 sm:p-8 rotate-1 shadow-xl">
+      {heading && <p class="text-red-400 uppercase tracking-wide mb-3 font-sans font-bold text-sm">{heading}</p>}
+      <div class="space-y-3 text-base leading-relaxed font-sans text-white/90">
+        {paragraphs.map((p: string) => <p set:html={p} />)}
+      </div>
+      {senderName && <p class="mt-6 text-2xl text-red-500">— {senderName}</p>}
+    </div>
+
+    <div class="mt-10">
+      <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+        acceptLabel="Like this"
+        primaryClass="px-7 py-3 bg-red-600 text-white font-sans font-bold uppercase tracking-wide hover:bg-red-700 transition-colors"
+        secondaryClass="px-6 py-3 bg-black text-white font-sans font-bold uppercase tracking-wide hover:bg-neutral-800 transition-colors"
+        mutedClass="text-sm font-sans text-black/60" />
+    </div>
+    <a href="/generator" class="block mt-8 text-xs font-sans tracking-wide text-black/50 hover:text-black transition-colors">Made on apologify.com</a>
+  </div>
+</main>

@@ -1,0 +1,113 @@
+---
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
+---
+<main
+  class="min-h-screen w-full flex flex-col items-center justify-center px-4 py-14"
+  style="background:#d9d3c4;background-image:radial-gradient(circle at 50% 0%, #efe9db, #cfc8b7);font-family:'Lora',ui-serif,Georgia,serif;"
+>
+  <div class="w-full max-w-2xl">
+    <article class="paper settle px-6 py-9 sm:px-12 sm:py-12 relative">
+      <div class="grain" aria-hidden="true"></div>
+
+      <!-- Nameplate / masthead -->
+      <header class="text-center border-b-4 border-double border-[#1a1a1a] pb-3 reg" style="--d:0.05s">
+        <p class="text-[0.6rem] tracking-[0.45em] uppercase text-[#3a3a3a] mb-1">Vol. I · No. 1 · The Record of Record</p>
+        <h2 class="nameplate text-4xl sm:text-5xl text-[#111] leading-none">The Daily Amends</h2>
+        <div class="flex items-center justify-between text-[0.6rem] tracking-[0.3em] uppercase text-[#3a3a3a] mt-2 pt-2 border-t border-[#1a1a1a]">
+          <span>Late Edition</span>
+          <span>An Independent Account</span>
+          <span>Price: One Sincere Word</span>
+        </div>
+      </header>
+
+      <!-- Headline -->
+      <div class="text-center mt-7 reg" style="--d:0.14s">
+        <p class="text-[0.62rem] tracking-[0.4em] uppercase text-[#8a2b2b] mb-2">A Correction, and an Apology</p>
+        <h1 class="headline text-3xl sm:text-[2.7rem] leading-[1.05] text-[#0d0d0d]" style="text-wrap:balance;">{title}</h1>
+        <p class="text-[0.7rem] uppercase tracking-[0.25em] text-[#555] mt-3">Filed on the record · By the undersigned</p>
+        <div class="mx-auto mt-4 w-24 h-px bg-[#1a1a1a]"></div>
+      </div>
+
+      <div class="mt-7 grid sm:grid-cols-[1fr_auto] gap-7 reg" style="--d:0.24s">
+        <!-- Body columns -->
+        <div>
+          {heading && <p class="dateline text-[1.05rem] text-[#222] mb-4 font-semibold">{heading}</p>}
+          <div class="columns text-[0.98rem] leading-[1.7] text-[#1e1e1e] text-justify">
+            {paragraphs.map((p: string) => <p set:html={p} />)}
+          </div>
+          {senderName && <p class="mt-8 text-right italic text-lg text-[#111]" style="font-family:'Dancing Script',cursive;">— {senderName}</p>}
+        </div>
+
+        <!-- Corrections box -->
+        <aside class="corrections text-[0.72rem] leading-relaxed text-[#2a2a2a] sm:w-44">
+          <p class="uppercase tracking-[0.2em] font-bold border-b border-[#1a1a1a] pb-1 mb-2 text-[#8a2b2b]">Corrections</p>
+          <p>The undersigned acknowledges the error, accepts responsibility without qualification, and regrets the harm caused. The record is hereby amended.</p>
+        </aside>
+      </div>
+
+      <div class="mt-9 pt-6 border-t-2 border-[#1a1a1a] flex justify-center reg" style="--d:0.34s">
+        <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+          acceptLabel="Acknowledge"
+          primaryClass="px-6 py-3 bg-[#111] text-[#f2ede0] uppercase text-xs tracking-[0.2em] hover:bg-[#333] transition-colors"
+          secondaryClass="px-6 py-3 border-2 border-[#111] text-[#111] uppercase text-xs tracking-[0.2em] hover:bg-[#111] hover:text-[#f2ede0] transition-colors"
+          mutedClass="text-xs uppercase tracking-[0.2em] text-[#555]" />
+      </div>
+    </article>
+
+    <a href="/generator" class="block text-center mt-7 text-xs tracking-wide text-[#5a5344] hover:text-[#111] transition-colors">Made on apologify.com — write your own →</a>
+  </div>
+</main>
+
+<style>
+  .nameplate { font-family: 'Anton', 'Playfair Display', Impact, ui-serif, serif; letter-spacing: 0.01em; font-weight: 400; }
+  .headline { font-family: 'Anton', ui-serif, Georgia, serif; font-weight: 400; letter-spacing: 0.005em; }
+  .dateline::first-letter { font-size: 1.3em; }
+
+  .paper {
+    background: #f4efe2;
+    border: 1px solid #b9b09b;
+    box-shadow: 0 26px 70px -30px rgba(60,50,30,0.7);
+    background-image:
+      linear-gradient(rgba(30,20,10,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30,20,10,0.015) 1px, transparent 1px);
+    background-size: 3px 3px, 3px 3px;
+  }
+  /* Single lead column + a Corrections sidebar. Two short paragraphs never
+     balance evenly across two columns, so we don't split them — this reads as
+     a newspaper lead article and never comes out lopsided. */
+  .columns { column-count: 1; }
+  .columns > :global(p) { margin: 0 0 0.8rem; orphans: 2; widows: 2; }
+  .corrections {
+    border: 1.5px solid #1a1a1a;
+    padding: 0.7rem 0.8rem;
+    background: rgba(0,0,0,0.02);
+    align-self: start;
+  }
+
+  /* Newsprint halftone grain */
+  .grain {
+    position: absolute; inset: 0; pointer-events: none; opacity: 0.5; mix-blend-mode: multiply;
+    background-image: radial-gradient(#000 0.5px, transparent 0.6px);
+    background-size: 3px 3px;
+    opacity: 0.06;
+  }
+
+  /* Print registration settle */
+  .settle { animation: settle 0.55s cubic-bezier(0.3,1.4,0.5,1) both; }
+  @keyframes settle {
+    0%   { transform: translate(3px, -4px) rotate(0.5deg); opacity: 0; }
+    60%  { opacity: 1; }
+    100% { transform: translate(0,0) rotate(0deg); opacity: 1; }
+  }
+  .reg {
+    opacity: 0; transform: translateY(8px);
+    animation: ink 0.6s ease forwards;
+    animation-delay: var(--d, 0s);
+  }
+  @keyframes ink { to { opacity: 1; transform: translateY(0); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .settle, .reg { animation: none !important; opacity: 1; transform: none !important; }
+  }
+</style>

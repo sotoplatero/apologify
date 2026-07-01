@@ -1,0 +1,24 @@
+---
+import LayoutBase from "../layouts/LayoutBase.astro";
+import CustomizeTheme from "../components/CustomizeTheme.svelte";
+import { getApologyPageBySlug } from "../lib/apologyPages";
+import { isLikelySlug } from "../lib/slug.js";
+
+export const prerender = false;
+
+const slug = Astro.url.searchParams.get("slug") || "";
+if (!isLikelySlug(slug)) return Astro.redirect("/404");
+
+// Owner-only: must be signed in and own the page.
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect(`/sign-in?redirect_url=${encodeURIComponent("/customize?slug=" + slug)}`);
+}
+const page = await getApologyPageBySlug(slug);
+if (!page) return Astro.redirect("/404");
+if (page.ownerId !== user.id) return Astro.redirect("/dashboard");
+---
+
+<LayoutBase title="Change design — Apologify" description="Change your apology page design." noindex={true}>
+  <CustomizeTheme client:load slug={slug} initialTheme={page.theme} />
+</LayoutBase>

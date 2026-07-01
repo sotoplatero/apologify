@@ -1,79 +1,41 @@
 ---
-export const prerender = false;
-
 import Layout from '../../layouts/Layout.astro';
-import { actions } from 'astro:actions';
-import Letter from '../../components/Letter.svelte';
-import ApologyWizard from '../../components/ApologyWizard.svelte';
+import ApologyGenerator from '../../components/ApologyGenerator.svelte';
+import { recipients } from '../../lib/apologyData.js';
 
-const result = Astro.getActionResult(actions.createLetter);
+const title = "Apology Website Builder — Make a Free Sorry Page";
+const description = "Write a heartfelt apology and turn it into a shareable web page in seconds. Say who it's for, what happened, pick a theme, and publish. Free.";
 
-// If letter was successfully saved, redirect to the letter page
-if (result?.data?.saved && result?.data?.slug) {
-  // We need the recipient from the form submission
-  // For now, show the letter with a link to view it in examples
-}
-
-// Helper function to get error message
-function getErrorMessage(error: { code?: string; message?: string } | null) {
-  if (!error) return 'An error occurred while generating your letter. Please try again.';
-  
-  switch (error.code) {
-    case 'TOO_MANY_REQUESTS':
-      return 'Too many requests. Please try again later.';
-    case 'INTERNAL_SERVER_ERROR':
-      return 'An error occurred while generating your letter. Please try again.';
-    default:
-      return error.message || 'An error occurred while generating your letter. Please try again.';
-  }
-}
-
+// Internal links to the SEO landing pages (each prefills the generator).
+const popular = recipients.filter((r) => r.value !== "public");
 ---
 
-<Layout title="Apology Letter Generator">
-  {!result?.data ? (
-      <div class="w-full mx-auto py-16">
-          <ApologyWizard client:load initialType="personal" />
-      </div>
-  ) : (
-    <div class="max-w-4xl mx-auto py-16">
-      <h1 class="text-3xl font-bold mb-8 text-center">{result.data.title || 'Your Generated Letter'}</h1>
+<Layout title={title} description={description}>
+  <main class="max-w-screen-lg mx-auto px-4 py-16">
+    <header class="text-center mb-10">
+      <h1 class="font-display text-4xl md:text-5xl font-semibold text-base-content mb-4" style="text-wrap: balance;">
+        Apology Website Builder
+      </h1>
+      <p class="text-lg text-base-content/60 max-w-2xl mx-auto" style="text-wrap: balance;">
+        Write a sincere apology and turn it into a beautiful, shareable page. Tell us who it's
+        for and what happened — we'll handle the words.
+      </p>
+    </header>
 
-      {result?.error ? (
-        <div class="alert alert-error mb-8">
-          <div>
-            <h3 class="font-bold">Error generating letter</h3>
-            <p class="text-sm">{getErrorMessage((result as any)?.error)}</p>
-          </div>
-        </div>
-      ) : result?.data ? (
-        <>
-          <Letter client:load letter={result.data.letter} />
+    <ApologyGenerator client:load />
 
-          {result.data.saved && result.data.slug && result.data.recipient && (
-            <div class="alert alert-success mt-6">
-              <div class="flex flex-col items-center gap-2">
-                <p class="font-semibold">✅ Your letter has been saved!</p>
-                <a
-                  href={`/examples/${result.data.recipient}/${result.data.slug}`}
-                  class="btn btn-sm btn-outline"
-                >
-                  View in Examples Directory
-                </a>
-              </div>
-            </div>
-          )}
-        </>
-      ) : null}
-
-      <div class="text-center mt-8 space-x-4">
-        <a href="/generator" class="btn btn-primary">
-          Write Another Letter
-        </a>
-        <a href="/examples" class="btn btn-outline">
-          Browse Examples
+    <section class="mt-16 text-center font-sans">
+      <h2 class="text-sm font-semibold tracking-widest uppercase text-base-content/50 mb-4">Popular apologies</h2>
+      <div class="flex flex-wrap justify-center gap-2 max-w-2xl mx-auto">
+        {popular.map((r) => (
+          <a href={`/generator/${r.value}`} class="text-sm px-3 py-1.5 rounded-full bg-base-100 border border-base-300 text-base-content/70 hover:border-primary hover:text-primary transition-colors">
+            Sorry to {r.label.toLowerCase()}
+          </a>
+        ))}
+        <a href="/generator/public" class="text-sm px-3 py-1.5 rounded-full bg-base-100 border border-base-300 text-base-content/70 hover:border-primary hover:text-primary transition-colors">
+          Public / company apology
         </a>
       </div>
-    </div>
-  )}
+    </section>
+  </main>
 </Layout>

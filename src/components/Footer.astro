@@ -7,7 +7,7 @@ const topTones = tones.filter((t) => t.value !== "other").slice(0, 6);
 ---
 
 <footer
-  class="bg-gradient-to-b from-gray-50 to-gray-100 border-t border-gray-200 text-gray-700"
+  class="bg-base-200 border-t border-base-300 text-base-content"
 >
   <!-- Top Section: Logo + Social -->
   <div class="w-full max-w-screen-xl mx-auto px-4 pt-12 pb-8">
@@ -21,14 +21,14 @@ const topTones = tones.filter((t) => t.value !== "other").slice(0, 6);
           <div>
             <a
               href="/"
-              class="text-2xl font-bold text-gray-800 flex items-center gap-2 font-serif"
+              class="text-2xl font-bold text-base-content flex items-center gap-2 font-serif"
             >
               <span class="text-3xl">💌</span>
               Apologify
             </a>
-            <p class="text-sm text-gray-500 mt-2 max-w-md font-sans">
-              Create sincere, personalized apology letters in seconds with our
-              AI-powered generator. Free, private, and easy to use.
+            <p class="text-sm text-base-content/60 mt-2 max-w-md font-sans">
+              Turn a heartfelt apology into a beautiful, shareable web page in
+              seconds. Free to create — pick a design and send the link.
             </p>
           </div>
         </div>
@@ -36,44 +36,43 @@ const topTones = tones.filter((t) => t.value !== "other").slice(0, 6);
           <li>
             <a
               href="/generator"
-              class="text-gray-500 hover:text-purple-600 transition-colors"
-              >AI Generator</a
+              class="text-base-content/70 hover:text-primary transition-colors"
+              >Apology Builder</a
+            >
+          </li>
+          <li>
+            <a
+              href="/designs"
+              class="text-base-content/70 hover:text-primary transition-colors"
+              >Designs</a
             >
           </li>
           <li>
             <a
               href="/examples"
-              class="text-gray-500 hover:text-purple-600 transition-colors"
+              class="text-base-content/70 hover:text-primary transition-colors"
               >Browse Examples</a
             >
           </li>
           <li>
             <a
               href="/articles"
-              class="text-gray-500 hover:text-purple-600 transition-colors"
+              class="text-base-content/70 hover:text-primary transition-colors"
               >Articles</a
             >
           </li>
           <li>
             <a
               href="/about"
-              class="text-gray-500 hover:text-purple-600 transition-colors"
+              class="text-base-content/70 hover:text-primary transition-colors"
               >About Us</a
             >
           </li>
           <li>
             <a
               href="/contact"
-              class="text-gray-500 hover:text-purple-600 transition-colors"
-              >Contact</a
-            >
-          </li>
-          <li>
-            <a
-              href="/privacy"
-              class="text-gray-500 hover:text-purple-600 transition-colors"
-              >Privacy Policy</a
-            >
+              class="text-base-content/70 hover:text-primary transition-colors"
+              >Contact</a >
           </li>
         </ul>
       </div>
@@ -81,7 +80,7 @@ const topTones = tones.filter((t) => t.value !== "other").slice(0, 6);
       <!-- Generators by Recipient -->
       <div>
         <h3
-          class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-4"
+          class="text-sm font-semibold text-base-content uppercase tracking-wider mb-4"
         >
           Generators
         </h3>
@@ -91,9 +90,9 @@ const topTones = tones.filter((t) => t.value !== "other").slice(0, 6);
               <li>
                 <a
                   href={`/generator/${r.value}`}
-                  class="text-gray-500 hover:text-purple-600 transition-colors"
+                  class="text-base-content/70 hover:text-primary transition-colors"
                 >
-                  To {r.label}
+                  Sorry to {r.label.toLowerCase()}
                 </a>
               </li>
             ))
@@ -104,7 +103,7 @@ const topTones = tones.filter((t) => t.value !== "other").slice(0, 6);
       <!-- Directory by Recipient -->
       <div>
         <h3
-          class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-4"
+          class="text-sm font-semibold text-base-content uppercase tracking-wider mb-4"
         >
           Directory
         </h3>
@@ -114,9 +113,9 @@ const topTones = tones.filter((t) => t.value !== "other").slice(0, 6);
               <li>
                 <a
                   href={`/examples?recipient=${r.value}`}
-                  class="text-gray-500 hover:text-purple-600 transition-colors"
+                  class="text-base-content/70 hover:text-primary transition-colors"
                 >
-                  To {r.label}
+                  {r.label} examples
                 </a>
               </li>
             ))
@@ -127,7 +126,7 @@ const topTones = tones.filter((t) => t.value !== "other").slice(0, 6);
       <!-- Tones -->
       <div>
         <h3
-          class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-4"
+          class="text-sm font-semibold text-base-content uppercase tracking-wider mb-4"
         >
           Tones
         </h3>
@@ -137,9 +136,9 @@ const topTones = tones.filter((t) => t.value !== "other").slice(0, 6);
               <li>
                 <a
                   href={`/examples?tone=${t.value}`}
-                  class="text-gray-500 hover:text-purple-600 transition-colors"
+                  class="text-base-content/70 hover:text-primary transition-colors"
                 >
-                  {t.label} Letters
+                  {t.label} apologies
                 </a>
               </li>
             ))
@@ -150,13 +149,13 @@ const topTones = tones.filter((t) => t.value !== "other").slice(0, 6);
   </div>
 
   <!-- Bottom Section -->
-  <div class="border-t border-gray-200">
+  <div class="border-t border-base-300">
     <div
-      class="w-full max-w-screen-xl mx-auto px-4 py-5 flex flex-col sm:flex-row justify-between items-center gap-2 text-sm text-gray-400 font-sans"
+      class="w-full max-w-screen-xl mx-auto px-4 py-5 flex flex-col sm:flex-row justify-between items-center gap-2 text-sm text-base-content/50 font-sans"
     >
       <p>&copy; {currentYear} Apologify. All rights reserved.</p>
       <p>
-        Made with <span class="text-red-400">&#9829;</span> to help mend relationships
+        Made with <span class="text-error">&#9829;</span> to help mend relationships
       </p>
     </div>
   </div>

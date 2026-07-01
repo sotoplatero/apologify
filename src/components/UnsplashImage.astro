@@ -28,12 +28,12 @@ const { article } = Astro.props;
     )}
   </div>
 
-  <figcaption class="text-right text-xs text-gray-400 mt-1">
+  <figcaption class="text-right text-xs text-base-content/50 mt-1">
     Photo by {article.data.photographer ? (
-      <a href="{article.data.photographerUrl}?utm_source=ApologiesLetter&utm_medium=referral" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">
+      <a href="{article.data.photographerUrl}?utm_source=ApologiesLetter&utm_medium=referral" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">
         {article.data.photographer}
       </a>
-    ) : 'Unknown photographer'} on <a href="https://unsplash.com?utm_source=ApologiesLetter&utm_medium=referral" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Unsplash</a>
+    ) : 'Unknown photographer'} on <a href="https://unsplash.com?utm_source=ApologiesLetter&utm_medium=referral" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Unsplash</a>
   </figcaption>
 
 </figure>

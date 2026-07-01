@@ -1,0 +1,29 @@
+---
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, recipientName, senderName, slug, acceptedAt, preview } = Astro.props;
+---
+<main class="min-h-screen w-full bg-[#fafafa] flex flex-col items-center px-5 py-16 sm:py-24 font-display">
+  <div class="w-full max-w-2xl">
+    <div class="flex items-center justify-between border-b-2 border-gray-900 pb-4 mb-2">
+      <span class="text-xl font-bold tracking-tight text-gray-900">{senderName || "A Statement"}</span>
+      <span class="text-xs uppercase tracking-widest text-gray-400">Apologify</span>
+    </div>
+    <p class="text-xs uppercase tracking-[0.2em] text-gray-400 mb-8">Official apology{recipientName ? ` · to ${recipientName}` : ""}</p>
+
+    <h1 class="text-3xl sm:text-4xl font-semibold text-gray-900 leading-tight mb-8" style="text-wrap: balance;">{title}</h1>
+    {heading && <p class="text-lg text-gray-700 mb-6">{heading}</p>}
+    <div class="space-y-5 text-lg leading-[1.8] text-gray-700">
+      {paragraphs.map((p: string) => <p set:html={p} />)}
+    </div>
+    {senderName && <p class="mt-10 text-gray-900 font-semibold">— {senderName}</p>}
+
+    <div class="mt-12 pt-6 border-t border-gray-200">
+      <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+        acceptLabel="Acknowledge"
+        primaryClass="px-5 py-2.5 rounded-md bg-gray-900 text-white text-sm font-medium hover:bg-gray-700 transition-colors"
+        secondaryClass="px-5 py-2.5 rounded-md border border-gray-300 text-gray-700 text-sm hover:bg-gray-100 transition-colors"
+        mutedClass="text-sm text-gray-400" />
+    </div>
+    <a href="/generator" class="block mt-10 text-xs text-gray-400 hover:text-gray-700 transition-colors">Published with apologify.com</a>
+  </div>
+</main>

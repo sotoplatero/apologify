@@ -32,6 +32,7 @@ const ALL_RECIPIENTS = [
   { value: 'professor', label: 'Professor', categories: ['professional'], hasGeneratorPage: false },
   { value: 'classmate', label: 'Classmate', categories: ['professional'], hasGeneratorPage: false },
   { value: 'mentor', label: 'Mentor', categories: ['professional'], hasGeneratorPage: false },
+  { value: 'public', label: 'The Public / Customers', categories: ['professional'], hasGeneratorPage: true },
 ];
 
 // For /examples and content collections (12 recipients with generator pages)
@@ -211,6 +212,16 @@ export const contextsByRecipient = {
     { label: "Ignored safety", text: "I neglected to follow safety rules in the lab" },
     { label: "Damaged property", text: "I damaged school property" },
     { label: "Bullied student", text: "I bullied another student in your class" },
+  ],
+  public: [
+    { label: "Service outage", text: "Our service was down and it disrupted our customers" },
+    { label: "Data incident", text: "We experienced a security incident affecting user data" },
+    { label: "Product defect", text: "We shipped a defect that affected our customers" },
+    { label: "Offensive content", text: "We published content that offended our community" },
+    { label: "Billing error", text: "We made a billing error that overcharged customers" },
+    { label: "Shipping delays", text: "We failed to deliver orders on time" },
+    { label: "Broken promise", text: "We failed to deliver on a public commitment we made" },
+    { label: "Poor handling", text: "We mishandled a situation and our community was hurt by it" },
   ],
   manager: [
     "I missed an important deadline",
