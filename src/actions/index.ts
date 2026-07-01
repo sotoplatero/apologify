@@ -1,6 +1,6 @@
 import { defineAction, ActionError } from 'astro:actions';
 import { z } from 'astro:schema';
-import { callOpenAIChatCompletion } from '../lib/server/openai';
+import { callLLM } from '../lib/server/anthropic';
 import { saveApologyPage, publishApologyPage as runPublish, likeApology as runLike, getApologyLikes as runGetLikes, updatePageTheme as runUpdateTheme } from '../lib/apologyPages';
 import { buildApologySlug } from '../lib/slug.js';
 import { isPremiumTheme } from '../lib/themes.js';
@@ -169,7 +169,7 @@ Respond with a valid JSON object (no markdown fences) with exactly two keys:
 
 Respond with the JSON now:`;
 
-  const response = await callOpenAIChatCompletion({ systemPrompt, userPrompt });
+  const response = await callLLM({ systemPrompt, userPrompt });
   if (!response) throw new Error('Empty response from OpenAI');
   try {
     const cleaned = response.replace(/^```(?:json)?\s*\n?/i, '').replace(/\n?```\s*$/i, '').trim();

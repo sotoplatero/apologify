@@ -16,6 +16,9 @@ export default defineConfig({
   site: "https://apologify.com",
   integrations: [ tailwind(), sitemap(), svelte(), preact(), sitemapCopier()],
   adapter: vercel({
+    // Allow slow generations to finish (default was ~10s → timeouts). Needs a
+    // Vercel plan that permits longer functions; capped by the plan otherwise.
+    maxDuration: 60,
     isr: {
       // Never ISR-cache auth, session, or per-user/dynamic routes — a cached
       // OAuth endpoint returns a stale `state` (→ "state_not_found" on the

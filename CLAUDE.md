@@ -18,7 +18,7 @@ The product also keeps a **legacy library of example apology letters** (static +
 - **Framework**: Astro 5, hybrid rendering (static + SSR). Vercel adapter.
 - **UI**: Astro components + Svelte islands for interactivity (generator, like button, publish, theme picker). Preact/React also available.
 - **Styling**: Tailwind CSS + DaisyUI. The brand shell uses a **custom DaisyUI theme `apology`** ("ink on paper" — warm paper base, fountain-pen-ink-blue primary, postmark-red accent, sage success). Defined in `tailwind.config.mjs`; set via `<html data-theme="apology">` in `src/layouts/LayoutBase.astro`. Fonts: Fraunces (display), Lora (body serif), Inter (UI sans), Dancing Script (script), Anton (poster).
-- **AI**: OpenAI via `src/lib/server/openai.js`. **The model and its params are configured there — do NOT change the model.**
+- **AI**: Apology generation runs on **Claude Haiku 4.5** via `src/lib/server/anthropic.js` (`ANTHROPIC_API_KEY`). Article generation (`pnpm injest`) still uses OpenAI. The model is defined in `anthropic.js` — do NOT change it without the owner's say-so.
 - **Database**: Turso (libsql) — `src/lib/turso.ts`.
 - **Auth**: better-auth (`src/lib/auth.ts` / `auth-client.ts`). Email + optional social. Required only to publish publicly.
 - **Package manager**: pnpm.
@@ -102,7 +102,7 @@ Markdown under `src/content/articles/` (loaded via `src/lib/articles`). Generate
 - `src/actions/index.ts` — actions: `createApologyPage`, `publishApologyPage`, `likeApology`, `getApologyLikes`, `updateApologyTheme` (+ `generateApologyContent` prompt).
 - `src/lib/apologyPages.ts` — apology-page DB layer + types.
 - `src/lib/themes.js` — design catalog.
-- `src/lib/server/openai.js` — OpenAI integration (**model configured here; do not change it**).
+- `src/lib/server/anthropic.js` — apology LLM (Claude Haiku 4.5; model configured here).
 - `src/lib/display.js` — `apologyHeading()` / `apologyParagraphsHtml()` (shared render helpers).
 - `src/components/ApologyGenerator.svelte` — the builder + editor.
 - `src/components/CustomizeTheme.svelte` — change-design editor.
