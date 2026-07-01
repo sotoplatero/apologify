@@ -2,52 +2,41 @@
 import Layout from '@/layouts/Layout.astro';
 ---
 
-<Layout title="Contact" description="Get in touch with us" >
-
-<section class="hero">
-
-  <div class="hero-content flex-col text-center">
-    <div class="max-w-md">
-      <h2 class="text-5xl font-bold">Get in Touch</h2>
-      <p class="py-6">
-        Fill out the form below and we'll get back to you as soon as possible.
+<Layout title="Contact — Apologify" description="Questions, feedback, or need a page taken down? Get in touch with the Apologify team.">
+  <main class="max-w-lg mx-auto px-4 py-16">
+    <div class="text-center mb-8">
+      <span class="inline-block text-sm font-semibold tracking-widest uppercase text-primary font-sans">Contact</span>
+      <h1 class="font-display text-4xl md:text-5xl font-semibold text-base-content mt-3 mb-3" style="text-wrap: balance;">Get in touch</h1>
+      <p class="text-base-content/60">
+        Questions, feedback, or need a published page taken down? Send us a note and we'll get back to you.
       </p>
     </div>
 
-  <form class="card flex-shrink-0 w-full max-w-lg bg-base-100" action="https://api.web3forms.com/submit" method="POST">
-    <div class="card-body">
-      <input type="hidden" name="access_key" value="0918522e-5af2-4c6f-b173-e00aea51b53c" />
-      <input type="hidden" name="subject" value="New Contact Form Submission from Web3Forms" />
-      <input type="hidden" name="from_name" value="ApologyLetter" />
-      <!-- More customization options available in the docs: https://docs.web3forms.com -->
+    <form class="card bg-base-100 border border-base-300 shadow-sm font-sans" action="https://api.web3forms.com/submit" method="POST">
+      <div class="card-body">
+        <input type="hidden" name="access_key" value="0918522e-5af2-4c6f-b173-e00aea51b53c" />
+        <input type="hidden" name="subject" value="New contact message from Apologify" />
+        <input type="hidden" name="from_name" value="Apologify" />
 
-      <div class="form-control">
-        <label class="label" for="name">
-          <span class="label-text">Name</span>
-        </label>
-        <input id="name" name="name" type="text" placeholder="Your name" class="input input-bordered" />
-      </div>
+        <div class="form-control">
+          <label class="label" for="name"><span class="label-text">Name</span></label>
+          <input id="name" name="name" type="text" autocomplete="name" placeholder="Your name" class="input input-bordered bg-base-100" required />
+        </div>
 
-      <div class="form-control">
-        <label class="label" for="email">
-          <span class="label-text">Email</span>
-        </label>
-        <input id="email" name="email" type="email" placeholder="Your email" class="input input-bordered" />
-      </div>
+        <div class="form-control">
+          <label class="label" for="email"><span class="label-text">Email</span></label>
+          <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" class="input input-bordered bg-base-100" required />
+        </div>
 
-      <div class="form-control">
-        <label class="label" for="message">
-          <span class="label-text">Message</span>
-        </label>
-        <textarea id="message" name="message" class="textarea textarea-bordered h-24" placeholder="Your message"></textarea>
-      </div>
+        <div class="form-control">
+          <label class="label" for="message"><span class="label-text">Message</span></label>
+          <textarea id="message" name="message" class="textarea textarea-bordered h-28 bg-base-100" placeholder="How can we help?" required></textarea>
+        </div>
 
-      <div class="form-control mt-6">
-        <button class="btn btn-primary" type="submit">Send Message</button>
+        <div class="form-control mt-6">
+          <button class="btn btn-primary" type="submit">Send message</button>
+        </div>
       </div>
-    </div>
     </form>
-  </div>
-</section>
-
+  </main>
 </Layout>

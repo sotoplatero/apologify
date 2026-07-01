@@ -5,10 +5,22 @@ import { LibsqlDialect } from "@libsql/kysely-libsql";
 const E: Record<string, string | undefined> =
   (typeof import.meta !== "undefined" && (import.meta as any).env) || process.env;
 
+// Enforce only on the real Vercel production deploy — a local `astro build` also
+// sets import.meta.env.PROD but legitimately uses a localhost BETTER_AUTH_URL.
+const onVercelProd = typeof process !== "undefined" && process.env?.VERCEL_ENV === "production";
+
 const secret = E.BETTER_AUTH_SECRET;
-// Fail fast in production: a missing secret means unsigned/forgeable sessions.
-if (!secret && (typeof import.meta !== "undefined" && (import.meta as any).env?.PROD)) {
+// A missing secret means unsigned/forgeable sessions.
+if (!secret && onVercelProd) {
   throw new Error("BETTER_AUTH_SECRET is required in production");
+}
+
+// A wrong/missing base URL silently breaks 100% of social sign-in (bad OAuth
+// callback + cookie domain → "state_not_found").
+const baseURL = E.BETTER_AUTH_URL;
+if (onVercelProd) {
+  if (!baseURL) throw new Error("BETTER_AUTH_URL is required in production (e.g. https://apologify.com)");
+  if (baseURL.includes("localhost")) throw new Error("BETTER_AUTH_URL must be the production origin, not localhost");
 }
 
 // Social providers are enabled only when their credentials are configured, so
@@ -32,8 +44,10 @@ export const auth = betterAuth({
     }),
     type: "sqlite",
   },
-  emailAndPassword: { enabled: true },
+  // Email/password is off: no SMTP configured (no verification/reset possible),
+  // and the product uses a focused social-only sign-in.
+  emailAndPassword: { enabled: false },
   socialProviders,
   secret,
-  baseURL: E.BETTER_AUTH_URL,
+  baseURL,
 });

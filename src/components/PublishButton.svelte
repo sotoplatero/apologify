@@ -9,7 +9,7 @@
     loading = true; error = "";
     const { data, error: actionError } = await actions.publishApologyPage({ slug, theme: theme || undefined });
     if (actionError) { error = actionError.message; loading = false; }
-    else if (data?.published) window.location.href = "/dashboard";
+    else if (data?.published) window.location.href = `/sorry/${slug}?published=1`;
   }
 </script>
 

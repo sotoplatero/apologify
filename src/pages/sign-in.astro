@@ -1,5 +1,5 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import LayoutBase from "../layouts/LayoutBase.astro";
 import AuthForm from "../components/AuthForm.svelte";
 import { enabledSocialProviders } from "../lib/auth";
 export const prerender = false;
@@ -7,8 +7,9 @@ const rawRedirect = Astro.url.searchParams.get("redirect_url") || "/generator";
 // Only allow same-origin relative paths to prevent open-redirect phishing.
 const redirect = rawRedirect.startsWith("/") && !rawRedirect.startsWith("//") ? rawRedirect : "/generator";
 ---
-<Layout title="Sign in — Apologify" noindex={true}>
-  <main class="max-w-md mx-auto px-4 py-16 flex justify-center">
+<LayoutBase title="Sign in — Apologify" description="Sign in to Apologify." noindex={true}>
+  <main class="min-h-screen flex flex-col items-center justify-center px-4 py-10 bg-base-200">
     <AuthForm client:load mode="signin" redirectUrl={redirect} providers={enabledSocialProviders} />
+    <a href="/" class="mt-6 text-sm text-base-content/50 hover:text-base-content transition-colors font-sans">← Back to home</a>
   </main>
-</Layout>
+</LayoutBase>

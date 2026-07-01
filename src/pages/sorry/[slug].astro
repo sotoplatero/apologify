@@ -12,6 +12,7 @@ import SwissTemplate from "../../components/templates/SwissTemplate.astro";
 import RansomTemplate from "../../components/templates/RansomTemplate.astro";
 import ConstructivistTemplate from "../../components/templates/ConstructivistTemplate.astro";
 import LetterpressTemplate from "../../components/templates/LetterpressTemplate.astro";
+import OwnerBar from "../../components/OwnerBar.svelte";
 import HandwrittenTemplate from "../../components/templates/HandwrittenTemplate.astro";
 import TypewriterTemplate from "../../components/templates/TypewriterTemplate.astro";
 import MinimalTemplate from "../../components/templates/MinimalTemplate.astro";
@@ -36,6 +37,11 @@ if (!page) return Astro.redirect("/404");
 const preview = Astro.url.searchParams.get("preview") === "1";
 const themeOverride = Astro.url.searchParams.get("theme");
 const templateId = preview && themeOverride ? themeOverride : page.theme;
+
+// Owner-only affordances (copy link, change design). Hidden in preview (iframe).
+const user = Astro.locals.user;
+const isOwner = !preview && !!(user && page.ownerId && user.id === page.ownerId);
+const justPublished = Astro.url.searchParams.get("published") === "1";
 
 const TEMPLATES: Record<string, any> = {
   "classic": LetterTemplate,
@@ -87,5 +93,6 @@ const pageSchema = {
 ---
 
 <LayoutBase title={metaTitle} description={description} canonicalUrl={canonicalUrl} schema={[pageSchema]} noindex={noindex}>
+  {isOwner && <OwnerBar client:load slug={page.slug} justPublished={justPublished} />}
   <Template {...data} />
 </LayoutBase>

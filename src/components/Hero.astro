@@ -2,6 +2,8 @@
 // Hero: headline on the left, a real apology-page mockup on the right — the
 // product shows itself instead of being described. Static (CSS-only) so it
 // paints instantly; the live multi-design demo lives further down the page.
+import { THEMES } from "../lib/themes.js";
+const designCount = THEMES.length;
 ---
 <section class="relative w-screen left-1/2 right-1/2 -mx-[50vw] bg-gradient-to-br from-primary/10 via-base-100 to-secondary/10 overflow-hidden">
   <div class="max-w-6xl mx-auto px-6 py-20 sm:py-28 grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
@@ -39,7 +41,7 @@
         </span>
         <span class="flex items-center gap-2">
           <svg class="w-4 h-4 text-success" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-          9 designs to choose
+          {designCount} designs to choose
         </span>
         <span class="flex items-center gap-2">
           <svg class="w-4 h-4 text-success" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
