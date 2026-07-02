@@ -1,10 +1,13 @@
 <script lang="ts">
   import { actions } from "astro:actions";
-  import { onDestroy } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import { tones } from "../lib/apologyData.js";
   import { listThemes, isPremiumTheme } from "../lib/themes.js";
 
   export let initialToWhom = "";
+  // Design the user picked before landing here (e.g. from a /demo "Use this
+  // design" CTA). Defaults to the Letter design.
+  export let initialTheme = "classic";
 
   const themes = listThemes();
 
@@ -18,7 +21,7 @@
 
   // Draft result (preview step)
   let slug = "";
-  let selectedTheme = "classic";
+  let selectedTheme = initialTheme;
 
   $: premiumSelected = isPremiumTheme(selectedTheme);
   // The preview is the real apology page rendered in an iframe — perfectly
@@ -38,13 +41,20 @@
       fd.append("tone", selectedTone);
       const { data, error: actionError } = await actions.createApologyPage(fd);
       if (actionError) error = actionError.message;
-      else if (data && data.saved) { slug = data.slug; selectedTheme = "classic"; }
+      else if (data && data.saved) { slug = data.slug; selectedTheme = initialTheme; }
       else error = "We couldn't create your page. Please try again.";
     } catch (e) { error = "Something went wrong. Please try again."; console.error(e); }
     finally { isGenerating = false; }
   }
 
   function editDetails() { slug = ""; error = ""; }
+
+  // Honor a design preselected via ?theme= (e.g. the /demo "Use this design"
+  // CTA), so the editor opens on that design.
+  onMount(() => {
+    const p = new URLSearchParams(window.location.search).get("theme");
+    if (p && themes.some((t) => t.id === p)) { initialTheme = p; selectedTheme = p; }
+  });
 
   // Publish directly from here. Signed-in users go straight to their live page
   // in one click; anonymous users are sent to sign-up and finish on /publish
@@ -99,18 +109,17 @@
           class="textarea textarea-bordered w-full h-28 resize-none bg-base-100 text-base leading-relaxed"></textarea>
       </div>
 
-      <div class="grid sm:grid-cols-2 gap-4 mb-6">
-        <div>
-          <label for="tone" class="font-semibold text-base-content block mb-2">Tone</label>
-          <select id="tone" bind:value={selectedTone} class="select select-bordered w-full bg-base-100">
-            {#each tones as t (t.value)}<option value={t.value}>{t.emoji} {t.label}</option>{/each}
-          </select>
-        </div>
-        <div>
-          <label for="sig" class="font-semibold text-base-content block mb-2">Signature</label>
-          <input id="sig" bind:value={signature} maxlength="80" placeholder="Who's apologizing? e.g. Sam"
-            class="input input-bordered w-full bg-base-100" />
-        </div>
+      <div class="mb-5">
+        <label for="sig" class="font-semibold text-base-content block mb-2">Signature</label>
+        <input id="sig" bind:value={signature} maxlength="80" placeholder="Who's apologizing? e.g. Sam"
+          class="input input-bordered w-full bg-base-100" />
+      </div>
+
+      <div class="mb-6">
+        <label for="tone" class="font-semibold text-base-content block mb-2">Tone</label>
+        <select id="tone" bind:value={selectedTone} class="select select-bordered w-full bg-base-100">
+          {#each tones as t (t.value)}<option value={t.value}>{t.emoji} {t.label}</option>{/each}
+        </select>
       </div>
 
       {#if error}<div class="p-4 mb-6 bg-error/10 border border-error/25 rounded-xl text-error text-sm" role="alert">{error}</div>{/if}

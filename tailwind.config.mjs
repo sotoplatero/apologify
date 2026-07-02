@@ -19,17 +19,17 @@ export default {
 	],
 	daisyui: {
 		// Themes must be listed here for data-theme to work. "apology" is the
-		// brand theme (the layout sets <html data-theme="apology">): fountain-pen
-		// ink on warm paper — warm, sincere, editorial. See LayoutBase.astro.
+		// brand theme (the layout sets <html data-theme="apology">): postmark
+		// red on warm paper — warm, sincere, editorial. See LayoutBase.astro.
 		themes: [
 			{
 				apology: {
 					'color-scheme': 'light',
-					primary: '#2C4A6E',           // fountain-pen ink blue
+					primary: '#C1272D',           // postmark red — brand primary (matches the logo heart)
 					'primary-content': '#F5F1E8', // paper
 					secondary: '#5E7355',         // sage (used for gentle support / "accepted")
 					'secondary-content': '#F5F1E8',
-					accent: '#B23A2E',            // postmark red — rare, decorative marks only
+					accent: '#2C4A6E',            // fountain-pen ink blue — decorative accent
 					'accent-content': '#F5F1E8',
 					neutral: '#2B2621',           // warm dark
 					'neutral-content': '#F5F1E8',

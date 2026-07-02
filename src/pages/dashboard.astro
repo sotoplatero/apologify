@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import SignOutButton from "../components/SignOutButton.svelte";
+import SignOutLink from "../components/SignOutLink.svelte";
 import UnpublishButton from "../components/UnpublishButton.svelte";
 import { getPublishedPagesByOwner } from "../lib/apologyPages";
 
@@ -24,49 +24,60 @@ function fmtDate(d?: string): string {
 ---
 
 <Layout title="Your dashboard — Apologify" description="Manage your apology pages." noindex={true}>
-  <main class="max-w-4xl mx-auto px-4 py-12">
+  <main class="max-w-4xl mx-auto px-4 py-12 min-h-screen flex flex-col">
     <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
       <div>
-        <h1 class="text-3xl font-bold text-base-content">Your apology pages</h1>
-        <p class="text-base-content/60 mt-1 font-sans">Signed in as {user.email}</p>
+        <h1 class="text-3xl font-bold text-base-content font-display">Your apology pages</h1>
+        <p class="text-sm text-base-content/60 mt-1 font-sans flex items-center gap-1.5 flex-wrap">
+          <span>Signed in as {user.email}</span>
+          <span aria-hidden="true" class="text-base-content/30">·</span>
+          <SignOutLink client:load />
+        </p>
       </div>
-      <div class="flex items-center gap-2">
-        <a href="/generator" class="btn btn-primary">New apology page</a>
-        <SignOutButton client:load />
-      </div>
+      <a href="/generator" class="btn btn-primary shrink-0">
+        <svg class="w-4 h-4" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+        New apology page
+      </a>
     </div>
 
     {pages.length === 0 ? (
-      <div class="card bg-base-200 border border-base-300">
-        <div class="card-body items-center text-center py-16">
-          <span class="text-5xl mb-2" role="img" aria-label="Letter">💌</span>
-          <h2 class="card-title">No pages yet</h2>
-          <p class="text-base-content/60 max-w-sm">
-            Create your first apology page and it'll show up here.
-          </p>
-          <div class="card-actions mt-4">
-            <a href="/generator" class="btn btn-primary">Create one</a>
+      <div class="flex-1 flex items-center justify-center">
+        <div class="card bg-base-200 border border-base-300 w-full max-w-md">
+          <div class="card-body items-center text-center py-16">
+            <span class="text-5xl mb-2" role="img" aria-label="Letter">💌</span>
+            <h2 class="card-title font-display">No pages yet</h2>
+            <p class="text-base-content/60 max-w-sm font-sans">
+              Create your first apology page and it'll show up here.
+            </p>
+            <div class="card-actions mt-4">
+              <a href="/generator" class="btn btn-primary">Create one</a>
+            </div>
           </div>
         </div>
       </div>
     ) : (
       <div class="grid gap-4">
         {pages.map((p) => (
-          <div class="card bg-base-100 border border-base-300 shadow-sm">
-            <div class="card-body flex-col sm:flex-row sm:items-center gap-4 py-5">
+          <div class="card bg-base-100 border border-base-300 shadow-sm hover:shadow-md transition-shadow">
+            <div class="card-body flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-5">
               <div class="flex-1 min-w-0">
                 <div class="flex items-center gap-2 flex-wrap">
-                  <h2 class="font-semibold text-base-content truncate">{p.title}</h2>
-                  {p.likes > 0 && <span class="badge badge-sm badge-success gap-1">💛 {p.likes}</span>}
+                  <h2 class="font-semibold text-base-content truncate font-display">{p.title}</h2>
+                  {p.likes > 0 && <span class="badge badge-sm badge-ghost gap-1 font-sans">💛 {p.likes}</span>}
                 </div>
                 <p class="text-sm text-base-content/60 mt-1 font-sans">
-                  To {p.recipientName || p.recipient}
-                  {p.createdAt && <span> · {fmtDate(p.createdAt)}</span>}
+                  To {p.recipientName || p.recipient}{p.createdAt && <span> · {fmtDate(p.createdAt)}</span>}
                 </p>
               </div>
-              <div class="flex items-center gap-2 shrink-0">
-                <a href={`/customize?slug=${p.slug}`} class="btn btn-sm btn-ghost">Change design</a>
-                <a href={`/sorry/${p.slug}`} class="btn btn-sm btn-outline">View</a>
+              <div class="flex flex-wrap items-center gap-1 shrink-0 justify-start sm:justify-end border-t border-base-200 pt-3 sm:border-t-0 sm:pt-0">
+                <a href={`/customize?slug=${p.slug}`} class="btn btn-sm btn-ghost gap-1.5 font-sans">
+                  <svg class="w-4 h-4" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                  Design
+                </a>
+                <a href={`/sorry/${p.slug}`} class="btn btn-sm btn-ghost gap-1.5 font-sans">
+                  <svg class="w-4 h-4" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                  View
+                </a>
                 <UnpublishButton slug={p.slug} client:load />
               </div>
             </div>

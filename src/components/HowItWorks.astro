@@ -38,7 +38,7 @@ const steps = [
   </div>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
     {steps.map((step, index) => (
-      <div class="card group items-center text-center bg-base-100/80 backdrop-blur-sm shadow-lg border-2 border-base-300 hover:border-primary/40 transition-all duration-300 hover:scale-105 hover:shadow-xl">
+      <div class="card group items-center text-center bg-base-100 shadow-sm border border-base-300 hover:border-primary/40 hover:shadow-md transition-all duration-300">
         <div class="card-body items-center">
           <div class="mb-6 bg-primary/10 rounded-full p-4 w-20 h-20 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300">
             <div class="text-primary" aria-hidden="true">
@@ -51,7 +51,7 @@ const steps = [
             </span>
             <h3 class="card-title text-2xl text-base-content group-hover:text-primary transition-colors duration-300">{step.title}</h3>
           </div>
-          <p class="text-base-content/70 text-lg leading-relaxed">{step.description}</p>
+          <p class="text-base-content/70 text-lg leading-relaxed font-sans">{step.description}</p>
         </div>
       </div>
     ))}

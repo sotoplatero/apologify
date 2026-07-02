@@ -10,6 +10,6 @@ const redirect = rawRedirect.startsWith("/") && !rawRedirect.startsWith("//") ? 
 <LayoutBase title="Create account — Apologify" description="Create your Apologify account." noindex={true}>
   <main class="min-h-screen flex flex-col items-center justify-center px-4 py-10 bg-base-200">
     <AuthForm client:load mode="signup" redirectUrl={redirect} providers={enabledSocialProviders} />
-    <a href="/" class="mt-6 text-sm text-base-content/50 hover:text-base-content transition-colors font-sans">← Back to home</a>
+    <a href="/" class="btn btn-ghost btn-sm mt-6 text-base-content/60 hover:text-base-content font-sans font-normal">← Back to home</a>
   </main>
 </LayoutBase>

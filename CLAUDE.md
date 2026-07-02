@@ -70,7 +70,7 @@ Key functions in `apologyPages.ts`:
 - The catalog is `src/lib/themes.js` (`THEMES` array: `id`, `label`, `emoji`, `premium`, `bgClass`). `listThemes()`, `resolveTheme()`, `isPremiumTheme()`.
 - The **template map** (id → component) is duplicated in `src/pages/sorry/[slug].astro` and `src/pages/demo.astro` — **add new templates in both**.
 - `src/pages/demo.astro` (`/demo?theme=`) renders any template with fixed sample content (no DB) — used for previews and thumbnails.
-- Thumbnails: `public/designs/<id>.jpg`, ~820×1040, captured from `/demo?theme=<id>` (remove the `astro-dev-toolbar` element before screenshotting). Used by the picker, the home grid, and `/designs`.
+- Thumbnails: `public/designs/<id>.jpg`, ~820×1040, captured from `/demo?theme=<id>&bare=1` (the `&bare=1` hides the "Use this design" CTA; also remove the `astro-dev-toolbar` element before screenshotting). Used by the picker, the home grid, and `/designs`.
 - **Premium/paywall is deferred**: all designs are currently `premium: false`. `publishApologyPage`/`updateApologyTheme` still downgrade `premium: true` themes to `classic`, so when monetization ships, flip the flags and add the paywall.
 
 ### Legacy letters library (still live, mostly SEO)
@@ -137,7 +137,7 @@ See `.env.example`:
 1. Create `src/components/templates/XxxTemplate.astro` following the props contract above (include motion + `prefers-reduced-motion`; hardcode its palette).
 2. Register it in `src/lib/themes.js` (`id`, `label`, `emoji`, `premium`, `bgClass`).
 3. Add the `id → component` entry to **both** `src/pages/sorry/[slug].astro` and `src/pages/demo.astro`.
-4. Generate `public/designs/<id>.jpg` by screenshotting `/demo?theme=<id>` (~820×1040, remove `astro-dev-toolbar` first).
+4. Generate `public/designs/<id>.jpg` by screenshotting `/demo?theme=<id>&bare=1` (~820×1040, remove `astro-dev-toolbar` first; `&bare=1` hides the "Use this design" CTA).
 
 ### Change / regenerate a page's design
 

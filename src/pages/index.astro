@@ -208,7 +208,7 @@ const faqSchema = {
   <!-- ========================================== -->
   <!-- Showcase: one apology, every design         -->
   <!-- ========================================== -->
-  <section id="showcase" class="home-section scroll-mt-20 relative overflow-hidden">
+  <section id="showcase" class="home-section scroll-mt-20 relative w-screen left-1/2 right-1/2 -mx-[50vw] overflow-hidden">
     <div class="absolute inset-0 bg-gradient-to-b from-base-200 via-transparent to-transparent pointer-events-none"></div>
     <div class="container mx-auto px-6 relative">
       <div class="text-center space-y-3 mb-12">
@@ -223,7 +223,7 @@ const faqSchema = {
 
       <div class="grid grid-cols-2 md:grid-cols-3 gap-5 sm:gap-7 max-w-5xl mx-auto">
         {featured.map((t) => (
-          <a href="/designs" class="group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-base-100">
+          <a href={`/demo?theme=${t.id}`} class="group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-base-100">
             <div class="overflow-hidden rounded-xl">
               <img
                 src={`/designs/${t.id}.jpg`}
@@ -234,7 +234,7 @@ const faqSchema = {
                 class="w-full h-auto group-hover:scale-[1.02] transition-transform duration-500"
               />
             </div>
-            <p class="mt-2.5 text-sm text-base-content/60 font-sans group-hover:text-base-content transition-colors"><span aria-hidden="true">{t.emoji}</span> {t.label}</p>
+            <p class="mt-3 text-sm sm:text-base font-semibold text-base-content font-sans group-hover:text-primary transition-colors">{t.label}</p>
           </a>
         ))}
       </div>
@@ -261,12 +261,12 @@ const faqSchema = {
       <div class="w-screen relative left-1/2 right-1/2 -mx-[50vw] bg-base-200 py-20 px-6">
         <div class="max-w-6xl mx-auto">
           <div class="text-center space-y-3 mb-14">
-            <span class="inline-block text-sm font-semibold tracking-widest uppercase text-primary font-sans">Examples</span>
+            <span class="inline-block text-sm font-semibold tracking-widest uppercase text-primary font-sans">Sample Letters</span>
             <h2 class="font-display text-3xl md:text-5xl font-semibold text-base-content leading-tight tracking-tight" style="text-wrap: balance;">
-              Real apologies to learn from
+              Apology wording to copy &amp; adapt
             </h2>
             <p class="text-lg text-base-content/60 max-w-2xl mx-auto">
-              Stuck on what to say? Read {letterCount}+ real apology examples for situations like yours — then make your own page in a click.
+              Stuck on what to say? Read {letterCount}+ ready-to-copy apology letters for situations like yours — then make your own page in a click.
             </p>
           </div>
 
@@ -305,7 +305,7 @@ const faqSchema = {
               href="/examples"
               class="inline-flex items-center gap-2 px-7 py-3.5 bg-base-100 text-base-content/80 border-2 border-base-300 rounded-xl hover:border-primary hover:text-primary transition-all duration-300 font-medium shadow-sm hover:shadow-md font-sans"
             >
-              <span>Browse all examples</span>
+              <span>Browse all sample letters</span>
               <svg class="w-5 h-5" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
