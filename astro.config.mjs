@@ -30,6 +30,7 @@ export default defineConfig({
         "/publish",
         "/customize",
         "/demo",
+        "/studio/card",
         "/sign-in",
         "/sign-up",
         /^\/api\/.*/,
