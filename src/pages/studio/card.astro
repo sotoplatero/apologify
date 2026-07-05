@@ -1,0 +1,84 @@
+---
+// Gated internal render page for Social Studio. Renders any design template
+// with content supplied via query params, but ONLY when the request carries a
+// valid `x-studio-key` header (== STUDIO_API_KEY). Without the header it 404s,
+// so it is never a public, browser-navigable "apology page". It is meant to be
+// consumed server-side by POST /api/social-card, which inlines its CSS and
+// returns self-contained HTML to the standalone studio tool.
+import LayoutBase from "../../layouts/LayoutBase.astro";
+import { apologyHeading, apologyParagraphsHtml } from "../../lib/display.js";
+import LetterTemplate from "../../components/templates/LetterTemplate.astro";
+import CuteTemplate from "../../components/templates/CuteTemplate.astro";
+import StatementTemplate from "../../components/templates/StatementTemplate.astro";
+import NightTemplate from "../../components/templates/NightTemplate.astro";
+import KeepCalmTemplate from "../../components/templates/KeepCalmTemplate.astro";
+import SwissTemplate from "../../components/templates/SwissTemplate.astro";
+import RansomTemplate from "../../components/templates/RansomTemplate.astro";
+import ConstructivistTemplate from "../../components/templates/ConstructivistTemplate.astro";
+import LetterpressTemplate from "../../components/templates/LetterpressTemplate.astro";
+import HandwrittenTemplate from "../../components/templates/HandwrittenTemplate.astro";
+import TypewriterTemplate from "../../components/templates/TypewriterTemplate.astro";
+import MinimalTemplate from "../../components/templates/MinimalTemplate.astro";
+import StickyNoteTemplate from "../../components/templates/StickyNoteTemplate.astro";
+import WatercolorTemplate from "../../components/templates/WatercolorTemplate.astro";
+import BoardingPassTemplate from "../../components/templates/BoardingPassTemplate.astro";
+import MixtapeTemplate from "../../components/templates/MixtapeTemplate.astro";
+import ChalkboardTemplate from "../../components/templates/ChalkboardTemplate.astro";
+import IlluminatedTemplate from "../../components/templates/IlluminatedTemplate.astro";
+import TelegramTemplate from "../../components/templates/TelegramTemplate.astro";
+import NewspaperTemplate from "../../components/templates/NewspaperTemplate.astro";
+import ZineTemplate from "../../components/templates/ZineTemplate.astro";
+
+export const prerender = false;
+
+const provided = Astro.request.headers.get("x-studio-key");
+const expected = import.meta.env.STUDIO_API_KEY;
+if (!expected || provided !== expected) {
+  return new Response("Not found", { status: 404 });
+}
+
+const TEMPLATES: Record<string, any> = {
+  "classic": LetterTemplate,
+  "cute-duck": CuteTemplate,
+  "formal": StatementTemplate,
+  "keep-calm": KeepCalmTemplate,
+  "swiss": SwissTemplate,
+  "ransom": RansomTemplate,
+  "starry": NightTemplate,
+  "constructivist": ConstructivistTemplate,
+  "letterpress": LetterpressTemplate,
+  "handwritten": HandwrittenTemplate,
+  "typewriter": TypewriterTemplate,
+  "minimal": MinimalTemplate,
+  "sticky-note": StickyNoteTemplate,
+  "watercolor": WatercolorTemplate,
+  "boarding-pass": BoardingPassTemplate,
+  "mixtape": MixtapeTemplate,
+  "chalkboard": ChalkboardTemplate,
+  "illuminated": IlluminatedTemplate,
+  "telegram": TelegramTemplate,
+  "newspaper": NewspaperTemplate,
+  "zine": ZineTemplate,
+};
+
+const q = Astro.url.searchParams;
+const themeId = q.get("theme") ?? "classic";
+const Template = TEMPLATES[themeId] || LetterTemplate;
+
+const to = q.get("to") ?? "";
+const message = q.get("message") ?? "";
+const data = {
+  title: q.get("title") ?? "",
+  heading: apologyHeading(to),
+  paragraphs: apologyParagraphsHtml(message),
+  recipientName: to,
+  senderName: q.get("sender") ?? "",
+  slug: "studio",
+  acceptedAt: null,
+  preview: true,
+};
+---
+
+<LayoutBase title="Studio card" description="Social Studio render" noindex={true}>
+  <Template {...data} />
+</LayoutBase>
