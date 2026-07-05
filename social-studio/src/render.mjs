@@ -1,6 +1,6 @@
-import { openSync, readSync, closeSync } from "node:fs";
-import { dirname } from "node:path";
-import { mkdirSync } from "node:fs";
+import { openSync, readSync, closeSync, readFileSync, existsSync, mkdirSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import nodeHtmlToImage from "node-html-to-image";
 import { loadTemplateHtml } from "./templates.mjs";
 import { apologyParagraphsHtml, escapeHtml } from "./text.mjs";
@@ -10,6 +10,19 @@ export const FORMATS = {
   square:   { w: 1080, h: 1080 },
   story:    { w: 1080, h: 1920 },
 };
+
+const FONTS_DIR = join(dirname(fileURLToPath(import.meta.url)), "..", "templates", "_fonts");
+
+// Rewrite url("_fonts/<name>.woff2") -> data URI when the file exists locally;
+// leave untouched (harmless) when absent so local()/fallback still apply.
+export function inlineFonts(html, fontsDir = FONTS_DIR) {
+  return html.replace(/url\((["']?)_fonts\/([^"')]+\.woff2)\1\)/g, (m, q, name) => {
+    const p = join(fontsDir, name);
+    if (!existsSync(p)) return m;
+    const b64 = readFileSync(p).toString("base64");
+    return `url("data:font/woff2;base64,${b64}")`;
+  });
+}
 
 export function buildHtml(designId, content, format) {
   const dim = FORMATS[format] || FORMATS.portrait;
@@ -33,14 +46,15 @@ export function buildHtml(designId, content, format) {
 export async function renderCard(designId, content, format, outPath) {
   const dim = FORMATS[format] || FORMATS.portrait;
   mkdirSync(dirname(outPath), { recursive: true });
+  const built = buildHtml(designId, content, format);
   await nodeHtmlToImage({
     output: outPath,
-    html: buildHtml(designId, content, format),
+    html: inlineFonts(built),
     type: "png",
     selector: ".frame",
     puppeteerArgs: {
       defaultViewport: { width: dim.w, height: dim.h, deviceScaleFactor: 1 },
-      args: ["--no-sandbox", "--allow-file-access-from-files"],
+      args: ["--no-sandbox"],
     },
   });
   return outPath;

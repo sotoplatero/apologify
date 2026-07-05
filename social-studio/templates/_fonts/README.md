@@ -10,5 +10,9 @@ without these files. For pixel-faithful output, drop these woff2 files here
 - `inter.woff2`      — Inter (UI sans)
 - `courier.woff2`    — Courier Prime (typewriter)
 
-These are gitignored; rendering falls back to system serif/cursive/monospace
-if absent.
+At render time, `renderCard` (`src/render.mjs`) inlines any woff2 file found
+here as a base64 `data:` URI, so it is embedded directly in the HTML handed
+to Puppeteer — this is required because relative `_fonts/*.woff2` URLs can
+never resolve against Puppeteer's `about:blank` page. These files are
+gitignored; if a given file is absent, rendering falls back to system
+serif/cursive/monospace via `local()`/generic fallbacks.

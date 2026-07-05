@@ -1,9 +1,9 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync } from "node:fs";
+import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { buildHtml, renderCard, pngSize, FORMATS } from "../src/render.mjs";
+import { buildHtml, renderCard, pngSize, FORMATS, inlineFonts } from "../src/render.mjs";
 
 test("buildHtml substitutes all placeholders", () => {
   const html = buildHtml("classic",
@@ -30,6 +30,15 @@ test("buildHtml escapes html in title, heading and sender", () => {
   assert.ok(html.includes("Dear &lt;b&gt;Mia&lt;/b&gt;,"));
   assert.ok(html.includes('Sam&quot;') || html.includes('Sam"'));
   assert.ok(!html.includes("<b>Mia</b>"));
+});
+
+test("inlineFonts embeds present woff2 as data URI and leaves absent ones untouched", () => {
+  const dir = mkdtempSync(join(tmpdir(), "fonts-"));
+  writeFileSync(join(dir, "fraunces.woff2"), Buffer.from([1, 2, 3, 4]));
+  const html = 'a{src:url("_fonts/fraunces.woff2")} b{src:url("_fonts/missing.woff2")}';
+  const out = inlineFonts(html, dir);
+  assert.ok(out.includes("data:font/woff2;base64,"), "present font inlined");
+  assert.ok(out.includes('url("_fonts/missing.woff2")'), "absent font left as-is");
 });
 
 test("renderCard produces a PNG at exact format dimensions", async () => {

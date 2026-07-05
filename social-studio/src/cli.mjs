@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { listDesigns } from "./templates.mjs";
 import { loadScenarios, resolveScenario } from "./scenarios.mjs";
 import { generateContent } from "./content.mjs";
-import { renderCard } from "./render.mjs";
+import { renderCard, FORMATS } from "./render.mjs";
 import { listAccounts, uploadImage, buildPostBody, createPost } from "./publish.mjs";
 
 const program = new Command();
@@ -50,6 +50,10 @@ async function main() {
   }
 
   const scenario = resolveScenario(opts);
+  if (!Object.keys(FORMATS).includes(scenario.format)) {
+    console.error(`Error: invalid --format "${scenario.format}". Valid formats: ${Object.keys(FORMATS).join(", ")}`);
+    process.exit(1);
+  }
   console.log(`Scenario: ${scenario.recipient} — ${scenario.situation} (${scenario.tone})`);
   console.log(`Design: ${scenario.design}  Format: ${scenario.format}`);
 
