@@ -32,7 +32,7 @@ import ZineTemplate from "../../components/templates/ZineTemplate.astro";
 export const prerender = false;
 
 const provided = Astro.request.headers.get("x-studio-key");
-const expected = import.meta.env.STUDIO_API_KEY;
+const expected = import.meta.env.STUDIO_API_KEY || process.env.STUDIO_API_KEY;
 if (!expected || provided !== expected) {
   return new Response("Not found", { status: 404 });
 }

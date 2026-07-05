@@ -40,7 +40,7 @@ async function inlineSameOriginCss(html: string, origin: string): Promise<string
 }
 
 export const POST: APIRoute = async ({ request, url }) => {
-  const expected = import.meta.env.STUDIO_API_KEY;
+  const expected = import.meta.env.STUDIO_API_KEY || process.env.STUDIO_API_KEY;
   const provided = request.headers.get("x-studio-key");
   if (!expected || provided !== expected) {
     return new Response(JSON.stringify({ error: "unauthorized" }), {
