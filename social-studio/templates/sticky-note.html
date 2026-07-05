@@ -1,0 +1,81 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+  :root { --w: {{WIDTH}}; --h: {{HEIGHT}}; }
+  @font-face { font-family:"Dancing"; src:local("Dancing Script"), url("_fonts/dancing.woff2") format("woff2"); font-display:swap; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  .frame {
+    width:var(--w); height:var(--h); overflow:hidden;
+    background:
+      linear-gradient(0deg, rgba(0,0,0,0.04), rgba(0,0,0,0.04)),
+      repeating-linear-gradient(0deg, #eef1f2 0 3px, #e7eaec 3px 6px),
+      #eceff0;
+    font-family:"Dancing", "Segoe Script", cursive;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:80px 56px;
+  }
+  .eyebrow { text-align:center; font-size:26px; color:#7a8288; margin-bottom:36px; }
+  .note-wrap { position:relative; display:flex; justify-content:center; width:100%; }
+  .note {
+    position:relative; width:100%; max-width:720px;
+    padding:64px 56px 52px;
+    background:linear-gradient(160deg, #fff59a 0%, #ffe94f 100%);
+    box-shadow:0 2px 3px rgba(0,0,0,0.12), 0 24px 46px -14px rgba(90,80,20,0.5);
+    transform:rotate(-1.6deg);
+    border-radius:2px 2px 4px 4px;
+  }
+  .curl {
+    position:absolute; right:0; bottom:0; width:70px; height:60px;
+    background:linear-gradient(135deg, transparent 46%, rgba(200,180,60,0.55) 50%, #e9d84a 60%);
+    box-shadow:-3px -3px 8px rgba(0,0,0,0.15);
+    border-radius:0 0 4px 0;
+  }
+  .tape {
+    position:absolute; top:-20px; left:50%; transform:translateX(-50%) rotate(-3deg);
+    width:150px; height:44px; background:rgba(255,255,255,0.42);
+    border-left:1px dashed rgba(255,255,255,0.6); border-right:1px dashed rgba(255,255,255,0.6);
+    box-shadow:0 2px 5px rgba(0,0,0,0.12);
+  }
+  .magnet {
+    position:absolute; top:-24px; left:50%; width:34px; height:34px; transform:translateX(-50%);
+    border-radius:50%; background:radial-gradient(circle at 35% 30%, #ff8a8a, #c0392b 70%);
+    box-shadow:0 3px 5px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.5); z-index:3;
+  }
+  .title { font-size:56px; line-height:1.1; color:#4a3f10; text-wrap:balance; margin-bottom:20px; }
+  .heading { font-size:34px; color:#5a4c18; margin-bottom:16px; }
+  .body { font-size:32px; line-height:1.5; color:#453a12; }
+  .body p { margin-bottom:14px; }
+  .body p:last-child { margin-bottom:0; }
+  .sender { font-size:36px; color:#5a4c18; text-align:right; margin-top:28px; transform:rotate(-1deg); }
+  .mini-note {
+    position:absolute; right:-24px; bottom:-40px; width:180px;
+    padding:16px 14px 12px;
+    background:linear-gradient(160deg, #bfe9ff, #8fd3f4);
+    font-size:22px; color:#1c4a5e; transform:rotate(5deg);
+    box-shadow:0 10px 22px -8px rgba(30,70,90,0.5); border-radius:2px;
+  }
+  .mini-tape {
+    position:absolute; top:-12px; left:50%; transform:translateX(-50%) rotate(4deg);
+    width:70px; height:24px; background:rgba(255,255,255,0.45);
+    box-shadow:0 1px 3px rgba(0,0,0,0.12);
+  }
+  .footer { display:block; text-align:center; margin-top:44px; font-size:24px; color:#7a8288; }
+</style></head><body>
+  <div class="frame">
+    <div class="eyebrow">stuck to the fridge for you 🧲</div>
+    <div class="note-wrap">
+      <div class="magnet"></div>
+      <div class="note">
+        <span class="tape"></span>
+        <div class="curl"></div>
+        <div class="title">{{TITLE}}</div>
+        {{HEADING}}
+        <div class="body">{{PARAGRAPHS}}</div>
+        {{SENDER}}
+      </div>
+      <div class="mini-note">
+        <span class="mini-tape"></span>
+        p.s. i mean it
+      </div>
+    </div>
+    <div class="footer">Made on apologify.com — write your own</div>
+  </div>
+</body></html>

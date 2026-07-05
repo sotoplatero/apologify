@@ -1,0 +1,48 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+  :root { --w: {{WIDTH}}; --h: {{HEIGHT}}; }
+  @font-face { font-family:"Fraunces"; src:local("Fraunces"), url("_fonts/fraunces.woff2") format("woff2"); font-display:swap; }
+  @font-face { font-family:"Dancing"; src:local("Dancing Script"), url("_fonts/dancing.woff2") format("woff2"); font-display:swap; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  .frame {
+    width:var(--w); height:var(--h); overflow:hidden; position:relative;
+    background:radial-gradient(ellipse at 50% 0%, #2a1a52, #0b0a1f 70%);
+    font-family:"Fraunces", Georgia, serif; color:#eef0ff;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:80px 64px; text-align:center;
+  }
+  .stars {
+    position:absolute; inset:0; opacity:0.7; pointer-events:none;
+    background-image:
+      radial-gradient(2px 2px at 12% 18%, #fff, transparent),
+      radial-gradient(2px 2px at 76% 12%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 40% 28%, #cdd, transparent),
+      radial-gradient(3px 3px at 88% 40%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 18% 55%, #fff, transparent),
+      radial-gradient(2px 2px at 60% 38%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 30% 72%, #fff, transparent),
+      radial-gradient(2px 2px at 70% 68%, #cdd, transparent),
+      radial-gradient(1.5px 1.5px at 85% 82%, #fff, transparent),
+      radial-gradient(2px 2px at 8% 88%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 50% 92%, #fff, transparent),
+      radial-gradient(2px 2px at 22% 8%, #fff, transparent);
+  }
+  .content { position:relative; max-width:880px; }
+  .kicker { font-size:14px; text-transform:uppercase; letter-spacing:0.4em; color:rgba(165,150,230,0.75); margin-bottom:28px; }
+  .title { font-size:60px; font-weight:600; line-height:1.1; text-wrap:balance; text-shadow:0 0 40px rgba(165,140,255,0.45); }
+  .heading { font-size:26px; color:rgba(220,215,250,0.9); margin-top:32px; margin-bottom:32px; }
+  .body p { font-size:27px; line-height:1.8; color:rgba(238,240,255,0.92); margin-bottom:22px; }
+  .sender { margin-top:48px; font-family:"Dancing", cursive; font-size:52px; color:#e6e0ff; text-shadow:0 0 30px rgba(165,140,255,0.5); }
+  .made { margin-top:44px; font-size:14px; letter-spacing:0.05em; color:rgba(165,150,230,0.65); }
+</style></head><body>
+  <div class="frame">
+    <div class="stars"></div>
+    <div class="content">
+      <div class="kicker">Apologify · an apology</div>
+      <div class="title">{{TITLE}}</div>
+      {{HEADING}}
+      <div class="body">{{PARAGRAPHS}}</div>
+      {{SENDER}}
+      <div class="made">Made on apologify.com — write your own</div>
+    </div>
+  </div>
+</body></html>
