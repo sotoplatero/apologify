@@ -26,6 +26,15 @@ generating — run it with `pnpm dev` / `pnpm preview`. Set the same
 `STUDIO_API_KEY` in the app's `.env` and here.
 
 ## Usage
+
+**Interactive (default):** just run `npm run studio` — it walks you through
+scenario → design → format → content → publish with arrow-key menus.
+
+```bash
+npm run studio                    # interactive wizard
+```
+
+**Flags (scriptable / automation):**
 ```bash
 npm run studio -- --list
 npm run studio -- --scenario random --dry-run

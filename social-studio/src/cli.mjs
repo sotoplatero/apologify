@@ -8,6 +8,7 @@ import { generateContent, normalizeContent } from "./content.mjs";
 import { renderHtmlToPng, FORMATS } from "./render.mjs";
 import { fetchDesigns, fetchCardHtml } from "./appclient.mjs";
 import { listAccounts, uploadImage, buildPostBody, createPost } from "./publish.mjs";
+import { runInteractive } from "./interactive.mjs";
 
 const APP_URL = process.env.APP_URL || "http://localhost:4321";
 const STUDIO_KEY = process.env.STUDIO_API_KEY;
@@ -52,6 +53,21 @@ async function main() {
     } else {
       console.log("\n(POST_BRIDGE_API_KEY not set — skipping accounts)");
     }
+    return;
+  }
+
+  // No content flags → interactive wizard (when attached to a terminal).
+  if (!opts.scenario && !opts.topic && !opts.recipient) {
+    if (process.stdin.isTTY) {
+      await runInteractive({ appUrl: APP_URL, studioKey: STUDIO_KEY });
+      return;
+    }
+    console.log("Pick a scenario or describe the apology. Examples:\n");
+    console.log('  npm run studio                                  # interactive wizard');
+    console.log('  npm run studio -- --list                        # designs + scenarios');
+    console.log('  npm run studio -- --scenario random --dry-run');
+    console.log('  npm run studio -- --recipient "my partner" --topic "I forgot our anniversary" --dry-run');
+    console.log("\nAdd --publish to post live (draft otherwise). Run with --help for all options.");
     return;
   }
 
