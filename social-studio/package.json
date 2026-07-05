@@ -11,6 +11,7 @@
     "@anthropic-ai/sdk": "^0.109.0",
     "commander": "^12.1.0",
     "dotenv": "^16.4.5",
-    "node-html-to-image": "^5.0.0"
+    "node-html-to-image": "^5.0.0",
+    "puppeteer": "^25.3.0"
   }
 }

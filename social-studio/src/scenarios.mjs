@@ -1,7 +1,6 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import { resolveDesign, randomDesign } from "./templates.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const BANK = join(HERE, "..", "scenarios.json");
@@ -10,7 +9,13 @@ export function loadScenarios() {
   return JSON.parse(readFileSync(BANK, "utf8"));
 }
 
-export function resolveScenario(opts = {}) {
+/**
+ * Resolve a post's parameters from a scenario + CLI overrides.
+ * @param opts CLI options (scenario/topic/recipient/tone/design/format).
+ * @param designIds Valid design ids from the app (single source of truth). An
+ *   invalid/absent design falls back to a random one from this list.
+ */
+export function resolveScenario(opts = {}, designIds = []) {
   const bank = loadScenarios();
   let base = {};
   if (opts.scenario === "random") base = bank[Math.floor(Math.random() * bank.length)];
@@ -24,8 +29,11 @@ export function resolveScenario(opts = {}) {
   if (!recipient || !situation) {
     throw new Error("Need a scenario or --recipient + --topic to know what to write.");
   }
-  const designId = opts.design || base.design;
-  const design = (designId && resolveDesign(designId)) ? designId : randomDesign().id;
+  const wanted = opts.design || base.design;
+  let design = wanted;
+  if (!design || (designIds.length && !designIds.includes(design))) {
+    design = designIds.length ? designIds[Math.floor(Math.random() * designIds.length)] : (wanted || "classic");
+  }
   const format = opts.format || base.format || "portrait";
   return { recipient, situation, tone, design, format };
 }
