@@ -3,7 +3,7 @@ import { dirname } from "node:path";
 import { mkdirSync } from "node:fs";
 import nodeHtmlToImage from "node-html-to-image";
 import { loadTemplateHtml } from "./templates.mjs";
-import { apologyParagraphsHtml } from "./text.mjs";
+import { apologyParagraphsHtml, escapeHtml } from "./text.mjs";
 
 export const FORMATS = {
   portrait: { w: 1080, h: 1350 },
@@ -18,12 +18,13 @@ export function buildHtml(designId, content, format) {
     .flatMap((p) => (p.includes("<") ? [p] : apologyParagraphsHtml(p)))
     .map((h) => `<p>${h}</p>`)
     .join("\n");
-  const headingHtml = heading ? `<p class="heading">${heading}</p>` : "";
-  const senderHtml = senderName ? `<p class="sender">${senderName}</p>` : "";
+  const titleHtml = escapeHtml(String(title));
+  const headingHtml = heading ? `<p class="heading">${escapeHtml(heading)}</p>` : "";
+  const senderHtml = senderName ? `<p class="sender">${escapeHtml(senderName)}</p>` : "";
   return loadTemplateHtml(designId)
     .replaceAll("{{WIDTH}}", `${dim.w}px`)
     .replaceAll("{{HEIGHT}}", `${dim.h}px`)
-    .replaceAll("{{TITLE}}", title)
+    .replaceAll("{{TITLE}}", titleHtml)
     .replaceAll("{{HEADING}}", headingHtml)
     .replaceAll("{{PARAGRAPHS}}", paraHtml)
     .replaceAll("{{SENDER}}", senderHtml);

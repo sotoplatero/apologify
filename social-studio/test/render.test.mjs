@@ -22,6 +22,16 @@ test("buildHtml omits heading/sender when empty", () => {
   assert.ok(!html.includes("class=\"sender\""));
 });
 
+test("buildHtml escapes html in title, heading and sender", () => {
+  const html = buildHtml("classic",
+    { title: "Tom & Jerry", heading: "Dear <b>Mia</b>,", paragraphs: ["ok"], senderName: 'Sam"' },
+    "portrait");
+  assert.ok(html.includes("Tom &amp; Jerry"));
+  assert.ok(html.includes("Dear &lt;b&gt;Mia&lt;/b&gt;,"));
+  assert.ok(html.includes('Sam&quot;') || html.includes('Sam"'));
+  assert.ok(!html.includes("<b>Mia</b>"));
+});
+
 test("renderCard produces a PNG at exact format dimensions", async () => {
   const out = join(mkdtempSync(join(tmpdir(), "studio-")), "card.png");
   await renderCard("classic",

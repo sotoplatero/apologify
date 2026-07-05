@@ -9,7 +9,7 @@ export function apologyHeading(toWhom) {
   return looksLikeName(t) ? `Dear ${t},` : `To ${t},`;
 }
 
-function escapeHtml(s) {
+export function escapeHtml(s) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
