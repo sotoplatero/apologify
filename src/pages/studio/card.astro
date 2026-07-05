@@ -75,7 +75,10 @@ const data = {
   senderName: q.get("sender") ?? "",
   slug: "studio",
   acceptedAt: null,
-  preview: true,
+  // Render the REAL page view — including the live Like/Share buttons — so the
+  // marketing screenshot matches what a recipient actually sees. The island is
+  // never hydrated in the screenshot path, so no like is ever recorded.
+  preview: false,
 };
 ---
 
