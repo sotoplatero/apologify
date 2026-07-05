@@ -1,10 +1,11 @@
 import "dotenv/config";
 import { Command } from "commander";
 import { createInterface } from "node:readline/promises";
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { listDesigns } from "./templates.mjs";
 import { loadScenarios, resolveScenario } from "./scenarios.mjs";
-import { generateContent } from "./content.mjs";
+import { generateContent, normalizeContent } from "./content.mjs";
 import { renderCard, FORMATS } from "./render.mjs";
 import { listAccounts, uploadImage, buildPostBody, createPost } from "./publish.mjs";
 
@@ -20,6 +21,7 @@ program
   .option("--tone <text>", "tone, e.g. sincere / light / formal")
   .option("--format <format>", "portrait | square | story", "portrait")
   .option("--lang <code>", "content language", "en")
+  .option("--content <path>", "use a JSON content file (title/paragraphs/senderName/captions) instead of calling the AI — no ANTHROPIC_API_KEY needed")
   .option("--accounts <csv>", "limit to specific Post Bridge account ids")
   .option("--schedule <iso>", "schedule at ISO datetime (UTC)")
   .option("--publish", "publish live now (default is draft)")
@@ -57,8 +59,15 @@ async function main() {
   console.log(`Scenario: ${scenario.recipient} — ${scenario.situation} (${scenario.tone})`);
   console.log(`Design: ${scenario.design}  Format: ${scenario.format}`);
 
-  console.log("Writing content with Claude Haiku 4.5…");
-  const content = await generateContent({ ...scenario, lang: opts.lang });
+  let content;
+  if (opts.content) {
+    console.log(`Using content from ${opts.content} (no API key needed)…`);
+    const raw = JSON.parse(readFileSync(opts.content, "utf8"));
+    content = normalizeContent(raw, scenario.recipient);
+  } else {
+    console.log("Writing content with Claude Haiku 4.5…");
+    content = await generateContent({ ...scenario, lang: opts.lang });
+  }
 
   const outPath = join(process.cwd(), "out", `${scenario.design}-${scenario.format}.png`);
   console.log("Rendering image…");

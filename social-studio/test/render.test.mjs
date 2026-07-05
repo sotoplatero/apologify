@@ -41,6 +41,14 @@ test("inlineFonts embeds present woff2 as data URI and leaves absent ones untouc
   assert.ok(out.includes('url("_fonts/missing.woff2")'), "absent font left as-is");
 });
 
+test("inlineFonts embeds ttf with the correct mime type", () => {
+  const dir = mkdtempSync(join(tmpdir(), "fonts-"));
+  writeFileSync(join(dir, "ransom.ttf"), Buffer.from([5, 6, 7, 8]));
+  const out = inlineFonts('t{src:url("_fonts/ransom.ttf") format("truetype")}', dir);
+  assert.ok(out.includes("data:font/ttf;base64,"), "ttf inlined with font/ttf mime");
+  assert.ok(!out.includes('url("_fonts/ransom.ttf")'), "original ttf url replaced");
+});
+
 test("renderCard produces a PNG at exact format dimensions", async () => {
   const out = join(mkdtempSync(join(tmpdir(), "studio-")), "card.png");
   await renderCard("classic",

@@ -13,14 +13,16 @@ export const FORMATS = {
 
 const FONTS_DIR = join(dirname(fileURLToPath(import.meta.url)), "..", "templates", "_fonts");
 
-// Rewrite url("_fonts/<name>.woff2") -> data URI when the file exists locally;
+// Rewrite url("_fonts/<name>.<ext>") -> data URI when the file exists locally;
 // leave untouched (harmless) when absent so local()/fallback still apply.
+// Supports woff2/woff/ttf/otf so bundled fonts render offline via setContent.
+const FONT_MIME = { woff2: "font/woff2", woff: "font/woff", ttf: "font/ttf", otf: "font/otf" };
 export function inlineFonts(html, fontsDir = FONTS_DIR) {
-  return html.replace(/url\((["']?)_fonts\/([^"')]+\.woff2)\1\)/g, (m, q, name) => {
+  return html.replace(/url\((["']?)_fonts\/([^"')]+\.(woff2|woff|ttf|otf))\1\)/g, (m, q, name, ext) => {
     const p = join(fontsDir, name);
     if (!existsSync(p)) return m;
     const b64 = readFileSync(p).toString("base64");
-    return `url("data:font/woff2;base64,${b64}")`;
+    return `url("data:${FONT_MIME[ext]};base64,${b64}")`;
   });
 }
 

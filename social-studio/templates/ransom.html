@@ -1,6 +1,7 @@
 <!doctype html><html><head><meta charset="utf-8"><style>
   :root { --w: {{WIDTH}}; --h: {{HEIGHT}}; }
-  @font-face { font-family:"Anton"; src:local("Anton"), url("_fonts/anton.woff2") format("woff2"); font-display:swap; }
+  /* "Ransom" by Divide By Zero (fonts.tom7.com) — free for commercial use. Bundled ttf, embedded offline. */
+  @font-face { font-family:"Ransom"; src:local("Ransom"), url("_fonts/ransom.ttf") format("truetype"); font-display:swap; }
   @font-face { font-family:"Dancing"; src:local("Dancing Script"), url("_fonts/dancing.woff2") format("woff2"); font-display:swap; }
   * { margin:0; padding:0; box-sizing:border-box; }
   .frame {
@@ -11,18 +12,13 @@
     padding:72px 60px;
   }
   .kicker { font-size:14px; text-transform:uppercase; letter-spacing:0.4em; color:#525252; margin-bottom:28px; text-align:center; }
-  .title-wrap { display:flex; justify-content:center; margin-bottom:36px; max-width:880px; }
+  .title-wrap { display:flex; justify-content:center; margin-bottom:40px; max-width:900px; }
   .title {
-    display:inline;
-    font-family:"Anton", Impact, "Arial Black", sans-serif;
-    font-size:44px; font-weight:900; line-height:1.9;
+    font-family:"Ransom", Impact, "Arial Black", sans-serif;
+    font-size:76px; line-height:1.25;
     text-align:center; text-wrap:balance;
     color:#171717;
-    background-color:#fde047;
-    box-decoration-break:clone; -webkit-box-decoration-break:clone;
-    padding:6px 10px;
-    box-shadow:0 2px 4px rgba(0,0,0,0.25), 3px 0 0 rgba(0,0,0,0.08), -3px 0 0 rgba(0,0,0,0.08);
-    transform:rotate(-1deg);
+    text-shadow:1px 2px 3px rgba(0,0,0,0.28);
   }
   .card {
     width:100%; background:rgba(255,255,255,0.85); border:1px solid #a3a3a3;
