@@ -1,0 +1,7 @@
+[
+  { "id": "birthday",   "recipient": "my mom",       "situation": "I forgot her birthday",                 "tone": "sincere", "design": "classic" },
+  { "id": "flaked",     "recipient": "my best friend","situation": "I cancelled on our plans last minute again", "tone": "light" },
+  { "id": "late-work",  "recipient": "our customers", "situation": "our app was down for two hours",        "tone": "formal", "design": "typewriter", "format": "square" },
+  { "id": "argument",   "recipient": "my partner",   "situation": "I said something hurtful during a fight","tone": "sincere", "design": "watercolor" },
+  { "id": "borrowed",   "recipient": "my neighbor",  "situation": "I returned your ladder broken",          "tone": "light",   "design": "sticky-note" }
+]
