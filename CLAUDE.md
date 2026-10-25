@@ -56,7 +56,7 @@ Key functions: `saveApologyPage`, `getApologyPageBySlug`, `publishApologyPage` (
 2. Action `createApologyPage` (`src/actions/index.ts`) → moderation pre-check → `generateApologyContent()` (Claude Haiku via `callLLM`) → moderation post-check → saves a **private draft**, returns the slug.
 3. Full-screen editor: live preview iframe (`/sorry/[slug]?preview=1&theme=…`) + design picker.
 4. **Publish** calls `publishApologyPage`: signed in → `/sorry/[slug]?published=1`; anonymous → `/sign-up?redirect_url=/publish?...`, and `/publish` finishes it.
-5. On `/sorry/[slug]`, the **owner** sees `OwnerBar.svelte`: the **"Send it"** panel (editable teaser message, WhatsApp/Telegram/SMS/own-email links, copy, native share, QR code, story teaser). It opens automatically after publishing and via `?send=1` (dashboard "Send" button).
+5. On `/sorry/[slug]`, the **owner** sees `OwnerBar.svelte`: the **"Send it"** panel (editable teaser message, WhatsApp/Telegram/SMS/own-email links, copy, native share, QR code, story teaser). It opens automatically after publishing (and via `?send=1`). It is the one place to share — the dashboard just links to the page (Open).
 6. The **recipient** sees `EnvelopeReveal.astro` (tap to open, once per session; records `opened_at`), then the template, whose `ApologyActions.svelte` runs: heart/like → "I forgive you ❤️" / "I need some time" → "Share to your story" / "Make your own apology". Templates whose heart label already says "forgive" count the like as the answer.
 7. `notifyOwner()` emails the owner on first open and on each answer (no-op without `RESEND_API_KEY` + `EMAIL_FROM`). `/dashboard` shows Not opened / Opened / Forgiven / Needs time.
 
@@ -98,7 +98,7 @@ Markdown in `src/data/articles/<slug>/index.md`, loaded with `import.meta.glob` 
 - `/` — homepage. `/generator`, `/generator/[recipient]` — builder (recipient landings target "sorry website for {recipient}", with real example links + FAQs).
 - `/sorry/[slug]` — the live page (public = indexable; draft/preview = `noindex`). `/og/[slug].png`, `/story/[slug].png` — share images.
 - `/sorry-card` — US "sorry card" landing. `/research/why-people-apologize` — study. `/designs` — design gallery.
-- `/customize?slug=` (owner), `/publish?slug=&theme=`, `/dashboard` (owner's published pages + status + Send), `/demo?theme=`.
+- `/customize?slug=` (owner), `/publish?slug=&theme=`, `/dashboard` (owner's published pages + status; Open / Design / Unpublish), `/demo?theme=`.
 - `/examples*`, `/articles*` — legacy library + blog. `/about` carries the Twemoji icon credit (CC BY 4.0).
 
 `noindex`: `/demo`, `/customize`, `/publish`, `/sign-in`, `/sign-up`, `/dashboard`, `/404`, and non-public `/sorry` pages.

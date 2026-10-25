@@ -23,7 +23,7 @@
 
 <button
   type="button"
-  class="btn btn-sm btn-ghost gap-1.5 text-error hover:bg-error/10 font-sans"
+  class="btn btn-sm btn-ghost gap-1.5 text-base-content/50 hover:text-error hover:bg-error/10 font-sans"
   on:click={unpublish}
   disabled={busy}
 >
