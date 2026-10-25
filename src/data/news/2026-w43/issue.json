@@ -1,0 +1,143 @@
+{
+  "week": "2026-w43",
+  "slug": "duke-player-takes-responsibility-andy-harris-offers-no-apology",
+  "title": "Duke Player Takes Responsibility; Andy Harris Offers No Apology",
+  "description": "The public apologies of the week, scored.",
+  "date": "2026-10-19",
+  "intro": "An unidentified Duke football player earns this week’s highest grade by accepting fault and checking on the staffer, showing why follow-through matters. Andy Harris lands at the bottom: offering an explanation is not an apology.",
+  "items": [
+    {
+      "id": "unidentified-duke-football-player",
+      "slot": "best",
+      "who": "Unidentified Duke football player",
+      "category": "sports",
+      "country": "US",
+      "headline": "Duke’s Kimari Robinson apologizes for swatting medical staffer’s arm",
+      "summary": "Duke cornerback Kimari Robinson apologized after swatting a medical staff member’s arm as she approached an injured teammate. He said concern for his teammate did not excuse his behavior and reported apologizing privately and checking on the staff member, but offered no specific prevention plan.",
+      "quote": "I was completely wrong, and she did not deserve that.",
+      "score": 8.5,
+      "verdict": "Accepts fault and checked on the staffer, but never explicitly names swatting her arm.",
+      "statementUrl": "https://sports.yahoo.com/articles/duke-football-player-kimari-robinson-030519022.html",
+      "sourceUrl": "https://sports.yahoo.com/articles/dukes-robinson-apologizes-field-incident-180622544.html",
+      "sourceName": "Associated Press",
+      "image": {
+        "src": "https://s.yimg.com/lo/mysterio/api/426c683b22e8fdd3df972e7f318f35129c4a18aad98ede9d7c3742f72a9148ab/lightyear_networkapi/resizefill_w1200_h675%3Bquality_80%3Bformat_webp/https%3A%2F%2Fmedia.zenfs.com%2Fen%2Fap.org%2F3d483f8c06b797d32ed7f92465abeca9.jpg",
+        "credit": "Associated Press"
+      }
+    },
+    {
+      "id": "andy-harris",
+      "slot": "worst",
+      "who": "Andy Harris",
+      "category": "politics",
+      "country": "US",
+      "headline": "Andy Harris declines to apologize to student journalist",
+      "summary": "Rep. Andy Harris declined to apologize after threatening student journalist Cat Murphy with prosecution for recording him at a media gathering. In an October 16 television interview, he criticized her conduct and said he would explain his objections if she called him.",
+      "score": 0,
+      "verdict": "Harris offered to explain his objections to Murphy, not apologize for threatening prosecution.",
+      "sourceUrl": "https://www.usatoday.com/story/news/politics/2026/10/16/andy-harris-declines-apology-student-journalist/92286766007",
+      "sourceName": "USA Today",
+      "statementDate": "2026-10-16"
+    },
+    {
+      "id": "gianni-infantino",
+      "slot": "brief",
+      "who": "Gianni Infantino",
+      "category": "sports",
+      "country": "CH",
+      "headline": "Infantino apologizes for consultation failures over World Cup investment plan",
+      "summary": "Gianni Infantino apologized to FIFA’s council over communication and consultation failures surrounding an abandoned World Cup commercial-rights investment proposal. He described mistakes in the process but offered no concrete remedy, while council critics said requested documents and answers remained unavailable.",
+      "quote": "I apologized for the mistakes that we made in relation to the communication and consultation process",
+      "score": 4,
+      "verdict": "Apologizes for consultation mistakes but provides neither requested documents nor a concrete remedy.",
+      "sourceUrl": "https://www.bbc.com/sport/football/articles/cmd7qgj3zwero",
+      "sourceName": "BBC Sport",
+      "statementDate": "2026-10-15",
+      "image": {
+        "src": "https://ichef.bbci.co.uk/ace/branded_sport/1200/cpsprodpb/f384/live/cd09a210-c89c-11f1-b0a4-81e564f1cfaa.jpg",
+        "credit": "BBC Sport"
+      }
+    },
+    {
+      "id": "jan-crawford",
+      "slot": "brief",
+      "who": "Jan Crawford",
+      "category": "celebrity",
+      "country": "US",
+      "headline": "Jan Crawford apologizes for post praising Abdul El-Sayed heckler",
+      "summary": "CBS News correspondent Jan Crawford deleted a post praising a town hall attendee who challenged Abdul El-Sayed about the Muslim Brotherhood. She acknowledged sharing the video violated CBS News standards and apologized, without addressing her praise of the heckler.",
+      "quote": "I deleted that tweet because it was a violation of CBS News standards. I apologize.",
+      "score": 7.5,
+      "verdict": "Deletes the post and admits violating standards, but omits her praise of the heckler.",
+      "statementUrl": "https://www.thewrap.com/media-platforms/journalism/cbs-news-jan-crawford-apologizes-for-anti-abdul-el-sayed-tweet-that-broke-news-standards",
+      "sourceUrl": "https://www.thewrap.com/media-platforms/journalism/cbs-news-jan-crawford-apologizes-for-anti-abdul-el-sayed-tweet-that-broke-news-standards",
+      "sourceName": "TheWrap",
+      "statementDate": "2026-10-18",
+      "image": {
+        "src": "https://www.thewrap.com/wp-content/uploads/2026/10/Jan-Crawford.jpeg",
+        "credit": "TheWrap"
+      }
+    },
+    {
+      "id": "university-of-maryland-club-tennis-team",
+      "slot": "brief",
+      "who": "University of Maryland club tennis team",
+      "category": "other",
+      "country": "US",
+      "headline": "Maryland club tennis apologizes for distributing racist tournament imagery",
+      "summary": "Maryland’s club tennis team publicly apologized after distributing tournament materials containing imagery depicting Ku Klux Klan hoods. The club accepted responsibility for failing to remove the image, acknowledged harm to affected communities, and reported a museum donation while promising education and training.",
+      "quote": "We deeply regret sharing this image and the pain this caused as a result of our actions.",
+      "score": 8,
+      "verdict": "Accepts responsibility and reports a museum donation, but never explicitly names the Klan imagery.",
+      "sourceUrl": "https://www.nbcnews.com/news/us-news/university-maryland-club-tennis-team-apologizes-sharing-abhorrent-raci-rcna603707",
+      "sourceName": "NBC News",
+      "image": {
+        "src": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-10/261015-University-of-Maryland-ew-1105a-45c4a5.jpg",
+        "credit": "NBC News"
+      }
+    },
+    {
+      "id": "ukraine",
+      "slot": "brief",
+      "who": "Ukraine",
+      "category": "government",
+      "country": "UA",
+      "headline": "Ukraine expresses regret after suspected drone crash in Lithuania",
+      "summary": "A suspected drone crashed in Lithuania, damaging a moving car and prompting shelter warnings; no injuries were reported. Ukraine expressed regret, offered information for an investigation and attributed the drone’s deviation to Russian electronic warfare rather than clearly accepting responsibility.",
+      "quote": "We regret the incident that occurred this morning in Lithuanian airspace,",
+      "score": 3,
+      "verdict": "Offers investigative cooperation but attributes the drone’s deviation to Russian jamming without accepting responsibility.",
+      "sourceUrl": "https://www.dw.com/en/ukraine-apologizes-after-a-suspected-drone-crashes-in-lithuania-damaging-a-moving-car/a-79692905",
+      "sourceName": "DW",
+      "statementDate": "2026-10-18",
+      "image": {
+        "src": "https://static.dw.com/image/78367568_6.jpg",
+        "credit": "DW"
+      }
+    },
+    {
+      "id": "isaac-herzog",
+      "slot": "brief",
+      "who": "Isaac Herzog",
+      "category": "politics",
+      "country": "IL",
+      "headline": "Herzog apologizes to photographer Heidi Levine after settler attack",
+      "summary": "President Isaac Herzog publicly reported apologizing to Washington Post photographer Heidi Levine after Israeli settlers injured her in the West Bank. He expressed sorrow, condemned the attack and called for those responsible to face justice, but offered no concrete remedy.",
+      "quote": "I expressed my deepest sorrow to Heidi and apologized for what she went through.",
+      "score": 5,
+      "verdict": "Apologizes to Levine and condemns the attack, but offers no concrete remedy or prevention commitment.",
+      "statementUrl": "https://www.jpost.com/israel-news/article-912005",
+      "sourceUrl": "https://www.haaretz.com/israel-news/israel-politics/2026-10-17/ty-article/.premium/herzog-apologizes-to-washington-post-photojournalist-condemns-settler-violence/000001a1-4ad2-d25a-a7ff-7fdaa3240000",
+      "sourceName": "Haaretz",
+      "statementDate": "2026-10-17",
+      "image": {
+        "src": "https://images.jpost.com/image/upload/f_auto,fl_lossy/q_auto/c_fill,g_faces:center,h_720,w_1280/742369",
+        "credit": "jpost.com"
+      }
+    }
+  ],
+  "image": {
+    "src": "/news/duke-player-takes-responsibility-andy-harris-offers-no-apology.webp",
+    "alt": "Illustration for Apology News: Duke’s Kimari Robinson apologizes for swatting medical staffer’s arm"
+  }
+}
