@@ -1,0 +1,144 @@
+{
+  "week": "2026-w38",
+  "slug": "hyrox-owns-inaction-baps-sidesteps-the-harm",
+  "title": "HYROX owns inaction; BAPS sidesteps the harm",
+  "description": "The public apologies of the week, scored.",
+  "date": "2026-09-14",
+  "intro": "HYROX leads by accepting responsibility for failing to intervene, though checkable changes remain missing. BAPS lands last for apologising for possible inconvenience without addressing female staff being sidelined.",
+  "items": [
+    {
+      "id": "hyrox",
+      "slot": "best",
+      "who": "HYROX",
+      "category": "brand",
+      "headline": "HYROX apologises for failing to stop Beijing competitor after soiling",
+      "summary": "HYROX faced hygiene concerns after allowing a competitor who soiled herself to finish its Beijing race. Co-founder Moritz Fürste acknowledged that organisers should have intervened, accepted responsibility and apologised to those affected while promising immediate rule changes.",
+      "quote": "directly or indirectly",
+      "score": 7,
+      "verdict": "Fürste accepts responsibility for not intervening, but the evidence gives no checkable rule changes.",
+      "sourceUrl": "https://www.bbc.com/news/articles/cx2z5y37p90o",
+      "sourceName": "BBC News",
+      "image": {
+        "src": "https://ichef.bbci.co.uk/news/1024/branded_news/5380/live/fc11c310-b02f-11f1-9ae0-e316eeb4632d.jpg",
+        "credit": "BBC News"
+      }
+    },
+    {
+      "id": "baps",
+      "slot": "worst",
+      "who": "BAPS",
+      "category": "other",
+      "country": "IN",
+      "headline": "BAPS apologises for Eiffel Tower controversy without acknowledging exclusion of women",
+      "summary": "BAPS issued an apology after reports that female Eiffel Tower staff were sidelined during its delegation’s visit prompted a strike. Its statement said the visit was coordinated with management, denied knowledge of anyone being denied access, and apologised to anyone hurt or inconvenienced without addressing the treatment of female staff.",
+      "quote": "Nevertheless, we sincerely apologise to anyone who may have been hurt or inconvenienced by this situation",
+      "score": 0.5,
+      "verdict": "Apologises for possible inconvenience but never addresses female staff being sidelined or offers repair.",
+      "sourceUrl": "https://www.cnn.com/2026/09/08/travel/eiffel-tower-strike-female-staff-baps-hindu-group-intl-hnk",
+      "sourceName": "CNN",
+      "statementDate": "2026-09-08"
+    },
+    {
+      "id": "steve-ballmer",
+      "slot": "brief",
+      "who": "Steve Ballmer",
+      "category": "sports",
+      "country": "US",
+      "headline": "Steve Ballmer apologizes to Clippers fans, accepts NBA sanctions",
+      "summary": "After the NBA sanctioned the Clippers for salary-cap circumvention, Steve Ballmer apologized to fans, employees and fellow owners for the resulting distress and distraction. He said the team had paid its $30 million fine and would comply with the penalties, while maintaining disagreements with the investigation’s findings.",
+      "quote": "I want to apologize to our fans, employees, and my fellow NBA team owners for the distraction and distress this matter has caused",
+      "score": 6,
+      "verdict": "Pays the $30 million fine but apologizes for distraction, not salary-cap circumvention.",
+      "statementUrl": "https://www.nytimes.com/athletic/7592689/2026/09/13/steve-ballmer-clippers-nba-punishment-lawsuit-apology",
+      "sourceUrl": "https://www.espn.com/nba/story/_/id/49936660/clippers-ballmer-comply-nba-seek-legal-action",
+      "sourceName": "ESPN",
+      "statementDate": "2026-09-13",
+      "image": {
+        "src": "https://a2.espncdn.com/combiner/i?img=%2Fphoto%2F2026%2F0821%2Fr1704941_1296x729_16%2D9.jpg",
+        "credit": "ESPN"
+      }
+    },
+    {
+      "id": "trey-parker-and-matt-stone",
+      "slot": "brief",
+      "who": "Trey Parker and Matt Stone",
+      "category": "celebrity",
+      "country": "US",
+      "headline": "Trey Parker and Matt Stone Apologize for Kendrick Lamar Film Delay",
+      "summary": "Trey Parker and Matt Stone publicly accepted responsibility for delaying Whitney Springs, their film collaboration with Kendrick Lamar. They apologized to pgLang and Paramount, cited South Park commitments and personal circumstances, and expressed continued belief in the project without offering a new deadline or remedy.",
+      "quote": "We take full responsibility for the schedule delay of this movie.",
+      "score": 6.5,
+      "verdict": "Accepts responsibility for delaying Whitney Springs but offers no remedy or revised release date.",
+      "statementUrl": "https://variety.com/2026/film/news/south-park-creators-apology-delay-kendrick-lamar-movie-1236856745",
+      "sourceUrl": "https://variety.com/2026/film/news/south-park-creators-apology-delay-kendrick-lamar-movie-1236856745",
+      "sourceName": "Variety",
+      "statementDate": "2026-09-09",
+      "image": {
+        "src": "https://variety.com/wp-content/uploads/2026/09/MixCollage-09-Sep-2026-05-33-PM-2566.jpg?crop=15px%2C18px%2C1169px%2C657px&#038;resize=1000%2C563",
+        "credit": "Variety"
+      }
+    },
+    {
+      "id": "rodri",
+      "slot": "brief",
+      "who": "Rodri",
+      "category": "sports",
+      "country": "ES",
+      "headline": "Rodri apologises over Valencia remarks but says comments were taken out of context",
+      "summary": "Rodri publicly apologised after television footage reportedly showed him calling Valencia weak during Barcelona’s win. He said he had also called Valencia captain Jose Gaya to apologise to the squad, but described his remarks as surprise rather than mockery.",
+      "quote": "First and foremost, I’d like to apologise to anyone who may have felt offended,",
+      "score": 0.5,
+      "verdict": "Apologises to Valencia but avoids repeating his criticism and blames missing context.",
+      "sourceUrl": "https://www.bbc.com/sport/football/articles/cvgyrx8gd71o",
+      "sourceName": "BBC Sport",
+      "statementDate": "2026-09-09",
+      "image": {
+        "src": "https://ichef.bbci.co.uk/ace/branded_sport/1200/cpsprodpb/295e/live/b85ee0f0-ace5-11f1-8d69-858c9dcdf738.jpg",
+        "credit": "BBC Sport"
+      }
+    },
+    {
+      "id": "optus",
+      "slot": "brief",
+      "who": "Optus",
+      "category": "brand",
+      "country": "AU",
+      "headline": "Optus apologises after outage disrupts emergency calls",
+      "summary": "A 76-minute Optus outage on September 11 disrupted voice services, including some emergency calls. Optus apologised to customers, said services had been restored and reported referring 41 calls to Victoria Police for welfare checks.",
+      "quote": "We sincerely apologise to customers for the disruption.",
+      "score": 7,
+      "verdict": "Optus names calling failures and reports restoration and welfare referrals, but offers no prevention commitment.",
+      "sourceUrl": "https://www.abc.net.au/news/2026-09-12/optus-outage-emergency-services/107146350",
+      "sourceName": "ABC News",
+      "statementDate": "2026-09-12",
+      "image": {
+        "src": "https://live-production.wcms.abc-cdn.net.au/9192c32f54d40851f2c8b8a28e9206eb?impolicy=wcms_watermark_news&cropH=2813&cropW=5000&xPos=0&yPos=257&width=862&height=485&imformat=generic",
+        "credit": "ABC News"
+      }
+    },
+    {
+      "id": "france",
+      "slot": "brief",
+      "who": "France",
+      "category": "government",
+      "country": "FR",
+      "headline": "France regrets post questioning US commitment to human rights",
+      "summary": "France’s UN mission expressed regret for a July X post questioning Washington’s commitment to human rights after a UN vote. The statement narrowed the disagreement to that vote and reaffirmed the alliance, following US moves to block France’s next ambassador.",
+      "quote": "regrets the message published on July 25, 2026 on X, which questioned the US commitment to human rights",
+      "score": 4.5,
+      "verdict": "Identifies the human-rights post and expresses regret, but offers no repair or prevention steps.",
+      "statementUrl": "https://www.thestatesman.com/world/france-regrets-diplomatic-spat-with-us-1503638504.html",
+      "sourceUrl": "https://www.france24.com/en/france/20260913-france-apologises-for-diplomatic-spat-with-us-to-lift-block-on-new-ambassador-to-washington",
+      "sourceName": "France 24",
+      "statementDate": "2026-09-11",
+      "image": {
+        "src": "https://s.france24.com/media/display/8728c102-af4e-11f1-9048-005056a97e36/w:1280/p:16x9/000-C2P7793.jpg",
+        "credit": "France 24"
+      }
+    }
+  ],
+  "image": {
+    "src": "/news/hyrox-owns-inaction-baps-sidesteps-the-harm.webp",
+    "alt": "Illustration for Apology News: HYROX apologises for failing to stop Beijing competitor after soiling"
+  }
+}
