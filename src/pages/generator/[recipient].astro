@@ -367,9 +367,21 @@ const recipientFaqs = faqs[recipient] || [];
 const exampleRecipient = recipient === "partner" ? "romantic" : recipient;
 const exampleLetters = (await getLettersByRecipient(exampleRecipient).catch(() => [])).slice(0, 6);
 
-// Other generators for cross-linking
+// Other generators for cross-linking, closest relationships first (someone on
+// the girlfriend page is likelier to need boyfriend/wife than boss/teacher).
+const recipientGroups = [
+  ["girlfriend", "boyfriend", "romantic", "wife", "husband"],
+  ["mother", "father", "son", "daughter"],
+  ["friend"],
+  ["boss", "colleague", "client", "teacher", "public"],
+];
+const groupOf = (value: string) => recipientGroups.findIndex((g) => g.includes(value));
+const ownGroup = groupOf(recipient);
 const otherRecipients = recipients
   .filter((r) => r.value !== recipient)
+  .map((r, i) => ({ r, rank: (groupOf(r.value) === ownGroup ? 0 : 1) * 100 + i }))
+  .sort((a, b) => a.rank - b.rank)
+  .map(({ r }) => r)
   .slice(0, 6);
 
 // FAQ schema for SEO
@@ -444,27 +456,6 @@ const schemas = faqSchema ? [faqSchema] : undefined;
 
       <!-- Hero Header -->
       <header class="text-center mb-12">
-        <div
-          class="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full mb-6 font-sans"
-        >
-          <svg
-            class="w-4 h-4 text-primary"
-            aria-hidden="true"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-          </svg>
-          <span class="text-sm font-semibold text-primary"
-            >Free Apology Website Builder</span
-          >
-        </div>
-
         <h1
           class="font-display text-4xl md:text-5xl font-semibold text-base-content mb-5"
           style="text-wrap: balance;"
@@ -512,7 +503,7 @@ const schemas = faqSchema ? [faqSchema] : undefined;
                 stroke-width="2"
                 d="M5 13l4 4L19 7"></path>
             </svg>
-            <span>No Signup Required</span>
+            <span>No Signup to Start</span>
           </span>
           <span class="flex items-center gap-2">
             <svg
@@ -541,16 +532,13 @@ const schemas = faqSchema ? [faqSchema] : undefined;
         exampleLetters.length > 0 && (
           <section class="mt-20">
             <div class="text-center space-y-3 mb-10">
-              <span class="inline-block text-sm font-semibold tracking-widest uppercase text-primary font-sans">
-                Examples
-              </span>
-              <h2 class="font-display text-3xl font-semibold text-base-content" style="text-wrap: balance;">
-                Real apologies to a {recipientLabel.toLowerCase()}
+              <h2 class="font-display text-2xl sm:text-3xl font-semibold text-base-content" style="text-wrap: balance;">
+                Real Apologies to a {recipientLabel}
               </h2>
             </div>
             <ul class="grid sm:grid-cols-2 gap-4 font-sans">
-              {exampleLetters.map((l) => (
-                <li>
+              {exampleLetters.map((l, i) => (
+                <li class={i >= 4 ? "hidden sm:block" : undefined}>
                   <a
                     href={`/examples/${l.recipient}/${l.slug}`}
                     class="block h-full p-5 bg-base-100 rounded-xl border border-base-300 hover:border-primary/50 shadow-sm transition-all"
@@ -563,7 +551,7 @@ const schemas = faqSchema ? [faqSchema] : undefined;
             </ul>
             <div class="text-center mt-6">
               <a href={`/examples/${exampleRecipient}`} class="text-primary font-medium font-sans hover:text-primary/80">
-                See all apology examples for a {recipientLabel.toLowerCase()} →
+                See all apology examples for a {recipientLabel.toLowerCase()}&nbsp;→
               </a>
             </div>
           </section>
@@ -575,11 +563,8 @@ const schemas = faqSchema ? [faqSchema] : undefined;
         recipientFaqs.length > 0 && (
           <section class="mt-20">
             <div class="text-center space-y-3 mb-10">
-              <span class="inline-block text-sm font-semibold tracking-widest uppercase text-primary font-sans">
-                FAQ
-              </span>
               <h2
-                class="font-display text-3xl font-semibold text-base-content"
+                class="font-display text-2xl sm:text-3xl font-semibold text-base-content"
                 style="text-wrap: balance;"
               >
                 Frequently Asked Questions About Apologizing to Your{" "}
@@ -617,12 +602,8 @@ const schemas = faqSchema ? [faqSchema] : undefined;
       <!-- Other Generators -->
       <section class="mt-20 mb-8">
         <div class="text-center space-y-3 mb-10">
-          <span
-            class="inline-block text-sm font-semibold tracking-widest uppercase text-primary font-sans"
-            >More Generators</span
-          >
           <h2
-            class="font-display text-3xl font-semibold text-base-content"
+            class="font-display text-2xl sm:text-3xl font-semibold text-base-content"
             style="text-wrap: balance;"
           >
             Need to Apologize to Someone Else?
@@ -633,18 +614,18 @@ const schemas = faqSchema ? [faqSchema] : undefined;
             otherRecipients.map((r) => (
               <a
                 href={`/generator/${r.value}`}
-                class="group flex items-center gap-3 p-4 bg-base-100 rounded-xl border border-base-300 hover:border-primary/50 shadow-sm hover:shadow-md transition-all duration-300"
+                class="group flex items-center gap-2.5 sm:gap-3 p-3.5 sm:p-4 bg-base-100 rounded-xl border border-base-300 hover:border-primary/50 shadow-sm hover:shadow-md transition-all duration-300"
               >
                 <span class="text-2xl flex-shrink-0">
                   {recipientIcons[r.value] || "📝"}
                 </span>
                 <div class="min-w-0">
-                  <span class="font-medium text-base-content group-hover:text-primary transition-colors block truncate">
+                  <span class="font-medium text-base-content group-hover:text-primary transition-colors block leading-snug">
                     {r.label}
                   </span>
                 </div>
                 <svg
-                  class="w-4 h-4 text-base-content/30 group-hover:text-primary ml-auto flex-shrink-0 transition-colors"
+                  class="hidden sm:block w-4 h-4 text-base-content/30 group-hover:text-primary ml-auto flex-shrink-0 transition-colors"
                   aria-hidden="true"
                   fill="none"
                   viewBox="0 0 24 24"
