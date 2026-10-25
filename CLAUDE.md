@@ -7,156 +7,157 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Apologify.com is an Astro web app that turns a written apology into a **beautiful, shareable web page**. The core flow:
 
 1. The user says who the apology is for and what happened, and picks a tone.
-2. AI writes a sincere, personal apology.
-3. The user picks a **design** (one of ~21 distinct full-page templates) and previews it live.
-4. They publish it as its own page and share the link; the recipient can read it and **like** it (a heart).
+2. AI writes a sincere, personal apology about that specific moment.
+3. The user picks a **design** (one of 21 full-page templates) and previews it live.
+4. They publish it and **send** the link (WhatsApp/SMS/email/QR/story image).
+5. The recipient opens a sealed **envelope**, reads it, likes it and can answer **"I forgive you" / "I need some time"** — the sender sees that on the dashboard and gets an email.
 
-The product also keeps a **legacy library of example apology letters** (static + generated) under `/examples`, used mainly as SEO content that funnels into the builder.
+Around the product: a **legacy library of example letters** (`/examples`, SEO), generated **articles** (`/articles`), a US-facing **`/sorry-card`** landing and an original-data **study** (`/research/why-people-apologize`).
 
 ## Tech Stack
 
-- **Framework**: Astro 5, hybrid rendering (static + SSR). Vercel adapter.
-- **UI**: Astro components + Svelte islands for interactivity (generator, like button, publish, theme picker). Preact/React also available.
-- **Styling**: Tailwind CSS + DaisyUI. The brand shell uses a **custom DaisyUI theme `apology`** ("ink on paper" — warm paper base, fountain-pen-ink-blue primary, postmark-red accent, sage success). Defined in `tailwind.config.mjs`; set via `<html data-theme="apology">` in `src/layouts/LayoutBase.astro`. Fonts: Fraunces (display), Lora (body serif), Inter (UI sans), Dancing Script (script), Anton (poster).
-- **AI**: Apology generation runs on **Claude Haiku 4.5** via `src/lib/server/anthropic.js` (`ANTHROPIC_API_KEY`). Article generation (`pnpm injest`) still uses OpenAI. The model is defined in `anthropic.js` — do NOT change it without the owner's say-so.
+- **Framework**: Astro 7 (`output: 'static'` + on-demand routes), Vercel adapter with ISR. `trailingSlash: 'never'`.
+- **UI**: Astro components + Svelte 5 islands (generator, recipient actions, owner bar, publish, theme picker). Preact/React also installed.
+- **Styling**: Tailwind CSS + DaisyUI. Custom DaisyUI theme **`apology`** ("ink on paper": paper `#F5F1E8`, ink `#241F1A`, postmark-red primary `#C1272D`, ink-blue accent `#2C4A6E`, sage secondary) in `tailwind.config.mjs`, set via `<html data-theme="apology">` in `src/layouts/LayoutBase.astro`. Fonts: Fraunces (display), Lora (body serif), Inter (UI sans), Dancing Script (script), Anton (poster).
+- **AI**: apology generation runs on **Claude Haiku 4.5** via `src/lib/server/anthropic.js` (`ANTHROPIC_API_KEY`). Article generation (`pnpm injest`) still uses OpenAI. The model is defined in `anthropic.js` — do NOT change it without the owner's say-so.
 - **Database**: Turso (libsql) — `src/lib/turso.ts`.
-- **Auth**: better-auth (`src/lib/auth.ts` / `auth-client.ts`). Email + optional social. Required only to publish publicly.
-- **Package manager**: pnpm.
+- **Auth**: better-auth (`src/lib/auth.ts` / `auth-client.ts`), Google sign-in. Required only to publish.
+- **Email**: Resend REST API (`src/lib/server/notify.ts`), domain `apologify.com` verified (DNS at Namecheap).
+- **Share images**: `@vercel/og` (satori) in `src/lib/server/shareImage.ts`.
+- **Analytics**: Vercel Web Analytics (`src/components/VercelAnalytics.astro`, in `LayoutBase`). UTM params show up as `utmSource`/`utmCampaign`.
+- **Package manager**: pnpm. `node_modules` was installed with **pnpm 10.33.0**; the global pnpm 11 wants to relink the store, so add deps with `CI=true npx -y pnpm@10.33.0 add <pkg>`.
 
 ## Development Commands
 
 ```bash
-pnpm install          # install deps
-pnpm dev              # dev server (localhost:4321)
-pnpm build            # production build (astro check + astro build) — the real gate before deploy
-pnpm build:remote     # build against the remote DB
-pnpm preview          # preview the production build
-pnpm astro check      # type-check only
-pnpm db:init          # init legacy user_letters table
-pnpm db:init-pages    # init / migrate the apology_pages table (adds columns idempotently)
-pnpm injest           # generate articles
+pnpm install                 # install deps (see pnpm note above)
+npx astro dev                # dev server, runs as a background daemon on localhost:4321
+npx astro dev status|logs|stop
+npx astro check              # type-check
+npx astro build              # production build (the real gate before deploy)
+pnpm db:init-pages           # init / migrate apology_pages (adds columns idempotently)
+pnpm injest                  # generate articles (OpenAI)
+node scripts/research/analyze-apologies.mjs   # regenerate the apology study data
 ```
 
-Note: after large edits the Astro dev server's HMR can get into a bad state (500s / stale CSS). If that happens, restart it (`npx astro dev stop` then `pnpm dev`) — it is not a code error if `astro check` / `pnpm build` pass.
+`pnpm build` = `astro check && astro build`. Deploys: push to `main` → Vercel production (check with `gh api repos/sotoplatero/apologify/commits/<sha>/status`). After large edits the dev server's HMR can get stuck — `npx astro dev stop` and start again; it's not a code error if `astro check`/`astro build` pass. Production is behind Vercel's bot checkpoint for non-browser clients (curl gets 429) — test production from a real browser.
 
 ## Architecture
 
-### Apology pages (the current product)
+### Apology pages (the product)
 
-Stored in the **`apology_pages`** Turso table. Data access + types live in **`src/lib/apologyPages.ts`** (`ApologyPage` interface). Key columns: `slug`, `recipient`, `recipient_name`, `sender_name`, `visibility` (`private`|`public`), `owner_id`, `message`, `title`, `theme`, `tone`, `accepted_at`, `likes`, `created_at`.
+Table **`apology_pages`**; data access + types in **`src/lib/apologyPages.ts`** (`ApologyPage`). Columns: `slug`, `recipient`, `recipient_name`, `sender_name`, `visibility` (`private`|`public`), `owner_id`, `message`, `title`, `theme`, `tone`, `is_paid`, `accepted_at` (legacy), `likes`, `opened_at`, `response` (`forgiven`|`not_yet`), `responded_at`, `created_at`. Like dedup in `page_likes` (salted IP+UA hash).
 
-Key functions in `apologyPages.ts`:
-- `saveApologyPage(...)` — insert a page.
-- `getApologyPageBySlug(slug)` — fetch one (anyone with the link can view; drafts are `noindex`).
-- `publishApologyPage(slug, userId, theme?)` — make public + claim ownership (owner or unowned only).
-- `updatePageTheme(slug, ownerId, theme)` — change design (owner-only).
-- `likeApology(slug)` / `getApologyLikes(slug)` — like counter.
-- `getPublishedPagesByOwner(ownerId)` — the dashboard list (published only).
-- `getRecentPublicPages` / `getAllPublicSlugs` — public directory / sitemap.
+Key functions: `saveApologyPage`, `getApologyPageBySlug`, `publishApologyPage` (owner or unowned only), `updatePageTheme` (owner-only), `likeApology`, `markApologyOpened` (first non-owner open only), `respondToApology` (owner can't answer their own), `getPublishedPagesByOwner`, `getRecentPublicPages`, `getAllPublicSlugs`.
 
-### Generation & publish flow
+### Generation, publish & send flow
 
-1. `ApologyGenerator.svelte` (on `/generator` and `/generator/[recipient]`) collects: who it's for, what happened, tone, signature.
-2. Submits Astro action `createApologyPage` (`src/actions/index.ts`) → calls OpenAI (`src/lib/server/openai.js`) → saves a **private draft** to `apology_pages`, returns the slug.
-3. Step 2 is a full-screen editor: a live preview (`/sorry/[slug]?preview=1&theme=…` in an iframe) + a design picker (thumbnail grid on desktop, horizontal filmstrip bottom-sheet on mobile). Body scroll is locked while open.
-4. **Publish** (in the editor) calls the `publishApologyPage` action directly:
-   - signed in → publishes and goes to `/dashboard` (one click);
-   - anonymous → redirected to `/sign-up?redirect_url=/publish?...`; after auth, `/publish` completes it.
-5. The live page is `/sorry/[slug]`, rendered with the chosen template; the recipient can **like** it.
+1. `ApologyGenerator.svelte` (on `/generator` and `/generator/[recipient]`) collects who / what happened / tone / signature.
+2. Action `createApologyPage` (`src/actions/index.ts`) → moderation pre-check → `generateApologyContent()` (Claude Haiku via `callLLM`) → moderation post-check → saves a **private draft**, returns the slug.
+3. Full-screen editor: live preview iframe (`/sorry/[slug]?preview=1&theme=…`) + design picker.
+4. **Publish** calls `publishApologyPage`: signed in → `/sorry/[slug]?published=1`; anonymous → `/sign-up?redirect_url=/publish?...`, and `/publish` finishes it.
+5. On `/sorry/[slug]`, the **owner** sees `OwnerBar.svelte`: the **"Send it"** panel (editable teaser message, WhatsApp/Telegram/SMS/own-email links, copy, native share, QR code, story teaser). It opens automatically after publishing and via `?send=1` (dashboard "Send" button).
+6. The **recipient** sees `EnvelopeReveal.astro` (tap to open, once per session; records `opened_at`), then the template, whose `ApologyActions.svelte` runs: heart/like → "I forgive you ❤️" / "I need some time" → "Share to your story" / "Make your own apology". Templates whose heart label already says "forgive" count the like as the answer.
+7. `notifyOwner()` emails the owner on first open and on each answer (no-op without `RESEND_API_KEY` + `EMAIL_FROM`). `/dashboard` shows Not opened / Opened / Forgiven / Needs time.
+
+### Share images
+
+- `/og/[slug].png` (1200×630, the page's `og:image`) and `/story/[slug].png` (1080×1920): recipient name + title + sender on a sealed envelope — **never the apology text**.
+- satori rejects `undefined` style values and `inset`; the envelope is an inline SVG.
 
 ### Designs / templates
 
-- Each design is a self-contained full-page Astro component in `src/components/templates/` receiving `{ title, heading, paragraphs, senderName, slug, acceptedAt, preview }`. They hardcode their own colors/motion (each is its own visual world) and include `@media (prefers-reduced-motion: reduce)`.
-- The catalog is `src/lib/themes.js` (`THEMES` array: `id`, `label`, `emoji`, `premium`, `bgClass`). `listThemes()`, `resolveTheme()`, `isPremiumTheme()`.
+- Each design is a self-contained full-page Astro component in `src/components/templates/` receiving `{ title, heading, paragraphs, senderName, slug, acceptedAt, preview }`, with its own palette/motion and `@media (prefers-reduced-motion: reduce)`.
+- Catalog: `src/lib/themes.js` (`THEMES`: `id`, `label`, `emoji`, `premium`, `bgClass`; `listThemes()`, `resolveTheme()`, `isPremiumTheme()`).
 - The **template map** (id → component) is duplicated in `src/pages/sorry/[slug].astro` and `src/pages/demo.astro` — **add new templates in both**.
-- `src/pages/demo.astro` (`/demo?theme=`) renders any template with fixed sample content (no DB) — used for previews and thumbnails.
-- Thumbnails: `public/designs/<id>.jpg`, ~820×1040, captured from `/demo?theme=<id>&bare=1` (the `&bare=1` hides the "Use this design" CTA; also remove the `astro-dev-toolbar` element before screenshotting). Used by the picker, the home grid, and `/designs`.
-- **Premium/paywall is deferred**: all designs are currently `premium: false`. `publishApologyPage`/`updateApologyTheme` still downgrade `premium: true` themes to `classic`, so when monetization ships, flip the flags and add the paywall.
+- `/demo?theme=` renders any template with sample content (no DB). Thumbnails: `public/designs/<id>.jpg` (~820×1040) from `/demo?theme=<id>&bare=1` (remove `astro-dev-toolbar` first).
+- **Premium/paywall is deferred**: all designs are `premium: false`; publish/update still downgrade premium themes to `classic`. Charging requires Vercel Pro (Hobby is non-commercial).
 
-### Legacy letters library (still live, mostly SEO)
+### Example letters library (legacy, SEO)
 
-- Static examples in `src/content/letters/` (JSON by recipient). Generated ones in the `user_letters` Turso table (`src/lib/db.ts`).
-- `src/lib/letters.ts` unifies both; `src/lib/database.ts` queries static content collections.
-- Surfaces at `/examples`, `/examples/[recipient]`, `/examples/[recipient]/[slug]` and feeds the home "Made in the open" section. This is the older system; the strategic direction is for public apology pages to become the living example library.
+- Live table **`letters`** (`source`: `static` seed | `generated`), accessed via `src/lib/db.ts` / `src/lib/letters.ts`. `user_letters` is the old pre-migration table — not read by the site.
+- Routes: `/examples`, `/examples/[...page]`, `/examples/[recipient]`, `/examples/[recipient]/[slug]` (SSR, ISR-cached).
+- `src/lib/recipients.js`: `normalizeRecipient()` maps legacy free-text recipients ("Boyfriend ", "gf") to canonical ids for 301s; `recipientLabel()`. Full recipient list: `allRecipients` in `src/lib/apologyData.js` (`recipients` = only those with generator pages).
+- **Pruned letters**: `letters.unlisted = 1` (not indexed by Google or not a genuine apology, and no search clicks) → page answers **410 Gone**; every listing/count/related/sitemap query filters `unlisted = 0`. Reversible: `node scripts/unlist-letters.js --restore scripts/research/unlisted-letters.json`.
 
 ### Articles
 
-Markdown under `src/content/articles/` (loaded via `src/lib/articles`). Generated by `injest.js` (patterns in `src/lib/patterns.js`, prompts in `src/lib/prompts.js`, Unsplash images). Routes: `/articles/[slug]`, `/articles/[...page]`.
+Markdown in `src/data/articles/<slug>/index.md`, loaded with `import.meta.glob` in `src/lib/articles.ts` (not content collections — see `docs/PENDING.md`). Generated by `injest.js` (patterns in `src/lib/patterns.js`, prompts in `src/lib/prompts.js`, Unsplash images). Routes: `/articles/[slug]`, `/articles/[...page]`. 42 thin, never-indexed articles were removed (git history keeps them).
+
+### Research
+
+- `/research/why-people-apologize`: 845 genuine apologies classified into 14 reasons (Claude Haiku 4.5). Data: `src/data/apology-study.json` (aggregates only) produced by `scripts/research/analyze-apologies.mjs`; the per-letter cache in `scripts/research/.cache/` is gitignored and never committed. Charts: `src/components/research/BarChart.astro` (bar blue `#2F5E99` + red highlight, validated against the paper surface).
+- Shareable chart: `public/research/why-people-apologize-chart.png`. Outreach copy and target list: `docs/outreach/apology-study.md`.
+
+### Social Studio
+
+`social-studio/` is a standalone CLI that renders the real designs to social images via the app (`POST /api/social-card` + gated `/studio/card`, key `STUDIO_API_KEY`) and publishes via Post Bridge. See `social-studio/README.md`.
 
 ### Key routes
 
-- `/` — homepage (hero with a live product mockup, "why a page", **designs grid (3×2)**, how it works, "made in the open", recipients, FAQ, articles, CTA).
-- `/generator`, `/generator/[recipient]` — the builder (SEO landing per recipient prefills it).
-- `/designs` — **gallery of all designs** (indexable); cards open `/demo?theme=`.
-- `/sorry/[slug]` — the live apology page (public = indexable; draft/preview = `noindex`).
-- `/customize?slug=` — change an existing page's design (owner-only).
-- `/publish?slug=&theme=` — publish confirmation / post-sign-up completion.
-- `/dashboard` — the owner's **published** pages (change design / view).
-- `/demo?theme=` — sample-content preview (`noindex`).
-- `/examples*`, `/articles*` — legacy library + blog.
+- `/` — homepage. `/generator`, `/generator/[recipient]` — builder (recipient landings target "sorry website for {recipient}", with real example links + FAQs).
+- `/sorry/[slug]` — the live page (public = indexable; draft/preview = `noindex`). `/og/[slug].png`, `/story/[slug].png` — share images.
+- `/sorry-card` — US "sorry card" landing. `/research/why-people-apologize` — study. `/designs` — design gallery.
+- `/customize?slug=` (owner), `/publish?slug=&theme=`, `/dashboard` (owner's published pages + status + Send), `/demo?theme=`.
+- `/examples*`, `/articles*` — legacy library + blog. `/about` carries the Twemoji icon credit (CC BY 4.0).
 
-`noindex`: `/demo`, `/customize`, `/publish`, `/sign-in`, `/sign-up`, `/dashboard`, and non-public `/sorry` pages. `/designs` and public pages are indexable.
+`noindex`: `/demo`, `/customize`, `/publish`, `/sign-in`, `/sign-up`, `/dashboard`, `/404`, and non-public `/sorry` pages.
 
 ### URLs, caching & sitemaps (gotchas)
 
-- `trailingSlash: 'never'` — Vercel 308-redirects `/x/` → `/x`; canonicals are slash-less (normalized in `LayoutBase.astro`). Never link with a trailing slash.
-- Every SSR route not in the ISR `exclude` list is **cached forever per deploy**. Anything per-request (actions, auth, APIs, drafts) must be excluded — `/_actions/*` was once cached and served one user's apology to everyone for months.
-- Sitemaps: `sitemap-index.xml` (static, via @astrojs/sitemap, filtered), `sitemap-examples.xml` (DB letters), `sitemap-pages.xml` (public `/sorry` pages). All listed in `public/robots.txt` and submitted in Search Console.
-- Legacy `/examples/<free-text recipient>/<slug>` URLs 301 via `src/lib/recipients.js` + slug lookup; unknown ones `Astro.rewrite('/404')` (real 404).
-- Pruned letters: `letters.unlisted = 1` (not indexed by Google or not a genuine apology, and no search clicks) → their page answers **410 Gone** and every listing/count/sitemap query filters `unlisted = 0`. Reversible: `node scripts/unlist-letters.js --restore scripts/research/unlisted-letters.json`.
+- `trailingSlash: 'never'` — Vercel 308-redirects `/x/` → `/x`; canonicals are slash-less and query-free (normalized in `LayoutBase.astro`). Never link with a trailing slash.
+- Every on-demand route not in the ISR `exclude` list (`astro.config.mjs`) is **cached forever per deploy**, and ISR ignores the query string. Anything per-request (actions, auth, APIs, drafts) must be excluded — `/_actions/*` was once cached and served one user's apology to everyone for months. Images that vary by query need separate paths (hence `/og/` vs `/story/`).
+- Sitemaps: `sitemap-index.xml` (static, @astrojs/sitemap, filtered), `sitemap-examples.xml` (DB letters, `unlisted = 0`), `sitemap-pages.xml` (public `/sorry` pages). All in `public/robots.txt` and submitted in Search Console.
+- Legacy `/examples/<free-text recipient>/<slug>` URLs 301 to the canonical letter; unknown ones `Astro.rewrite('/404')` (real 404; `404.astro` is on-demand so rewrites work).
 
 ## Important Files
 
-- `src/actions/index.ts` — actions: `createApologyPage`, `publishApologyPage`, `likeApology`, `getApologyLikes`, `updateApologyTheme` (+ `generateApologyContent` prompt).
+- `src/actions/index.ts` — actions: `createApologyPage` (+ `generateApologyContent` prompt), `publishApologyPage`, `likeApology`, `getApologyLikes` (likes + response + names), `markApologyOpened`, `respondToApology`, `updateApologyTheme`, `unpublishApology`.
 - `src/lib/apologyPages.ts` — apology-page DB layer + types.
-- `src/lib/themes.js` — design catalog.
-- `src/lib/server/anthropic.js` — apology LLM (Claude Haiku 4.5; model configured here).
-- `src/lib/display.js` — `apologyHeading()` / `apologyParagraphsHtml()` (shared render helpers).
-- `src/components/ApologyGenerator.svelte` — the builder + editor.
-- `src/components/CustomizeTheme.svelte` — change-design editor.
-- `src/components/ApologyActions.svelte` — the recipient's like + share.
-- `src/components/templates/*` — the ~21 design templates.
-- `scripts/init-apology-pages.js` — apology_pages schema/migrations.
+- `src/lib/server/anthropic.js` — apology LLM (Claude Haiku 4.5).
+- `src/lib/server/notify.ts` — owner emails (Resend). `src/lib/server/shareImage.ts` — OG/story images. `src/lib/server/moderation.ts` — content gate.
+- `src/components/ApologyGenerator.svelte` — builder + editor. `OwnerBar.svelte` — send panel. `ApologyActions.svelte` — recipient like/answer/share. `EnvelopeReveal.astro` — tap-to-open envelope.
+- `src/lib/themes.js` — design catalog. `src/lib/display.js` — `apologyHeading()` / `apologyParagraphsHtml()`.
+- `scripts/init-apology-pages.js` — apology_pages schema/migrations. `scripts/unlist-letters.js` — prune/restore letters.
+- `docs/PENDING.md` — open decisions and parked ideas.
 
 ## Environment Variables
 
 See `.env.example`:
-- `OPENAI_API_KEY` — apology generation.
+- `ANTHROPIC_API_KEY` — apology generation (and the research script).
 - `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN` — database.
-- better-auth secrets (see `src/lib/auth.ts`) — auth / publishing.
-- `UNSPLASH_ACCESS_KEY` — article generation only.
+- `BETTER_AUTH_URL`, `BETTER_AUTH_SECRET`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` — auth.
+- `RESEND_API_KEY`, `EMAIL_FROM` (`Apologify <hello@apologify.com>`) — owner notifications.
+- `STUDIO_API_KEY` — Social Studio render endpoint.
+- `OPENAI_API_KEY`, `UNSPLASH_ACCESS_KEY` — article generation only.
 
-## Setup
-
-1. `pnpm install`
-2. Set `.env` (OpenAI, Turso, auth).
-3. `pnpm db:init && pnpm db:init-pages`
-4. `pnpm dev`
+Production env vars live in Vercel (project `damian-sotos-projects/apologify`); the CLI is linked (`.vercel/`, `.env.local` only holds `VERCEL_OIDC_TOKEN`).
 
 ## Testing & Validation
 
-- No formal test suite. Run **`pnpm build`** before deploying — it runs `astro check` and the full Vercel build, the real production gate.
-- Manually test the generator → publish → like flow; `pnpm preview` to check the production build locally.
+- No formal test suite (a few `*.test.js` helpers). Run `npx astro check` and `npx astro build` before pushing.
+- Manually test generator → publish → send → (incognito) open envelope → like → answer, and confirm the owner email.
+- For visual checks, render with Puppeteer from `social-studio/node_modules/puppeteer` against the local dev server (desktop 1440 + mobile 390).
+- Test data in production DB: insert a throwaway page, test, then delete it (and its `page_likes` rows).
 
 ## Common Patterns
 
 ### Add a new design template
 
-1. Create `src/components/templates/XxxTemplate.astro` following the props contract above (include motion + `prefers-reduced-motion`; hardcode its palette).
-2. Register it in `src/lib/themes.js` (`id`, `label`, `emoji`, `premium`, `bgClass`).
+1. Create `src/components/templates/XxxTemplate.astro` following the props contract (motion + `prefers-reduced-motion`; hardcode its palette).
+2. Register it in `src/lib/themes.js`.
 3. Add the `id → component` entry to **both** `src/pages/sorry/[slug].astro` and `src/pages/demo.astro`.
-4. Generate `public/designs/<id>.jpg` by screenshotting `/demo?theme=<id>&bare=1` (~820×1040, remove `astro-dev-toolbar` first; `&bare=1` hides the "Use this design" CTA).
+4. Generate `public/designs/<id>.jpg` from `/demo?theme=<id>&bare=1`.
 
-### Change / regenerate a page's design
+### Add a column to apology_pages
 
-Owner-only via `updateApologyTheme` (action) → `updatePageTheme` (db). UI at `/customize?slug=`.
+Add an idempotent `ALTER TABLE` to `scripts/init-apology-pages.js`, run `pnpm db:init-pages` **before** deploying code that reads it, then extend `ApologyPage` + `rowToPage` in `src/lib/apologyPages.ts`.
 
 ### Moderation
 
-Public pages are user content — delete via a `apology_pages` query by slug/owner (add a helper if needed). Keep the public directory clean since it is indexable and reusable.
+Public pages are user content — delete via an `apology_pages` query by slug/owner. Keep the public directory clean; it is indexable. Example letters are pruned with `unlisted`, not deleted.
 
 ### Modifying the generator
 
-- Validation: Zod schema in `createApologyPage` (`src/actions/index.ts`).
-- Prompt: `generateApologyContent()` in the same file.
-- UI: `ApologyGenerator.svelte`.
+- Validation: Zod schema in `createApologyPage`. Prompt: `generateApologyContent()`. UI: `ApologyGenerator.svelte`.
+- Apologies must recount the actual wrongdoing, specifically — never generic.
