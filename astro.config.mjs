@@ -35,6 +35,10 @@ export default defineConfig({
         "/sign-up",
         /^\/api\/.*/,
         /^\/sorry\/.*/,
+        // Astro actions are POSTs with per-request results; ISR cached the
+        // first createApologyPage response and replayed it to every user.
+        /^\/_actions\/.*/,
+        /^\/_server-islands\/.*/,
       ],
     },
   }),
