@@ -1,0 +1,139 @@
+{
+  "week": "2026-w39",
+  "slug": "oxford-united-acts-pakistani-radio-host-leans-on-intent",
+  "title": "Oxford United Acts; Pakistani Radio Host Leans on Intent",
+  "description": "The public apologies of the week, scored.",
+  "date": "2026-09-21",
+  "intro": "Oxford United earns this week’s highest grade by withdrawing its collection and admitting inadequate checks. At the bottom, a Pakistani radio host’s apology stresses intent without offering a remedy—a reminder that regret needs action.",
+  "items": [
+    {
+      "id": "oxford-united",
+      "slot": "best",
+      "who": "Oxford United",
+      "category": "sports",
+      "country": "GB",
+      "headline": "Oxford United apologises and withdraws ‘United 93’ clothing range",
+      "summary": "Oxford United apologised after launching clothing bearing ‘United 93’ near the 25th anniversary of the September 11 attacks. The club accepted responsibility for inadequate checks, withdrew the collection immediately and said it was reviewing its approval processes.",
+      "quote": "we take full responsibility for not undertaking proper due diligence.",
+      "score": 7.5,
+      "verdict": "Withdraws the collection and admits inadequate checks, but never names the ‘United 93’ association.",
+      "statementUrl": "https://www.nytimes.com/athletic/7607502/2026/09/18/oxford-united-united-93-apology",
+      "sourceUrl": "https://www.nytimes.com/athletic/7607502/2026/09/18/oxford-united-united-93-apology",
+      "sourceName": "The Athletic",
+      "statementDate": "2026-09-18"
+    },
+    {
+      "id": "pakistani-radio-host",
+      "slot": "worst",
+      "who": "Pakistani radio host",
+      "category": "celebrity",
+      "country": "PK",
+      "headline": "Pakistani RJ apologises for remarks about Katrina Kaif’s postpartum appearance",
+      "summary": "Pakistani radio host Dr. Ejaz Waris apologised after criticism of his comments about Katrina Kaif’s postpartum appearance and Salman Khan’s public response. He expressed regret but repeatedly denied intending to body-shame her, offering no concrete repair or prevention measures.",
+      "quote": "My words would have hurt, but my intention was never to body-shame",
+      "score": 3,
+      "verdict": "Waris apologises after backlash but stresses intent and offers no remedy for his remarks.",
+      "sourceUrl": "https://www.thestatesman.com/entertainment/bollywood/sorry-dil-se-pakistani-rj-apologises-to-katrina-kaif-after-salman-khan-questions-trolls-over-her-post-pregnancy-weight-1503641031.html",
+      "sourceName": "The Statesman",
+      "image": {
+        "src": "https://www.thestatesman.com/wp-content/uploads/2026/09/Sorry-dil-se-Pakistani-RJ-apologises-to-Katrina-Kaif-after-Salman-Khan-questions-trolls-over-her-post-pregnancy-weight.webp",
+        "credit": "The Statesman"
+      }
+    },
+    {
+      "id": "converse",
+      "slot": "brief",
+      "who": "Converse",
+      "category": "brand",
+      "country": "US",
+      "headline": "Converse apologizes and removes ad criticized for racist imagery",
+      "summary": "Converse withdrew an Instagram sneaker ad after critics said its imagery evoked the Ku Klux Klan and lynching. The company apologized, acknowledged getting the image wrong, and said it was removing it everywhere, but offered no specific changes to its advertising review process.",
+      "quote": "We understand why this image is deeply upsetting and recognize that we got this wrong.",
+      "score": 6.5,
+      "verdict": "Removes the ad and apologizes, but never names the racist imagery or commits to review changes.",
+      "statementUrl": "https://www.cbsnews.com/news/converse-pulls-sneaker-ad-racist-imagery",
+      "sourceUrl": "https://www.cbsnews.com/news/converse-pulls-sneaker-ad-racist-imagery",
+      "sourceName": "CBS News",
+      "statementDate": "2026-09-18",
+      "image": {
+        "src": "https://assets3.cbsnewsstatic.com/hub/i/r/2026/09/21/720fd518-21f3-4387-af80-8c24c63a88eb/thumbnail/1200x630/4262d6daf4a2181f67b38fa687c29bc5/gettyimages-2257490753.jpg",
+        "credit": "CBS News"
+      }
+    },
+    {
+      "id": "joanna-wietrzyk",
+      "slot": "brief",
+      "who": "Joanna Wietrzyk",
+      "category": "sports",
+      "headline": "Joanna Wietrzyk apologizes and forfeits Beijing Hyrox victory",
+      "summary": "Joanna Wietrzyk apologized after continuing a Beijing Hyrox race after soiling herself. She acknowledged she should have stopped and announced she would withdraw retroactively and surrender her points, reversing her initial celebratory response.",
+      "quote": "Looking back, I regret the decision to not have stepped off the track. I recognize that I should have made a different choice.",
+      "score": 7,
+      "verdict": "Forfeits her points and admits she should have stopped, but avoids naming the soiling.",
+      "sourceUrl": "https://www.bbc.com/news/articles/ck0e35qyqlx0o",
+      "sourceName": "BBC",
+      "statementDate": "2026-09-17",
+      "image": {
+        "src": "https://ichef.bbci.co.uk/news/1024/branded_news/ae40/live/65f662f0-b2a5-11f1-bd7d-0f16235ccc4c.jpg",
+        "credit": "BBC"
+      }
+    },
+    {
+      "id": "michael-o-leary",
+      "slot": "brief",
+      "who": "Michael O’Leary",
+      "category": "business",
+      "country": "IE",
+      "headline": "Michael O’Leary apologises for calling rival airlines ‘rapists’",
+      "summary": "Michael O’Leary called rival airlines “high-fare rapists” and initially defended the wording despite criticism from sexual violence support groups. He later apologised, acknowledged the distress caused to survivors and promised not to use the language again.",
+      "quote": "sincerely and unreservedly",
+      "score": 6.5,
+      "verdict": "Acknowledges harm to survivors and promises no repeat, but offers no repair after initially refusing.",
+      "sourceUrl": "https://www.bbc.co.uk/news/articles/cm1j4kj57k08o",
+      "sourceName": "BBC News",
+      "image": {
+        "src": "https://ichef.bbci.co.uk/ace/branded_news/1200/cpsprodpb/4468/live/9a3d9590-9fbc-11ef-8538-e1655f5a8342.jpg",
+        "credit": "BBC News"
+      }
+    },
+    {
+      "id": "tom-tate",
+      "slot": "brief",
+      "who": "Tom Tate",
+      "category": "politics",
+      "country": "AU",
+      "headline": "Tom Tate apologises for swearing at journalist over Trump dinner questions",
+      "summary": "Gold Coast Mayor Tom Tate apologised to reporters and Australian viewers after swearing at a journalist questioning his account of a dinner with Donald Trump. He acknowledged going too far but maintained his account of the dinner; the evidence identifies no repair or prevention measures.",
+      "score": 6.5,
+      "verdict": "Apologises for swearing at a journalist, but offers no repair or steps to prevent repetition.",
+      "sourceUrl": "https://www.abc.net.au/news/2026-09-16/mayor-tom-tate-apology-donald-trump-dinner-recollection/107159710",
+      "sourceName": "ABC News",
+      "statementDate": "2026-09-16",
+      "image": {
+        "src": "https://live-production.wcms.abc-cdn.net.au/8d9755814d02f02869cee95439a95736?impolicy=wcms_watermark_news&cropH=2319&cropW=4123&xPos=0&yPos=87&width=862&height=485&imformat=generic",
+        "credit": "ABC News"
+      }
+    },
+    {
+      "id": "organizers-of-the-hockey-match",
+      "slot": "brief",
+      "who": "Organizers of the hockey match",
+      "category": "other",
+      "headline": "Asian Games organizers apologize for playing North Korea’s anthem for South Korea",
+      "summary": "North Korea’s anthem was played before South Korea’s hockey match against Bangladesh at the Asian Games. After South Korea’s delegation complained, two organizing committee officials visited its office that evening to deliver a formal apology; the evidence does not provide their exact words or any promised preventive measures.",
+      "score": 4.5,
+      "verdict": "Officials apologized for the anthem error, but no concrete prevention measures were reported.",
+      "sourceUrl": "https://en.yna.co.kr/view/AEN20260919000800320",
+      "sourceName": "Yonhap News Agency",
+      "statementDate": "2026-09-18",
+      "image": {
+        "src": "https://img9.yna.co.kr/photo/yna/YH/2026/09/18/PYH2026091823810001300_P4.jpg",
+        "credit": "Yonhap News Agency"
+      }
+    }
+  ],
+  "image": {
+    "src": "/news/oxford-united-acts-pakistani-radio-host-leans-on-intent.webp",
+    "alt": "Illustration for Apology News: Oxford United apologises and withdraws ‘United 93’ clothing range"
+  }
+}
