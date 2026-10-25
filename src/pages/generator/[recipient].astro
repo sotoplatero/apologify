@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import { recipients } from "../../lib/apologyData.js";
 import ApologyGenerator from "../../components/ApologyGenerator.svelte";
+import { getLettersByRecipient } from "../../lib/db";
 
 export async function getStaticPaths() {
   return recipients.map((recipient) => ({
@@ -143,8 +144,10 @@ const meta = isPublic
       keywords: `public apology, company apology statement, apology website, sorry page`,
     }
   : {
-      title: `Apology Website Builder for ${recipientLabel} — Free Sorry Page`,
-      description: `Make a shareable apology website for your ${recipientLabel.toLowerCase()} in seconds and send the link. Free, no signup to create. Pick a theme and share instantly.`,
+      // Mirrors the top Search Console queries ("sorry website for girlfriend",
+      // "apology website for girlfriend", "sorry link").
+      title: `Sorry Website for ${recipientLabel} — Free Apology Page & Link`,
+      description: `Make a cute sorry website for your ${recipientLabel.toLowerCase()} in seconds: say what happened, pick a design, and send them the link. Free, no signup to create.`,
       keywords: `sorry website for ${recipient}, apology website for ${recipient}, apology page, sorry link`,
     };
 
@@ -299,6 +302,50 @@ const faqs: Record<string, { question: string; answer: string }[]> = {
         "Acknowledge the specific action that hurt her, validate her feelings, take full responsibility without excuses, express your love, and outline how you'll be a better parent.",
     },
   ],
+  girlfriend: [
+    {
+      question: "How do I make a sorry website for my girlfriend?",
+      answer:
+        "Tell us her name and what happened, pick a tone, and Apologify writes a sincere apology about that specific moment. Choose a design — cute, letter, poster and more — preview it, then publish and send her the link.",
+    },
+    {
+      question: "Is the sorry website free?",
+      answer:
+        "Yes. Writing the apology and previewing every design is free with no signup. You only sign in (one click with Google) when you publish the page so you can find and edit it later.",
+    },
+    {
+      question: "What should I say when apologizing to my girlfriend?",
+      answer:
+        "Name exactly what you did, show you understand how it made her feel, don't make excuses, and say what you'll do differently. A specific apology lands far better than a generic “sorry for everything”.",
+    },
+    {
+      question: "Will I know if she reads it?",
+      answer:
+        "She can tap a heart on the page to let you know she read it, and you can see that on your dashboard.",
+    },
+  ],
+  boyfriend: [
+    {
+      question: "How do I make a sorry website for my boyfriend?",
+      answer:
+        "Tell us his name and what happened, pick a tone, and Apologify writes a sincere apology about that specific moment. Choose a design, preview it, then publish and send him the link.",
+    },
+    {
+      question: "Is the sorry website free?",
+      answer:
+        "Yes. Writing the apology and previewing every design is free with no signup. You only sign in (one click with Google) when you publish the page.",
+    },
+    {
+      question: "What should I say when apologizing to my boyfriend?",
+      answer:
+        "Be specific about what you did, acknowledge how it affected him, skip the excuses, and say what will change. Honest and concrete beats long and dramatic.",
+    },
+    {
+      question: "Will I know if he reads it?",
+      answer:
+        "He can tap a heart on the page to let you know he read it, and you can see that on your dashboard.",
+    },
+  ],
   romantic: [
     {
       question: "How do I write a romantic apology letter to my partner?",
@@ -314,6 +361,11 @@ const faqs: Record<string, { question: string; answer: string }[]> = {
 };
 
 const recipientFaqs = faqs[recipient] || [];
+
+// Real example apologies for this recipient (built at build time) — gives the
+// landing substance beyond the form and links it into the examples library.
+const exampleRecipient = recipient === "partner" ? "romantic" : recipient;
+const exampleLetters = (await getLettersByRecipient(exampleRecipient).catch(() => [])).slice(0, 6);
 
 // Other generators for cross-linking
 const otherRecipients = recipients
@@ -417,7 +469,7 @@ const schemas = faqSchema ? [faqSchema] : undefined;
           class="font-display text-4xl md:text-5xl font-semibold text-base-content mb-5"
           style="text-wrap: balance;"
         >
-          {isPublic ? "Public Apology Website Builder" : `Sorry Page Builder for ${recipientLabel}`}
+          {isPublic ? "Public Apology Website Builder" : `Sorry Website for Your ${recipientLabel}`}
         </h1>
 
         <p
@@ -483,6 +535,40 @@ const schemas = faqSchema ? [faqSchema] : undefined;
 
       <!-- Generator Form Component -->
       <ApologyGenerator client:load initialToWhom={initialToWhom} />
+
+      <!-- Example apologies -->
+      {
+        exampleLetters.length > 0 && (
+          <section class="mt-20">
+            <div class="text-center space-y-3 mb-10">
+              <span class="inline-block text-sm font-semibold tracking-widest uppercase text-primary font-sans">
+                Examples
+              </span>
+              <h2 class="font-display text-3xl font-semibold text-base-content" style="text-wrap: balance;">
+                Real apologies to a {recipientLabel.toLowerCase()}
+              </h2>
+            </div>
+            <ul class="grid sm:grid-cols-2 gap-4 font-sans">
+              {exampleLetters.map((l) => (
+                <li>
+                  <a
+                    href={`/examples/${l.recipient}/${l.slug}`}
+                    class="block h-full p-5 bg-base-100 rounded-xl border border-base-300 hover:border-primary/50 shadow-sm transition-all"
+                  >
+                    <span class="font-medium text-base-content block mb-1">{l.title || l.context}</span>
+                    <span class="text-sm text-base-content/60 line-clamp-2">{l.letters[0]?.slice(0, 160)}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div class="text-center mt-6">
+              <a href={`/examples/${exampleRecipient}`} class="text-primary font-medium font-sans hover:text-primary/80">
+                See all apology examples for a {recipientLabel.toLowerCase()} →
+              </a>
+            </div>
+          </section>
+        )
+      }
 
       <!-- FAQ Section -->
       {

@@ -35,6 +35,9 @@ const ALL_RECIPIENTS = [
   { value: 'public', label: 'The Public / Customers', categories: ['professional'], hasGeneratorPage: true },
 ];
 
+// Every recipient id, including those without a generator page.
+export const allRecipients = ALL_RECIPIENTS.map(r => ({ value: r.value, label: r.labelAlt || r.label }));
+
 // For /examples and content collections (12 recipients with generator pages)
 export const recipients = ALL_RECIPIENTS
   .filter(r => r.hasGeneratorPage)

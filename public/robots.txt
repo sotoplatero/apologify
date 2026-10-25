@@ -7,6 +7,7 @@ Allow: /
 # Sitemap references
 Sitemap: https://apologify.com/sitemap-index.xml
 Sitemap: https://apologify.com/sitemap-pages.xml
+Sitemap: https://apologify.com/sitemap-examples.xml
 
 # Crawl-delay (optional, helps prevent server overload)
 # Crawl-delay: 1

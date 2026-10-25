@@ -1,12 +1,12 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import { articles as allArticles } from "@/lib/articles";
-import { recipients } from "../../../lib/apologyData";
+import { recipientLabel as labelFor } from "../../../lib/recipients.js";
 import Letter from "@/components/Letter.svelte";
 import CallToAction from "@/components/CallToAction.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
 import { getLetterBySlug } from "../../../lib/letters";
-import { getRelatedLetters } from "../../../lib/db";
+import { getRelatedLetters, getLetterBySlugOnly } from "../../../lib/db";
 
 export const prerender = false; // Changed to false to support generated letters
 
@@ -68,13 +68,15 @@ if (!recipient || !slug) {
 // Try to get the letter (static or generated)
 const letter = await getLetterBySlug(recipient, slug);
 
-// Handle case where letter is not found
 if (!letter) {
-  return Astro.redirect("/404");
+  // Legacy URLs used a free-text recipient ("Boyfriend ", "gf"…); slugs are
+  // unique, so permanently redirect to the letter's canonical URL.
+  const moved = await getLetterBySlugOnly(slug);
+  if (moved) return Astro.redirect(`/examples/${moved.recipient}/${moved.slug}`, 301);
+  return Astro.rewrite("/404");
 }
 
-const recipientLabel =
-  recipients.find((r) => r.value === recipient)?.label || recipient;
+const recipientLabel = labelFor(recipient);
 const displayTitle = letter.title;
 
 // Get related letters from the same recipient

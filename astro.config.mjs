@@ -14,7 +14,22 @@ import { sitemapCopier } from './sitemap-copier.ts';
 export default defineConfig({
   output: 'static',
   site: "https://apologify.com",
-  integrations: [ tailwind(), sitemap(), svelte(), preact(), sitemapCopier()],
+  // One canonical URL per page: /examples/teacher/ and /examples/teacher both
+  // returned 200 and Google split signals between them. Never use a trailing
+  // slash; the Vercel adapter 308-redirects the slashed form.
+  trailingSlash: 'never',
+  build: { format: 'file' },
+  integrations: [
+    tailwind(),
+    sitemap({
+      // Keep noindex / private / utility routes out of the sitemap.
+      filter: (page) =>
+        !/\/(dashboard|publish|customize|demo|sign-in|sign-up|studio|404|500)(\/|$)/.test(new URL(page).pathname),
+    }),
+    svelte(),
+    preact(),
+    sitemapCopier(),
+  ],
   adapter: vercel({
     // Allow slow generations to finish (default was ~10s → timeouts). Needs a
     // Vercel plan that permits longer functions; capped by the plan otherwise.

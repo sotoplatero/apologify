@@ -1,6 +1,6 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
-import { recipients } from '../../../lib/apologyData';
+import { normalizeRecipient, recipientLabel } from '../../../lib/recipients.js';
 import LetterCard from '../../../components/LetterCard.astro';
 import { getLettersByRecipient } from '../../../lib/db';
 
@@ -12,10 +12,19 @@ if (!recipient) {
   return Astro.redirect('/examples');
 }
 
-const recipientData = recipients.find(r => r.value === recipient);
-const finalRecipientLabel = recipientData?.label || recipient;
+// Legacy free-text recipients ("Boyfriend ", "gf") 301 to their canonical id;
+// anything unrecognizable or empty is a real 404 (was a soft 404).
+const canonicalRecipient = normalizeRecipient(recipient);
+if (canonicalRecipient && canonicalRecipient !== recipient) {
+  return Astro.redirect(`/examples/${canonicalRecipient}`, 301);
+}
 
-const allLetters = await getLettersByRecipient(recipient);
+const finalRecipientLabel = recipientLabel(recipient);
+
+const allLetters = canonicalRecipient ? await getLettersByRecipient(recipient) : [];
+if (allLetters.length === 0) {
+  return Astro.rewrite('/404');
+}
 
 // Breadcrumb schema
 const breadcrumbSchema = {
@@ -61,8 +70,8 @@ const collectionSchema = {
 ---
 
 <Layout
-  title={`Apology Letters for ${finalRecipientLabel}`}
-  description={`Browse ${allLetters.length} example apology letters for ${finalRecipientLabel}`}
+  title={`Apology Letter to ${finalRecipientLabel}: ${allLetters.length} Real Examples`}
+  description={`Read ${allLetters.length} real apology letters to a ${finalRecipientLabel.toLowerCase()} for every situation — copy one, or turn yours into a shareable sorry page.`}
   canonicalUrl={canonicalUrl}
   schema={[breadcrumbSchema, collectionSchema]}
 >

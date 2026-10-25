@@ -23,7 +23,11 @@ const {
 } = Astro.props;
 
 const currentUrl = new URL(Astro.url.pathname, Astro.site);
-const canonical = canonicalUrl || currentUrl.href;
+// One URL form site-wide: no trailing slash (except the root), no query string.
+const canonicalBase = new URL(canonicalUrl || currentUrl.href);
+canonicalBase.search = '';
+canonicalBase.pathname = canonicalBase.pathname.replace(/\/+$/, '') || '/';
+const canonical = canonicalBase.href;
 const defaultOgImage = new URL('/og-image.png', Astro.site).href;
 const finalOgImage = ogImage || defaultOgImage;
 ---

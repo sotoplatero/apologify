@@ -1,6 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+// Rendered on demand so SSR routes can Astro.rewrite('/404') with a real 404.
+export const prerender = false;
+
 const apologyNote = `Dear Visitor,
 
 We sincerely apologize for the inconvenience. The page you're looking for seems to have gone missing, and we take full responsibility for this error.
@@ -15,7 +18,7 @@ Warm regards,
 The Apology Letter Generator Team`;
 ---
 
-<Layout title="404: Page Not Found" description="Sorry, we couldn't find the page you're looking for.">
+<Layout title="404: Page Not Found" description="Sorry, we couldn't find the page you're looking for." noindex>
   <main class="container mx-auto px-4 py-16 text-center">
     <h1 class="font-display text-6xl font-bold text-primary mb-4">404</h1>
     <h2 class="font-display text-3xl font-semibold mb-4">Page Not Found</h2>

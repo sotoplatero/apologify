@@ -120,6 +120,21 @@ export async function getLetterBySlug(recipient: string, slug: string): Promise<
 }
 
 /**
+ * Get a single letter by slug alone (slugs are unique). Used to 301 legacy
+ * URLs whose recipient segment was free text.
+ */
+export async function getLetterBySlugOnly(slug: string): Promise<Letter | null> {
+  if (!isTursoConfigured()) return null;
+
+  const result = await turso!.execute({
+    sql: 'SELECT * FROM letters WHERE slug = ? LIMIT 1',
+    args: [slug]
+  });
+
+  return result.rows.length > 0 ? rowToLetter(result.rows[0]) : null;
+}
+
+/**
  * Get letters by recipient
  */
 export async function getLettersByRecipient(recipient: string): Promise<Letter[]> {
