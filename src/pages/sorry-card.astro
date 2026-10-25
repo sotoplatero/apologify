@@ -1,0 +1,314 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { listThemes } from "../lib/themes.js";
+import study from "../data/apology-study.json";
+
+// US-facing landing: Apologify positioned as the modern "sorry card"
+// ("sorry card" ~1.6k/mo, "apology card" ~720/mo in the US).
+const themes = listThemes();
+const featured = ["cute-duck", "classic", "handwritten", "watercolor", "starry", "sticky-note", "mixtape", "letterpress"]
+  .map((id) => themes.find((t) => t.id === id))
+  .filter(Boolean) as ReturnType<typeof listThemes>;
+const hero = ["handwritten", "cute-duck", "classic"];
+
+const pct = (key: string) => study.byCategory.find((c) => c.key === key)?.pct ?? 0;
+const wordsPct = Math.round((pct("hurtful_words") + pct("temper") + pct("disrespect")) * 10) / 10;
+
+const title = "Sorry Card — A Free Digital Apology Card They'll Actually Open";
+const description =
+  "Make a sorry card in minutes: say what happened, pick one of 21 card designs, and send the link. They open a sealed envelope, read it, and can answer “I forgive you.” Free.";
+const canonicalUrl = new URL("/sorry-card", Astro.site).href;
+
+const faqs = [
+  {
+    q: "What is a digital sorry card?",
+    a: "It's an apology card that arrives as a link instead of in the mail. Apologify turns what you want to say into a card-style page with its own design. When they tap the link, they open a sealed envelope with their name on it and read your apology.",
+  },
+  {
+    q: "Is it free?",
+    a: "Yes. Writing your apology and previewing every card design is free, with no signup. You sign in with Google only when you publish, so you can find and edit your card later.",
+  },
+  {
+    q: "How do I send it?",
+    a: "After you publish, you get a ready-to-send message for WhatsApp, Telegram, text message or your own email, plus a copy-link button. You can also post a teaser image to your story.",
+  },
+  {
+    q: "Can I give it as a real card?",
+    a: "Yes. Every card comes with a QR code you can print and tuck inside a paper card, a note or a bunch of flowers. Scanning it opens the envelope.",
+  },
+  {
+    q: "Will I know if they opened it?",
+    a: "Yes. Your dashboard shows whether the card has been opened, and if they answer “I forgive you” or “I need some time.” You can also get an email when it happens.",
+  },
+  {
+    q: "What should I write in a sorry card?",
+    a: `Be specific. In our study of ${study.sample.analyzed} real apologies, ${wordsPct}% were about words — something hurtful, a lost temper, disrespect — yet many people couldn't name what they'd done. Say exactly what happened, how it affected them, and one thing you'll do differently. Apologify helps you write it.`,
+  },
+];
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
+    description,
+    url: canonicalUrl,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+  },
+];
+
+const compare = [
+  { label: "Arrives today", paper: false, ecard: true, us: true },
+  { label: "Written about what actually happened", paper: false, ecard: false, us: true },
+  { label: "Opens like a real envelope", paper: true, ecard: false, us: true },
+  { label: "They can answer “I forgive you”", paper: false, ecard: false, us: true },
+  { label: "You know when it's opened", paper: false, ecard: "Sometimes", us: true },
+  { label: "Can be printed as a real card", paper: true, ecard: false, us: "With a QR" },
+  { label: "Free", paper: false, ecard: "Sometimes", us: true },
+];
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schema={schema}>
+  <div class="sc">
+    <!-- Hero -->
+    <section class="sc-hero">
+      <div class="sc-hero-copy">
+        <h1>A sorry card they'll actually open.</h1>
+        <p class="sc-lede">
+          Say what happened, pick a card, send the link. They open a sealed envelope with their name on it,
+          read your apology — and can answer <em>“I forgive you.”</em>
+        </p>
+        <div class="sc-ctas">
+          <a href="/generator" class="btn btn-primary btn-lg">Make my sorry card</a>
+          <a href="/designs" class="btn btn-ghost btn-lg">See all {themes.length} designs</a>
+        </div>
+        <p class="sc-note">Free to make · no signup to start · send by text, WhatsApp or email</p>
+      </div>
+      <div class="sc-fan" aria-hidden="true">
+        {hero.map((id, i) => (
+          <img src={`/designs/${id}.jpg`} alt="" width="820" height="1040" class={`sc-card sc-card-${i}`} loading={i === 2 ? "eager" : "lazy"} />
+        ))}
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="sc-section">
+      <h2>How it works</h2>
+      <ol class="sc-steps">
+        <li>
+          <span class="sc-step-n" aria-hidden="true">1</span>
+          <h3>Tell us what happened</h3>
+          <p>Who it's for and what you did, in your own words. Apologify writes a sincere apology about that exact moment — you can edit it.</p>
+        </li>
+        <li>
+          <span class="sc-step-n" aria-hidden="true">2</span>
+          <h3>Pick a card</h3>
+          <p>Tender, playful or formal: a handwritten note, a watercolor, a mixtape, a starry night. Preview every one live.</p>
+        </li>
+        <li>
+          <span class="sc-step-n" aria-hidden="true">3</span>
+          <h3>Send it — and hear back</h3>
+          <p>Text it, WhatsApp it or print the QR into a real card. They open the envelope and can tell you how they feel.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Designs -->
+    <section class="sc-section">
+      <div class="sc-section-head">
+        <h2>Sorry card designs</h2>
+        <a href="/designs" class="sc-link">All {themes.length} designs →</a>
+      </div>
+      <div class="sc-grid">
+        {featured.map((t) => (
+          <a href={`/demo?theme=${t.id}`} class="sc-design">
+            <img src={`/designs/${t.id}.jpg`} alt={`${t.label} sorry card design`} width="820" height="1040" loading="lazy" />
+            <span>{t.label}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Comparison -->
+    <section class="sc-section">
+      <h2>Better than a paper card or a generic e-card</h2>
+      <div class="sc-table-wrap">
+        <table class="sc-table">
+          <thead>
+            <tr>
+              <th scope="col"><span class="sr-only">Feature</span></th>
+              <th scope="col">Paper card</th>
+              <th scope="col">Typical e-card</th>
+              <th scope="col" class="sc-us">Apologify</th>
+            </tr>
+          </thead>
+          <tbody>
+            {compare.map((row) => (
+              <tr>
+                <th scope="row">{row.label}</th>
+                {[row.paper, row.ecard, row.us].map((v, i) => (
+                  <td class={i === 2 ? "sc-us" : undefined}>
+                    {v === true ? <span class="sc-yes">Yes</span> : v === false ? <span class="sc-no">No</span> : <span class="sc-some">{v}</span>}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Study hook -->
+    <section class="sc-study">
+      <p class="sc-study-num">{wordsPct}%</p>
+      <div>
+        <h2>What a sorry card should really say</h2>
+        <p>
+          We analyzed {study.sample.analyzed} real apologies. {wordsPct}% were about words — something hurtful,
+          a lost temper, disrespect. Forgetting a birthday? Only {pct("forgot_date")}%. The apologies that land
+          name the exact moment.
+        </p>
+        <a href="/research/why-people-apologize" class="sc-link">Read the study →</a>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="sc-section sc-faq">
+      <h2>Sorry card questions</h2>
+      <div class="sc-faq-list">
+        {faqs.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="sc-final">
+      <h2>Say sorry the way you mean it.</h2>
+      <p>It takes about two minutes. They'll remember it longer.</p>
+      <a href="/generator" class="btn btn-primary btn-lg">Make my sorry card</a>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .sc { max-width: 72rem; margin: 0 auto; padding: 0 0 5rem; color: #241F1A; }
+  .sc h1, .sc h2, .sc h3 { font-family: "Fraunces", Georgia, serif; font-weight: 600; text-wrap: balance; }
+  .sc h2 { font-size: clamp(1.6rem, 3.2vw, 2.2rem); line-height: 1.15; letter-spacing: -0.015em; }
+
+  /* Hero */
+  .sc-hero {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: center;
+    gap: 3rem;
+    padding: 4rem 0 3rem;
+  }
+  .sc-hero h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); line-height: 1.02; letter-spacing: -0.025em; }
+  .sc-lede { font-family: "Lora", Georgia, serif; font-size: 1.25rem; line-height: 1.6; color: #3A332C; margin: 1.25rem 0 1.75rem; max-width: 34rem; }
+  .sc-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .sc-note { font-family: "Inter", system-ui, sans-serif; font-size: 0.875rem; color: #6E655A; margin-top: 1rem; }
+
+  .sc-fan { position: relative; height: 26rem; }
+  .sc-card {
+    position: absolute;
+    width: 15rem;
+    height: auto;
+    border-radius: 14px;
+    box-shadow: 0 22px 44px -18px rgba(36, 31, 26, 0.45), 0 2px 6px rgba(36, 31, 26, 0.12);
+    left: 50%;
+    top: 50%;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .sc-card-0 { transform: translate(-95%, -50%) rotate(-9deg); }
+  .sc-card-1 { transform: translate(-5%, -50%) rotate(8deg); }
+  .sc-card-2 { transform: translate(-50%, -54%) rotate(-1deg); z-index: 2; }
+  .sc-hero:hover .sc-card-0 { transform: translate(-105%, -50%) rotate(-12deg); }
+  .sc-hero:hover .sc-card-1 { transform: translate(5%, -50%) rotate(11deg); }
+
+  /* Sections */
+  .sc-section { padding: 3.5rem 0 0; }
+  .sc-section > h2, .sc-section-head h2 { margin-bottom: 1.75rem; }
+  .sc-section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .sc-link { font-family: "Inter", system-ui, sans-serif; font-weight: 600; color: #C1272D; }
+  .sc-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  .sc-steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+  .sc-step-n {
+    display: inline-grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: #241F1A;
+    color: #F5F1E8;
+    font-family: "Inter", system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.9rem;
+  }
+  .sc-steps h3 { font-size: 1.3rem; line-height: 1.25; margin-bottom: 0.5rem; }
+  .sc-steps p { font-family: "Lora", Georgia, serif; font-size: 1.025rem; line-height: 1.65; color: #3A332C; }
+
+  .sc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+  .sc-design { display: block; border-radius: 12px; }
+  .sc-design img { width: 100%; height: auto; border-radius: 12px; box-shadow: 0 10px 24px -14px rgba(36, 31, 26, 0.4); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+  .sc-design:hover img { transform: translateY(-4px); }
+  .sc-design span { display: block; margin-top: 0.6rem; font-family: "Inter", system-ui, sans-serif; font-size: 0.9rem; color: #3A332C; }
+  .sc-design:focus-visible { outline: 2px solid #C1272D; outline-offset: 4px; }
+
+  .sc-table-wrap { overflow-x: auto; border: 1px solid rgba(36, 31, 26, 0.12); border-radius: 14px; background: #FBF8F2; }
+  .sc-table { width: 100%; border-collapse: collapse; font-family: "Inter", system-ui, sans-serif; font-size: 0.95rem; min-width: 34rem; }
+  .sc-table th, .sc-table td { padding: 0.85rem 1rem; text-align: left; border-bottom: 1px solid rgba(36, 31, 26, 0.08); }
+  .sc-table thead th { font-weight: 600; color: #6E655A; font-size: 0.85rem; }
+  .sc-table tbody th { font-weight: 500; color: #241F1A; }
+  .sc-table tr:last-child th, .sc-table tr:last-child td { border-bottom: 0; }
+  .sc-table .sc-us { background: rgba(193, 39, 45, 0.06); }
+  .sc-table thead .sc-us { color: #C1272D; }
+  .sc-yes { color: #3F5A37; font-weight: 600; }
+  .sc-no { color: #8A8076; }
+  .sc-some { color: #6E655A; }
+
+  .sc-study {
+    margin-top: 4rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2rem;
+    align-items: center;
+    padding: 2.25rem;
+    background: #241F1A;
+    color: #F5F1E8;
+    border-radius: 18px;
+  }
+  .sc-study .sc-study-num { margin: 0; max-width: none; font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: clamp(3.5rem, 9vw, 5.5rem); line-height: 1; color: #E8696D; font-variant-numeric: tabular-nums; }
+  .sc-study h2 { color: #F5F1E8; margin-bottom: 0.6rem; }
+  .sc-study p { font-family: "Lora", Georgia, serif; font-size: 1.05rem; line-height: 1.65; color: rgba(245, 241, 232, 0.82); max-width: 40rem; margin-bottom: 0.9rem; }
+  .sc-study .sc-link { color: #F5F1E8; }
+
+  .sc-faq-list { display: grid; gap: 0.75rem; max-width: 48rem; }
+  .sc-faq details { background: #FBF8F2; border: 1px solid rgba(36, 31, 26, 0.12); border-radius: 12px; padding: 1.1rem 1.25rem; }
+  .sc-faq summary { cursor: pointer; font-family: "Lora", Georgia, serif; font-weight: 600; font-size: 1.075rem; }
+  .sc-faq details p { font-family: "Inter", system-ui, sans-serif; font-size: 0.975rem; line-height: 1.65; color: #3A332C; margin-top: 0.75rem; }
+
+  .sc-final { text-align: center; padding: 5rem 0 0; }
+  .sc-final p { font-family: "Lora", Georgia, serif; font-size: 1.15rem; color: #3A332C; margin: 0.75rem 0 1.75rem; }
+
+  @media (max-width: 900px) {
+    .sc-hero { grid-template-columns: 1fr; padding-top: 2.5rem; gap: 1rem; }
+    .sc-fan { height: 16rem; margin-top: 0.5rem; }
+    .sc-card { width: 11rem; }
+    .sc-steps { grid-template-columns: 1fr; gap: 1.75rem; }
+    .sc-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .sc-study { grid-template-columns: 1fr; gap: 0.75rem; padding: 1.75rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sc-card, .sc-design img { transition: none; }
+  }
+</style>

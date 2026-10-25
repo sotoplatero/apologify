@@ -1,0 +1,96 @@
+---
+// Horizontal single-series bar chart (magnitude). One hue (validated against the
+// paper surface); an optional highlighted bar in brand red, always paired with
+// its label so emphasis is never color-alone. Values are direct-labeled; each
+// row shows the exact count on hover/focus.
+interface Row { key: string; label: string; pct: number; n: number }
+interface Props {
+  rows: Row[];
+  total: number;
+  caption: string;
+  highlight?: string[];
+  max?: number;
+}
+const { rows, total, caption, highlight = [], max } = Astro.props;
+const top = max ?? Math.max(...rows.map((r) => r.pct));
+---
+
+<figure class="rc-chart">
+  <figcaption class="rc-caption">{caption}</figcaption>
+  <ul class="rc-rows" role="list">
+    {rows.map((r) => (
+      <li
+        class:list={["rc-row", { "is-highlight": highlight.includes(r.key) }]}
+        tabindex="0"
+        aria-label={`${r.label}: ${r.pct}% (${r.n} of ${total})`}
+      >
+        <span class="rc-label">{r.label}</span>
+        <span class="rc-track" aria-hidden="true">
+          <span class="rc-bar" style={`width:${Math.max(0.8, (r.pct / top) * 100)}%`}></span>
+        </span>
+        <span class="rc-value" aria-hidden="true">{r.pct.toFixed(1)}%</span>
+        <span class="rc-tip" role="tooltip">{r.n} of {total} apologies</span>
+      </li>
+    ))}
+  </ul>
+</figure>
+
+<style>
+  .rc-chart { margin: 2rem 0; }
+  .rc-caption {
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #241F1A;
+    margin-bottom: 0.75rem;
+  }
+  .rc-rows { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.35rem; }
+  .rc-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(9rem, 16rem) 1fr 3.25rem;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.3rem 0.4rem;
+    border-radius: 6px;
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 0.875rem;
+    outline: none;
+  }
+  .rc-row:hover, .rc-row:focus-visible { background: rgba(47, 94, 153, 0.07); }
+  .rc-row:focus-visible { box-shadow: 0 0 0 2px #2F5E99; }
+  .rc-label { color: #3A332C; line-height: 1.3; }
+  .rc-track { height: 14px; display: block; }
+  .rc-bar {
+    display: block;
+    height: 100%;
+    background: #2F5E99;
+    border-radius: 0 4px 4px 0;
+  }
+  .rc-value { text-align: right; font-variant-numeric: tabular-nums; color: #241F1A; font-weight: 600; }
+  .is-highlight .rc-bar { background: #C1272D; }
+  .is-highlight .rc-label { color: #241F1A; font-weight: 600; }
+  .rc-tip {
+    position: absolute;
+    right: 0.4rem;
+    top: -1.9rem;
+    background: #2B2621;
+    color: #F5F1E8;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(2px);
+    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+    z-index: 2;
+  }
+  .rc-row:hover .rc-tip, .rc-row:focus-visible .rc-tip { opacity: 1; transform: none; }
+
+  @media (max-width: 640px) {
+    .rc-row { grid-template-columns: 1fr 3rem; row-gap: 0.25rem; }
+    .rc-label { grid-column: 1 / -1; }
+  }
+  @media (prefers-reduced-motion: reduce) { .rc-tip { transition: none; } }
+</style>

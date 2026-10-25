@@ -24,3 +24,6 @@ pnpm-debug.log*
 .idea/
 .vercel
 .env.local
+
+# research classification cache (per-letter, never committed)
+scripts/research/.cache/

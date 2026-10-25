@@ -1,0 +1,282 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import BarChart from "../../components/research/BarChart.astro";
+import study from "../../data/apology-study.json";
+
+// Original-data study built from scripts/research/analyze-apologies.mjs.
+// Aggregates only — no individual apology text is published.
+
+const SHORT: Record<string, string> = {
+  hurtful_words: "Said something hurtful",
+  misunderstanding: "“A misunderstanding” (no act named)",
+  disrespect: "Was rude or disrespectful",
+  dishonesty: "Lied or broke trust",
+  not_there: "Wasn't there / too busy",
+  temper: "Lost their temper",
+  silence: "Ignored them or went silent",
+  jealousy: "Jealousy or being controlling",
+  other: "Something else",
+  broken_promise: "Broke a promise / didn't show",
+  cheating: "Cheating or flirting",
+  work_school: "Work or school",
+  forgot_date: "Forgot a birthday or anniversary",
+  money: "Money",
+};
+const total = study.sample.analyzed;
+const rows = study.byCategory.map((c) => ({ ...c, label: SHORT[c.key] ?? c.label }));
+const pctOf = (key: string) => study.byCategory.find((c) => c.key === key)?.pct ?? 0;
+const words = Math.round((pctOf("hurtful_words") + pctOf("temper") + pctOf("disrespect")) * 10) / 10;
+const cliche = Math.round((pctOf("forgot_date") + pctOf("money")) * 10) / 10;
+
+const GROUP_LABEL: Record<string, string> = {
+  partner: "To a partner",
+  friend: "To a friend",
+  family: "To family",
+  work: "At work or school",
+};
+const groups = (["partner", "friend", "family", "work"] as const).map((g) => ({
+  key: g,
+  label: GROUP_LABEL[g],
+  n: study.groups[g].n,
+  share: study.recipientGroups.find((r) => r.key === g)?.pct ?? 0,
+  rows: study.groups[g].top.slice(0, 3).map((t) => ({ ...t, label: SHORT[t.key] ?? t.label })),
+}));
+
+const fmtMonth = (d: string) => new Date(d + "T00:00:00Z").toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
+const period = `${fmtMonth(study.sample.from)} – ${fmtMonth(study.sample.to)}`;
+
+const title = `Why People Apologize: What ${total} Real Apologies Reveal`;
+const description = `We analyzed ${total} real apologies. ${words}% were about words — hurtful remarks, temper, disrespect. Forgetting a birthday? Just ${pctOf("forgot_date")}%. One in four involved a phone.`;
+const canonicalUrl = new URL("/research/why-people-apologize", Astro.site).href;
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    description,
+    datePublished: study.generatedAt,
+    dateModified: study.generatedAt,
+    author: { "@type": "Organization", name: "Apologify", url: "https://apologify.com" },
+    publisher: { "@type": "Organization", name: "Apologify", url: "https://apologify.com" },
+    mainEntityOfPage: canonicalUrl,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: "Apologify apology study — what people apologize for",
+    description: `Aggregate classification of ${total} self-described apologies written with Apologify between ${period}.`,
+    creator: { "@type": "Organization", name: "Apologify" },
+    temporalCoverage: `${study.sample.from}/${study.sample.to}`,
+    variableMeasured: ["Reason for apology", "Recipient relationship", "Chosen tone", "Involves a phone or social media"],
+    isAccessibleForFree: true,
+    url: canonicalUrl,
+  },
+];
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schema={schema}>
+  <article class="rs">
+    <header class="rs-head">
+      <p class="rs-meta">Apologify research · {period}</p>
+      <h1>We read {total} real apologies. Most weren't about forgetting birthdays.</h1>
+      <p class="rs-lede">
+        People came to Apologify to say sorry and told us, in their own words, what they had done.
+        We grouped every genuine apology by what it was for. The picture is less about grand gestures
+        and missed anniversaries — and much more about <em>how we talk to each other</em>.
+      </p>
+    </header>
+
+    <section class="rs-stats" aria-label="Key numbers">
+      <div class="rs-stat">
+        <span class="rs-num">{words}%</span>
+        <span class="rs-cap">were about <strong>words</strong>: something hurtful, losing their temper, or being disrespectful.</span>
+      </div>
+      <div class="rs-stat">
+        <span class="rs-num">1 in 4</span>
+        <span class="rs-cap">involved a <strong>phone</strong> — texts, silence, calls or social media ({study.digital.pct}%).</span>
+      </div>
+      <div class="rs-stat">
+        <span class="rs-num">{pctOf("forgot_date")}%</span>
+        <span class="rs-cap">were for <strong>forgetting a birthday or anniversary</strong>, the classic sitcom apology.</span>
+      </div>
+    </section>
+
+    <section class="rs-body">
+      <h2>What people apologize for</h2>
+      <p>
+        The single most common reason was saying something hurtful ({pctOf("hurtful_words")}%). Add losing one's
+        temper and being disrespectful, and {words}% of all apologies come down to a moment of speech, not a deed.
+        The other big cluster is absence: not being there or being too busy ({pctOf("not_there")}%) and going
+        silent or ignoring someone ({pctOf("silence")}%).
+      </p>
+
+      <BarChart
+        rows={rows}
+        total={total}
+        caption={`Main reason for the apology, % of ${total} apologies`}
+        highlight={["hurtful_words", "forgot_date"]}
+      />
+
+      <h2>The clichés barely show up</h2>
+      <p>
+        Forgotten birthdays, anniversaries and money problems — the staples of apology-card aisles — together
+        account for just {cliche}% of real apologies. Cheating, the most dramatic reason, was {pctOf("cheating")}%.
+        Most apologies are about ordinary, repeatable moments: a sharp reply, a day of silence, a promise
+        that slipped.
+      </p>
+
+      <h2>One in four apologies involves a phone</h2>
+      <p>
+        {study.digital.pct}% of apologies mentioned texting, calls, chats, social media or blocking — rising to
+        {" "}{study.digital.partnerPct}% between partners. Ignoring messages and going quiet is now its own category
+        of hurt, and it's one people clearly feel they need to repair.
+      </p>
+
+      <h2>Who we apologize to — and for what</h2>
+      <p>
+        {groups[0].share}% of apologies were to a romantic partner, {groups[1].share}% to a friend,
+        {" "}{groups[2].share}% to family and {groups[3].share}% at work or school. The reasons change with the
+        relationship: with family, disrespect leads; between friends, broken trust stands out.
+      </p>
+
+      <div class="rs-groups">
+        {groups.map((g) => (
+          <BarChart rows={g.rows} total={g.n} caption={`${g.label} (${g.n} apologies)`} max={30} />
+        ))}
+      </div>
+
+      <h2>Many people can't name what they did</h2>
+      <p>
+        {study.vaguePct}% described what happened only as “a misunderstanding”, without saying what they actually
+        did. And {study.shortPct}% described it in ten words or fewer (the median was {study.medianWords} words).
+        That matters: an apology that doesn't name the act is the one most likely to land as hollow.
+      </p>
+
+      <h2>How people want to sound</h2>
+      <p>
+        Asked to pick a tone, most chose {study.tones[0].key} ({study.tones[0].pct}%) or {study.tones[1].key}
+        {" "}({study.tones[1].pct}%). Only {study.tones.find((t) => t.key === "humorous")?.pct}% went for humor —
+        people take saying sorry seriously, even for small things.
+      </p>
+
+      <aside class="rs-advice">
+        <h2>What this means for your apology</h2>
+        <ol>
+          <li><strong>Name the exact thing.</strong> Not “sorry for the misunderstanding” — “sorry I snapped at you when you asked about dinner.”</li>
+          <li><strong>Own the words, not just the intent.</strong> Most hurt comes from what was said. Quote it back if you can.</li>
+          <li><strong>Silence counts.</strong> If you went quiet or ignored messages, apologize for that specifically — it registers as a real hurt.</li>
+          <li><strong>Skip the grand gesture.</strong> Real apologies are about everyday moments; a sincere, specific note beats a dramatic one.</li>
+          <li><strong>Say what changes.</strong> One concrete commitment (“I'll call when I'm running late”) is worth more than a long paragraph.</li>
+        </ol>
+        <div class="rs-cta">
+          <a href="/generator" class="btn btn-primary">Write a specific apology</a>
+          <a href="/sorry-card" class="btn btn-ghost">Send it as a sorry card</a>
+        </div>
+      </aside>
+
+      <h2 id="methodology">Methodology</h2>
+      <p>
+        We collected the {study.sample.collected.toLocaleString("en-US")} descriptions people typed into Apologify's apology generator
+        between {period}, where they explain what happened and who the apology is for. {study.sample.excluded} were
+        excluded as not genuine apologies (jokes, spam, greetings or unrelated text), leaving {total}.
+        Each was assigned one main reason from 14 categories, plus whether it involved a phone or social media,
+        using an AI classifier (Claude Haiku 4.5) with fixed definitions. Percentages are of the {total} analyzed
+        apologies; recipient groups come from the relationship people selected.
+      </p>
+      <p>
+        Limits: this is a self-selected sample of people using an online apology tool, with a global audience
+        ({study.languages[0].pct}% written in English). It describes what these people apologized for, not the
+        population at large, and automated classification of short, informal texts will misfile some cases.
+        No individual apology is published here.
+      </p>
+
+      <details class="rs-table">
+        <summary>See the data as a table</summary>
+        <table>
+          <thead><tr><th scope="col">Reason</th><th scope="col">Apologies</th><th scope="col">Share</th></tr></thead>
+          <tbody>
+            {rows.map((r) => (<tr><td>{r.label}</td><td>{r.n}</td><td>{r.pct.toFixed(1)}%</td></tr>))}
+          </tbody>
+        </table>
+      </details>
+
+      <p class="rs-cite">
+        Free to cite or republish these figures with a link to this page:
+        <span>“Apologify, Why People Apologize ({study.generatedAt.slice(0, 4)}), apologify.com/research/why-people-apologize”</span>
+      </p>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .rs { max-width: 46rem; margin: 0 auto; padding: 3rem 0 4rem; color: #241F1A; }
+  .rs-head h1 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(2rem, 5vw, 3.1rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    margin: 0.5rem 0 1.25rem;
+  }
+  .rs-meta { font-family: "Inter", system-ui, sans-serif; font-size: 0.875rem; color: #6E655A; }
+  .rs-lede { font-family: "Lora", Georgia, serif; font-size: 1.2rem; line-height: 1.65; color: #3A332C; max-width: 65ch; }
+
+  .rs-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    margin: 2.5rem 0 3rem;
+    background: rgba(36, 31, 26, 0.12);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .rs-stat { background: #FBF8F2; padding: 1.4rem 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .rs-num {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: 2.6rem;
+    line-height: 1;
+    color: #C1272D;
+    font-variant-numeric: tabular-nums;
+  }
+  .rs-cap { font-family: "Inter", system-ui, sans-serif; font-size: 0.925rem; line-height: 1.45; color: #3A332C; }
+
+  .rs-body h2 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: 1.6rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin: 3rem 0 0.75rem;
+    text-wrap: balance;
+  }
+  .rs-body p, .rs-body li { font-family: "Lora", Georgia, serif; font-size: 1.075rem; line-height: 1.75; color: #2E2823; max-width: 68ch; }
+  .rs-body p + p { margin-top: 1rem; }
+
+  .rs-groups { display: grid; grid-template-columns: 1fr 1fr; gap: 0 2rem; }
+  .rs-groups :global(.rc-row) { grid-template-columns: 1fr 3rem; row-gap: 0.2rem; }
+  .rs-groups :global(.rc-label) { grid-column: 1 / -1; }
+
+  .rs-advice { margin: 3.5rem 0; padding: 1.75rem 1.75rem 2rem; background: #FBF8F2; border: 1px solid rgba(36, 31, 26, 0.12); border-radius: 16px; }
+  .rs-advice h2 { margin-top: 0; }
+  .rs-advice ol { padding-left: 1.25rem; display: grid; gap: 0.6rem; list-style: decimal; }
+  .rs-cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+
+  .rs-table { margin-top: 1.5rem; font-family: "Inter", system-ui, sans-serif; font-size: 0.9rem; }
+  .rs-table summary { cursor: pointer; color: #2F5E99; font-weight: 600; }
+  .rs-table table { width: 100%; margin-top: 0.75rem; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  .rs-table th, .rs-table td { text-align: left; padding: 0.45rem 0.5rem; border-bottom: 1px solid rgba(36, 31, 26, 0.1); }
+  .rs-table td:not(:first-child), .rs-table th:not(:first-child) { text-align: right; }
+
+  .rs-cite { margin-top: 2.5rem; font-size: 0.95rem !important; color: #6E655A !important; }
+  .rs-cite span { display: block; font-family: "Inter", system-ui, sans-serif; font-size: 0.85rem; margin-top: 0.35rem; color: #3A332C; }
+
+  @media (max-width: 720px) {
+    .rs { padding-top: 2rem; }
+    .rs-stats { grid-template-columns: 1fr; }
+    .rs-groups { grid-template-columns: 1fr; }
+    .rs-advice { padding: 1.25rem; }
+  }
+</style>

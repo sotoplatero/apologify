@@ -1,0 +1,349 @@
+{
+  "generatedAt": "2026-10-25",
+  "model": "claude-haiku-4-5",
+  "sample": {
+    "collected": 1107,
+    "analyzed": 845,
+    "excluded": 262,
+    "unclassified": 0,
+    "from": "2025-11-14",
+    "to": "2026-07-01"
+  },
+  "byCategory": [
+    {
+      "key": "hurtful_words",
+      "label": "Saying something hurtful or insulting",
+      "n": 145,
+      "pct": 17.2
+    },
+    {
+      "key": "misunderstanding",
+      "label": "A misunderstanding (no specific act named)",
+      "n": 104,
+      "pct": 12.3
+    },
+    {
+      "key": "disrespect",
+      "label": "Being rude or disrespectful",
+      "n": 93,
+      "pct": 11
+    },
+    {
+      "key": "dishonesty",
+      "label": "Lying, hiding something or breaking trust",
+      "n": 87,
+      "pct": 10.3
+    },
+    {
+      "key": "not_there",
+      "label": "Not being there for them / too busy for them",
+      "n": 87,
+      "pct": 10.3
+    },
+    {
+      "key": "temper",
+      "label": "Losing my temper, yelling or picking a fight",
+      "n": 86,
+      "pct": 10.2
+    },
+    {
+      "key": "silence",
+      "label": "Ignoring them, going silent or not replying",
+      "n": 81,
+      "pct": 9.6
+    },
+    {
+      "key": "jealousy",
+      "label": "Jealousy, suspicion or being controlling",
+      "n": 35,
+      "pct": 4.1
+    },
+    {
+      "key": "other",
+      "label": "Something else",
+      "n": 31,
+      "pct": 3.7
+    },
+    {
+      "key": "broken_promise",
+      "label": "Breaking a promise or not showing up",
+      "n": 30,
+      "pct": 3.6
+    },
+    {
+      "key": "cheating",
+      "label": "Cheating, or flirting / talking with someone else",
+      "n": 29,
+      "pct": 3.4
+    },
+    {
+      "key": "work_school",
+      "label": "Work or school: late, missed tasks, behavior in class",
+      "n": 20,
+      "pct": 2.4
+    },
+    {
+      "key": "forgot_date",
+      "label": "Forgetting a birthday, anniversary or special day",
+      "n": 10,
+      "pct": 1.2
+    },
+    {
+      "key": "money",
+      "label": "Money: borrowing, not repaying, spending",
+      "n": 7,
+      "pct": 0.8
+    }
+  ],
+  "recipientGroups": [
+    {
+      "key": "partner",
+      "n": 484,
+      "pct": 57.3
+    },
+    {
+      "key": "friend",
+      "n": 219,
+      "pct": 25.9
+    },
+    {
+      "key": "family",
+      "n": 89,
+      "pct": 10.5
+    },
+    {
+      "key": "work",
+      "n": 48,
+      "pct": 5.7
+    },
+    {
+      "key": "other",
+      "n": 5,
+      "pct": 0.6
+    }
+  ],
+  "groups": {
+    "partner": {
+      "n": 484,
+      "top": [
+        {
+          "key": "hurtful_words",
+          "label": "Saying something hurtful or insulting",
+          "n": 74,
+          "pct": 15.3
+        },
+        {
+          "key": "misunderstanding",
+          "label": "A misunderstanding (no specific act named)",
+          "n": 70,
+          "pct": 14.5
+        },
+        {
+          "key": "not_there",
+          "label": "Not being there for them / too busy for them",
+          "n": 66,
+          "pct": 13.6
+        },
+        {
+          "key": "silence",
+          "label": "Ignoring them, going silent or not replying",
+          "n": 54,
+          "pct": 11.2
+        },
+        {
+          "key": "temper",
+          "label": "Losing my temper, yelling or picking a fight",
+          "n": 52,
+          "pct": 10.7
+        }
+      ]
+    },
+    "friend": {
+      "n": 219,
+      "top": [
+        {
+          "key": "hurtful_words",
+          "label": "Saying something hurtful or insulting",
+          "n": 47,
+          "pct": 21.5
+        },
+        {
+          "key": "dishonesty",
+          "label": "Lying, hiding something or breaking trust",
+          "n": 32,
+          "pct": 14.6
+        },
+        {
+          "key": "disrespect",
+          "label": "Being rude or disrespectful",
+          "n": 28,
+          "pct": 12.8
+        },
+        {
+          "key": "misunderstanding",
+          "label": "A misunderstanding (no specific act named)",
+          "n": 26,
+          "pct": 11.9
+        },
+        {
+          "key": "silence",
+          "label": "Ignoring them, going silent or not replying",
+          "n": 22,
+          "pct": 10
+        }
+      ]
+    },
+    "family": {
+      "n": 89,
+      "top": [
+        {
+          "key": "disrespect",
+          "label": "Being rude or disrespectful",
+          "n": 21,
+          "pct": 23.6
+        },
+        {
+          "key": "not_there",
+          "label": "Not being there for them / too busy for them",
+          "n": 14,
+          "pct": 15.7
+        },
+        {
+          "key": "hurtful_words",
+          "label": "Saying something hurtful or insulting",
+          "n": 14,
+          "pct": 15.7
+        },
+        {
+          "key": "temper",
+          "label": "Losing my temper, yelling or picking a fight",
+          "n": 10,
+          "pct": 11.2
+        },
+        {
+          "key": "dishonesty",
+          "label": "Lying, hiding something or breaking trust",
+          "n": 8,
+          "pct": 9
+        }
+      ]
+    },
+    "work": {
+      "n": 48,
+      "top": [
+        {
+          "key": "work_school",
+          "label": "Work or school: late, missed tasks, behavior in class",
+          "n": 13,
+          "pct": 27.1
+        },
+        {
+          "key": "hurtful_words",
+          "label": "Saying something hurtful or insulting",
+          "n": 10,
+          "pct": 20.8
+        },
+        {
+          "key": "disrespect",
+          "label": "Being rude or disrespectful",
+          "n": 7,
+          "pct": 14.6
+        },
+        {
+          "key": "temper",
+          "label": "Losing my temper, yelling or picking a fight",
+          "n": 7,
+          "pct": 14.6
+        },
+        {
+          "key": "dishonesty",
+          "label": "Lying, hiding something or breaking trust",
+          "n": 6,
+          "pct": 12.5
+        }
+      ]
+    }
+  },
+  "tones": [
+    {
+      "key": "heartfelt",
+      "n": 246,
+      "pct": 29.6
+    },
+    {
+      "key": "apologetic",
+      "n": 221,
+      "pct": 26.6
+    },
+    {
+      "key": "emotional",
+      "n": 123,
+      "pct": 14.8
+    },
+    {
+      "key": "formal",
+      "n": 105,
+      "pct": 12.7
+    },
+    {
+      "key": "casual",
+      "n": 48,
+      "pct": 5.8
+    },
+    {
+      "key": "remorseful",
+      "n": 45,
+      "pct": 5.4
+    },
+    {
+      "key": "humorous",
+      "n": 26,
+      "pct": 3.1
+    },
+    {
+      "key": "professional",
+      "n": 16,
+      "pct": 1.9
+    }
+  ],
+  "digital": {
+    "n": 220,
+    "pct": 26,
+    "partnerPct": 29.1
+  },
+  "vaguePct": 12.3,
+  "medianWords": 18,
+  "shortPct": 27.1,
+  "languages": [
+    {
+      "key": "en",
+      "n": 751,
+      "pct": 88.9
+    },
+    {
+      "key": "hi",
+      "n": 38,
+      "pct": 4.5
+    },
+    {
+      "key": "id",
+      "n": 32,
+      "pct": 3.8
+    },
+    {
+      "key": "tl",
+      "n": 6,
+      "pct": 0.7
+    },
+    {
+      "key": "tr",
+      "n": 5,
+      "pct": 0.6
+    },
+    {
+      "key": "es",
+      "n": 2,
+      "pct": 0.2
+    }
+  ]
+}
