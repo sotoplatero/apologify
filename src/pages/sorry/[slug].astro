@@ -13,6 +13,8 @@ import RansomTemplate from "../../components/templates/RansomTemplate.astro";
 import ConstructivistTemplate from "../../components/templates/ConstructivistTemplate.astro";
 import LetterpressTemplate from "../../components/templates/LetterpressTemplate.astro";
 import OwnerBar from "../../components/OwnerBar.svelte";
+import EnvelopeReveal from "../../components/EnvelopeReveal.astro";
+import qrcode from "qrcode-generator";
 import HandwrittenTemplate from "../../components/templates/HandwrittenTemplate.astro";
 import TypewriterTemplate from "../../components/templates/TypewriterTemplate.astro";
 import MinimalTemplate from "../../components/templates/MinimalTemplate.astro";
@@ -42,6 +44,16 @@ const templateId = preview && themeOverride ? themeOverride : page.theme;
 const user = Astro.locals.user;
 const isOwner = !preview && !!(user && page.ownerId && user.id === page.ownerId);
 const justPublished = Astro.url.searchParams.get("published") === "1";
+const openSend = Astro.url.searchParams.get("send") === "1";
+
+// QR for the owner's send panel (print it, tuck it into flowers…).
+let qrSvg = "";
+if (isOwner) {
+  const qr = qrcode(0, "M");
+  qr.addData(new URL("/sorry/" + page.slug, Astro.site).href);
+  qr.make();
+  qrSvg = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true } as any);
+}
 
 const TEMPLATES: Record<string, any> = {
   "classic": LetterTemplate,
@@ -83,6 +95,8 @@ const noindex = preview || page.visibility !== "public";
 const metaTitle = `${page.title} — An Apology | Apologify`;
 const description = `${page.title} — a sincere apology${page.recipientName ? " for " + page.recipientName : ""}. Made on apologify.com.`.slice(0, 160);
 const canonicalUrl = new URL("/sorry/" + page.slug, Astro.site).href;
+// Per-page link preview: their name + the title on a sealed envelope.
+const ogImage = new URL(`/og/${page.slug}.png`, Astro.site).href;
 const pageSchema = {
   "@context": "https://schema.org", "@type": "CreativeWork",
   headline: `${page.title} — Apology`, description, genre: page.tone,
@@ -92,7 +106,8 @@ const pageSchema = {
 };
 ---
 
-<LayoutBase title={metaTitle} description={description} canonicalUrl={canonicalUrl} schema={[pageSchema]} noindex={noindex}>
-  {isOwner && <OwnerBar client:load slug={page.slug} justPublished={justPublished} />}
+<LayoutBase title={metaTitle} description={description} canonicalUrl={canonicalUrl} ogImage={ogImage} schema={[pageSchema]} noindex={noindex}>
+  {isOwner && <OwnerBar client:load slug={page.slug} justPublished={justPublished} openSend={openSend} recipientName={page.recipientName} qrSvg={qrSvg} />}
+  {!preview && !justPublished && <EnvelopeReveal slug={page.slug} recipientName={page.recipientName} senderName={page.senderName} />}
   <Template {...data} />
 </LayoutBase>

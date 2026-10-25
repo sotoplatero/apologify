@@ -30,6 +30,15 @@ async function init() {
   catch (_) { /* column already exists */ }
   try { await turso.execute(`ALTER TABLE apology_pages ADD COLUMN likes INTEGER NOT NULL DEFAULT 0`); }
   catch (_) { /* column already exists */ }
+  // Recipient engagement: first open (envelope tapped) and their reply.
+  for (const col of [
+    `opened_at DATETIME DEFAULT NULL`,
+    `response TEXT DEFAULT NULL`,          // 'forgiven' | 'not_yet'
+    `responded_at DATETIME DEFAULT NULL`,
+  ]) {
+    try { await turso.execute(`ALTER TABLE apology_pages ADD COLUMN ${col}`); }
+    catch (_) { /* column already exists */ }
+  }
   await turso.execute(`CREATE INDEX IF NOT EXISTS idx_apology_pages_slug ON apology_pages(slug)`);
   await turso.execute(`CREATE INDEX IF NOT EXISTS idx_apology_pages_visibility ON apology_pages(visibility, created_at)`);
   await turso.execute(`CREATE INDEX IF NOT EXISTS idx_apology_pages_owner ON apology_pages(owner_id)`);

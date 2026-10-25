@@ -5,7 +5,10 @@ export interface ApologyPage {
   audience: 'person' | 'public'; visibility: 'private' | 'public'; ownerId: string | null;
   message: string; title: string; theme: string; tone: string; isPaid: boolean;
   acceptedAt: string | null; likes: number; createdAt?: string;
+  openedAt: string | null; response: ApologyResponse | null; respondedAt: string | null;
 }
+
+export type ApologyResponse = 'forgiven' | 'not_yet';
 
 function rowToPage(row: any): ApologyPage {
   return {
@@ -17,6 +20,9 @@ function rowToPage(row: any): ApologyPage {
     message: row.message, title: row.title, theme: row.theme, tone: row.tone,
     isPaid: Number(row.is_paid) === 1, acceptedAt: row.accepted_at ?? null,
     likes: Number(row.likes) || 0, createdAt: row.created_at,
+    openedAt: row.opened_at ?? null,
+    response: row.response === 'forgiven' || row.response === 'not_yet' ? row.response : null,
+    respondedAt: row.responded_at ?? null,
   };
 }
 
@@ -147,4 +153,34 @@ export async function updatePageTheme(slug: string, ownerId: string, theme: stri
 export async function markApologyPagePaid(slug: string): Promise<void> {
   if (!turso) throw new Error('Turso not configured');
   await turso.execute({ sql: 'UPDATE apology_pages SET is_paid = 1 WHERE slug = ?', args: [slug] });
+}
+
+/**
+ * Record the first time the recipient opens the envelope. Returns true only for
+ * that first open (so the owner is notified once). The owner's own views don't count.
+ */
+export async function markApologyOpened(slug: string, viewerId?: string | null): Promise<{ first: boolean; page: ApologyPage | null }> {
+  if (!turso) return { first: false, page: null };
+  const r = await turso.execute({
+    sql: `UPDATE apology_pages SET opened_at = CURRENT_TIMESTAMP
+          WHERE slug = ? AND opened_at IS NULL AND (owner_id IS NULL OR owner_id != ?)`,
+    args: [slug, viewerId ?? ''],
+  });
+  const page = await getApologyPageBySlug(slug);
+  return { first: r.rowsAffected > 0, page };
+}
+
+/**
+ * Store the recipient's reply. The owner can't answer their own apology.
+ * Returns the updated page, or null if nothing changed.
+ */
+export async function respondToApology(slug: string, response: ApologyResponse, viewerId?: string | null): Promise<ApologyPage | null> {
+  if (!turso) return null;
+  const r = await turso.execute({
+    sql: `UPDATE apology_pages SET response = ?, responded_at = CURRENT_TIMESTAMP,
+            opened_at = COALESCE(opened_at, CURRENT_TIMESTAMP)
+          WHERE slug = ? AND (owner_id IS NULL OR owner_id != ?) AND (response IS NULL OR response != ?)`,
+    args: [response, slug, viewerId ?? '', response],
+  });
+  return r.rowsAffected > 0 ? getApologyPageBySlug(slug) : null;
 }

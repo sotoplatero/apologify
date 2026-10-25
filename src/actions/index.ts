@@ -2,7 +2,8 @@ import { defineAction, ActionError } from 'astro:actions';
 import { z } from 'astro:schema';
 import { createHash } from 'node:crypto';
 import { callLLM } from '../lib/server/anthropic';
-import { saveApologyPage, publishApologyPage as runPublish, likeApology as runLike, getApologyLikes as runGetLikes, updatePageTheme as runUpdateTheme, unpublishApologyPage as runUnpublish, getApologyPageBySlug } from '../lib/apologyPages';
+import { saveApologyPage, publishApologyPage as runPublish, likeApology as runLike, updatePageTheme as runUpdateTheme, unpublishApologyPage as runUnpublish, getApologyPageBySlug, markApologyOpened, respondToApology } from '../lib/apologyPages';
+import { notifyOwner } from '../lib/server/notify';
 import { buildApologySlug } from '../lib/slug.js';
 import { isPremiumTheme } from '../lib/themes.js';
 import { moderateApologyContent } from '../lib/server/moderation';
@@ -170,11 +171,38 @@ export const server = {
     },
   }),
 
+  // Public state the recipient's buttons need: like count, any reply, and the
+  // names used in the follow-up copy ("You forgave Sam").
   getApologyLikes: defineAction({
     input: z.object({ slug: z.string().min(3).max(90) }),
     handler: async (input) => {
-      const likes = await runGetLikes(input.slug);
-      return { likes };
+      const page = await getApologyPageBySlug(input.slug);
+      return {
+        likes: page?.likes ?? 0,
+        response: page?.response ?? null,
+        senderName: page?.senderName ?? null,
+        recipientName: page?.recipientName ?? null,
+      };
+    },
+  }),
+
+  // The recipient tapped "open" on the envelope. First open notifies the owner.
+  markApologyOpened: defineAction({
+    input: z.object({ slug: z.string().min(3).max(90) }),
+    handler: async (input, context) => {
+      const { first, page } = await markApologyOpened(input.slug, context.locals.user?.id);
+      if (first && page) await notifyOwner('opened', page, context.url.origin);
+      return { ok: true };
+    },
+  }),
+
+  // The recipient's answer: "I forgive you" or "I need time". Notifies the owner.
+  respondToApology: defineAction({
+    input: z.object({ slug: z.string().min(3).max(90), response: z.enum(['forgiven', 'not_yet']) }),
+    handler: async (input, context) => {
+      const page = await respondToApology(input.slug, input.response, context.locals.user?.id);
+      if (page) await notifyOwner(input.response, page, context.url.origin);
+      return { response: input.response };
     },
   }),
 

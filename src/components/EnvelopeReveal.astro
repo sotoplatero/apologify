@@ -1,0 +1,231 @@
+---
+// "Tap to open" envelope shown over a live apology page. The recipient sees
+// their name on a sealed envelope; opening it plays one authored moment (seal
+// lifts, flap opens, letter rises) and reveals the page. Shown once per browser
+// session; the first open is recorded so the sender is told it was opened.
+interface Props {
+  slug: string;
+  recipientName?: string | null;
+  senderName?: string | null;
+}
+const { slug, recipientName, senderName } = Astro.props;
+const name = recipientName?.trim() || "you";
+const from = senderName?.trim();
+---
+
+<div id="envelope-reveal" data-slug={slug} role="dialog" aria-modal="true" aria-labelledby="envelope-title">
+  <div class="er-stage">
+    <p class="er-for" id="envelope-title"><span>For</span> <strong>{name}</strong></p>
+
+    <div class="er-envelope" aria-hidden="true">
+      <div class="er-letter"><span></span><span></span><span></span></div>
+      <div class="er-back"></div>
+      <div class="er-pocket"></div>
+      <div class="er-flap"></div>
+      <div class="er-seal"></div>
+    </div>
+
+    <button type="button" class="er-open">Open it</button>
+    {from && <p class="er-from">from {from}</p>}
+  </div>
+</div>
+<noscript><style>#envelope-reveal { display: none !important; }</style></noscript>
+
+<script is:inline define:vars={{ slug }}>
+  // Synchronous check so repeat visits in the same session never flash the envelope.
+  try {
+    if (sessionStorage.getItem(`apologify_opened_${slug}`) === "1") {
+      document.getElementById("envelope-reveal")?.remove();
+    } else {
+      document.documentElement.classList.add("er-locked");
+    }
+  } catch (_) {}
+</script>
+
+<script>
+  import { actions } from "astro:actions";
+
+  const root = document.getElementById("envelope-reveal");
+  if (root) {
+    const slug = root.dataset.slug!;
+    const button = root.querySelector<HTMLButtonElement>(".er-open")!;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const open = () => {
+      if (root.classList.contains("is-opening")) return;
+      root.classList.add("is-opening");
+      try { sessionStorage.setItem(`apologify_opened_${slug}`, "1"); } catch (_) {}
+      actions.markApologyOpened({ slug }).catch(() => {});
+      window.setTimeout(() => {
+        document.documentElement.classList.remove("er-locked");
+        root.remove();
+      }, reduce ? 220 : 1500);
+    };
+
+    button.addEventListener("click", open);
+    root.querySelector(".er-envelope")?.addEventListener("click", open);
+    root.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") open();
+      if (e.key === "Tab") { e.preventDefault(); button.focus(); } // single control: keep focus here
+    });
+  }
+</script>
+
+<style is:global>
+  html.er-locked, html.er-locked body { overflow: hidden; }
+
+  #envelope-reveal {
+    --paper: #F5F1E8;
+    --paper-deep: #EDE5D6;
+    --ink: #241F1A;
+    --ink-blue: #2C4A6E;
+    --red: #C1272D;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: grid;
+    place-items: center;
+    padding: 24px 16px;
+    background: var(--paper);
+    color: var(--ink);
+    transition: opacity 0.5s var(--ease-out) 1s, visibility 0s linear 1.5s;
+  }
+  #envelope-reveal.is-opening { opacity: 0; visibility: hidden; }
+
+  #envelope-reveal .er-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    text-align: center;
+  }
+
+  #envelope-reveal .er-for {
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    color: #6E655A;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    margin: 0;
+  }
+  #envelope-reveal .er-for strong {
+    font-family: "Dancing Script", cursive;
+    font-weight: 600;
+    font-size: clamp(44px, 12vw, 72px);
+    line-height: 1.05;
+    letter-spacing: 0;
+    color: var(--ink-blue);
+    max-width: 14ch;
+    overflow-wrap: anywhere;
+  }
+
+  /* Envelope geometry — crisp shapes only */
+  #envelope-reveal .er-envelope {
+    position: relative;
+    width: min(78vw, 320px);
+    aspect-ratio: 1.56;
+    cursor: pointer;
+    perspective: 900px;
+    filter: drop-shadow(0 18px 28px rgba(36, 31, 26, 0.16));
+  }
+  #envelope-reveal .er-back,
+  #envelope-reveal .er-pocket {
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+  }
+  #envelope-reveal .er-back { background: var(--paper-deep); border: 2px solid var(--ink); }
+  #envelope-reveal .er-pocket {
+    background: var(--paper-deep);
+    border: 2px solid var(--ink);
+    clip-path: polygon(0 34%, 50% 70%, 100% 34%, 100% 100%, 0 100%);
+    z-index: 3;
+  }
+  #envelope-reveal .er-flap {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 64%;
+    /* Solid, slightly deeper paper so the flap edge reads cleanly (no hairline outline). */
+    background: linear-gradient(180deg, #E6DCCB, #DDD2BF);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top center;
+    z-index: 4;
+    transition: transform 0.7s var(--ease-out) 0.15s, z-index 0s linear 0.5s;
+  }
+  #envelope-reveal .er-seal {
+    position: absolute;
+    left: 50%;
+    top: 64%;
+    width: 22%;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #d8454a, var(--red) 60%, #9c1d22);
+    box-shadow: 0 3px 8px rgba(193, 39, 45, 0.35);
+    z-index: 5;
+    transition: transform 0.35s var(--ease-out), opacity 0.3s var(--ease-out);
+  }
+  #envelope-reveal .er-letter {
+    position: absolute;
+    inset: 8% 7% 6%;
+    background: #FFFDF8;
+    border: 1px solid rgba(36, 31, 26, 0.18);
+    border-radius: 4px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10%;
+    padding: 14% 12% 0;
+    opacity: 0; /* tucked away until the flap opens */
+    transition: transform 0.8s var(--ease-out) 0.55s, opacity 0.2s linear 0.45s;
+  }
+  #envelope-reveal .er-letter span { height: 3px; border-radius: 2px; background: rgba(44, 74, 110, 0.35); }
+  #envelope-reveal .er-letter span:nth-child(2) { width: 82%; }
+  #envelope-reveal .er-letter span:nth-child(3) { width: 58%; }
+
+  #envelope-reveal .er-open {
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #F5F1E8;
+    background: var(--red);
+    border: 0;
+    border-radius: 999px;
+    padding: 14px 34px;
+    min-height: 48px;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(193, 39, 45, 0.28);
+    transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out), opacity 0.3s;
+  }
+  #envelope-reveal .er-open:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(193, 39, 45, 0.32); }
+  #envelope-reveal .er-open:active { transform: translateY(0); }
+  #envelope-reveal .er-open:focus-visible { outline: 3px solid var(--ink-blue); outline-offset: 3px; }
+
+  #envelope-reveal .er-from {
+    font-family: "Dancing Script", cursive;
+    font-size: 26px;
+    margin: -12px 0 0;
+    color: var(--ink);
+  }
+
+  /* The one authored moment */
+  #envelope-reveal.is-opening .er-seal { transform: scale(0.6); opacity: 0; }
+  #envelope-reveal.is-opening .er-flap { transform: rotateX(180deg); z-index: 1; }
+  #envelope-reveal.is-opening .er-letter { transform: translateY(-58%); opacity: 1; }
+  #envelope-reveal.is-opening .er-open,
+  #envelope-reveal.is-opening .er-for,
+  #envelope-reveal.is-opening .er-from { opacity: 0; transition: opacity 0.3s var(--ease-out); }
+
+  @media (prefers-reduced-motion: reduce) {
+    #envelope-reveal { transition: opacity 0.2s linear, visibility 0s linear 0.2s; }
+    #envelope-reveal .er-flap,
+    #envelope-reveal .er-letter,
+    #envelope-reveal .er-seal { transition: none; }
+    #envelope-reveal.is-opening .er-flap,
+    #envelope-reveal.is-opening .er-letter { transform: none; }
+  }
+</style>
