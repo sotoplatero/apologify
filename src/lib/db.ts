@@ -10,6 +10,7 @@ export interface Letter {
   source: 'static' | 'generated';
   title?: string;
   created_at?: string;
+  unlisted?: boolean;
 }
 
 // Keep for backwards compatibility with actions
@@ -38,7 +39,8 @@ function rowToLetter(row: any): Letter {
     slug: row.slug,
     source: row.source,
     title: row.title || undefined,
-    created_at: row.created_at
+    created_at: row.created_at,
+    unlisted: Number(row.unlisted) === 1
   };
 }
 
@@ -78,7 +80,7 @@ export async function getAllLettersFromDB(filters?: {
 }): Promise<Letter[]> {
   if (!isTursoConfigured()) return [];
 
-  let sql = 'SELECT * FROM letters WHERE 1=1';
+  let sql = 'SELECT * FROM letters WHERE unlisted = 0';
   const args: any[] = [];
 
   if (filters?.recipient) {
@@ -141,7 +143,7 @@ export async function getLettersByRecipient(recipient: string): Promise<Letter[]
   if (!isTursoConfigured()) return [];
 
   const result = await turso!.execute({
-    sql: 'SELECT * FROM letters WHERE recipient = ? ORDER BY created_at DESC',
+    sql: 'SELECT * FROM letters WHERE recipient = ? AND unlisted = 0 ORDER BY created_at DESC',
     args: [recipient]
   });
 
@@ -154,7 +156,7 @@ export async function getLettersByRecipient(recipient: string): Promise<Letter[]
 export async function getLetterCount(): Promise<number> {
   if (!isTursoConfigured()) return 0;
 
-  const result = await turso!.execute('SELECT COUNT(*) as count FROM letters');
+  const result = await turso!.execute('SELECT COUNT(*) as count FROM letters WHERE unlisted = 0');
   return Number(result.rows[0].count);
 }
 
@@ -164,7 +166,7 @@ export async function getLetterCount(): Promise<number> {
 export async function getRecipientCounts(): Promise<Record<string, number>> {
   if (!isTursoConfigured()) return {};
 
-  const result = await turso!.execute('SELECT recipient, COUNT(*) as count FROM letters GROUP BY recipient');
+  const result = await turso!.execute('SELECT recipient, COUNT(*) as count FROM letters WHERE unlisted = 0 GROUP BY recipient');
   const counts: Record<string, number> = {};
   for (const row of result.rows) {
     counts[row.recipient as string] = Number(row.count);
@@ -178,7 +180,7 @@ export async function getRecipientCounts(): Promise<Record<string, number>> {
 export async function getToneCounts(): Promise<Record<string, number>> {
   if (!isTursoConfigured()) return {};
 
-  const result = await turso!.execute('SELECT tone, COUNT(*) as count FROM letters GROUP BY tone');
+  const result = await turso!.execute('SELECT tone, COUNT(*) as count FROM letters WHERE unlisted = 0 GROUP BY tone');
   const counts: Record<string, number> = {};
   for (const row of result.rows) {
     counts[row.tone as string] = Number(row.count);
@@ -202,7 +204,7 @@ export async function getLettersPaginated(page: number, pageSize: number, filter
 
   const offset = (page - 1) * pageSize;
 
-  let whereClauses = '1=1';
+  let whereClauses = 'unlisted = 0';
   const args: any[] = [];
 
   if (filters?.recipient) {
@@ -245,7 +247,7 @@ export async function getRelatedLetters(recipient: string, excludeSlug: string, 
   if (!isTursoConfigured()) return [];
 
   const result = await turso!.execute({
-    sql: 'SELECT * FROM letters WHERE recipient = ? AND slug != ? ORDER BY RANDOM() LIMIT ?',
+    sql: 'SELECT * FROM letters WHERE recipient = ? AND slug != ? AND unlisted = 0 ORDER BY RANDOM() LIMIT ?',
     args: [recipient, excludeSlug, limit]
   });
 
@@ -259,7 +261,7 @@ export async function getSampleLetters(count: number): Promise<Letter[]> {
   if (!isTursoConfigured()) return [];
 
   const result = await turso!.execute({
-    sql: 'SELECT * FROM letters ORDER BY RANDOM() LIMIT ?',
+    sql: 'SELECT * FROM letters WHERE unlisted = 0 ORDER BY RANDOM() LIMIT ?',
     args: [count]
   });
 

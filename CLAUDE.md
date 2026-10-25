@@ -103,6 +103,7 @@ Markdown under `src/content/articles/` (loaded via `src/lib/articles`). Generate
 - Every SSR route not in the ISR `exclude` list is **cached forever per deploy**. Anything per-request (actions, auth, APIs, drafts) must be excluded — `/_actions/*` was once cached and served one user's apology to everyone for months.
 - Sitemaps: `sitemap-index.xml` (static, via @astrojs/sitemap, filtered), `sitemap-examples.xml` (DB letters), `sitemap-pages.xml` (public `/sorry` pages). All listed in `public/robots.txt` and submitted in Search Console.
 - Legacy `/examples/<free-text recipient>/<slug>` URLs 301 via `src/lib/recipients.js` + slug lookup; unknown ones `Astro.rewrite('/404')` (real 404).
+- Pruned letters: `letters.unlisted = 1` (not indexed by Google or not a genuine apology, and no search clicks) → their page answers **410 Gone** and every listing/count/sitemap query filters `unlisted = 0`. Reversible: `node scripts/unlist-letters.js --restore scripts/research/unlisted-letters.json`.
 
 ## Important Files
 

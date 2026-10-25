@@ -18,7 +18,7 @@ export const GET: APIRoute = async ({ site }) => {
   let rows: { recipient: string; slug: string; created_at: unknown }[] = [];
   try {
     const result = await turso!.execute(
-      "SELECT recipient, slug, created_at FROM letters ORDER BY created_at DESC",
+      "SELECT recipient, slug, created_at FROM letters WHERE unlisted = 0 ORDER BY created_at DESC",
     );
     rows = result.rows as any;
   } catch (_) {

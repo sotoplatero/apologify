@@ -76,6 +76,13 @@ if (!letter) {
   return Astro.rewrite("/404");
 }
 
+// Unlisted (pruned: not indexed / not a genuine apology) → 410 Gone, so Google
+// drops it for good. The row is kept; see scripts/unlist-letters.js.
+if (letter.unlisted) {
+  const gone = await Astro.rewrite("/404");
+  return new Response(gone.body, { status: 410, headers: gone.headers });
+}
+
 const recipientLabel = labelFor(recipient);
 const displayTitle = letter.title;
 
