@@ -112,7 +112,7 @@ I understand if you need time. Whenever you're ready, I'd like to talk.
 > Sincerely,\
 > Daniel Reyes
 
-More: [how to write an apology letter to a teacher](/articles/how-to-write-an-apology-letter-to-a-teacher) · [to a friend](/articles/how-to-write-an-apology-letter-to-a-friend) · [all example letters](/examples).
+More: how to write an apology letter [to your girlfriend](/articles/how-to-write-an-apology-letter-to-a-girlfriend) · [to your boyfriend](/articles/how-to-write-an-apology-letter-to-a-boyfriend) · [to a friend](/articles/how-to-write-an-apology-letter-to-a-friend) · [to a teacher](/articles/how-to-write-an-apology-letter-to-a-teacher) · [all example letters](/examples).
 
 ## What not to write
 
