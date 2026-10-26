@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import { getLettersPaginated, getRecipientCounts, getToneCounts } from '../../lib/db';
 import { tones as officialTones } from '../../lib/apologyData.js';
 import LetterDirectory from '../../components/LetterDirectory.svelte';
+import { normalizeRecipient } from '../../lib/recipients.js';
 
 export const prerender = false;
 
@@ -14,6 +15,13 @@ const currentPage = Math.max(1, parseInt(url.searchParams.get('page') || '1'));
 const recipientFilter = url.searchParams.get('recipient') || undefined;
 const toneFilter = url.searchParams.get('tone') || undefined;
 const searchTerm = url.searchParams.get('q') || undefined;
+
+// A recipient-only filter duplicates the indexable hub /examples/[recipient]:
+// send it there so Google sees one URL per recipient.
+if (recipientFilter && !toneFilter && !searchTerm) {
+  const hub = normalizeRecipient(recipientFilter);
+  if (hub) return Astro.redirect(`/examples/${hub}`, 301);
+}
 
 // Fetch paginated letters with filters
 const { letters, total, lastPage } = await getLettersPaginated(currentPage, PAGE_SIZE, {
@@ -84,7 +92,7 @@ const pageNumbers = getPageNumbers(currentPage, lastPage);
 const hasFilters = recipientFilter || toneFilter || searchTerm;
 ---
 
-<Layout title="Apology Letter Examples: 800+ Real Samples for Every Situation" description="Read real apology letter examples to a girlfriend, boyfriend, friend, wife, mom, boss or teacher — then turn yours into a shareable sorry page in seconds.">
+<Layout title="Apology Letter Examples: 800+ Real Samples for Every Situation" description="Read real apology letter examples to a girlfriend, boyfriend, friend, wife, mom, boss or teacher — then turn yours into a shareable sorry page in seconds." noindex={Boolean(toneFilter || searchTerm)}>
   <main class="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
     <!-- Header Section -->
     <div class="text-center space-y-3 sm:space-y-4 mb-10 sm:mb-16">
