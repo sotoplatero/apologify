@@ -150,11 +150,10 @@ const schema = {
     column-gap: clamp(1.25rem, 3vw, 3rem);
     padding: clamp(2.5rem, 5vw, 4.5rem) var(--an-gutter) 0 0;
   }
-  .lead-photo { grid-column: 1 / span 7; display: block; overflow: hidden; background: var(--an-soft); }
+  .lead-photo { grid-column: 1 / span 7; align-self: start; display: block; overflow: hidden; background: var(--an-soft); }
   .lead-photo img {
     width: 100%;
-    height: 100%;
-    min-height: 34rem;
+    aspect-ratio: 3 / 2;
     object-fit: cover;
     display: block;
     animation: an-unveil 1.4s var(--an-ease) both;
@@ -205,7 +204,7 @@ const schema = {
     gap: 4rem clamp(1.25rem, 3vw, 3rem);
   }
   .issue { display: flex; flex-direction: column; }
-  .issue img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; background: var(--an-soft); transition: opacity 0.4s var(--an-ease); }
+  .issue img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; background: var(--an-soft); transition: opacity 0.4s var(--an-ease); }
   .issue:hover img { opacity: 0.82; }
   .issue-meta { margin-top: 1.1rem; color: var(--an-mute); font-size: 0.62rem; }
   .issue-title { margin-top: 0.6rem; font-size: 1.45rem; line-height: 1.12; letter-spacing: -0.02em; text-wrap: balance; }
@@ -247,7 +246,7 @@ const schema = {
   }
   @media (max-width: 860px) {
     .lead { display: block; padding: 2rem 0 0; }
-    .lead-photo img { min-height: 0; aspect-ratio: 4 / 3; }
+    .lead-photo img { aspect-ratio: 3 / 2; }
     .lead-text { padding: 2.25rem var(--an-gutter) 0; }
     .week { grid-template-columns: 1fr; gap: 1.5rem; }
     .week-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
