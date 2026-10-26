@@ -3,6 +3,8 @@ import Layout from '../../../layouts/Layout.astro';
 import { normalizeRecipient, recipientLabel } from '../../../lib/recipients.js';
 import LetterCard from '../../../components/LetterCard.astro';
 import { getLettersByRecipient } from '../../../lib/db';
+import { recipientGuide } from '../../../lib/recipientGuides';
+import RecipientGuide from '../../../components/RecipientGuide.astro';
 
 export const prerender = false;
 
@@ -25,6 +27,9 @@ const allLetters = canonicalRecipient ? await getLettersByRecipient(recipient) :
 if (allLetters.length === 0) {
   return Astro.rewrite('/404');
 }
+
+const guide = recipientGuide(recipient);
+const fill = (s: string) => s.replace('{n}', String(allLetters.length));
 
 // Breadcrumb schema
 const breadcrumbSchema = {
@@ -67,20 +72,29 @@ const collectionSchema = {
     "name": "Apologify"
   }
 };
+
+const faqSchema = guide && {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: guide.faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+};
 ---
 
 <Layout
-  title={`Apology Letter to ${finalRecipientLabel}: ${allLetters.length} Real Examples`}
-  description={`Read ${allLetters.length} real apology letters to a ${finalRecipientLabel.toLowerCase()} for every situation — copy one, or turn yours into a shareable sorry page.`}
+  title={guide ? fill(guide.title) : `Apology Letter to ${finalRecipientLabel}: ${allLetters.length} Real Examples`}
+  description={guide ? fill(guide.description) : `Read ${allLetters.length} real apology letters to a ${finalRecipientLabel.toLowerCase()} for every situation — copy one, or turn yours into a shareable sorry page.`}
   canonicalUrl={canonicalUrl}
-  schema={[breadcrumbSchema, collectionSchema]}
+  schema={guide ? [breadcrumbSchema, collectionSchema, faqSchema] : [breadcrumbSchema, collectionSchema]}
 >
   <main class="container mx-auto px-4 sm:px-6 py-12">
-    <!-- Header Section -->
-    <div class="text-center space-y-4 mb-12">
-      <h1 class="text-4xl md:text-5xl font-display font-bold text-base-content leading-tight tracking-tight">Apology Letters for {finalRecipientLabel}</h1>
-      <p class="text-xl text-base-content/70">Browse apology letters specifically for {finalRecipientLabel?.toLowerCase()}</p>
-    </div>
+    {guide ? (
+      <RecipientGuide guide={guide} recipient={recipient} count={allLetters.length} />
+    ) : (
+      <div class="text-center space-y-4 mb-12">
+        <h1 class="text-4xl md:text-5xl font-display font-bold text-base-content leading-tight tracking-tight">Apology Letters for {finalRecipientLabel}</h1>
+        <p class="text-xl text-base-content/70">Browse apology letters specifically for {finalRecipientLabel?.toLowerCase()}</p>
+      </div>
+    )}
 
 
 
