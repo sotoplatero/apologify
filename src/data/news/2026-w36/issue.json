@@ -1,0 +1,148 @@
+{
+  "week": "2026-w36",
+  "slug": "lewis-hamilton-takes-responsibility-mel-gibson-deflects",
+  "title": "Lewis Hamilton Takes Responsibility; Mel Gibson Deflects",
+  "description": "The public apologies of the week, scored.",
+  "date": "2026-08-31",
+  "intro": "Lewis Hamilton shows why owning specific comments matters, though his promise to improve lacks detail. Mel Gibson shows how blaming pressure undermines an apology.",
+  "items": [
+    {
+      "id": "lewis-hamilton",
+      "slot": "best",
+      "who": "Lewis Hamilton",
+      "category": "sports",
+      "country": "GB",
+      "headline": "Lewis Hamilton apologises for Ferrari radio and television comments",
+      "summary": "Lewis Hamilton publicly apologised after criticising Ferrari’s strategy during and after the Dutch Grand Prix. He said he had listened back to his comments, accepted responsibility and promised to improve, but offered no concrete corrective action.",
+      "quote": "But that wasn't the best version of me. I take responsibility for that, and I'll be better.",
+      "score": 4,
+      "verdict": "Owns his radio and TV comments, but offers only a promise to be better.",
+      "sourceUrl": "https://www.planetf1.com/news/lewis-hamilton-public-apology-dutch-grand-prix-radio-tv",
+      "sourceName": "PlanetF1",
+      "image": {
+        "src": "https://images.ps-aws.com/c?url=https%3A%2F%2Fd3cm515ijfiu6w.cloudfront.net%2Fwp-content%2Fuploads%2F2026%2F08%2F25095938%2Flewis-hamilton-ferrari-zandvoort-2026-planetf1-1.jpg",
+        "credit": "PlanetF1"
+      }
+    },
+    {
+      "id": "mel-gibson",
+      "slot": "worst",
+      "who": "Mel Gibson",
+      "category": "celebrity",
+      "country": "US",
+      "headline": "Mel Gibson apologizes after mocking ASL interpreter at Fan Expo Canada",
+      "summary": "Gibson made exaggerated hand gestures while passing an American Sign Language interpreter at Fan Expo Canada. After footage circulated and drew criticism, he described his behavior as spontaneous idiocy, denied malicious intent and apologized to people who were upset.",
+      "quote": "There was no intended maliciousness attached, and I certainly apologize to anyone who was upset by it.",
+      "score": 0,
+      "verdict": "Blames stage pressure, avoids naming the interpreter mockery, and offers no repair.",
+      "statementUrl": "https://variety.com/2026/film/news/mel-gibson-mocks-asl-interpreter-fan-expo-apologizes-1236847278",
+      "sourceUrl": "https://www.usatoday.com/story/entertainment/celebrities/2026/08/31/mel-gibson-asl-sign-language-video-apology/91551582007",
+      "sourceName": "USA Today",
+      "statementDate": "2026-08-31",
+      "image": {
+        "src": "https://variety.com/wp-content/uploads/2026/08/GettyImages-2290661188.jpg?w=1000&#038;h=563&#038;crop=1",
+        "credit": "variety.com"
+      }
+    },
+    {
+      "id": "target",
+      "slot": "brief",
+      "who": "Target",
+      "category": "brand",
+      "country": "US",
+      "headline": "Target apologizes and withdraws children's Halloween costume",
+      "summary": "Target withdrew a children's clown costume after critics compared its design to racist minstrel caricatures. The retailer acknowledged that it should never have stocked the costume, apologized specifically to Black customers, employees and partners, and said it was reviewing how the product reached sale.",
+      "quote": "We know this is especially hurtful for our Black guests, team members and partners.",
+      "score": 5,
+      "verdict": "Withdraws the costume and acknowledges harm to Black customers, but offers no checkable prevention plan.",
+      "statementUrl": "https://abc7ny.com/story/target-apologizes-offensive-kids-halloween-costume-evoked-racist-imagery/19733954",
+      "sourceUrl": "https://www.kcra.com/article/target-pulls-halloween-costume-backlash/73530262",
+      "sourceName": "Associated Press via KCRA",
+      "statementDate": "2026-08-24",
+      "image": {
+        "src": "https://kubrick.htvapps.com/htv-prod/images/a161ac7f-1247-4f44-9877-7cb77fe5737d.jpg?crop=1.00xw%3A0.838xh%3B0%2C0&resize=1200%3A*",
+        "credit": "Associated Press via KCRA"
+      }
+    },
+    {
+      "id": "sebastien-ogier",
+      "slot": "brief",
+      "who": "Sébastien Ogier",
+      "category": "sports",
+      "country": "FR",
+      "headline": "Ogier apologises for interaction with FIA and Paraguay presidents",
+      "summary": "Sébastien Ogier publicly apologised for how he raised championship concerns with FIA president Mohammed Ben Sulayem and Paraguayan President Santiago Peña. He acknowledged using the wrong tone at the wrong moment and said he had already apologised privately and attended a constructive meeting.",
+      "quote": "It was neither the right moment nor the right tone in which I raised my concerns about the championship.",
+      "score": 3.5,
+      "verdict": "Owns his tone and apologises privately, but leaves the remarks and future safeguards unspecified.",
+      "statementUrl": "https://dirtfish.com/rally/wrc/ogier-apologizes-to-fia-and-paraguay-presidents",
+      "sourceUrl": "https://www.autosport.com/wrc/news/ogier-apologises-to-fia-and-paraguay-presidents-for-out-of-line-interaction/10850904",
+      "sourceName": "Autosport",
+      "statementDate": "2026-08-31",
+      "image": {
+        "src": "https://cdn-1.motorsport.com/images/amp/2jEAEJz0/s6/sebastien-ogier-toyota-gazoo-r-2.jpg",
+        "credit": "Autosport"
+      }
+    },
+    {
+      "id": "david-umahi",
+      "slot": "brief",
+      "who": "David Umahi",
+      "category": "politics",
+      "country": "NG",
+      "headline": "Umahi apologises to commuters over Benin-Agbor-Asaba road conditions",
+      "summary": "David Umahi apologised to commuters stranded by the deteriorating Benin-Agbor-Asaba Expressway and reportedly accepted responsibility for their hardship. He visited Benin and promised immediate interventions alongside lasting repairs, but the evidence provides no completion deadline or detailed repair commitments.",
+      "score": 3.5,
+      "verdict": "Acknowledges stranded commuters’ hardship, but promises road repairs without a timetable or detailed commitments.",
+      "sourceUrl": "https://www.channelstv.com/2026/08/25/tinubu-directs-urgent-intervention-on-benin-agbor-asaba-road-ekiti-kogi-highway",
+      "sourceName": "Channels Television",
+      "statementDate": "2026-08-25",
+      "image": {
+        "src": "https://www.channelstv.com/wp-content/uploads/2026/08/benin-agbor-road.jpg",
+        "credit": "Channels Television"
+      }
+    },
+    {
+      "id": "unidentified-newspaper",
+      "slot": "brief",
+      "who": "Unidentified newspaper",
+      "category": "other",
+      "country": "GB",
+      "headline": "Metro apologises for false Holocaust denial allegation against JK Rowling",
+      "summary": "Metro incorrectly described JK Rowling as having engaged in Holocaust denial in an article about the forthcoming Harry Potter television series. It removed the allegation and added a correction acknowledging the error and apologising.",
+      "quote": "An earlier version of this story wrongly stated that JK Rowling had been ‘engaged in Holocaust denial’.",
+      "score": 3.5,
+      "verdict": "Metro names and removes the false allegation, but offers no steps to prevent repetition.",
+      "statementUrl": "https://www.thenews.com.pk/latest/1413659-jk-rowling-receives-apology-after-holocaust-denier-label",
+      "sourceUrl": "https://www.thenational.scot/news/26496994.newspaper-apologises-wrongly-calling-jk-rowling-holocaust-denier",
+      "sourceName": "The National",
+      "image": {
+        "src": "https://www.thenational.scot/resources/images/19527688.jpg?type=og-image",
+        "credit": "The National"
+      }
+    },
+    {
+      "id": "australian-national-university",
+      "slot": "brief",
+      "who": "Australian National University",
+      "category": "other",
+      "country": "AU",
+      "headline": "ANU apologises to Liz Allen and reaches financial settlement",
+      "summary": "ANU publicly apologised to demographer Liz Allen over its treatment of her after she raised governance concerns, and reached a financial settlement. The university acknowledged false publications, mishandled processes and considerable harm to Allen, but described the publications without identifying who made them.",
+      "quote": "The university unreservedly apologises to Dr Allen for all of its failings and the harm it has caused her.",
+      "score": 3.5,
+      "verdict": "Acknowledges false publications and compensates Allen, but obscures who published them and offers no prevention commitment.",
+      "statementUrl": "https://region.com.au/anu-apologises-to-dr-liz-allen-in-settlement-of-issues/992574",
+      "sourceUrl": "https://www.smh.com.au/national/anu-apologises-to-whistleblower-after-indefensible-treatment-20260824-p60r1n.html",
+      "sourceName": "The Sydney Morning Herald",
+      "image": {
+        "src": "https://static.ffx.io/images/$zoom_0.9806%2C$multiply_0.7554%2C$ratio_1.777778%2C$width_1059%2C$x_0%2C$y_67/t_crop_custom/q_86%2Ce_sharpen:60%2Cf_auto/5f813a4708c0d80b82fbd96ebc3a0867aa6beace4ef58bcad5be6ab04c374224",
+        "credit": "The Sydney Morning Herald"
+      }
+    }
+  ],
+  "image": {
+    "src": "/news/lewis-hamilton-takes-responsibility-mel-gibson-deflects.webp",
+    "alt": "Cover photograph for Apology News: Lewis Hamilton apologises for Ferrari radio and television comments"
+  }
+}

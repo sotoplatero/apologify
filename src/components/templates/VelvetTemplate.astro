@@ -1,0 +1,115 @@
+---
+// Velvet: an evening invitation — deep burgundy, ivory type, a gilt hairline
+// frame that draws itself in. Formal without being cold.
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
+---
+<main class="vv">
+  <div class="vv-frame">
+    <span class="vv-line vv-top" aria-hidden="true"></span>
+    <span class="vv-line vv-bottom" aria-hidden="true"></span>
+    <span class="vv-line vv-left" aria-hidden="true"></span>
+    <span class="vv-line vv-right" aria-hidden="true"></span>
+
+    <p class="vv-kind">An apology</p>
+    <h1 class="vv-title">{title}</h1>
+    <span class="vv-rule" aria-hidden="true"></span>
+
+    {heading && <p class="vv-heading">{heading}</p>}
+    <div class="vv-body">
+      {paragraphs.map((p: string) => <p set:html={p} />)}
+    </div>
+    {senderName && <p class="vv-sign">{senderName}</p>}
+
+    <div class="vv-actions">
+      <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+        acceptLabel="Like this"
+        primaryClass="vv-btn vv-btn-solid"
+        secondaryClass="vv-btn vv-btn-line"
+        mutedClass="vv-muted" />
+    </div>
+  </div>
+  <a href="/generator" class="vv-made">Made on apologify.com — write your own</a>
+</main>
+
+<style>
+  .vv {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1.25rem, 5vw, 4rem) 1rem 2.5rem;
+    background: radial-gradient(120% 90% at 50% 0%, #6a1a2b 0%, #420d1a 55%, #2a0710 100%);
+    color: #f4e9dc;
+    font-family: 'Spectral', Georgia, serif;
+  }
+  .vv-frame {
+    position: relative;
+    width: 100%;
+    max-width: 40rem;
+    padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 6vw, 4rem);
+    text-align: center;
+  }
+  /* The gilt frame: four hairlines that draw outwards from the corners. */
+  .vv-line { position: absolute; background: rgba(214, 178, 116, 0.55); animation: vv-draw 1.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .vv-top, .vv-bottom { left: 0; right: 0; height: 1px; }
+  .vv-left, .vv-right { top: 0; bottom: 0; width: 1px; }
+  .vv-top { top: 0; transform-origin: left; }
+  .vv-bottom { bottom: 0; transform-origin: right; }
+  .vv-left { left: 0; transform-origin: bottom; animation-name: vv-draw-y; }
+  .vv-right { right: 0; transform-origin: top; animation-name: vv-draw-y; }
+  @keyframes vv-draw { from { transform: scaleX(0); } }
+  @keyframes vv-draw-y { from { transform: scaleY(0); } }
+
+  .vv-kind {
+    margin: 0;
+    font-family: 'Jost', system-ui, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: #d6b274;
+  }
+  .vv-title {
+    margin: 1.5rem 0 0;
+    font-weight: 300;
+    font-size: clamp(2.3rem, 7vw, 3.9rem);
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .vv-rule { display: block; width: 3rem; height: 1px; margin: 2rem auto; background: #d6b274; }
+  .vv-heading { margin: 0 0 1.25rem; font-style: italic; font-size: 1.3rem; color: #f4e9dc; }
+  .vv-body { font-size: clamp(1.08rem, 2.2vw, 1.22rem); line-height: 1.8; color: rgba(244, 233, 220, 0.86); text-align: left; }
+  .vv-body :global(p) { margin: 0 0 1.2em; }
+  .vv-body :global(strong) { color: #f4e9dc; font-weight: 600; }
+  .vv-sign { margin: 2.25rem 0 0; font-style: italic; font-weight: 300; font-size: 2rem; color: #f4e9dc; }
+
+  .vv-actions { margin-top: 3rem; }
+  .vv-actions :global(.vv-btn) {
+    padding: 0.95rem 1.6rem;
+    font-family: 'Jost', system-ui, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+  }
+  .vv-actions :global(.vv-btn-solid) { background: #f4e9dc; color: #420d1a; }
+  .vv-actions :global(.vv-btn-solid:hover) { background: #d6b274; }
+  .vv-actions :global(.vv-btn-line) { border: 1px solid rgba(214, 178, 116, 0.6); color: #f4e9dc; }
+  .vv-actions :global(.vv-btn-line:hover) { border-color: #f4e9dc; }
+  .vv-actions :global(.vv-muted) { font-family: 'Jost', system-ui, sans-serif; font-size: 0.85rem; color: rgba(244, 233, 220, 0.7); }
+  .vv ::selection { background: #d6b274; color: #2a0710; }
+  .vv-made {
+    margin-top: 2rem;
+    font-family: 'Jost', system-ui, sans-serif;
+    font-size: 0.64rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(244, 233, 220, 0.55);
+  }
+  .vv-made:hover { color: #f4e9dc; }
+  @media (prefers-reduced-motion: reduce) { .vv-line { animation: none; } }
+</style>

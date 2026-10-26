@@ -4,173 +4,115 @@ import { tones, recipients } from "../lib/apologyData.js";
 const currentYear = new Date().getFullYear();
 
 const topTones = tones.filter((t) => t.value !== "other").slice(0, 6);
+
+const site = [
+  { href: "/generator", label: "Apology builder" },
+  { href: "/designs", label: "Designs" },
+  { href: "/sorry-card", label: "Sorry cards" },
+  { href: "/news", label: "Apology News" },
+  { href: "/research/why-people-apologize", label: "Apology study" },
+  { href: "/examples", label: "Sample letters" },
+  { href: "/articles", label: "Articles" },
+  { href: "/about", label: "About us" },
+  { href: "/contact", label: "Contact" },
+];
 ---
 
-<footer
-  class="bg-base-200 border-t border-base-300 text-base-content"
->
-  <!-- Top Section: Logo + Social -->
-  <div class="w-full max-w-screen-xl mx-auto px-4 pt-12 pb-8">
-    <!-- Middle Section: Link Columns -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 font-sans">
-      <!-- Apologify (Product + Company merged) -->
-      <div>
-        <div
-          class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-4"
-        >
-          <div>
-            <a
-              href="/"
-              class="text-2xl font-bold text-base-content flex items-center gap-2 font-display"
-            >
-              <span class="text-3xl">💌</span>
-              Apologify
-            </a>
-            <p class="text-sm text-base-content/60 mt-2 max-w-md font-sans">
-              Turn a heartfelt apology into a beautiful, shareable web page in
-              seconds. Free to create — pick a design and send the link.
-            </p>
-          </div>
-        </div>
-        <ul class="space-y-2.5 text-sm">
-          <li>
-            <a
-              href="/generator"
-              class="text-base-content/70 hover:text-primary transition-colors"
-              >Apology Builder</a
-            >
-          </li>
-          <li>
-            <a
-              href="/designs"
-              class="text-base-content/70 hover:text-primary transition-colors"
-              >Designs</a
-            >
-          </li>
-          <li>
-            <a
-              href="/sorry-card"
-              class="text-base-content/70 hover:text-primary transition-colors"
-              >Sorry Cards</a
-            >
-          </li>
-          <li>
-            <a
-              href="/research/why-people-apologize"
-              class="text-base-content/70 hover:text-primary transition-colors"
-              >Apology Study</a
-            >
-          </li>
-          <li>
-            <a
-              href="/examples"
-              class="text-base-content/70 hover:text-primary transition-colors"
-              >Sample Letters</a
-            >
-          </li>
-          <li>
-            <a
-              href="/articles"
-              class="text-base-content/70 hover:text-primary transition-colors"
-              >Articles</a
-            >
-          </li>
-          <li>
-            <a
-              href="/about"
-              class="text-base-content/70 hover:text-primary transition-colors"
-              >About Us</a
-            >
-          </li>
-          <li>
-            <a
-              href="/contact"
-              class="text-base-content/70 hover:text-primary transition-colors"
-              >Contact</a>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Generators by Recipient -->
-      <div>
-        <h3
-          class="text-sm font-semibold text-base-content uppercase tracking-wider mb-4"
-        >
-          Generators
-        </h3>
-        <ul class="space-y-2.5 text-sm">
-          {
-            recipients.map((r) => (
-              <li>
-                <a
-                  href={`/generator/${r.value}`}
-                  class="text-base-content/70 hover:text-primary transition-colors"
-                >
-                  Sorry to {r.label.toLowerCase()}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-
-      <!-- Directory by Recipient -->
-      <div>
-        <h3
-          class="text-sm font-semibold text-base-content uppercase tracking-wider mb-4"
-        >
-          Directory
-        </h3>
-        <ul class="space-y-2.5 text-sm">
-          {
-            recipients.map((r) => (
-              <li>
-                <a
-                  href={`/examples?recipient=${r.value}`}
-                  class="text-base-content/70 hover:text-primary transition-colors"
-                >
-                  {r.label} examples
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-
-      <!-- Tones -->
-      <div>
-        <h3
-          class="text-sm font-semibold text-base-content uppercase tracking-wider mb-4"
-        >
-          Tones
-        </h3>
-        <ul class="space-y-2.5 text-sm">
-          {
-            topTones.map((t) => (
-              <li>
-                <a
-                  href={`/examples?tone=${t.value}`}
-                  class="text-base-content/70 hover:text-primary transition-colors"
-                >
-                  {t.label} apologies
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+<footer class="ap-foot">
+  <div class="ap-foot-in">
+    <div class="ap-foot-brand">
+      <a href="/" class="ap-foot-mark"><img src="/seal.svg" alt="" width="40" height="40" /> Apologify</a>
+      <p>Turn a heartfelt apology into a beautiful, shareable web page. Free to create: pick a design and send the link.</p>
     </div>
+
+    <nav class="ap-foot-col" aria-labelledby="foot-site">
+      <h2 id="foot-site">Apologify</h2>
+      <ul>{site.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+    </nav>
+
+    <nav class="ap-foot-col" aria-labelledby="foot-gen">
+      <h2 id="foot-gen">Generators</h2>
+      <ul>{recipients.map((r) => <li><a href={`/generator/${r.value}`}>Sorry to {r.label.toLowerCase()}</a></li>)}</ul>
+    </nav>
+
+    <nav class="ap-foot-col" aria-labelledby="foot-dir">
+      <h2 id="foot-dir">Directory</h2>
+      <ul>{recipients.map((r) => <li><a href={`/examples?recipient=${r.value}`}>{r.label} examples</a></li>)}</ul>
+    </nav>
+
+    <nav class="ap-foot-col" aria-labelledby="foot-tones">
+      <h2 id="foot-tones">Tones</h2>
+      <ul>{topTones.map((t) => <li><a href={`/examples?tone=${t.value}`}>{t.label} apologies</a></li>)}</ul>
+    </nav>
   </div>
 
-  <!-- Bottom Section -->
-  <div class="border-t border-base-300">
-    <div
-      class="w-full max-w-screen-xl mx-auto px-4 py-5 flex flex-col sm:flex-row justify-between items-center gap-2 text-sm text-base-content/50 font-sans"
-    >
-      <p>&copy; {currentYear} Apologify. All rights reserved.</p>
-      <p>
-        Made with <span class="text-error">&#9829;</span> to help mend relationships
-      </p>
-    </div>
+  <div class="ap-foot-base">
+    <p>&copy; {currentYear} Apologify</p>
+    <p>Made to help mend relationships</p>
   </div>
 </footer>
+
+<style>
+  .ap-foot {
+    margin-top: clamp(5rem, 10vw, 8rem);
+    padding: 0 1rem;
+    font-family: 'Jost', system-ui, sans-serif;
+    color: #241f1a;
+  }
+  .ap-foot-in,
+  .ap-foot-base {
+    max-width: 78rem;
+    margin: 0 auto;
+  }
+  .ap-foot-in {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) repeat(4, minmax(0, 1fr));
+    gap: 2.5rem 2rem;
+    padding: 3rem 0 3.5rem;
+    border-top: 1px solid #241f1a;
+  }
+  .ap-foot-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: 'Spectral', Georgia, serif;
+    font-size: 1.6rem;
+    letter-spacing: -0.02em;
+  }
+  .ap-foot-brand p {
+    margin: 1rem 0 0;
+    max-width: 22rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #6b6157;
+  }
+  .ap-foot-col h2 {
+    margin: 0 0 1.1rem;
+    font-family: 'Jost', system-ui, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .ap-foot-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
+  .ap-foot-col a { font-size: 0.88rem; color: #3a332c; transition: color 0.2s; }
+  .ap-foot-col a:hover { color: #c1272d; }
+  .ap-foot-base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    padding: 1.25rem 0 2rem;
+    border-top: 1px solid #e0d8c8;
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #6b6157;
+  }
+  .ap-foot-base p { margin: 0; }
+
+  @media (max-width: 960px) {
+    .ap-foot-in { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .ap-foot-brand { grid-column: 1 / -1; }
+  }
+</style>

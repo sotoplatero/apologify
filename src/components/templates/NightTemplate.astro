@@ -1,28 +1,96 @@
 ---
+// Night: a midnight-blue sky with a few faint stars and pale-gold type —
+// for an apology written late, when it couldn't wait until morning.
 import ApologyActions from "../ApologyActions.svelte";
 const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
 ---
-<main class="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center px-5 py-16 font-display text-indigo-50"
-  style="background:radial-gradient(ellipse at 50% 0%, #2a1a52, #0b0a1f 70%);">
-  <div class="pointer-events-none absolute inset-0"
-    style="background-image:radial-gradient(1px 1px at 20% 30%, #fff, transparent),radial-gradient(1px 1px at 70% 18%, #fff, transparent),radial-gradient(1px 1px at 42% 68%, #cdd, transparent),radial-gradient(1.5px 1.5px at 85% 55%, #fff, transparent),radial-gradient(1px 1px at 15% 82%, #fff, transparent),radial-gradient(1px 1px at 58% 40%, #fff, transparent);opacity:.6;"></div>
+<main class="nt">
+  <div class="nt-sky" aria-hidden="true"></div>
+  <div class="nt-page">
+    <p class="nt-kind">An apology, at night</p>
+    <h1 class="nt-title">{title}</h1>
+    <span class="nt-moon" aria-hidden="true"></span>
 
-  <div class="relative w-full max-w-2xl text-center">
-    <p class="text-[0.7rem] uppercase tracking-[0.4em] text-indigo-300/70 mb-5">Apologify · an apology</p>
-    <h1 class="text-4xl sm:text-6xl font-semibold leading-[1.05]" style="text-wrap: balance; text-shadow:0 0 40px rgba(165,140,255,0.45);">{title}</h1>
-    {heading && <p class="text-lg text-indigo-200/90 mt-6 mb-8">{heading}</p>}
-    <div class="space-y-5 text-lg sm:text-xl leading-[1.8] text-indigo-50/90 max-w-xl mx-auto text-left sm:text-center">
+    {heading && <p class="nt-heading">{heading}</p>}
+    <div class="nt-body">
       {paragraphs.map((p: string) => <p set:html={p} />)}
     </div>
-    {senderName && <p class="mt-12 text-4xl font-cursive text-indigo-100" style="text-shadow:0 0 30px rgba(165,140,255,0.5);">{senderName}</p>}
+    {senderName && <p class="nt-sign">{senderName}</p>}
 
-    <div class="mt-12 flex justify-center">
+    <div class="nt-actions">
       <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
-        acceptLabel="Like this 💛"
-        primaryClass="px-7 py-3 rounded-full bg-indigo-400/90 text-indigo-950 font-semibold hover:bg-indigo-300 transition-colors shadow-[0_0_30px_rgba(165,140,255,0.5)]"
-        secondaryClass="px-6 py-3 rounded-full border border-indigo-300/40 text-indigo-100 hover:bg-white/10 transition-colors"
-        mutedClass="text-sm text-indigo-300/70" />
+        acceptLabel="Like this"
+        primaryClass="nt-btn nt-btn-solid"
+        secondaryClass="nt-btn nt-btn-line"
+        mutedClass="nt-muted" />
     </div>
-    <a href="/generator" class="block mt-10 text-xs tracking-wide text-indigo-300/60 hover:text-indigo-200 transition-colors">Made on apologify.com — write your own →</a>
+    <a href="/generator" class="nt-made">Made on apologify.com — write your own</a>
   </div>
 </main>
+
+<style>
+  .nt {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(2rem, 7vw, 6rem) 1.25rem 3rem;
+    background: linear-gradient(180deg, #0b1020 0%, #121a33 60%, #1a2442 100%);
+    color: #ece6d6;
+    font-family: 'Spectral', Georgia, serif;
+  }
+  .nt-sky {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 12% 18%, rgba(255, 255, 255, 0.8), transparent),
+      radial-gradient(1px 1px at 78% 12%, rgba(255, 255, 255, 0.6), transparent),
+      radial-gradient(1px 1px at 64% 34%, rgba(255, 255, 255, 0.45), transparent),
+      radial-gradient(1px 1px at 26% 62%, rgba(255, 255, 255, 0.4), transparent),
+      radial-gradient(1px 1px at 88% 70%, rgba(255, 255, 255, 0.55), transparent),
+      radial-gradient(1px 1px at 44% 88%, rgba(255, 255, 255, 0.35), transparent),
+      radial-gradient(1px 1px at 6% 84%, rgba(255, 255, 255, 0.5), transparent);
+    animation: nt-twinkle 6s ease-in-out infinite alternate;
+  }
+  .nt-page { position: relative; width: 100%; max-width: 38rem; text-align: center; }
+  .nt-kind { margin: 0; font-family: 'Jost', system-ui, sans-serif; font-size: 0.66rem; font-weight: 500; letter-spacing: 0.32em; text-transform: uppercase; color: #cdb98a; }
+  .nt-title { margin: 1.5rem 0 0; font-weight: 300; font-size: clamp(2.4rem, 7.5vw, 4.2rem); line-height: 1.04; letter-spacing: -0.02em; text-wrap: balance; }
+  /* A thin crescent drawn with two circles. */
+  .nt-moon {
+    display: block;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin: 2.25rem auto;
+    border-radius: 50%;
+    box-shadow: inset 0.38rem -0.1rem 0 0 #cdb98a;
+    transform: rotate(-20deg);
+  }
+  .nt-heading { margin: 0 0 1.25rem; font-style: italic; font-size: 1.3rem; color: #ece6d6; }
+  .nt-body { font-size: clamp(1.08rem, 2.2vw, 1.2rem); line-height: 1.85; color: rgba(236, 230, 214, 0.84); text-align: left; }
+  .nt-body :global(p) { margin: 0 0 1.2em; }
+  .nt-body :global(strong) { color: #ece6d6; font-weight: 600; }
+  .nt-sign { margin: 2.25rem 0 0; font-family: 'Dancing Script', cursive; font-size: 2.6rem; color: #cdb98a; }
+
+  .nt-actions { margin-top: 3rem; }
+  .nt-actions :global(.nt-btn) {
+    padding: 0.95rem 1.6rem;
+    font-family: 'Jost', system-ui, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+  }
+  .nt-actions :global(.nt-btn-solid) { background: #cdb98a; color: #0b1020; }
+  .nt-actions :global(.nt-btn-solid:hover) { background: #ece6d6; }
+  .nt-actions :global(.nt-btn-line) { border: 1px solid rgba(205, 185, 138, 0.55); color: #ece6d6; }
+  .nt-actions :global(.nt-btn-line:hover) { border-color: #ece6d6; }
+  .nt-actions :global(.nt-muted) { font-family: 'Jost', system-ui, sans-serif; font-size: 0.85rem; color: rgba(236, 230, 214, 0.7); }
+  .nt ::selection { background: #cdb98a; color: #0b1020; }
+  .nt-made { display: block; margin-top: 2.75rem; font-family: 'Jost', system-ui, sans-serif; font-size: 0.64rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(236, 230, 214, 0.5); }
+  .nt-made:hover { color: #ece6d6; }
+  @keyframes nt-twinkle { from { opacity: 0.55; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .nt-sky { animation: none; } }
+</style>

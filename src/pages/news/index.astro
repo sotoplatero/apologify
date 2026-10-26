@@ -1,0 +1,263 @@
+---
+import NewsLayout from '../../layouts/NewsLayout.astro';
+import ScoreBadge from '../../components/news/ScoreBadge.astro';
+import SubscribeForm from '../../components/news/SubscribeForm.astro';
+import { issues, issueUrl, itemsBySlot, publishedLabel, shortDate } from '../../lib/news';
+
+export const prerender = true;
+
+const [latest, ...older] = issues;
+const coverOf = (i: (typeof issues)[number]) => i.image?.src ?? `/news-og/${i.slug}.png`;
+const lead = latest ? itemsBySlot(latest) : undefined;
+const canonicalUrl = new URL('/news', Astro.site).href;
+const title = 'Apology News — the week’s public apologies, scored';
+const description =
+  'A free weekly newsletter. Every Tuesday we read the public apologies from brands, celebrities, athletes and governments, and score each one.';
+const ogImage = latest ? new URL(coverOf(latest), Astro.site).href : undefined;
+
+const RUBRIC = [
+  ['Takes responsibility', '“I did it”, in the first person. Never “mistakes were made”.'],
+  ['Names the act', 'Says exactly what happened instead of “the incident”.'],
+  ['Offers repair', 'Something concrete and checkable: a refund, a donation, a policy change.'],
+  ['Expresses regret', 'Specific to the people who were hurt.'],
+  ['Won’t repeat it', 'A promise backed by a step someone can verify.'],
+  ['Says sorry', 'Actually apologises, out loud.'],
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Periodical',
+  name: 'Apology News',
+  description,
+  url: canonicalUrl,
+  publisher: { '@type': 'Organization', name: 'Apologify', url: 'https://apologify.com' },
+};
+---
+
+<NewsLayout title={title} description={description} canonicalUrl={canonicalUrl} ogImage={ogImage} schema={schema} home>
+  <p class="strap">The week’s public apologies, scored.</p>
+
+  {latest && lead && (
+    <section class="lead" aria-labelledby="lead-title">
+      <a class="lead-photo" href={issueUrl(latest)} tabindex="-1" aria-hidden="true">
+        <img src={coverOf(latest)} alt="" width="1536" height="1024" fetchpriority="high" />
+      </a>
+      <div class="lead-text">
+        <h2 id="lead-title" class="lead-title"><a href={issueUrl(latest)}>{latest.title}</a></h2>
+        {latest.intro && <p class="lead-dek">{latest.intro}</p>}
+        <p class="an-caps lead-meta">No. {latest.number} · <time datetime={latest.date}>{publishedLabel(latest.date)}</time></p>
+        <div id="subscribe" class="lead-subscribe">
+          <p class="lead-pitch">Every Tuesday. Free, five minutes.</p>
+          <SubscribeForm id="lead" />
+          <p class="confirmed" hidden data-confirmed>You’re subscribed. See you on Tuesday.</p>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {latest && (
+    <section class="week" aria-labelledby="week-title">
+      <h2 id="week-title" class="week-title">This week</h2>
+      <ol class="week-list">
+        {latest.items.map((i) => (
+          <li>
+            <a href={`${issueUrl(latest)}#${i.id}`}>
+              <span class="week-who">{i.who}</span>
+              <ScoreBadge score={i.score} size="sm" />
+            </a>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )}
+
+  {older.length > 0 && (
+    <section id="archive" class="archive" aria-labelledby="archive-title">
+      <h2 id="archive-title" class="section-title">The archive</h2>
+      <ol class="archive-grid">
+        {older.map((i) => (
+          <li>
+            <a class="issue" href={issueUrl(i)}>
+              <img src={coverOf(i)} alt="" width="768" height="512" loading="lazy" decoding="async" />
+              <span class="an-caps issue-meta">No. {i.number} · {shortDate(i.date)}</span>
+              <span class="issue-title">{i.title}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )}
+
+  <section id="how-we-score" class="method" aria-labelledby="method-title">
+    <h2 id="method-title" class="method-title">We score the apology, never the person.</h2>
+    <div class="method-body">
+      <p class="method-intro">
+        We read what was actually said and give it a number. Points go to apologies that do six things:
+      </p>
+      <dl class="rubric">
+        {RUBRIC.map(([name, detail]) => (
+          <div>
+            <dt>{name}</dt>
+            <dd>{detail}</dd>
+          </div>
+        ))}
+      </dl>
+      <p class="method-note">
+        Points come off for the passive voice, “if anyone was offended”, blaming others, apologising only once it went
+        viral, and lawyered statements that say nothing. Disagree with us? Sign in and give every apology your own score.
+        Our <a class="an-link" href="/research/why-people-apologize">study of 845 real apologies</a> found the same rule:
+        the ones that land name what was done.
+      </p>
+    </div>
+  </section>
+
+  <section class="close" aria-labelledby="close-title">
+    <h2 id="close-title" class="close-title">The week’s apologies, in your inbox every Tuesday.</h2>
+    <SubscribeForm id="close" />
+  </section>
+</NewsLayout>
+
+<script>
+  function showConfirmed() {
+    const q = new URLSearchParams(location.search);
+    const note = document.querySelector<HTMLElement>('[data-confirmed]');
+    if (!note) return;
+    if (q.get('subscribed') === '1') note.removeAttribute('hidden');
+    else if (q.get('subscribe') === 'check') {
+      note.textContent = 'Almost there — check your inbox and confirm your email.';
+      note.removeAttribute('hidden');
+    }
+  }
+  showConfirmed();
+  document.addEventListener('astro:page-load', showConfirmed);
+</script>
+
+<style>
+  .strap {
+    margin: 1rem 0 0;
+    text-align: center;
+    font-family: var(--an-sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--an-mute);
+  }
+
+  /* The lead: a spread, cover bleeding off the left edge. */
+  .lead {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(1.25rem, 3vw, 3rem);
+    padding: clamp(2.5rem, 5vw, 4.5rem) var(--an-gutter) 0 0;
+  }
+  .lead-photo { grid-column: 1 / span 7; display: block; overflow: hidden; background: var(--an-soft); }
+  .lead-photo img {
+    width: 100%;
+    height: 100%;
+    min-height: 34rem;
+    object-fit: cover;
+    display: block;
+    animation: an-unveil 1.4s var(--an-ease) both;
+  }
+  @keyframes an-unveil {
+    from { clip-path: inset(0 0 0 100%); transform: scale(1.06); }
+  }
+  .lead-text { grid-column: 8 / span 5; display: flex; flex-direction: column; padding: clamp(1rem, 4vw, 4rem) 0 0; }
+  .lead-title {
+    margin: 0;
+    font-weight: 400;
+    font-size: clamp(2.5rem, 4.6vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+  .lead-title a { transition: opacity 0.25s; }
+  .lead-title a:hover { opacity: 0.6; }
+  .lead-dek { margin: 1.5rem 0 0; font-style: italic; font-size: 1.2rem; line-height: 1.5; color: var(--an-body); text-wrap: pretty; }
+  .lead-meta { margin: 1.5rem 0 0; color: var(--an-mute); }
+  .lead-subscribe { margin-top: auto; padding-top: 3rem; scroll-margin-top: 2rem; }
+  .lead-pitch { margin: 0 0 0.25rem; font-family: var(--an-sans); font-size: 0.9rem; font-weight: 400; color: var(--an-mute); }
+  .confirmed { margin: 0.5rem 0 0; font-family: var(--an-sans); font-size: 0.9rem; font-weight: 500; }
+
+  /* This week: an index line of names and numbers. */
+  .week { margin: clamp(4rem, 8vw, 7rem) var(--an-gutter) 0; padding-top: 1.25rem; border-top: 1px solid var(--an-ink); display: grid; grid-template-columns: 12rem 1fr; gap: 2rem; }
+  .week-title, .section-title {
+    margin: 0;
+    font-family: var(--an-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .week-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); gap: 1.75rem 2rem; }
+  .week-list a { display: flex; flex-direction: column; gap: 0.35rem; }
+  .week-who { font-family: var(--an-sans); font-size: 0.9rem; font-weight: 400; line-height: 1.35; }
+  .week-list a:hover .week-who { text-decoration: underline; text-underline-offset: 0.25em; }
+
+  /* The archive: issues in order, covers on white. */
+  .archive { margin: clamp(5rem, 10vw, 9rem) var(--an-gutter) 0; padding-top: 1.25rem; border-top: 1px solid var(--an-ink); scroll-margin-top: 2rem; }
+  .archive-grid {
+    list-style: none;
+    margin: 2.5rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4rem clamp(1.25rem, 3vw, 3rem);
+  }
+  .issue { display: flex; flex-direction: column; }
+  .issue img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; background: var(--an-soft); transition: opacity 0.4s var(--an-ease); }
+  .issue:hover img { opacity: 0.82; }
+  .issue-meta { margin-top: 1.1rem; color: var(--an-mute); font-size: 0.62rem; }
+  .issue-title { margin-top: 0.6rem; font-size: 1.45rem; line-height: 1.12; letter-spacing: -0.02em; text-wrap: balance; }
+  .issue:hover .issue-title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+
+  /* How we score. */
+  .method {
+    margin: clamp(6rem, 12vw, 10rem) var(--an-gutter) 0;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(1.25rem, 3vw, 3rem);
+    scroll-margin-top: 2rem;
+  }
+  .method-title {
+    grid-column: 1 / span 5;
+    margin: 0;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(2.4rem, 4.4vw, 4rem);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+  .method-body { grid-column: 7 / span 6; }
+  .method-intro, .method-note { margin: 0; font-family: var(--an-sans); font-weight: 400; font-size: 1.02rem; line-height: 1.75; color: var(--an-body); max-width: 60ch; }
+  .rubric { margin: 2rem 0; }
+  .rubric div { display: grid; grid-template-columns: 13rem 1fr; gap: 1.5rem; padding: 1.1rem 0; border-top: 1px solid var(--an-rule); }
+  .rubric div:last-child { border-bottom: 1px solid var(--an-rule); }
+  .rubric dt { font-size: 1.25rem; letter-spacing: -0.01em; }
+  .rubric dd { margin: 0; font-family: var(--an-sans); font-weight: 400; font-size: 0.95rem; line-height: 1.6; color: var(--an-body); }
+
+  /* Closing subscribe. */
+  .close { margin: clamp(6rem, 12vw, 10rem) var(--an-gutter) 0; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2.5rem; }
+  .close-title { margin: 0; max-width: 18ch; font-weight: 400; font-size: clamp(2.2rem, 4.6vw, 4.25rem); line-height: 1.04; letter-spacing: -0.03em; text-wrap: balance; }
+  .close :global(.sf) { text-align: left; }
+
+  @media (max-width: 1100px) {
+    .archive-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (max-width: 860px) {
+    .lead { display: block; padding: 2rem 0 0; }
+    .lead-photo img { min-height: 0; aspect-ratio: 4 / 3; }
+    .lead-text { padding: 2.25rem var(--an-gutter) 0; }
+    .week { grid-template-columns: 1fr; gap: 1.5rem; }
+    .week-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .archive-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem 1.25rem; }
+    .issue-title { font-size: 1.2rem; }
+    .method { display: block; }
+    .method-title { margin-bottom: 2rem; }
+    .rubric div { grid-template-columns: 1fr; gap: 0.35rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lead-photo img { animation: none; }
+  }
+</style>

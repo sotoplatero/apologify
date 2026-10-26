@@ -1,19 +1,14 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   export let letter: string;
-  export let context: string | undefined = undefined;
 
   let copied = false;
   let timeoutId: ReturnType<typeof setTimeout>;
-  let letterRef: HTMLDivElement;
 
   async function copyToClipboard() {
     try {
       await navigator.clipboard.writeText(letter);
       copied = true;
-
       if (timeoutId) clearTimeout(timeoutId);
-
       timeoutId = setTimeout(() => {
         copied = false;
       }, 2000);
@@ -33,460 +28,119 @@
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   }
-
-  // Animación de entrada cuando se monta el componente
-  onMount(() => {
-    if (letterRef) {
-      letterRef.style.opacity = "0";
-      letterRef.style.transform = "translateY(20px)";
-
-      requestAnimationFrame(() => {
-        letterRef.style.transition =
-          "opacity 0.6s ease-out, transform 0.6s ease-out";
-        letterRef.style.opacity = "1";
-        letterRef.style.transform = "translateY(0)";
-      });
-    }
-  });
 </script>
 
-<!-- Letter Card con diseño Editorial/Refined -->
-<div class="letter-wrapper">
-  <div class="letter-card" bind:this={letterRef}>
-    <!-- Decorative Corner Elements -->
-    <div class="corner-decoration top-left"></div>
-    <div class="corner-decoration top-right"></div>
-    <div class="corner-decoration bottom-left"></div>
-    <div class="corner-decoration bottom-right"></div>
-
-    <!-- Action Bar -->
-    <div class="action-bar">
-      <button
-        on:click={copyToClipboard}
-        class="action-button"
-        class:copied
-        title="Copy to clipboard"
-      >
-        <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-          />
-        </svg>
-        <span class="button-text">{copied ? "Copied!" : "Copy"}</span>
-      </button>
-
-      <button
-        on:click={downloadLetter}
-        class="action-button download"
-        title="Download letter"
-      >
-        <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-          />
-        </svg>
-        <span class="button-text hidden sm:inline">Download</span>
-      </button>
-    </div>
-
-    <!-- Letter Content Area -->
-    <div class="letter-content">
-      <!-- Paper Texture Overlay -->
-      <div class="paper-texture"></div>
-
-      <!-- Context/Reason Block -->
-      {#if context}
-        <div class="context-block">
-          <span class="context-label">Reason for the apology</span>
-          <p class="context-text">{context}</p>
-        </div>
-      {/if}
-
-      <!-- Decorative Header Line -->
-      <div class="header-decoration">
-        <div class="center-ornament">
-          <svg class="ornament" viewBox="0 0 100 20" fill="none">
-            <path d="M0 10h35" stroke="currentColor" stroke-width="0.5" />
-            <circle cx="50" cy="10" r="3" fill="currentColor" />
-            <path d="M65 10h35" stroke="currentColor" stroke-width="0.5" />
-          </svg>
-        </div>
-      </div>
-
-      <!-- Letter Text -->
-      <div class="letter-text">
-        {@html letter}
-      </div>
-
-      <!-- Decorative Footer Line -->
-      <div class="footer-decoration">
-        <div class="center-ornament">
-          <svg class="ornament" viewBox="0 0 100 20" fill="none">
-            <path d="M0 10h40" stroke="currentColor" stroke-width="0.5" />
-            <circle cx="50" cy="10" r="2" fill="currentColor" />
-            <circle cx="58" cy="10" r="1.5" fill="currentColor" />
-            <circle cx="65" cy="10" r="1" fill="currentColor" />
-            <path d="M70 10h30" stroke="currentColor" stroke-width="0.5" />
-          </svg>
-        </div>
-      </div>
-    </div>
-
-    <!-- Footer Tip -->
-    <div class="letter-footer">
-      <svg
-        class="footer-icon"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1.5"
-          d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-        />
-      </svg>
-      <span>Personalize this letter to make it truly yours</span>
-    </div>
+<!-- One example letter: a sheet of paper, with its tools underneath. -->
+<figure class="lt">
+  <div class="lt-sheet">
+    <div class="lt-text">{@html letter}</div>
   </div>
-</div>
+
+  <figcaption class="lt-bar">
+    <span class="lt-tip">Personalize it before you send it.</span>
+    <span class="lt-tools">
+      <button type="button" class="lt-tool" class:is-done={copied} on:click={copyToClipboard}>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          {#if copied}
+            <path d="M5 12.5l4.5 4.5L19 7.5" />
+          {:else}
+            <rect x="8.5" y="8.5" width="11" height="11" />
+            <path d="M15.5 8.5V4.5h-11v11h4" />
+          {/if}
+        </svg>
+        <span aria-live="polite">{copied ? "Copied" : "Copy"}</span>
+      </button>
+      <button type="button" class="lt-tool" on:click={downloadLetter}>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19.5h14" />
+        </svg>
+        <span>Download</span>
+      </button>
+    </span>
+  </figcaption>
+</figure>
 
 <style>
-  /* Fonts loaded globally via LayoutBase.astro */
-
-  /* Brand palette — ink on warm paper (matches the "apology" theme). */
-  :global(.letter-wrapper) {
-    --letter-cream: #f5f1e8;
-    --letter-white: #fffdf8;
-    --letter-warm-gray: #6b6257;
-    --letter-dark: #241f1a;
-    --letter-accent: #2c4a6e; /* fountain-pen ink blue */
-    --letter-accent-light: #dce6f0;
-    --letter-shadow: rgba(36, 31, 26, 0.08);
-    --letter-border: rgba(36, 31, 26, 0.1);
-  }
-
-  /* CONTENEDOR PRINCIPAL */
-  .letter-wrapper {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-  }
-
-  /* TARJETA PRINCIPAL */
-  .letter-card {
-    position: relative;
-    background: var(--letter-white);
-    border-radius: 4px;
-    box-shadow:
-      0 1px 3px var(--letter-shadow),
-      0 4px 12px var(--letter-shadow),
-      0 0 0 1px var(--letter-border);
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .letter-card:hover {
-    transform: translateY(-2px);
-    box-shadow:
-      0 4px 6px var(--letter-shadow),
-      0 12px 28px var(--letter-shadow),
-      0 0 0 1px var(--letter-border);
-  }
-
-  /* DECORACIONES DE ESQUINA */
-  .corner-decoration {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border-color: var(--letter-accent);
-    opacity: 0.6;
-    transition: opacity 0.3s ease;
-  }
-
-  .corner-decoration:hover {
-    opacity: 1;
-  }
-
-  .corner-decoration.top-left {
-    top: 16px;
-    left: 16px;
-    border-top: 2px solid;
-    border-left: 2px solid;
-  }
-
-  .corner-decoration.top-right {
-    top: 16px;
-    right: 16px;
-    border-top: 2px solid;
-    border-right: 2px solid;
-  }
-
-  .corner-decoration.bottom-left {
-    bottom: 16px;
-    left: 16px;
-    border-bottom: 2px solid;
-    border-left: 2px solid;
-  }
-
-  .corner-decoration.bottom-right {
-    bottom: 16px;
-    right: 16px;
-    border-bottom: 2px solid;
-    border-right: 2px solid;
-  }
-
-  /* ACTION BAR */
-  .action-bar {
-    display: flex;
-    gap: 0.75rem;
-    justify-content: flex-end;
-    padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid var(--letter-border);
-    background: linear-gradient(
-      to bottom,
-      var(--letter-white) 0%,
-      var(--letter-cream) 100%
-    );
-  }
-
-  .action-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.625rem 1rem;
-    font-family:
-      "Inter",
-      -apple-system,
-      sans-serif;
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--letter-warm-gray);
-    background: var(--letter-white);
-    border: 1px solid var(--letter-border);
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .action-button:hover {
-    color: var(--letter-dark);
-    border-color: var(--letter-accent);
-    background: var(--letter-cream);
-    transform: translateY(-1px);
-  }
-
-  .action-button:active {
-    transform: translateY(0);
-  }
-
-  .action-button.copied {
-    color: var(--letter-accent);
-    background: var(--letter-accent-light);
-    border-color: var(--letter-accent);
-  }
-
-  .action-button .icon {
-    width: 1.125rem;
-    height: 1.125rem;
-  }
-
-  /* LETTER CONTENT */
-  .letter-content {
-    position: relative;
-    padding: 3rem 3.5rem 2.5rem;
-    background: var(--letter-cream);
-    min-height: 400px;
-  }
-
-  /* TEXTURA DE PAPEL */
-  .paper-texture {
-    position: absolute;
-    inset: 0;
-    opacity: 0.4;
-    pointer-events: none;
-    background-image: repeating-linear-gradient(
-      to right,
-      transparent,
-      transparent 2px,
-      rgba(44, 40, 37, 0.02) 2px,
-      rgba(44, 40, 37, 0.02) 4px
-    );
-  }
-
-  /* DECORACIONES DE ENCABEZADO Y PIE */
-  .header-decoration,
-  .footer-decoration {
-    display: flex;
-    justify-content: center;
-    padding: 1rem 0;
-    color: var(--letter-accent);
-    opacity: 0.5;
-  }
-
-  .footer-decoration {
-    padding-top: 2rem;
-  }
-
-  .center-ornament .ornament {
-    width: 120px;
-    height: 24px;
-  }
-
-  /* Letter body — readable serif (was a hard-to-read cursive). */
-  .letter-text {
-    position: relative;
-    font-family: "Lora", Georgia, serif;
-    font-size: 1.125rem;
-    line-height: 1.85;
-    color: var(--letter-dark);
-    white-space: pre-wrap;
-  }
-
-  /* Estilizar párrafos dentro de la carta */
-  .letter-text :global(p) {
-    margin-bottom: 1.25rem;
-    text-indent: 2rem;
-  }
-
-  .letter-text :global(p:first-of-type) {
-    text-indent: 0;
-  }
-
-  .letter-text :global(p:first-of-type)::first-letter {
-    font-size: 3.5em;
-    font-weight: 500;
-    float: left;
-    line-height: 0.8;
-    padding-right: 0.1em;
-    margin-top: 0.05em;
-    color: var(--letter-accent);
-  }
-
-  /* CONTEXT BLOCK */
-  .context-block {
-    position: relative;
-    margin-bottom: 2rem;
-    padding: 1.25rem 1.5rem;
-    background: var(--letter-white);
-    border-left: 3px solid var(--letter-accent);
-    border-radius: 0 4px 4px 0;
-  }
-
-  .context-label {
-    display: block;
-    font-family:
-      "Inter",
-      -apple-system,
-      sans-serif;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--letter-accent);
-    margin-bottom: 0.5rem;
-  }
-
-  .context-text {
-    font-family:
-      "Inter",
-      -apple-system,
-      sans-serif;
-    font-size: 0.9375rem;
-    line-height: 1.6;
-    color: var(--letter-warm-gray);
+  .lt {
+    --lt-paper: #fffdf8;
+    --lt-ink: #241f1a;
+    --lt-mute: #6b6157;
+    --lt-rule: #e0d8c8;
+    --lt-red: #c1272d;
     margin: 0;
   }
 
-  /* FOOTER TIP */
-  .letter-footer {
+  /* The sheet: warm white paper lifted off the page by a soft, offset shadow. */
+  .lt-sheet {
+    position: relative;
+    padding: clamp(2rem, 6vw, 4rem) clamp(1.5rem, 7vw, 4.5rem);
+    background: var(--lt-paper);
+    box-shadow:
+      0 1px 2px rgba(36, 31, 26, 0.06),
+      0 24px 48px -28px rgba(36, 31, 26, 0.28);
+    animation: lt-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .lt-text {
+    max-width: 62ch;
+    margin: 0 auto;
+    font-family: "Spectral", Georgia, serif;
+    font-size: clamp(1.06rem, 2.2vw, 1.16rem);
+    font-weight: 400;
+    line-height: 1.8;
+    color: var(--lt-ink);
+    white-space: pre-wrap;
+    text-wrap: pretty;
+  }
+  .lt-text :global(p) { margin: 0 0 1.15em; }
+  .lt-text :global(p:last-child) { margin-bottom: 0; }
+  .lt-text :global(strong) { font-weight: 600; }
+
+  /* Tools sit under the sheet, outside the paper. */
+  .lt-bar {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 0.625rem;
-    padding: 1rem 1.5rem;
-    font-family:
-      "Inter",
-      -apple-system,
-      sans-serif;
-    font-size: 0.75rem;
-    color: var(--letter-warm-gray);
-    background: var(--letter-cream);
-    border-top: 1px solid var(--letter-border);
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 0.1rem 0;
+    font-family: "Jost", system-ui, sans-serif;
   }
-
-  .footer-icon {
+  .lt-tip { font-size: 0.85rem; color: var(--lt-mute); }
+  .lt-tools { display: flex; gap: 1.5rem; }
+  .lt-tool {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0;
+    font: inherit;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--lt-ink);
+    background: none;
+    border: 0;
+    border-bottom: 1px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .lt-tool:hover { border-bottom-color: var(--lt-ink); }
+  .lt-tool:focus-visible { outline: 1px solid var(--lt-ink); outline-offset: 4px; }
+  .lt-tool.is-done { color: var(--lt-red); }
+  .lt-tool svg {
     width: 1rem;
     height: 1rem;
-    opacity: 0.7;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.4;
+    stroke-linecap: square;
   }
 
-  /* RESPONSIVE */
-  @media (max-width: 768px) {
-    .letter-wrapper {
-      padding: 1rem 0.5rem;
-    }
+  @keyframes lt-in { from { opacity: 0; transform: translateY(14px); } }
 
-    .letter-content {
-      padding: 2rem 1.5rem 1.5rem;
-    }
-
-    .action-bar {
-      padding: 1rem;
-    }
-
-    .button-text {
-      display: none;
-    }
-
-    .corner-decoration {
-      width: 16px;
-      height: 16px;
-    }
-
-    .letter-text {
-      font-size: 1.0625rem;
-      line-height: 1.75;
-    }
-
-    .letter-text :global(p) {
-      text-indent: 1.5rem;
-    }
-
-    .letter-text :global(p:first-of-type)::first-letter {
-      font-size: 2.8em;
-    }
+  @media (max-width: 560px) {
+    .lt-tip { display: none; }
+    .lt-bar { justify-content: flex-end; }
   }
-
-  /* ANIMACIONES SUAVES */
-  @keyframes pulse {
-    0%,
-    100% {
-      opacity: 0.7;
-    }
-    50% {
-      opacity: 1;
-    }
-  }
-
-  .corner-decoration {
-    animation: pulse 3s ease-in-out infinite;
-  }
-
-  .corner-decoration.top-left,
-  .corner-decoration.bottom-right {
-    animation-delay: 0s;
-  }
-
-  .corner-decoration.top-right,
-  .corner-decoration.bottom-left {
-    animation-delay: 1.5s;
-  }
+  @media (prefers-reduced-motion: reduce) { .lt-sheet { animation: none; } }
 </style>

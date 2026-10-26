@@ -16,9 +16,68 @@ const { title, description = title, schema, canonicalUrl, ogImage, noindex = fal
 ---
 
 <LayoutBase title={title} description={description} schema={schema} canonicalUrl={canonicalUrl} ogImage={ogImage} noindex={noindex}>
-	<Header />
-	<main class="flex-grow w-full max-w-screen-xl mx-auto px-4">
-		<slot />
-	</main>
-	<Footer />
+	<slot name="head" slot="head" />
+	<div class="site flex flex-col flex-grow">
+		<Header />
+		<main class="flex-grow w-full max-w-screen-xl mx-auto px-4">
+			<slot />
+		</main>
+		<Footer />
+	</div>
 </LayoutBase>
+
+<style is:global>
+	/* The site chrome speaks the same language as Apology News: Spectral set
+	   light, Jost in small tracked capitals for UI, hairlines, square buttons,
+	   red kept for the one action that matters. */
+	.site {
+		--ap-ink: #241f1a;
+		--ap-body: #3a332c;
+		--ap-mute: #6b6157;
+		--ap-rule: #e0d8c8;
+		--ap-soft: #f2ede3;
+		--ap-red: #c1272d;
+		--ap-gutter: clamp(1rem, 4vw, 3.5rem);
+		--ap-ease: cubic-bezier(0.16, 1, 0.3, 1);
+	}
+	/* Two faces only, as in News: Jost for the interface, Spectral (set light)
+	   for headings and anything meant to be read. */
+	.site { font-family: 'Jost', system-ui, sans-serif; }
+	.site ::selection { background: var(--ap-ink); color: #faf7f1; }
+	.site :is(h1, h2, h3) { font-family: 'Spectral', Georgia, serif; font-weight: 400; letter-spacing: -0.02em; }
+	.site .prose { font-family: 'Spectral', Georgia, serif; }
+	.site .prose :is(h1, h2, h3, h4) { font-weight: 400; }
+
+	.site .btn {
+		height: auto;
+		min-height: 2.5rem;
+		padding: 0.75rem 1.4rem;
+		font-family: 'Jost', system-ui, sans-serif;
+		font-size: 0.72rem;
+		font-weight: 600;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		box-shadow: none;
+	}
+	.site .btn-sm { min-height: 2.1rem; padding: 0.55rem 1rem; font-size: 0.66rem; }
+	.site .btn-lg { min-height: 3.25rem; padding: 1rem 1.9rem; font-size: 0.76rem; }
+	.site .btn-primary:hover { background: var(--ap-ink); border-color: var(--ap-ink); }
+
+	/* Small tracked capitals: labels, meta, quiet links. */
+	.site .caps {
+		font-family: 'Jost', system-ui, sans-serif;
+		font-size: 0.7rem;
+		font-weight: 500;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+	}
+	/* A text link with a hairline underline that warms to red on hover. */
+	.site .ap-link {
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.25em;
+		text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+		transition: text-decoration-color 0.2s, color 0.2s;
+	}
+	.site .ap-link:hover { text-decoration-color: var(--ap-red); }
+</style>

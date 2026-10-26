@@ -1,0 +1,145 @@
+{
+  "week": "2026-w41",
+  "slug": "kylie-kelce-s-correction-fosi-schmidt-s-missing-apology",
+  "title": "Kylie Kelce’s Correction, Fosi Schmidt’s Missing Apology",
+  "description": "The public apologies of the week, scored.",
+  "date": "2026-10-05",
+  "intro": "This week’s strongest apology pairs acknowledgment with an immediate correction. The weakest shows why a reported apology needs actual words we can assess.",
+  "items": [
+    {
+      "id": "kylie-kelce",
+      "slot": "best",
+      "who": "Kylie Kelce",
+      "category": "celebrity",
+      "country": "US",
+      "headline": "Kylie Kelce Apologizes for Calling Catherine “Princess Kate”",
+      "summary": "Kylie Kelce apologized on her podcast after addressing Catherine, Princess of Wales, as “Princess Kate” during an invitation to appear. She acknowledged the naming mistake, used the corrected titles and promised to address people as they prefer.",
+      "quote": "Princess Catherine or the Princess of Wales, I apologize. I will get that sorted immediately starting now.",
+      "score": 5,
+      "verdict": "Names her mistake and immediately uses Catherine’s corrected titles, though regret remains formulaic.",
+      "statementUrl": "https://pagesix.com/2026/10/01/royal-family/kylie-kelce-issues-apology-to-kate-middleton-for-offensive-comment",
+      "sourceUrl": "https://www.huffpost.com/entry/kylie-kelce-kate-middleton-mishap_n_6ac529d3e4b028b057cb1deb",
+      "sourceName": "HuffPost",
+      "statementDate": "2026-10-01",
+      "image": {
+        "src": "https://img.huffingtonpost.com/asset/6ac53fcc1c00007736960981.png?cache=Tk8qu59Ve3&ops=500_281%2Cscalefit_1200_630",
+        "credit": "HuffPost"
+      }
+    },
+    {
+      "id": "la-aulialemalietoa-leuatea-polataivao-fosi-schmidt",
+      "slot": "worst",
+      "who": "Laʻaulialemalietoa Leuatea Polataivao Fosi Schmidt",
+      "category": "government",
+      "country": "WS",
+      "headline": "Samoa prime minister apologises after Nazi salute video emerges",
+      "summary": "Samoa’s prime minister, Laʻaulialemalietoa Leuatea Polataivao Fosi Schmidt, publicly apologised after footage emerged showing him giving a Nazi salute and saying “Heil Hitler.” Coverage dates the footage to a 2007 family event, but the supplied evidence does not reproduce his apology, preventing assessment of its wording or commitments.",
+      "score": 0,
+      "verdict": "The Nazi salute apology is reported, but no apology wording supports awarding points.",
+      "sourceUrl": "https://www.instagram.com/reel/DeHX_lqFwtd",
+      "sourceName": "instagram.com",
+      "image": {
+        "src": "https://scontent-hou1-1.cdninstagram.com/v/t51.71878-15/833882366_1068707042671311_320935222705591254_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=103&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=1VlX1KRYLTcQ7kNvwGsUSk_&_nc_oc=AdrrPynkg5oG2HNBNZniOAsysiplX3OT5yxCXwDi0mMUa9glD_BlC3RrHCB36GRNnYM&_nc_zt=23&_nc_ht=scontent-hou1-1.cdninstagram.com&_nc_gid=a7A3W6040k9GztymZZz2Mw&_nc_ss=7060f&oh=00_AQPxpf1gbLwWRc3IJ3FVpQc9jjWvb5YwpyR83O5L2ssCxQ&oe=6AE449B8",
+        "credit": "instagram.com"
+      }
+    },
+    {
+      "id": "south-korea-football-captain",
+      "slot": "brief",
+      "who": "South Korea football captain",
+      "category": "sports",
+      "country": "KR",
+      "headline": "Lee Gi-hyuk apologises for military exemption boast",
+      "summary": "South Korea captain Lee Gi-hyuk celebrated Asian Games gold by declaring he would not have to serve in the military. He later apologised to serving fans and supporters, acknowledged speaking carelessly and promised continued reflection, but offered no concrete repair.",
+      "quote": "I deeply regret having spoken so carelessly, and I will continue to reflect on my actions.",
+      "score": 3,
+      "verdict": "Acknowledges careless speech and apologises to serving fans, but offers no concrete repair.",
+      "sourceUrl": "https://www.bbc.com/sport/football/articles/c6wy4xd80xyvo",
+      "sourceName": "BBC Sport",
+      "statementDate": "2026-10-04",
+      "image": {
+        "src": "https://ichef.bbci.co.uk/ace/branded_sport/1200/cpsprodpb/efe7/live/8b257120-c14f-11f1-a043-4511bb61bfac.jpg",
+        "credit": "BBC Sport"
+      }
+    },
+    {
+      "id": "julius-malema",
+      "slot": "brief",
+      "who": "Julius Malema",
+      "category": "politics",
+      "country": "ZA",
+      "headline": "Malema apologises to Judge Matojane and JSC after parliamentary sanction",
+      "summary": "Julius Malema apologised in Parliament over his questions to Judge Keoagile Matojane during a 2021 Judicial Service Commission interview. He used a Sepedi proverb about correcting people with guidance, delivering the apology just before a parliamentary deadline after losing a legal challenge to the sanction. The supplied excerpts do not provide his full apology or identify any promised repair.",
+      "score": 0.5,
+      "verdict": "Malema apologised under parliamentary sanction; excerpts show no direct admission or concrete repair.",
+      "sourceUrl": "https://www.ewn.co.za/2026/09/30/julius-malema-formally-apologises-to-sca-judge-keoagile-matojane",
+      "sourceName": "EWN",
+      "statementDate": "2026-09-29",
+      "image": {
+        "src": "https://media-cache.primedia-service.com/media/b3ggorhp/250623-eff-malema-ed.jpg?width=1200&height=630",
+        "credit": "EWN"
+      }
+    },
+    {
+      "id": "lady-gaga",
+      "slot": "brief",
+      "who": "Lady Gaga",
+      "category": "celebrity",
+      "country": "US",
+      "headline": "Lady Gaga apologizes over Haus Labs shades and handling of Golloria’s review",
+      "summary": "Haus Labs planned a six-shade bronzer launch that drew criticism from Golloria for excluding deeper skin tones, then asked her to remove her review over an embargo issue. In a statement from Gaga, the brand acknowledged both failures and said it paused the launch to expand the range to 11 shades.",
+      "quote": "This was unkind and not at all how a creator, or any customer's voice, should ever be treated",
+      "score": 3.5,
+      "verdict": "Expands the bronzer range, but obscures who approved six shades with passive wording.",
+      "sourceUrl": "https://www.usatoday.com/story/entertainment/music/2026/10/01/lady-gaga-golloria-haus-labs-apology/92044261007",
+      "sourceName": "USA Today",
+      "statementDate": "2026-10-01",
+      "image": {
+        "src": "https://www.usatoday.com/gcdn/authoring/authoring-images/2026/10/01/USAT/92045019007-golloria-gaga.png?crop=1999,1125,x0,y0&width=1600&height=900&format=pjpg&auto=webp",
+        "credit": "USA Today"
+      }
+    },
+    {
+      "id": "thames-water",
+      "slot": "brief",
+      "who": "Thames Water",
+      "category": "brand",
+      "country": "GB",
+      "headline": "Thames Water apologises after £145,562 customer debit error",
+      "summary": "Thames Water apologised after an incorrect meter reading led to £145,562 being debited from Adam Bainbridge’s account. The company said the money had been returned, offered a goodwill gesture and announced additional checks to prevent a repeat.",
+      "quote": "We apologise unreservedly to Mr Bainbridge and his family.",
+      "score": 4,
+      "verdict": "Identifies the meter-reading error, confirms returned funds and adds checks, but avoids direct first-person responsibility.",
+      "statementUrl": "https://www.independent.co.uk/news/uk/home-news/thames-water-bill-error-adam-julia-bainbridge-b3060088.html",
+      "sourceUrl": "https://www.bbc.co.uk/news/articles/ck24j46424veo",
+      "sourceName": "BBC News",
+      "image": {
+        "src": "https://ichef.bbci.co.uk/ace/branded_news/1200/cpsprodpb/a3c4/live/c0dffc20-bdb9-11f1-b7d8-31573a2bd831.jpg",
+        "credit": "BBC News"
+      }
+    },
+    {
+      "id": "francis-lao",
+      "slot": "brief",
+      "who": "Francis Lao",
+      "category": "sports",
+      "country": "PH",
+      "headline": "Frank Lao apologizes for Asian Games allowance shortfalls",
+      "summary": "PNVF president Frank Lao apologized to national volleyball players over inadequate financial support for the Asian Games and accepted accountability for their allowances. He personally gave each men's team player P20,000 and paid Owa Retamar's round-trip airfare, while asking athletes for time to make amends.",
+      "quote": "Ako na ang humihingi ng pasensya na nagkulang kami. Pero bigyan nyo kami ng pagkakataon na makabawi sa inyo",
+      "score": 3,
+      "verdict": "Offers P20,000 per player, but describes the allowance failure vaguely and gives no prevention plan.",
+      "sourceUrl": "https://www.manilatimes.net/2026/09/28/sports/lao-says-sorry-for-asian-games-mess/2433832",
+      "sourceName": "The Manila Times",
+      "statementDate": "2026-09-28",
+      "image": {
+        "src": "https://manilatimes.net/manilatimes/uploads/images/2026/09/28/1235595.png",
+        "credit": "The Manila Times"
+      }
+    }
+  ],
+  "image": {
+    "src": "/news/kylie-kelce-s-correction-fosi-schmidt-s-missing-apology.webp",
+    "alt": "Cover photograph for Apology News: Kylie Kelce Apologizes for Calling Catherine “Princess Kate”"
+  }
+}

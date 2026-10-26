@@ -1,0 +1,96 @@
+---
+// Email signup for Apology News. Posts to /api/news/subscribe, which sends a
+// confirmation link (double opt-in). Works without JS (form post + redirect).
+interface Props {
+  /** Distinguishes the field ids when the form appears twice on a page. */
+  id?: string;
+}
+
+const { id = 'main' } = Astro.props;
+---
+
+<form class="sf" method="post" action="/api/news/subscribe" data-subscribe>
+  <div class="sf-line">
+    <label class="sr-only" for={`sf-email-${id}`}>Email address</label>
+    <input id={`sf-email-${id}`} type="email" name="email" required autocomplete="email" placeholder="Your email address" />
+    <input type="text" name="company" tabindex="-1" autocomplete="off" class="sf-hp" aria-hidden="true" />
+    <button type="submit">Subscribe</button>
+  </div>
+  <p class="sf-msg" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  function wire() {
+    document.querySelectorAll<HTMLFormElement>('form[data-subscribe]:not([data-wired])').forEach((form) => {
+      form.dataset.wired = '1';
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const msg = form.querySelector<HTMLElement>('.sf-msg')!;
+        const button = form.querySelector('button')!;
+        button.disabled = true;
+        msg.textContent = '';
+        try {
+          const res = await fetch(form.action, {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+            body: new FormData(form),
+          });
+          const data = await res.json().catch(() => ({}));
+          msg.textContent = res.ok
+            ? 'Almost there — check your inbox and confirm your email.'
+            : data.error || 'Something went wrong. Please try again.';
+          form.classList.toggle('ok', res.ok);
+          if (res.ok) form.reset();
+        } catch {
+          msg.textContent = 'Something went wrong. Please try again.';
+        } finally {
+          button.disabled = false;
+        }
+      });
+    });
+  }
+  wire();
+  document.addEventListener('astro:page-load', wire);
+</script>
+
+<style>
+  .sf { width: 100%; max-width: 34rem; }
+  .sf-line { display: flex; align-items: stretch; border-bottom: 1px solid var(--an-ink); }
+  .sf input[type='email'] {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 3.25rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-family: var(--an-sans);
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: var(--an-ink);
+    caret-color: var(--an-ink);
+  }
+  .sf input[type='email']::placeholder { color: var(--an-mute); }
+  .sf input[type='email']:focus { outline: none; }
+  .sf-line:focus-within { border-bottom-width: 2px; margin-bottom: -1px; }
+  .sf button {
+    flex: none;
+    margin: 0.45rem 0;
+    padding: 0 1.5rem;
+    border: 0;
+    background: var(--an-accent);
+    color: var(--an-paper);
+    font-family: var(--an-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.25s, opacity 0.2s;
+  }
+  .sf button:hover { background: var(--an-ink); }
+  .sf button:disabled { opacity: 0.5; cursor: progress; }
+  .sf-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .sf-msg { min-height: 1.4rem; margin: 0.6rem 0 0; font-family: var(--an-sans); font-size: 0.85rem; font-weight: 400; color: var(--an-mute); }
+  .sf.ok .sf-msg { color: var(--an-ink); }
+</style>

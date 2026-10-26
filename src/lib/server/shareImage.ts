@@ -1,5 +1,6 @@
 import { ImageResponse } from '@vercel/og';
 import type { ApologyPage } from '../apologyPages';
+import { coveredRange, sortedItems, formatScore, scoreColor, type NewsIssue } from '../news';
 
 // Share images for an apology page, drawn in the brand's "ink on paper" palette:
 //  - "og":    1200×630 link preview (WhatsApp, iMessage, X…)
@@ -13,7 +14,7 @@ const INK_BLUE = '#2C4A6E';
 const RED = '#C1272D';
 const MUTED = '#6E655A';
 
-type Font = { name: string; data: ArrayBuffer; weight: 400 | 600; style: 'normal' };
+type Font = { name: string; data: ArrayBuffer; weight: 400 | 500 | 600; style: 'normal' };
 const fontCache = new Map<string, Promise<ArrayBuffer>>();
 
 // Google Fonts serves TTF to a client without a browser UA; `text=` subsets it.
@@ -60,14 +61,14 @@ export async function renderShareImage(page: ApologyPage, format: 'og' | 'story'
   let fonts: Font[] = [];
   try {
     const [display, script, sans] = await Promise.all([
-      googleFont('Fraunces', 600, allText),
+      googleFont('Spectral', 500, allText),
       googleFont('Dancing Script', 600, allText),
-      googleFont('Inter', 400, allText),
+      googleFont('Jost', 400, allText),
     ]);
     fonts = [
-      { name: 'Fraunces', data: display, weight: 600, style: 'normal' },
+      { name: 'Spectral', data: display, weight: 500, style: 'normal' },
       { name: 'Dancing Script', data: script, weight: 600, style: 'normal' },
-      { name: 'Inter', data: sans, weight: 400, style: 'normal' },
+      { name: 'Jost', data: sans, weight: 400, style: 'normal' },
     ];
   } catch (e) {
     console.error('share image fonts unavailable, using default:', e);
@@ -103,10 +104,10 @@ export async function renderShareImage(page: ApologyPage, format: 'og' | 'story'
       textAlign: story ? 'center' : 'left', flex: story ? undefined : 1,
     },
     [
-      el('div', { fontFamily: 'Inter', fontSize: story ? 40 : 26, color: MUTED, letterSpacing: 1 }, eyebrowText),
+      el('div', { fontFamily: 'Jost', fontSize: story ? 40 : 26, color: MUTED, letterSpacing: 1 }, eyebrowText),
       el('div', { fontFamily: 'Dancing Script', fontSize: story ? 150 : 96, color: INK_BLUE, lineHeight: 1.05, marginTop: 6 }, name),
       el('div', {
-        fontFamily: 'Fraunces', fontSize: story ? 64 : 40, color: INK, lineHeight: 1.18,
+        fontFamily: 'Spectral', fontSize: story ? 64 : 40, color: INK, lineHeight: 1.18,
         marginTop: story ? 36 : 18, maxWidth: story ? 860 : 680,
       }, title),
       from ? el('div', { fontFamily: 'Dancing Script', fontSize: story ? 56 : 36, color: INK, marginTop: story ? 30 : 16 }, from) : null,
@@ -127,8 +128,58 @@ export async function renderShareImage(page: ApologyPage, format: 'og' | 'story'
       text,
       el('div', {
         position: 'absolute', bottom: story ? 90 : 40, right: story ? 0 : 80, left: story ? 0 : undefined,
-        justifyContent: 'center', fontFamily: 'Inter', fontSize: story ? 36 : 22, color: RED, letterSpacing: 1,
+        justifyContent: 'center', fontFamily: 'Jost', fontSize: story ? 36 : 22, color: RED, letterSpacing: 1,
       }, footer),
+    ],
+  );
+
+  return new ImageResponse(root as any, {
+    width,
+    height,
+    fonts: fonts.length ? (fonts as any) : undefined,
+    headers: { 'Cache-Control': 'public, max-age=86400, s-maxage=604800, immutable' },
+  });
+}
+
+// 1200×630 link preview for an Apology News issue: title + each case's score.
+export async function renderNewsImage(issue: NewsIssue): Promise<Response> {
+  const width = 1200;
+  const height = 630;
+  const eyebrow = `APOLOGY NEWS  ·  ISSUE #${issue.number}  ·  ${coveredRange(issue).toUpperCase()}`;
+  const title = clip(issue.title, 80);
+  const cases = sortedItems(issue).slice(0, 7).map((i) => ({ score: i.score, who: clip(i.who, 22) }));
+  const footer = 'apologify.com/news';
+
+  const allText = `${eyebrow}${title}${cases.map((c) => formatScore(c.score) + c.who).join('')}${footer}0123456789.…`;
+  let fonts: Font[] = [];
+  try {
+    const [display, sans] = await Promise.all([googleFont('Spectral', 500, allText), googleFont('Jost', 400, allText)]);
+    fonts = [
+      { name: 'Spectral', data: display, weight: 500, style: 'normal' },
+      { name: 'Jost', data: sans, weight: 400, style: 'normal' },
+    ];
+  } catch (e) {
+    console.error('news image fonts unavailable, using default:', e);
+  }
+
+  const chip = (c: { score: number; who: string }) =>
+    el('div', { alignItems: 'center', gap: 12, marginRight: 22, marginBottom: 16 }, [
+      el('div', {
+        minWidth: 44, height: 44, paddingLeft: 8, paddingRight: 8, borderRadius: 10, background: scoreColor(c.score), color: '#fff',
+        alignItems: 'center', justifyContent: 'center', fontFamily: 'Spectral', fontSize: 28,
+      }, formatScore(c.score)),
+      el('div', { fontFamily: 'Jost', fontSize: 24, color: INK }, c.who),
+    ]);
+
+  const root = el(
+    'div',
+    { width, height, background: PAPER, color: INK, flexDirection: 'column', padding: '64px 80px', position: 'relative' },
+    [
+      el('div', { position: 'absolute', top: 22, left: 22, right: 22, bottom: 22, border: '2px solid rgba(36,31,26,0.18)', borderRadius: 18 }),
+      el('div', { fontFamily: 'Jost', fontSize: 22, color: RED, letterSpacing: 2 }, eyebrow),
+      el('div', { fontFamily: 'Spectral', fontSize: 58, lineHeight: 1.1, marginTop: 22, maxWidth: 1000 }, title),
+      el('div', { flexWrap: 'wrap', marginTop: 'auto', maxWidth: 1040 }, cases.map(chip)),
+      el('div', { position: 'absolute', bottom: 40, right: 80, fontFamily: 'Jost', fontSize: 22, color: MUTED, letterSpacing: 1 }, footer),
     ],
   );
 

@@ -1,0 +1,155 @@
+---
+import ScoreBadge from './ScoreBadge.astro';
+import NewsVote from './NewsVote.svelte';
+import type { NewsItem } from '../../lib/news';
+
+interface Props {
+  item: NewsItem;
+  issueSlug: string;
+  /** "feature" for the apology / non-apology of the week, "brief" for the rest. */
+  variant: 'feature' | 'brief';
+  /** What the feature is ("The apology of the week"), set beside its score. */
+  label?: string;
+  /** Which side the photo takes on a feature spread. */
+  side?: 'left' | 'right';
+}
+
+const { item, issueSlug, variant, label, side = 'left' } = Astro.props;
+const Heading = variant === 'feature' ? 'h2' : 'h3';
+// Hotlinked news photos can fail: drop the figure and let the text take the room.
+const dropPhoto = "this.closest('.case').classList.add('no-photo'); this.closest('figure').remove()";
+---
+
+<section id={item.id} class:list={['case', variant, `photo-${side}`, { 'no-photo': !item.image }]}>
+  {item.image && (
+    <figure class="photo">
+      <img src={item.image.src} alt={item.headline} loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror={dropPhoto} />
+      <figcaption class="an-caps">Photo: <a href={item.sourceUrl} rel="nofollow noopener" target="_blank">{item.image.credit}</a></figcaption>
+    </figure>
+  )}
+
+  <div class="text">
+    <Heading class="who">{item.who}</Heading>
+
+    <div class="score">
+      {label && <span class="an-caps label">{label}</span>}
+      <ScoreBadge score={item.score} size={variant === 'feature' ? 'xl' : 'lg'} />
+    </div>
+
+    <p class="verdict">{item.verdict}</p>
+
+    {item.quote && <blockquote>“{item.quote.replace(/[,\s]+$/, '')}”</blockquote>}
+
+    <p class="summary">{item.summary}</p>
+
+    <NewsVote client:visible issue={issueSlug} item={item.id} who={item.who} />
+
+    <p class="sources an-caps">
+      {item.statementUrl && <a href={item.statementUrl} rel="nofollow noopener" target="_blank">The apology</a>}
+      <a href={item.sourceUrl} rel="nofollow noopener" target="_blank">{item.sourceName}</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .case {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(1.25rem, 3vw, 3rem);
+    align-items: start;
+    scroll-margin-top: 2rem;
+  }
+
+  /* Feature: a magazine spread, photo bleeding to the page edge. */
+  .feature { margin: clamp(4rem, 8vw, 7rem) 0; }
+  .feature .photo { grid-column: 1 / span 6; margin: 0 0 0 calc(var(--an-gutter) * -1); }
+  .feature .text { grid-column: 8 / span 5; }
+  .feature.photo-right .photo { grid-column: 7 / span 6; grid-row: 1; margin: 0 calc(var(--an-gutter) * -1) 0 0; }
+  .feature.photo-right .text { grid-column: 1 / span 5; grid-row: 1; }
+  .feature.no-photo .text { grid-column: 3 / span 8; }
+  .feature .photo img { aspect-ratio: 3 / 2; }
+  /* The text runs longer than the photo: the photo travels with it instead of leaving a blank column. */
+  @media (min-width: 861px) {
+    .feature .photo { position: sticky; top: 2rem; }
+  }
+
+  /* Brief: one row of the week, photo small on the right. */
+  .brief { padding: clamp(2.5rem, 5vw, 4rem) 0; border-top: 1px solid var(--an-rule); }
+  .brief .text { grid-column: 1 / span 8; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(1.25rem, 3vw, 3rem); }
+  .brief .who,
+  .brief .score { grid-column: 1; }
+  .brief .text > :not(.who):not(.score) { grid-column: 2; }
+  .brief .who { grid-row: 1; }
+  .brief .score { grid-row: 2 / span 6; align-self: start; }
+  .brief .verdict { grid-row: 1; }
+  .brief .photo { grid-column: 10 / span 3; grid-row: 1; margin: 0; }
+  .brief .photo img { aspect-ratio: 4 / 3; }
+  .brief.no-photo .text { grid-column: 1 / span 10; }
+
+  .photo img { width: 100%; height: auto; object-fit: cover; display: block; background: var(--an-soft); }
+  .photo figcaption { margin-top: 0.7rem; color: var(--an-mute); font-size: 0.62rem; }
+  .feature .photo figcaption { padding-left: var(--an-gutter); }
+  .feature.photo-right .photo figcaption { padding-left: 0; }
+  .photo figcaption a:hover { color: var(--an-ink); }
+
+  .who {
+    margin: 0;
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    text-wrap: balance;
+  }
+  .feature .who { font-size: clamp(2.6rem, 5vw, 4.25rem); }
+  .brief .who { font-size: clamp(1.75rem, 2.6vw, 2.25rem); margin-bottom: 1.25rem; }
+
+  .score { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.4rem 1rem; margin: 1.25rem 0 1.5rem; }
+  .brief .score { margin: 0; }
+  .label { color: var(--an-accent); }
+
+  .verdict {
+    margin: 0 0 1.75rem;
+    font-style: italic;
+    font-size: 1.3rem;
+    line-height: 1.45;
+    text-wrap: pretty;
+  }
+  .brief .verdict { font-size: 1.2rem; margin-bottom: 1.25rem; }
+
+  blockquote {
+    margin: 0 0 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--an-rule);
+    font-style: italic;
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    line-height: 1.22;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  .brief blockquote { font-size: 1.3rem; padding-top: 1.1rem; }
+
+  .summary {
+    margin: 0 0 1.5rem;
+    font-family: var(--an-sans);
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--an-body);
+    max-width: 62ch;
+  }
+
+  .sources { display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; margin: 1.5rem 0 0; font-size: 0.62rem; color: var(--an-mute); }
+  .sources a { border-bottom: 1px solid var(--an-rule); padding-bottom: 2px; transition: color 0.2s, border-color 0.2s; }
+  .sources a:hover { color: var(--an-ink); border-color: var(--an-ink); }
+
+  @media (max-width: 860px) {
+    .case { display: block; }
+    .feature { margin: 4rem 0; }
+    .feature .photo,
+    .feature.photo-right .photo { margin: 0 calc(var(--an-gutter) * -1) 2rem; }
+    .feature .photo img { aspect-ratio: 4 / 3; }
+    .feature .photo figcaption { padding-left: var(--an-gutter); }
+    .brief .text { display: block; }
+    .brief .score { margin: 0 0 1.25rem; }
+    .brief .photo { margin: 0 0 1.5rem; }
+  }
+</style>

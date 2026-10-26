@@ -19,7 +19,7 @@
 
 ## Idea: weekly apology-news newsletter (news.apologify.com)
 
-**Status:** parked (2026-10-25) — revisit later.
+**Status:** superseded (2026-10-25) — now planned on-site at `/news` with an n8n back end. See `docs/newsletter/PLAN.md`.
 
 **Concept:** curated weekly roundup of public apologies (celebrities, brands, athletes, politicians, governments), Axios-style: headline, 2–3 line summary, link to the source, plus **one-line verdict** per item (e.g. "Lawyered statement; never names the act"). The verdict is the differentiator — a plain summary is a commodity.
 

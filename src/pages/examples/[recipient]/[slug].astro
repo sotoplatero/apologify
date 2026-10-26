@@ -199,25 +199,39 @@ const letterSchema = {
   <Breadcrumb items={breadcrumbItems} />
 
   <main class="max-w-screen-md mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold mb-4 text-center">
-      Apology Letters to {recipientLabel}. <br />
-      {displayTitle}
-    </h1>
+    <header class="ex-head">
+      <h1 class="ex-title">
+        <span class="ex-to">Apology letter to {recipientLabel}</span>
+        {displayTitle}
+      </h1>
 
-    {
-      letter.source === "generated" && (
-        <div class="text-center mb-4">
-          <span class="inline-flex items-center px-3 py-1 rounded-lg text-sm font-medium bg-success/15 text-success">
-            ✨ AI Generated Letter
-          </span>
-        </div>
-      )
-    }
+      {/* The reason lives outside the letter: it is the situation, not part of what you'd send. */}
+      <dl class="ex-facts">
+        {letter.context && (
+          <div class="ex-fact ex-reason">
+            <dt>The reason</dt>
+            <dd>{letter.context}</dd>
+          </div>
+        )}
+        {letter.tone && (
+          <div class="ex-fact">
+            <dt>Tone</dt>
+            <dd class="ex-plain">{letter.tone}</dd>
+          </div>
+        )}
+        {letter.source === "generated" && (
+          <div class="ex-fact">
+            <dt>Source</dt>
+            <dd class="ex-plain">Written with AI</dd>
+          </div>
+        )}
+      </dl>
+    </header>
 
-    <div class="flex flex-col gap-8">
+    <div class="flex flex-col gap-12">
       {
-        letter.letters.map((letterText: string, index: number) => (
-          <Letter letter={letterText} context={letter.context} client:load />
+        letter.letters.map((letterText: string) => (
+          <Letter letter={letterText} client:load />
         ))
       }
     </div>
@@ -429,3 +443,60 @@ const letterSchema = {
     <CallToAction />
   </main>
 </Layout>
+
+<style>
+  .ex-head { margin: 1rem 0 clamp(2.5rem, 6vw, 3.5rem); }
+  .ex-title {
+    margin: 0;
+    font-size: clamp(2rem, 5.5vw, 3rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .ex-to {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.42em;
+    font-style: italic;
+    letter-spacing: 0;
+    color: var(--ap-mute, #6b6157);
+  }
+
+  /* Fact sheet: hairline rows, label in small caps on the left. */
+  .ex-facts { margin: 2rem 0 0; border-top: 1px solid var(--ap-ink, #241f1a); }
+  .ex-fact {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    gap: 1rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--ap-rule, #e0d8c8);
+  }
+  .ex-fact dt {
+    padding-top: 0.3rem;
+    font-family: "Jost", system-ui, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ap-mute, #6b6157);
+  }
+  .ex-fact dd {
+    margin: 0;
+    font-family: "Spectral", Georgia, serif;
+    font-size: 1.05rem;
+    line-height: 1.55;
+    color: var(--ap-ink, #241f1a);
+  }
+  .ex-reason dd { font-size: clamp(1.15rem, 2.6vw, 1.3rem); font-style: italic; font-weight: 300; }
+  .ex-fact dd.ex-plain {
+    padding-top: 0.15rem;
+    font-family: "Jost", system-ui, sans-serif;
+    font-size: 0.95rem;
+  }
+  .ex-fact dd::first-letter { text-transform: uppercase; }
+
+  @media (max-width: 560px) {
+    .ex-fact { grid-template-columns: 1fr; gap: 0.3rem; }
+    .ex-fact dt { padding-top: 0; }
+  }
+</style>

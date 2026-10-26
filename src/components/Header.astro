@@ -2,36 +2,93 @@
 import HeaderAuth from "./HeaderAuth.svelte";
 ---
 
-<header
-  class="sticky top-0 z-50 bg-base-100/95 backdrop-blur-sm border-b border-base-300"
->
-  <div
-    class="w-full max-w-screen-xl mx-auto px-4 py-3 flex justify-between items-center gap-3"
-  >
-    <!-- Logo -->
-    <a href="/" class="text-xl font-semibold flex items-center gap-1.5 font-serif shrink-0">
-      <span class="text-2xl sm:text-3xl leading-none" role="img" aria-label="Apology">💌</span>
+<header class="ap-head">
+  <div class="ap-head-in">
+    <a href="/" class="ap-mark">
+      <img class="ap-mark-logo" src="/seal.svg" alt="" width="44" height="44" />
       <span>Apologify</span>
     </a>
 
-    <!-- Nav: just the primary action + auth -->
-    <nav class="flex items-center gap-2 sm:gap-3">
-      <a href="/generator" class="btn btn-primary btn-sm gap-1.5">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-4 w-4"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
-          ></path>
-        </svg>
-        <span class="sm:hidden">Write</span>
-        <span class="hidden sm:inline">Write an apology</span>
-      </a>
+    <nav class="ap-nav" aria-label="Main">
+      <a href="/designs" class="ap-nav-link ap-nav-wide">Designs</a>
+      <a href="/news" class="ap-nav-link ap-nav-wide">Apology News</a>
       <HeaderAuth client:load />
+      <a href="/generator" class="ap-write"><span class="ap-write-long">Write an apology</span><span class="ap-write-short">Write</span></a>
     </nav>
   </div>
 </header>
+
+<style is:global>
+  .ap-nav-link {
+    font-family: 'Jost', system-ui, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #241f1a;
+    transition: opacity 0.2s;
+  }
+  .ap-nav-link { white-space: nowrap; }
+  .ap-nav-link:hover { opacity: 0.55; }
+  .ap-nav-pending { visibility: hidden; }
+</style>
+
+<style>
+  .ap-head {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: #faf7f1;
+    padding: 0 1rem;
+  }
+  /* Same measure as the page (max-w-screen-xl minus its padding), ruled in ink like the News masthead. */
+  .ap-head-in {
+    max-width: 78rem;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 4.25rem;
+    border-bottom: 1px solid #241f1a;
+  }
+  .ap-mark {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Spectral', Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: #241f1a;
+  }
+  .ap-mark-logo { width: 2.75rem; height: 2.75rem; margin: -0.4rem 0; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+  .ap-mark:hover .ap-mark-logo { transform: rotate(-12deg); }
+  @media (prefers-reduced-motion: reduce) { .ap-mark-logo { transition: none; } }
+  .ap-nav { display: flex; align-items: center; gap: 2rem; }
+  .ap-write {
+    padding: 0.7rem 1.1rem;
+    background: #c1272d;
+    color: #faf7f1;
+    font-family: 'Jost', system-ui, sans-serif;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition: background-color 0.25s;
+  }
+  .ap-write { white-space: nowrap; }
+  .ap-write:hover { background: #241f1a; }
+  .ap-write-short { display: none; }
+
+  @media (max-width: 720px) {
+    .ap-head-in { min-height: 3.75rem; }
+    .ap-mark { font-size: 1.35rem; }
+    .ap-nav { gap: 1.1rem; }
+    .ap-nav-wide { display: none; }
+    .ap-write { padding: 0.6rem 0.9rem; }
+    .ap-write-long { display: none; }
+    .ap-write-short { display: inline; }
+  }
+</style>

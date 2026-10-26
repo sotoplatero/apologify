@@ -1,0 +1,124 @@
+{
+  "week": "2026-w42",
+  "slug": "stephen-a-smith-owns-up-mike-elko-sidesteps",
+  "title": "Stephen A. Smith Owns Up; Mike Elko Sidesteps",
+  "description": "The public apologies of the week, scored.",
+  "date": "2026-10-12",
+  "intro": "Stephen A. Smith shows the value of naming the harm, while Mike Elko regrets the reception rather than the insult. Across six cases, concrete repair remains a recurring gap.",
+  "items": [
+    {
+      "id": "stephen-a-smith",
+      "slot": "best",
+      "who": "Stephen A. Smith",
+      "category": "celebrity",
+      "country": "US",
+      "headline": "Stephen A. Smith apologizes for mocking Lane Johnson’s mental health retirement",
+      "summary": "Stephen A. Smith apologized on First Take after making light of Lane Johnson’s decision to retire to prioritize his mental health. He admitted making light of mental health and regretted potentially discouraging people from seeking help, but offered no concrete repair or prevention measures.",
+      "quote": "I messed up. Because I made light of the issue of mental health",
+      "score": 3.5,
+      "verdict": "Admits mocking mental health and apologizes, but offers no concrete repair or prevention steps.",
+      "sourceUrl": "https://www.nytimes.com/athletic/7671772/2026/10/08/stephen-a-smith-lane-johnson-apology-espn",
+      "sourceName": "The Athletic",
+      "statementDate": "2026-10-08",
+      "image": {
+        "src": "https://static01.nyt.com/athletic/uploads/wp/2026/10/08110035/GettyImages-2297781179-scaled.jpg?width=1200&height=900&fit=crop",
+        "credit": "The Athletic"
+      }
+    },
+    {
+      "id": "mike-elko",
+      "slot": "worst",
+      "who": "Mike Elko",
+      "category": "sports",
+      "country": "US",
+      "headline": "Mike Elko expresses regret over TexAgs ‘cesspool’ comment",
+      "summary": "After Texas A&M lost to Missouri, Mike Elko called the TexAgs fan community a “cesspool.” At his Monday news conference, he expressed regret about his answer and how it was received, but did not apologize for the insult or offer repair.",
+      "quote": "I regret the way it was taken, I regret the way it came out. I regret the way it ran.",
+      "score": 0.5,
+      "verdict": "Regrets how the TexAgs insult was received without apologizing for calling users a cesspool.",
+      "sourceUrl": "https://www.nytimes.com/athletic/7684608/2026/10/12/mike-elko-texags-apologies-texas-am-football",
+      "sourceName": "The Athletic",
+      "statementDate": "2026-10-12",
+      "image": {
+        "src": "https://static01.nyt.com/athletic/uploads/wp/2026/10/12150245/2026-09-06T005419Z_340130230_MT1USATODAY29752743_RTRMADP_3_NCAA-FOOTBALL-MISSOURI-STATE-AT-TEXAS-A-AMP-M-scaled.jpg?width=1200&height=900&fit=crop",
+        "credit": "The Athletic"
+      }
+    },
+    {
+      "id": "cristiano-ronaldo",
+      "slot": "brief",
+      "who": "Cristiano Ronaldo",
+      "category": "sports",
+      "country": "PT",
+      "headline": "Cristiano Ronaldo apologises for Portugal walkout and failing to greet fans",
+      "summary": "Ronaldo apologised for leaving Portugal’s squad and failing to acknowledge supporters after the Norway match. He accepted responsibility and possible federation punishment, but also blamed coach Jorge Jesus for allegedly breaking promises.",
+      "quote": "A failing that is solely my responsibility and that should not have happened.",
+      "score": 3,
+      "verdict": "Owns snubbing fans and accepts punishment, but blames Jesus and offers no concrete repair.",
+      "sourceUrl": "https://www.aljazeera.com/sports/2026/10/6/ronaldo-apologizes-for-portugal-walkout-says-jesus-broke-promise",
+      "sourceName": "Al Jazeera (Reuters)",
+      "statementDate": "2026-10-06",
+      "image": {
+        "src": "https://www.aljazeera.com/wp-content/uploads/2026/10/AP26267835415071-1791350292.jpg?resize=1920%2C1440",
+        "credit": "Al Jazeera (Reuters)"
+      }
+    },
+    {
+      "id": "emeka-rollas",
+      "slot": "brief",
+      "who": "Emeka Rollas",
+      "category": "celebrity",
+      "country": "NG",
+      "headline": "Emeka Rollas apologises for remarks during Regina Daniels’s marital crisis",
+      "summary": "Emeka Rollas apologised to Regina Daniels, Ned Nwoko, Rita Daniels and colleagues over his public comments during the couple’s marital dispute. He accepted responsibility for his conduct and timing while retaining some convictions, but offered no concrete repair.",
+      "quote": "I may still hold my convictions about some of the issues I raised then, but I take responsibility for my actions and my timing.",
+      "score": 2.5,
+      "verdict": "Rollas apologises for his handling and timing, but offers no correction or concrete repair.",
+      "sourceUrl": "https://www.premiumtimesng.com/entertainment/naija-fashion/915424-emeka-rollas-apologises-to-regina-mother-ned-nwoko-others-over-marital-crisis-remarks.html",
+      "sourceName": "Premium Times Nigeria",
+      "statementDate": "2026-10-08",
+      "image": {
+        "src": "https://media.premiumtimesng.com/wp-content/files/2026/10/L-R_-Regina-Daniels-Ned-Nwoko-Rita-Daniels-and-Emeka-Rollas-.jpg",
+        "credit": "Premium Times Nigeria"
+      }
+    },
+    {
+      "id": "washington-utilities-and-transportation-commission",
+      "slot": "brief",
+      "who": "Washington Utilities and Transportation Commission",
+      "category": "government",
+      "country": "US",
+      "headline": "Washington utilities commission apologizes for moderation failures during racist hearing disruptions",
+      "summary": "A participant repeatedly disrupted an online Puget Sound Energy rate hearing with racist remarks. The Washington Utilities and Transportation Commission acknowledged inadequate moderation, apologized to attendees exposed to hate speech or discouraged from commenting, and promised to improve future events.",
+      "quote": "We missed the mark with our moderation and pledge to do better in future events.",
+      "score": 3.5,
+      "verdict": "Acknowledges failed moderation and apologizes to attendees, but offers no concrete safeguards against racist disruptions.",
+      "sourceUrl": "https://www.theolympian.com/news/local/article317579966.html",
+      "sourceName": "The Olympian",
+      "statementDate": "2026-10-08",
+      "image": {
+        "src": "https://www.theolympian.com/public/latest-news/z4555a/picture317435265/alternates/LANDSCAPE_1200/IMG_2355.JPG",
+        "credit": "The Olympian"
+      }
+    },
+    {
+      "id": "jersey-city-bar",
+      "slot": "brief",
+      "who": "Jersey City Bar",
+      "category": "brand",
+      "country": "US",
+      "headline": "Jersey City’s Pint apologizes over trivia team name award",
+      "summary": "Pint’s owners apologized after their trivia host awarded best team name to “Cornell 7 inches,” referencing sexual assault allegations. They said the award violated the bar’s standards, fired the host and pledged to donate that night’s revenue to sexual violence prevention programs.",
+      "quote": "our trivia host awarded ‘best team name’ to a team that had a truly offensive name",
+      "score": 3,
+      "verdict": "Fires the host and pledges revenue, but offers limited ownership in the quoted statement.",
+      "sourceUrl": "https://www.nj.com/hudson/2026/10/nj-gay-bar-apologizes-after-cornell-7-inches-trivia-team-sparks-fury.html",
+      "sourceName": "NJ.com",
+      "statementDate": "2026-10-08"
+    }
+  ],
+  "image": {
+    "src": "/news/stephen-a-smith-owns-up-mike-elko-sidesteps.webp",
+    "alt": "Cover photograph for Apology News: Stephen A. Smith apologizes for mocking Lane Johnson’s mental health retirement"
+  }
+}

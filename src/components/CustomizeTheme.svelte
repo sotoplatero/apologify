@@ -83,7 +83,7 @@
               {/if}
             </div>
             <span class={`block mt-1.5 text-xs ${selectedTheme === th.id ? 'text-base-content font-semibold' : 'text-base-content/70'}`}>
-              <span aria-hidden="true">{th.emoji}</span> {th.label}
+              {th.label}
             </span>
           </button>
         {/each}

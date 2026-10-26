@@ -1,0 +1,145 @@
+{
+  "week": "2026-w44",
+  "title": "Just Eat Acts; Freshfields Falls Short",
+  "description": "The public apologies of the week, scored.",
+  "date": "2026-10-26",
+  "intro": "Just Eat earns a 4 by removing inaccurate images and pausing rollout, showing why corrective action matters even when accountability is incomplete. Freshfields gets a 0.5 for an apology that distances the firm from the comment without offering repair.",
+  "items": [
+    {
+      "id": "just-eat",
+      "slot": "best",
+      "who": "Just Eat",
+      "category": "brand",
+      "country": "GB",
+      "headline": "Just Eat apologises for inaccurate AI-generated menu images",
+      "summary": "Just Eat apologised after its AI-generated menu pictures misrepresented dishes, including breakfast ingredients floating in cola. The company said it was removing inaccurate images and had paused the rollout while developing the tool further.",
+      "quote": "We’re sorry for any inaccurate images that have been posted.",
+      "verdict": "Removes inaccurate menu images and pauses rollout, but softens responsibility as new technology’s teething problems.",
+      "sourceUrl": "https://www.thejournal.ie/justeat-ai-pictures-takeaway-mistakes-7198965-Oct2026",
+      "sourceName": "thejournal.ie",
+      "statementDate": "2026-10-20",
+      "score": 4,
+      "image": {
+        "src": "https://img2.thejournal.ie/article/7198965/river/?height=400&version=7199161",
+        "credit": "thejournal.ie"
+      }
+    },
+    {
+      "id": "freshfields",
+      "slot": "worst",
+      "who": "Freshfields",
+      "category": "brand",
+      "country": "GB",
+      "headline": "Freshfields apologises over leaked remarks about Middle Eastern investors",
+      "summary": "A leaked email showed a senior Freshfields partner suggesting Middle Eastern sovereign wealth investors probably did not fit the investor profile for a proposed AI venture. The firm apologised unreservedly and expressed regret, but denied the remark reflected its beliefs or those of the email participants and offered no corrective action.",
+      "quote": "We apologise unreservedly for a comment made about Middle Eastern sovereign wealth investors",
+      "verdict": "Apologises for an unattributed comment about Middle Eastern investors, denies shared beliefs, and offers no repair.",
+      "sourceUrl": "https://www.independent.co.uk/news/uk/home-news/freshfields-middle-east-apology-ethan-klingsberg-b3069335.html",
+      "sourceName": "independent.co.uk",
+      "statementDate": "2026-10-19",
+      "score": 0.5,
+      "image": {
+        "src": "https://static.independent.co.uk/2026/10/19/16/download.-1.?trim=0,1,0,1&width=1200&height=800&crop=1200:800",
+        "credit": "independent.co.uk"
+      }
+    },
+    {
+      "id": "julian-alvarez",
+      "slot": "brief",
+      "who": "Julián Álvarez",
+      "category": "sports",
+      "country": "AR",
+      "headline": "Julián Álvarez apologizes to Atlético fans for Barcelona transfer comments",
+      "summary": "Álvarez apologized after previously declaring his desire to leave Atlético Madrid for Barcelona. He acknowledged supporters’ anger and called his wording and timing a mistake, offering hard work rather than a concrete remedy.",
+      "quote": "I want to apologize to our fans for my words during the World Cup,",
+      "verdict": "Owns his World Cup comments and fans’ anger, but offers only hard work.",
+      "statementUrl": "https://www.espn.com/soccer/story/_/id/50270296/julian-alvarez-atletico-madrid-sorry-barcelona-transfer",
+      "sourceUrl": "https://www.thestar.com.my/sport/football/2026/10/25/soccer-alvarez-apologises-for-barcelona-comments-after-scoring-atletico-winner",
+      "sourceName": "Reuters (via The Star)",
+      "statementDate": "2026-10-24",
+      "score": 4,
+      "image": {
+        "src": "https://apicms.thestar.com.my/uploads/images/2026/10/25/4179321.jpg",
+        "credit": "Reuters (via The Star)"
+      }
+    },
+    {
+      "id": "ranbir-kapoor",
+      "slot": "brief",
+      "who": "Ranbir Kapoor",
+      "category": "celebrity",
+      "country": "IN",
+      "headline": "Ranbir Kapoor apologises for Kolkata Dussehra speech error",
+      "summary": "Ranbir Kapoor misspoke at a Kolkata Dussehra event, saying truth and goodness would end rather than prevail. Apologising in Chennai the next day after footage circulated online, he corrected his intended message and quoted a lyric from Rockstar.",
+      "quote": "So I truly apologise for that.",
+      "verdict": "Corrects his Dussehra message but calls the error a slip and offers no further remedy.",
+      "statementUrl": "https://www.deccanherald.com/amp/story/entertainment%2Fbarbaad-kare-alfaaz-mere-ranbir-kapoor-quotes-rockstar-to-apologise-for-dussehra-gaffe-calls-it-slip-of-tongue-4190943",
+      "sourceUrl": "https://www.deccanherald.com/amp/story/entertainment%2Fbarbaad-kare-alfaaz-mere-ranbir-kapoor-quotes-rockstar-to-apologise-for-dussehra-gaffe-calls-it-slip-of-tongue-4190943",
+      "sourceName": "Deccan Herald",
+      "statementDate": "2026-10-21",
+      "score": 3,
+      "image": {
+        "src": "https://cf-images.assettype.com/deccanherald%2F2026-10-22%2Ff00gvpao%2FRanbir-Kapoor.PNG?w=1200&ar=40%3A21&auto=format%2Ccompress&ogImage=true&mode=crop&enlarge=true&overlay=false&overlay_position=bottom&overlay_width=100",
+        "credit": "Deccan Herald"
+      }
+    },
+    {
+      "id": "jeffrey-grob",
+      "slot": "brief",
+      "who": "Jeffrey Grob",
+      "category": "other",
+      "country": "US",
+      "headline": "Archbishop Grob apologizes for White House prayer appearance",
+      "summary": "Milwaukee Archbishop Jeffrey Grob apologized after appearing in White House footage praying with President Trump. He expressed sadness over the pain he caused but said the White House manipulated the prayer moment and published images without the bishops’ consent; he offered no concrete repair.",
+      "quote": "I apologize for any damage my actions have done",
+      "verdict": "Acknowledges praying with Trump and causing pain, but blames White House manipulation and offers no repair.",
+      "statementUrl": "https://www.indcatholicnews.com/news/56154",
+      "sourceUrl": "https://www.jsonline.com/story/news/local/wisconsin/2026/10/25/archbishop-jeffrey-grob-apologizes-explains-trump-white-house-visit/92430388007",
+      "sourceName": "Milwaukee Journal Sentinel",
+      "statementDate": "2026-10-25",
+      "score": 3,
+      "image": {
+        "src": "https://cdn.indcatholicnews.com/articles/1792939064FiAourMa7UCspXN1mtzTgbn3JDQGeI.png",
+        "credit": "indcatholicnews.com"
+      }
+    },
+    {
+      "id": "kimari-robinson",
+      "slot": "brief",
+      "who": "Kimari Robinson",
+      "category": "sports",
+      "country": "US",
+      "headline": "Kimari Robinson apologizes for swatting athletic trainer’s arm",
+      "summary": "Duke cornerback Kimari Robinson publicly apologized after swatting away a trainer’s arm while she approached an injured teammate. He said his concern did not excuse his behavior and reported apologizing personally and checking on her after the game.",
+      "quote": "I was completely wrong, and she did not deserve that.",
+      "verdict": "Accepts fault and checked on the trainer, but never explicitly names swatting her arm.",
+      "sourceUrl": "https://sports.yahoo.com/articles/duke-kimari-robinson-apologizes-swatting-155753738.html",
+      "sourceName": "Yahoo Sports / People",
+      "statementDate": "2026-10-18",
+      "score": 4,
+      "image": {
+        "src": "https://s.yimg.com/lo/mysterio/api/101132e35a20bbb37452bd1addfafa4949774a8f1764dac2a8b6e0f9e27089c5/lightyear_networkapi/resizefill_w1200_h675%3Bquality_80%3Bformat_webp/https%3A%2F%2Fmedia.zenfs.com%2Fen%2Fpeople_218%2Ff14c3eaa152c792dbc695558ad31f2f3.jpg",
+        "credit": "Yahoo Sports / People"
+      }
+    },
+    {
+      "id": "metro-regional-transit-authority",
+      "slot": "brief",
+      "who": "METRO Regional Transit Authority",
+      "category": "government",
+      "country": "US",
+      "headline": "Akron METRO apologizes for missed buses, outlines staffing measures",
+      "summary": "METRO apologized after missed bus trips left Akron riders without expected service, citing operator absences as the cause. It acknowledged riders’ frustration and outlined measures including hiring 50 operators, using qualified administrative staff and offering extra shifts.",
+      "quote": "We are sorry, we hear your concerns, and we are working to do better,",
+      "verdict": "Offers 50 additional operators and backup drivers, but shifts responsibility toward employee absences.",
+      "sourceUrl": "https://www.wkyc.com/article/news/community/transportation/akron-metro-rta-apologizes-missed-bus-trips-union-says-drivers-unfairly-blamed/95-c5efb1f8-fef6-4593-88f1-d153c3f10c19",
+      "sourceName": "WKYC",
+      "score": 4
+    }
+  ],
+  "slug": "just-eat-acts-freshfields-falls-short",
+  "image": {
+    "src": "/news/just-eat-acts-freshfields-falls-short.webp",
+    "alt": "Cover photograph for Apology News: Just Eat apologises for inaccurate AI-generated menu images"
+  }
+}

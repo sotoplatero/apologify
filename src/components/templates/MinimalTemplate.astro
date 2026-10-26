@@ -1,66 +1,70 @@
 ---
+// Minimal: a white page and nothing else — large light type, generous space,
+// one hairline. The words carry it.
 import ApologyActions from "../ApologyActions.svelte";
 const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
 ---
-<main
-  class="mn-root min-h-screen w-full flex flex-col items-center justify-center text-center px-6 py-24"
-  style="background:#fbfbfd;"
->
-  <div class="mn-rise w-full max-w-xl mx-auto">
-    <span class="mn-heart block mx-auto mb-10 text-2xl" aria-hidden="true">♥</span>
+<main class="mn">
+  <div class="mn-page">
+    <h1 class="mn-title">{title}</h1>
+    <span class="mn-rule" aria-hidden="true"></span>
 
-    <h1 class="text-4xl sm:text-5xl font-semibold tracking-[-0.02em] text-[#1d1d1f] leading-[1.08]" style="text-wrap:balance;">{title}</h1>
-
-    {heading && <p class="mt-6 text-xl sm:text-2xl font-normal text-[#424245]">{heading}</p>}
-
-    <div class="mn-rule mx-auto mt-10 mb-10 w-12 h-px bg-[#d2d2d7]"></div>
-
-    <div class="mn-body space-y-6 text-lg sm:text-xl leading-[1.6] font-light text-[#3a3a3c]">
+    {heading && <p class="mn-heading">{heading}</p>}
+    <div class="mn-body">
       {paragraphs.map((p: string) => <p set:html={p} />)}
     </div>
+    {senderName && <p class="mn-sign">— {senderName}</p>}
 
-    {senderName && <p class="mt-12 text-lg text-[#6e6e73] font-normal">{senderName}</p>}
-
-    <div class="mt-14 flex justify-center">
+    <div class="mn-actions">
       <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
-        acceptLabel="Like"
-        primaryClass="px-7 py-3 rounded-full bg-[#1d1d1f] text-white text-[0.95rem] font-medium hover:bg-[#000] transition-colors"
-        secondaryClass="px-7 py-3 rounded-full border border-[#d2d2d7] text-[#1d1d1f] text-[0.95rem] hover:bg-[#f5f5f7] transition-colors"
-        mutedClass="text-sm text-[#86868b]" />
+        acceptLabel="Like this"
+        primaryClass="mn-btn mn-btn-solid"
+        secondaryClass="mn-btn mn-btn-line"
+        mutedClass="mn-muted" />
     </div>
-
-    <a href="/generator" class="block mt-14 text-xs tracking-wide text-[#a1a1a6] hover:text-[#1d1d1f] transition-colors">
-      Made on apologify.com — write your own →
-    </a>
+    <a href="/generator" class="mn-made">Made on apologify.com — write your own</a>
   </div>
 </main>
 
 <style>
-  .mn-root {
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-    -webkit-font-smoothing: antialiased;
+  .mn {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(3rem, 10vw, 8rem) 1.5rem 3rem;
+    background: #ffffff;
+    color: #161616;
+    font-family: 'Spectral', Georgia, serif;
   }
+  .mn-page { width: 100%; max-width: 36rem; animation: mn-rise 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both; }
+  .mn-title { margin: 0; font-weight: 300; font-size: clamp(2.4rem, 7vw, 3.8rem); line-height: 1.06; letter-spacing: -0.025em; text-wrap: balance; }
+  .mn-rule { display: block; width: 2.5rem; height: 1px; margin: 2.5rem 0; background: #161616; }
+  .mn-heading { margin: 0 0 1.25rem; font-size: 1.25rem; color: #161616; }
+  .mn-body { font-size: clamp(1.08rem, 2.2vw, 1.2rem); line-height: 1.8; font-weight: 300; color: #2d2d2d; }
+  .mn-body :global(p) { margin: 0 0 1.25em; }
+  .mn-body :global(strong) { font-weight: 500; color: #161616; }
+  .mn-sign { margin: 2.25rem 0 0; font-size: 1.25rem; font-style: italic; color: #161616; }
 
-  .mn-body :global(strong) { font-weight: 600; color: #1d1d1f; }
-  .mn-body :global(em) { font-style: italic; }
-
-  .mn-heart { color: #ff375f; }
-
-  /* a slow, singular fade-up of the whole message on load */
-  .mn-rise {
-    opacity: 0;
-    transform: translateY(18px);
-    animation: mnRise 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+  .mn-actions { margin-top: 3.5rem; }
+  /* Left-aligned page: align the shared action row to the text column. */
+  .mn-actions :global(div) { justify-content: flex-start; align-items: flex-start; text-align: left; }
+  .mn-actions :global(.mn-btn) {
+    padding: 0.95rem 1.6rem;
+    font-family: 'Jost', system-ui, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: background-color 0.25s, color 0.25s;
   }
-  @keyframes mnRise {
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .mn-rise {
-      animation: none;
-      opacity: 1;
-      transform: none;
-    }
-  }
+  .mn-actions :global(.mn-btn-solid) { background: #161616; color: #fff; }
+  .mn-actions :global(.mn-btn-solid:hover) { background: #000; }
+  .mn-actions :global(.mn-btn-line) { border: 1px solid #d4d4d4; color: #161616; }
+  .mn-actions :global(.mn-btn-line:hover) { border-color: #161616; }
+  .mn-actions :global(.mn-muted) { font-family: 'Jost', system-ui, sans-serif; font-size: 0.85rem; color: #6f6f6f; }
+  .mn-made { display: block; margin-top: 3.5rem; font-family: 'Jost', system-ui, sans-serif; font-size: 0.64rem; letter-spacing: 0.22em; text-transform: uppercase; color: #8a8a8a; }
+  .mn-made:hover { color: #161616; }
+  @keyframes mn-rise { from { opacity: 0; transform: translateY(18px); } }
+  @media (prefers-reduced-motion: reduce) { .mn-page { animation: none; } }
 </style>

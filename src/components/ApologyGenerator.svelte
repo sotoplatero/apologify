@@ -91,17 +91,17 @@
 
 {#if !slug}
   <!-- Step 1: the generator form -->
-  <div class="max-w-2xl mx-auto bg-base-100 rounded-2xl shadow-sm border border-base-300 p-6 md:p-8 font-sans">
+  <div class="max-w-2xl mx-auto pt-8 border-t border-base-content font-sans">
     <form on:submit|preventDefault={generate}>
       <div class="mb-5">
-        <label for="towhom" class="font-semibold text-base-content block mb-2">Who is this apology for?</label>
+        <label for="towhom" class="caps text-base-content block mb-2.5">Who is this apology for?</label>
         <input id="towhom" bind:value={toWhom} maxlength="100" placeholder="e.g. Mia, my girlfriend, our customers"
           class="input input-bordered w-full bg-base-100" />
       </div>
 
       <div class="mb-5">
         <div class="flex items-baseline justify-between mb-2">
-          <label for="reason" class="font-semibold text-base-content">What happened?</label>
+          <label for="reason" class="caps text-base-content">What happened?</label>
           <span class="text-xs text-base-content/50 tabular-nums">{reason.length}/500</span>
         </div>
         <textarea id="reason" bind:value={reason} maxlength="500" autocomplete="off"
@@ -110,19 +110,19 @@
       </div>
 
       <div class="mb-5">
-        <label for="sig" class="font-semibold text-base-content block mb-2">Signature</label>
+        <label for="sig" class="caps text-base-content block mb-2.5">Signature</label>
         <input id="sig" bind:value={signature} maxlength="80" placeholder="Who's apologizing? e.g. Sam"
           class="input input-bordered w-full bg-base-100" />
       </div>
 
       <div class="mb-6">
-        <label for="tone" class="font-semibold text-base-content block mb-2">Tone</label>
+        <label for="tone" class="caps text-base-content block mb-2.5">Tone</label>
         <select id="tone" bind:value={selectedTone} class="select select-bordered w-full bg-base-100">
           {#each tones as t (t.value)}<option value={t.value}>{t.emoji} {t.label}</option>{/each}
         </select>
       </div>
 
-      {#if error}<div class="p-4 mb-6 bg-error/10 border border-error/25 rounded-xl text-error text-sm" role="alert">{error}</div>{/if}
+      {#if error}<div class="p-4 mb-6 bg-error/10 border border-error/25 text-error text-sm" role="alert">{error}</div>{/if}
 
       <button type="submit" disabled={isGenerating} class="btn btn-primary btn-lg w-full text-base">
         {isGenerating ? "Writing your apology..." : "Generate my apology page"}
@@ -188,7 +188,7 @@
                 {/if}
               </div>
               <span class={`block mt-1.5 text-xs ${selectedTheme === th.id ? 'text-base-content font-semibold' : 'text-base-content/70'}`}>
-                <span aria-hidden="true">{th.emoji}</span> {th.label}
+                {th.label}
               </span>
             </button>
           {/each}

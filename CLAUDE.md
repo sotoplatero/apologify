@@ -8,7 +8,7 @@ Apologify.com is an Astro web app that turns a written apology into a **beautifu
 
 1. The user says who the apology is for and what happened, and picks a tone.
 2. AI writes a sincere, personal apology about that specific moment.
-3. The user picks a **design** (one of 21 full-page templates) and previews it live.
+3. The user picks a **design** (one of 13 full-page templates) and previews it live.
 4. They publish it and **send** the link (WhatsApp/SMS/email/QR/story image).
 5. The recipient opens a sealed **envelope**, reads it, likes it and can answer **"I forgive you" / "I need some time"** — the sender sees that on the dashboard and gets an email.
 
@@ -18,7 +18,7 @@ Around the product: a **legacy library of example letters** (`/examples`, SEO), 
 
 - **Framework**: Astro 7 (`output: 'static'` + on-demand routes), Vercel adapter with ISR. `trailingSlash: 'never'`.
 - **UI**: Astro components + Svelte 5 islands (generator, recipient actions, owner bar, publish, theme picker). Preact/React also installed.
-- **Styling**: Tailwind CSS + DaisyUI. Custom DaisyUI theme **`apology`** ("ink on paper": paper `#F5F1E8`, ink `#241F1A`, postmark-red primary `#C1272D`, ink-blue accent `#2C4A6E`, sage secondary) in `tailwind.config.mjs`, set via `<html data-theme="apology">` in `src/layouts/LayoutBase.astro`. Fonts: Fraunces (display), Lora (body serif), Inter (UI sans), Dancing Script (script), Anton (poster).
+- **Styling**: Tailwind CSS + DaisyUI. Custom DaisyUI theme **`apology`** ("ink on paper": paper `#FAF7F1`, ink `#241F1A`, postmark-red primary `#C1272D`, ink-blue accent `#2C4A6E`, sage secondary; square buttons, 0.25rem boxes) in `tailwind.config.mjs`, set via `<html data-theme="apology">` in `src/layouts/LayoutBase.astro`. The site chrome shares Apology News's language (magazine layout, hairlines, small tracked caps, red only for the main action): `Layout.astro` scopes it under `.site` (Jost for UI, Spectral set light for every h1–h3 and for `.prose`, `.btn` as square caps, helpers `.caps` / `.ap-link`, tokens `--ap-*`). Avoid pills, gradient washes, icon cards, eyebrow labels and emoji icons. Brand mark: a postmark-red wax seal with a Spectral italic "A" — `public/seal.svg` (embossed seal: logo in header, footer, sign-in; keep it ≥40px) and the favicon set (`favicon.svg`/`.ico`/PNGs: flat seal, also used small in the News masthead; apple/android icons: embossed seal on paper). Fonts (one Google Fonts link in `LayoutBase`): **Spectral** (display + reading) and **Jost** (UI) everywhere, plus Dancing Script (signatures) and Anton (Keep Calm, Newspaper). Tailwind `font-display`/`font-serif` = Spectral, `font-sans` = Jost; the share images (`shareImage.ts`) use the same pair.
 - **AI**: apology generation runs on **Claude Haiku 4.5** via `src/lib/server/anthropic.js` (`ANTHROPIC_API_KEY`). Article generation (`pnpm injest`) still uses OpenAI. The model is defined in `anthropic.js` — do NOT change it without the owner's say-so.
 - **Database**: Turso (libsql) — `src/lib/turso.ts`.
 - **Auth**: better-auth (`src/lib/auth.ts` / `auth-client.ts`), Google sign-in. Required only to publish.
@@ -68,8 +68,9 @@ Key functions: `saveApologyPage`, `getApologyPageBySlug`, `publishApologyPage` (
 ### Designs / templates
 
 - Each design is a self-contained full-page Astro component in `src/components/templates/` receiving `{ title, heading, paragraphs, senderName, slug, acceptedAt, preview }`, with its own palette/motion and `@media (prefers-reduced-motion: reduce)`.
-- Catalog: `src/lib/themes.js` (`THEMES`: `id`, `label`, `emoji`, `premium`, `bgClass`; `listThemes()`, `resolveTheme()`, `isPremiumTheme()`).
-- The **template map** (id → component) is duplicated in `src/pages/sorry/[slug].astro` and `src/pages/demo.astro` — **add new templates in both**.
+- Catalog: `src/lib/themes.js` (`THEMES`: `id`, `label`, `emoji`, `premium`, `bgClass`, `retired?`; `listThemes()` = live designs only, `resolveTheme()`, `canonicalThemeId()`, `isPremiumTheme()`). 13 live designs: Letter (`classic`), Editorial, Handwritten, Velvet, Night (`starry`), Minimal, Postcard, Watercolor, Statement (`formal`), Newspaper, Swiss, Cute (`cute-duck`), Boarding Pass.
+- **Retired designs**: still used by saved pages → kept with `retired: true` (hidden from pickers, still render: `keep-calm`, `zine`); unused → deleted, with an alias in `RETIRED_ALIASES` (ransom, constructivist, letterpress, typewriter, telegram, sticky-note, mixtape, chalkboard, illuminated) so old ids render the closest live design. Check `SELECT theme, COUNT(*) FROM apology_pages GROUP BY theme` before deleting a design.
+- The **template map** (id → component) lives once in `src/components/templates/registry.ts` (`templateFor(id)`), used by `/sorry/[slug]`, `/demo` and `/studio/card`.
 - `/demo?theme=` renders any template with sample content (no DB). Thumbnails: `public/designs/<id>.jpg` (~820×1040) from `/demo?theme=<id>&bare=1` (remove `astro-dev-toolbar` first).
 - **Premium/paywall is deferred**: all designs are `premium: false`; publish/update still downgrade premium themes to `classic`. Charging requires Vercel Pro (Hobby is non-commercial).
 
@@ -83,6 +84,10 @@ Key functions: `saveApologyPage`, `getApologyPageBySlug`, `publishApologyPage` (
 ### Articles
 
 Markdown in `src/data/articles/<slug>/index.md`, loaded with `import.meta.glob` in `src/lib/articles.ts` (not content collections — see `docs/PENDING.md`). Generated by `injest.js` (patterns in `src/lib/patterns.js`, prompts in `src/lib/prompts.js`, Unsplash images). Routes: `/articles/[slug]`, `/articles/[...page]`. 42 thin, never-indexed articles were removed (git history keeps them).
+
+### Apology News (`/news`)
+
+Weekly newsletter of public apologies scored 0–5 in half points (signed-in readers vote their own 0–5 score; `news_votes`). It has its **own magazine layout** in the site's palette: airy, hairlines, the app's warm paper/ink, red used sparingly, Spectral display at a light weight + Jost UI, small quiet "x/5" scores, still-life cover photos via `src/layouts/NewsLayout.astro` (own masthead/footer, tokens `--an-*` on `.an`). Product context: `PRODUCT.md`. One folder per issue: `src/data/news/<YYYY>-w<NN>/issue.json` (+ optional `body.md`), with a `slug` and a cover `image` in `public/news/<slug>.webp`; loaded and Zod-validated in `src/lib/news.ts` (a malformed issue fails the build). Pages: `/news` (newsletter home + signup), `/news/[slug]` (the issue as a post), `/news/rss.xml`; fallback share image `/news-og/[slug].png`. Signup is double opt-in: `/api/news/subscribe` emails a signed link, `/api/news/confirm` adds the contact to the Resend segment (`src/lib/server/newsletter.ts`; needs `RESEND_SEGMENT_ID`, `NEWS_SIGNING_SECRET`). Covers: `node scripts/news-cover.mjs <week>` (gpt-image-2.5-flare). Issues are produced by the n8n workflow "Apology News: Draft" (source in `n8n/`), which opens a PR; merging publishes. Email goes out via "Apology News: Send". Plan, rubric and prompts: `docs/newsletter/`.
 
 ### Research
 
@@ -99,7 +104,7 @@ Markdown in `src/data/articles/<slug>/index.md`, loaded with `import.meta.glob` 
 - `/sorry/[slug]` — the live page (public = indexable; draft/preview = `noindex`). `/og/[slug].png`, `/story/[slug].png` — share images.
 - `/sorry-card` — US "sorry card" landing. `/research/why-people-apologize` — study. `/designs` — design gallery.
 - `/customize?slug=` (owner), `/publish?slug=&theme=`, `/dashboard` (owner's published pages + status; Open / Design / Unpublish), `/demo?theme=`.
-- `/examples*`, `/articles*` — legacy library + blog. `/about` carries the Twemoji icon credit (CC BY 4.0).
+- `/examples*`, `/articles*` — legacy library + blog.
 
 `noindex`: `/demo`, `/customize`, `/publish`, `/sign-in`, `/sign-up`, `/dashboard`, `/404`, and non-public `/sorry` pages.
 
@@ -146,8 +151,8 @@ Production env vars live in Vercel (project `damian-sotos-projects/apologify`); 
 
 1. Create `src/components/templates/XxxTemplate.astro` following the props contract (motion + `prefers-reduced-motion`; hardcode its palette).
 2. Register it in `src/lib/themes.js`.
-3. Add the `id → component` entry to **both** `src/pages/sorry/[slug].astro` and `src/pages/demo.astro`.
-4. Generate `public/designs/<id>.jpg` from `/demo?theme=<id>&bare=1`.
+3. Add the `id → component` entry to `src/components/templates/registry.ts`.
+4. Generate `public/designs/<id>.jpg` from `/demo?theme=<id>&bare=1` (820×1040, JPEG).
 
 ### Add a column to apology_pages
 

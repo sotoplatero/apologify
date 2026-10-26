@@ -1,0 +1,155 @@
+---
+// Postcard: the apology written on the back of a postcard — message on the
+// left, stamp, postmark and the recipient's name on the right.
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, recipientName, slug, acceptedAt, preview } = Astro.props;
+const to = (recipientName || "").trim();
+// Perforations around the stamp: small holes every 6 units on each edge.
+const holes: [number, number][] = [];
+for (let x = 3; x <= 57; x += 6) holes.push([x, 0], [x, 72]);
+for (let y = 6; y <= 66; y += 6) holes.push([0, y], [60, y]);
+---
+<main class="pc">
+  <article class="pc-card">
+    <section class="pc-msg">
+      <h1 class="pc-title">{title}</h1>
+      {heading && <p class="pc-heading">{heading}</p>}
+      <div class="pc-body">
+        {paragraphs.map((p: string) => <p set:html={p} />)}
+      </div>
+      {senderName && <p class="pc-sign">{senderName}</p>}
+    </section>
+
+    <aside class="pc-side">
+      <div class="pc-stamps">
+        <svg class="pc-mark" viewBox="0 0 120 120" aria-hidden="true">
+          <defs><path id="pc-ring" d="M60 60 m-42 0 a42 42 0 1 1 84 0 a42 42 0 1 1 -84 0" /></defs>
+          <circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-width="1.6" />
+          <circle cx="60" cy="60" r="32" fill="none" stroke="currentColor" stroke-width="1" />
+          <text font-size="9.5" letter-spacing="2.6" fill="currentColor"><textPath href="#pc-ring">APOLOGIFY · SENT WITH CARE ·</textPath></text>
+          <text x="60" y="57" text-anchor="middle" font-size="9" letter-spacing="1.5" fill="currentColor">WITH</text>
+          <text x="60" y="70" text-anchor="middle" font-size="9" letter-spacing="1.5" fill="currentColor">LOVE</text>
+        </svg>
+        <svg class="pc-waves" viewBox="0 0 160 40" aria-hidden="true">
+          <path d="M0 8 q10 -6 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0" />
+          <path d="M0 20 q10 -6 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0" />
+          <path d="M0 32 q10 -6 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0" />
+        </svg>
+        <div class="pc-stamp" aria-hidden="true">
+          <svg viewBox="0 0 60 72">
+            <defs>
+              <mask id="pc-perf">
+                <rect width="60" height="72" fill="#fff" />
+                {holes.map(([cx, cy]) => <circle cx={cx} cy={cy} r="2.1" fill="#000" />)}
+              </mask>
+            </defs>
+            <rect width="60" height="72" fill="#fbf8f1" mask="url(#pc-perf)" />
+            <rect x="5" y="5" width="50" height="62" fill="#c1272d" />
+            <path d="M30 50 C 14 40, 14 26, 22.5 24 C 27 23, 30 27, 30 29 C 30 27, 33 23, 37.5 24 C 46 26, 46 40, 30 50 Z" fill="#f6efe2" />
+            <text x="30" y="16" text-anchor="middle" font-size="5.5" letter-spacing="0.8" fill="#f6efe2">SORRY</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="pc-address">
+        <p class="pc-to">To</p>
+        <p class="pc-line pc-name">{to || " "}</p>
+        <p class="pc-line">&nbsp;</p>
+        <p class="pc-line">&nbsp;</p>
+      </div>
+    </aside>
+  </article>
+
+  <div class="pc-actions">
+    <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+      acceptLabel="Like this"
+      primaryClass="pc-btn pc-btn-solid"
+      secondaryClass="pc-btn pc-btn-line"
+      mutedClass="pc-muted" />
+  </div>
+  <a href="/generator" class="pc-made">Made on apologify.com — write your own</a>
+</main>
+
+<style>
+  .pc {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.25rem;
+    padding: clamp(1.25rem, 5vw, 4rem) 1rem 2.5rem;
+    background: #cfdacf;
+    color: #2b2a26;
+    font-family: 'Spectral', Georgia, serif;
+  }
+  .pc-card {
+    width: 100%;
+    max-width: 58rem;
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    background: #fbf8f1;
+    box-shadow: 0 30px 60px -30px rgba(40, 52, 40, 0.45), 0 2px 6px rgba(40, 52, 40, 0.08);
+    animation: pc-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .pc-msg { padding: clamp(1.75rem, 4vw, 3rem); border-right: 1px solid #ded6c6; }
+  .pc-title { margin: 0; font-weight: 400; font-size: clamp(1.7rem, 3.4vw, 2.3rem); line-height: 1.12; letter-spacing: -0.015em; text-wrap: balance; }
+  .pc-heading { margin: 1.5rem 0 0.8rem; font-style: italic; font-size: 1.15rem; }
+  .pc-body { font-size: 1.06rem; line-height: 1.72; color: #3b3830; }
+  .pc-body :global(p) { margin: 0 0 1em; }
+  .pc-sign { margin: 1.5rem 0 0; font-family: 'Dancing Script', cursive; font-size: 2.3rem; color: #2b2a26; }
+
+  .pc-side { position: relative; padding: clamp(1.5rem, 3vw, 2.25rem); display: flex; flex-direction: column; }
+  .pc-stamps { position: relative; height: 9.5rem; }
+  .pc-stamp {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5.2rem;
+    filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.18));
+    transform: rotate(2deg);
+  }
+  .pc-stamp svg { display: block; width: 100%; font-family: 'Jost', system-ui, sans-serif; }
+  .pc-mark {
+    position: absolute;
+    top: 1.6rem;
+    right: 3.4rem;
+    width: 6.4rem;
+    color: rgba(193, 39, 45, 0.62);
+    font-family: 'Jost', system-ui, sans-serif;
+    transform: rotate(-12deg);
+    z-index: 1;
+  }
+  .pc-waves { position: absolute; top: 3.2rem; right: 7.5rem; width: 8rem; fill: none; stroke: rgba(193, 39, 45, 0.45); stroke-width: 1.4; }
+  .pc-address { margin-top: auto; padding-top: 2rem; }
+  .pc-to { margin: 0 0 0.25rem; font-family: 'Jost', system-ui, sans-serif; font-size: 0.66rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: #8a8270; }
+  .pc-line { margin: 0; min-height: 2.6rem; border-bottom: 1px solid #cfc6b4; }
+  .pc-name { font-family: 'Dancing Script', cursive; font-size: 2rem; line-height: 2.6rem; }
+
+  .pc-actions :global(.pc-btn) {
+    padding: 0.95rem 1.6rem;
+    font-family: 'Jost', system-ui, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: background-color 0.25s, color 0.25s;
+  }
+  .pc-actions :global(.pc-btn-solid) { background: #c1272d; color: #fbf8f1; }
+  .pc-actions :global(.pc-btn-solid:hover) { background: #2b2a26; }
+  .pc-actions :global(.pc-btn-line) { border: 1px solid #2b2a26; color: #2b2a26; }
+  .pc-actions :global(.pc-btn-line:hover) { background: #2b2a26; color: #fbf8f1; }
+  .pc-actions :global(.pc-muted) { font-family: 'Jost', system-ui, sans-serif; font-size: 0.85rem; color: #4d5a4d; }
+  .pc-made { font-family: 'Jost', system-ui, sans-serif; font-size: 0.64rem; letter-spacing: 0.22em; text-transform: uppercase; color: #4d5a4d; }
+  .pc-made:hover { color: #2b2a26; }
+  @keyframes pc-in { from { opacity: 0; transform: translateY(24px) rotate(-1deg); } }
+
+  @media (max-width: 760px) {
+    .pc-card { grid-template-columns: 1fr; }
+    .pc-side { order: -1; padding-bottom: 0; }
+    .pc-stamps { height: 7rem; }
+    .pc-address { padding-top: 0; margin-top: -0.5rem; max-width: 60%; }
+    .pc-msg { border-right: 0; border-top: 1px solid #ded6c6; margin-top: 1.25rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { .pc-card { animation: none; } }
+</style>

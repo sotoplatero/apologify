@@ -14,7 +14,8 @@
     "db:init": "node ./scripts/init-db.js",
     "db:init-pages": "node ./scripts/init-apology-pages.js",
     "db:push": "astro db push --remote",
-    "db:pull": "astro db pull --remote"
+    "db:pull": "astro db pull --remote",
+    "db:init-news": "node ./scripts/init-news-votes.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.109.0",

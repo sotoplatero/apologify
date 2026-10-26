@@ -1,0 +1,31 @@
+---
+// Our score out of 5, set quietly beside the story: no colour coding, no display size.
+import { formatScore } from '../../lib/news';
+
+interface Props {
+  score: number;
+  /** sm: inline lists · lg: briefs · xl: the apology / non-apology of the week. */
+  size?: 'sm' | 'lg' | 'xl';
+}
+
+const { score, size = 'sm' } = Astro.props;
+---
+
+<span class:list={['num', size]} aria-label={`Score ${formatScore(score)} out of 5`}>{formatScore(score)}<span class="of" aria-hidden="true">/5</span></span>
+
+<style>
+  .num {
+    display: inline-block;
+    font-family: var(--an-display);
+    font-weight: 400;
+    font-variant-numeric: lining-nums proportional-nums;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--an-ink);
+    white-space: nowrap;
+  }
+  .of { margin-left: 0.08em; font-size: 0.62em; color: var(--an-mute); }
+  .sm { font-size: 1.05rem; }
+  .lg { font-size: 1.35rem; }
+  .xl { font-size: 1.75rem; }
+</style>

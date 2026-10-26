@@ -1,0 +1,148 @@
+{
+  "week": "2026-w37",
+  "slug": "suvendu-adhikari-leads-doug-eddings-strikes-out",
+  "title": "Suvendu Adhikari Leads; Doug Eddings Strikes Out",
+  "description": "The public apologies of the week, scored.",
+  "date": "2026-09-07",
+  "intro": "Suvendu Adhikari shows the value of naming the offense, though concrete correction is still missing. Doug Eddings lands last with an on-field apology offering no documented repair.",
+  "items": [
+    {
+      "id": "suvendu-adhikari",
+      "slot": "best",
+      "who": "Suvendu Adhikari",
+      "category": "politics",
+      "country": "IN",
+      "headline": "Suvendu Adhikari apologises for government’s eleven-handed Durga advertisement",
+      "summary": "A West Bengal government newspaper advertisement depicted Goddess Durga with eleven hands rather than ten. Suvendu Adhikari apologised for the incorrect depiction, said officials had been warned and promised greater care in future.",
+      "quote": "I apologise for the wrong government advertisement depicting Maa Durga with 11 hands instead of 10.",
+      "score": 3.5,
+      "verdict": "Names the eleven-handed depiction and warns officials, but offers no concrete correction to the advertisement.",
+      "statementUrl": "https://www.ndtv.com/india-news/trivialising-goddess-bjp-ad-for-durga-puja-spark-fresh-row-in-bengal-12014230",
+      "sourceUrl": "https://www.thehindu.com/news/national/west-bengal/cm-apologises-after-west-bengal-government-advertisement-depicts-durga-with-11-hands-instead-of-10/article71439239.ece",
+      "sourceName": "The Hindu",
+      "statementDate": "2026-09-07",
+      "image": {
+        "src": "https://th-i.thgim.com/public/news/national/8n76a1/article71439842.ece/alternates/LANDSCAPE_1200/Durga%2011%20hands.jpg",
+        "credit": "The Hindu"
+      }
+    },
+    {
+      "id": "doug-eddings",
+      "slot": "worst",
+      "who": "Doug Eddings",
+      "category": "sports",
+      "country": "US",
+      "headline": "Doug Eddings apologizes to Hancel Rincon over tilted-cap warning",
+      "summary": "Doug Eddings approached Cardinals rookie Hancel Rincon on the field to apologize after telling him to straighten his cap during his MLB debut. The exchange followed MLB's reprimand; the evidence does not provide Eddings' apology wording, and his separate explanation attributed the intervention to a batter's complaint.",
+      "score": 0,
+      "verdict": "The on-field apology offers no documented repair; Eddings separately attributed the cap dispute to a batter.",
+      "sourceUrl": "https://www.nytimes.com/athletic/7570416/2026/09/06/mlb-veteran-umpire-rookie-tilted-hat-cardinals",
+      "sourceName": "The Athletic",
+      "statementDate": "2026-09-05",
+      "image": {
+        "src": "https://static01.nyt.com/athletic/uploads/wp/2026/09/06125127/GettyImages-2293042170-1-scaled.jpg?width=1200&height=900&fit=crop",
+        "credit": "The Athletic"
+      }
+    },
+    {
+      "id": "adidas",
+      "slot": "brief",
+      "who": "Adidas",
+      "category": "brand",
+      "country": "DE",
+      "headline": "Adidas apologizes over promotion featuring former Israeli soldier",
+      "summary": "Adidas apologized after a Single Shoe service promotion featuring an Israeli military amputee prompted criticism and boycott calls. The company described the image as a local initiative, denied intending offense, and promised to listen and learn without specifying corrective action.",
+      "quote": "It was never our intent to cause offense and we apologize for anyone affected",
+      "score": 1.5,
+      "verdict": "Apologizes for offense but distances headquarters from local posters and offers no checkable changes.",
+      "sourceUrl": "https://www.aa.com.tr/en/world/adidas-apologizes-after-campaign-featuring-former-israeli-soldier-sparks-boycott-calls/4049606",
+      "sourceName": "Anadolu Ajansı",
+      "statementDate": "2026-09-07",
+      "image": {
+        "src": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/09/07/thumbs_b_c_a7642969c1b4cb477429a604bde10904.jpg",
+        "credit": "Anadolu Ajansı"
+      }
+    },
+    {
+      "id": "sam-altman",
+      "slot": "brief",
+      "who": "Sam Altman",
+      "category": "business",
+      "country": "US",
+      "headline": "Sam Altman apologizes after GPT-6 Astra rollout leaves paying users waiting",
+      "summary": "Paying subscribers were left waiting for GPT-6 Astra while selected enterprise customers received access. Altman apologized for the rollout without committing to an access date; OpenAI offered paying users one banked usage reset for each day they waited.",
+      "quote": "First, sorry for the messy rollout",
+      "score": 3,
+      "verdict": "Offers daily usage resets, but calls subscriber lockouts a messy rollout and gives no access deadline.",
+      "sourceUrl": "https://www.theverge.com/ai-artificial-intelligence/990060/altman-apologizes-messy-astra-rollout",
+      "sourceName": "The Verge",
+      "statementDate": "2026-09-03",
+      "image": {
+        "src": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/gettyimages-2285138968.jpg?quality=90&strip=all&crop=0%2C12.219817290162%2C100%2C75.560365419677&w=1200",
+        "credit": "The Verge"
+      }
+    },
+    {
+      "id": "verydarkman",
+      "slot": "brief",
+      "who": "VeryDarkMan",
+      "category": "celebrity",
+      "country": "NG",
+      "headline": "VeryDarkMan apologises to security agencies over NBA conference remarks",
+      "summary": "VeryDarkMan apologised after referring to security personnel as “unknown gunmen” at the Nigerian Bar Association conference. He acknowledged unfairly generalising about personnel risking their lives, but offered no concrete repair or prevention steps. The apology followed a police invitation to substantiate his allegations.",
+      "quote": "But by passing that speech, like I said, it seems like I was generalising and it’s not fair to the fallen soldiers,",
+      "score": 2.5,
+      "verdict": "Acknowledges unfair generalisation about security personnel, but offers no repair after police pressure.",
+      "sourceUrl": "https://punchng.com/vdm-apologises-to-security-agencies-over-nba-speech",
+      "sourceName": "Punch Newspapers",
+      "statementDate": "2026-09-04",
+      "image": {
+        "src": "https://cdn.punchng.com/wp-content/uploads/2025/11/18024044/VDM-1200x630.jpg",
+        "credit": "Punch Newspapers"
+      }
+    },
+    {
+      "id": "gamescom",
+      "slot": "brief",
+      "who": "Gamescom",
+      "category": "other",
+      "country": "DE",
+      "headline": "Gamescom apologizes for response to indie developers’ equipment thefts",
+      "summary": "Gamescom initially responded to developers’ stolen equipment by emphasizing exhibitors’ responsibility for security and insurance. Six days later, after backlash, organizers apologized for their lack of empathy and announced a roundtable with indie exhibitors to develop security measures.",
+      "quote": "Our first response did not strike the right tone, and it did not show the people affected the empathy they deserved. We are sorry.",
+      "score": 3,
+      "verdict": "Acknowledges developers’ losses and promises a roundtable, but describes victim-blaming only as a tone problem.",
+      "statementUrl": "https://www.ign.com/articles/gamescom-apologizes-for-its-initial-response-to-thefts-promises-improved-security-measures",
+      "sourceUrl": "https://www.ign.com/articles/gamescom-apologizes-for-its-initial-response-to-thefts-promises-improved-security-measures",
+      "sourceName": "IGN",
+      "statementDate": "2026-09-04",
+      "image": {
+        "src": "https://assets-prd.ignimgs.com/2026/09/04/gamescom-apologizes-for-initial-response-to-thefts-1788563032796.jpg?width=1280&format=jpg&auto=webp&quality=80",
+        "credit": "IGN"
+      }
+    },
+    {
+      "id": "louise-upston",
+      "slot": "brief",
+      "who": "Louise Upston",
+      "category": "politics",
+      "country": "NZ",
+      "headline": "Louise Upston apologises for wrongly suspended benefit payments",
+      "summary": "Benefit payments were wrongly suspended after processing delays following a change in eligibility-review requirements. Upston apologised in Parliament, described the situation as extremely unsatisfactory and promised details after an MSD report; the ministry said affected people had been paid back.",
+      "quote": "Some benefits have been wrongly suspended. What we don't know at this stage is how many.",
+      "score": 3,
+      "verdict": "Upston names wrongful suspensions and beneficiaries were repaid, but avoids saying who caused them.",
+      "statementUrl": "https://www.rnz.co.nz/news/politics/1209074/louise-upston-apologises-after-benefits-wrongly-suspended-in-second-msd-error",
+      "sourceUrl": "https://www.rnz.co.nz/news/politics/1209074/louise-upston-apologises-after-benefits-wrongly-suspended-in-second-msd-error",
+      "sourceName": "RNZ",
+      "image": {
+        "src": "https://media.rnztools.nz/rnz/image/upload/s--6RREIRQE--/t_tohu-badge-facebook/f_auto/q_auto/4JOQQEJ_Louise_Upston_1_jpg",
+        "credit": "RNZ"
+      }
+    }
+  ],
+  "image": {
+    "src": "/news/suvendu-adhikari-leads-doug-eddings-strikes-out.webp",
+    "alt": "Cover photograph for Apology News: Suvendu Adhikari apologises for government’s eleven-handed Durga advertisement"
+  }
+}

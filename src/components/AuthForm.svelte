@@ -15,7 +15,7 @@
 </script>
 
 <div class="w-full max-w-sm bg-base-100 rounded-2xl shadow-sm border border-base-300 p-7 md:p-9 font-sans text-center">
-  <span class="text-4xl" role="img" aria-label="Love letter">💌</span>
+  <img class="mx-auto h-14 w-14" src="/seal.svg" alt="" width="56" height="56" />
   <h1 class="font-display text-2xl font-semibold text-base-content mt-3 mb-2">
     {mode === "signup" ? "Create your account" : "Welcome back"}
   </h1>

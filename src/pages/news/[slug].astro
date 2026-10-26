@@ -1,0 +1,225 @@
+---
+import NewsLayout from '../../layouts/NewsLayout.astro';
+import ScoreBadge from '../../components/news/ScoreBadge.astro';
+import NewsCase from '../../components/news/NewsCase.astro';
+import SubscribeForm from '../../components/news/SubscribeForm.astro';
+import {
+  issues,
+  issueUrl,
+  itemsBySlot,
+  sortedItems,
+  coveredRange,
+  publishedLabel,
+  shortDate,
+  readingMinutes,
+  type NewsIssue,
+} from '../../lib/news';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return issues.map((issue) => ({ params: { slug: issue.slug }, props: { issue } }));
+}
+
+const { issue } = Astro.props as { issue: NewsIssue };
+const { best, worst, briefs } = itemsBySlot(issue);
+const all = sortedItems(issue);
+const { Content } = issue;
+const more = issues.filter((i) => i.slug !== issue.slug).slice(0, 4);
+
+const canonicalUrl = new URL(issueUrl(issue), Astro.site).href;
+const coverOf = (i: NewsIssue) => i.image?.src ?? `/news-og/${i.slug}.png`;
+const cover = coverOf(issue);
+const ogImage = new URL(cover, Astro.site).href;
+const description = issue.intro || issue.description;
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: issue.title,
+    description,
+    image: [ogImage],
+    datePublished: issue.date,
+    dateModified: issue.date,
+    author: { '@type': 'Organization', name: 'Apologify', url: 'https://apologify.com' },
+    publisher: { '@type': 'Organization', name: 'Apologify', url: 'https://apologify.com' },
+    mainEntityOfPage: canonicalUrl,
+    isPartOf: { '@type': 'Periodical', name: 'Apology News', url: 'https://apologify.com/news' },
+  },
+];
+---
+
+<NewsLayout title={`${issue.title} | Apology News`} description={description} canonicalUrl={canonicalUrl} ogImage={ogImage} schema={schema}>
+  <article class="issue">
+    <header class="head">
+      <h1 class="title">{issue.title}</h1>
+      {issue.intro && <p class="dek">{issue.intro}</p>}
+      <p class="an-caps meta">
+        No. {issue.number} · <time datetime={issue.date}>{publishedLabel(issue.date)}</time> · {readingMinutes(issue)} min read
+      </p>
+    </header>
+
+    <figure class="cover">
+      <img src={cover} alt={issue.image?.alt ?? ''} width="1536" height="1024" fetchpriority="high" />
+    </figure>
+
+    <div class="opening">
+      <p>
+        Every week we read the public apologies so you don’t have to, and score each one on what it admits, explains
+        and repairs. These are the {all.length} that mattered between {coveredRange(issue)}. Disagree? Give your own
+        score under each one.
+      </p>
+      <ol class="glance" aria-label="This week at a glance">
+        {all.map((i) => (
+          <li>
+            <a href={`#${i.id}`}>
+              <span>{i.who}</span>
+              <ScoreBadge score={i.score} size="sm" />
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    {best && <NewsCase item={best} issueSlug={issue.slug} variant="feature" label="The apology of the week" side="left" />}
+    {worst && <NewsCase item={worst} issueSlug={issue.slug} variant="feature" label="The non-apology of the week" side="right" />}
+
+    {briefs.length > 0 && (
+      <section class="briefs" aria-labelledby="briefs-title">
+        <h2 id="briefs-title" class="briefs-title">Also this week</h2>
+        {briefs.map((i) => <NewsCase item={i} issueSlug={issue.slug} variant="brief" />)}
+      </section>
+    )}
+
+    {Content && (
+      <section class="note" aria-labelledby="note-title">
+        <h2 id="note-title" class="briefs-title">Editor’s note</h2>
+        <div class="note-body"><Content /></div>
+      </section>
+    )}
+
+    <section class="signoff">
+      <p class="signoff-line">
+        That’s the week. If someone in your own life is owed an apology, take the lesson from the top scores: name what
+        you did, own it, and offer to make it right.
+      </p>
+      <a class="an-caps signoff-cta" href="/generator">Write yours on Apologify</a>
+    </section>
+
+    <section id="subscribe" class="subscribe" aria-labelledby="subscribe-title">
+      <h2 id="subscribe-title" class="subscribe-title">Apology News, every Tuesday.</h2>
+      <p class="subscribe-copy">The week’s public apologies, scored. Free, five minutes.</p>
+      <SubscribeForm id="issue" />
+    </section>
+
+    {more.length > 0 && (
+      <nav class="more" aria-labelledby="more-title">
+        <h2 id="more-title" class="briefs-title">More issues</h2>
+        <ol class="more-grid">
+          {more.map((i) => (
+            <li>
+              <a class="more-item" href={issueUrl(i)}>
+                <img src={coverOf(i)} alt="" width="768" height="512" loading="lazy" decoding="async" />
+                <span class="an-caps more-meta">No. {i.number} · {shortDate(i.date)}</span>
+                <span class="more-title">{i.title}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
+  </article>
+</NewsLayout>
+
+<style>
+  .issue { padding: 0 var(--an-gutter); }
+
+  .head { max-width: 62rem; margin: 0 auto; padding: clamp(3.5rem, 8vw, 7rem) 0 clamp(2.5rem, 5vw, 4rem); text-align: center; }
+  .title {
+    margin: 0;
+    font-weight: 400;
+    font-size: clamp(2.75rem, 7vw, 6rem);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+  .dek { max-width: 40rem; margin: 2rem auto 0; font-style: italic; font-size: clamp(1.15rem, 1.8vw, 1.4rem); line-height: 1.5; color: var(--an-body); text-wrap: pretty; }
+  .meta { margin: 2rem 0 0; color: var(--an-mute); }
+
+  .cover { margin: 0 calc(var(--an-gutter) * -1); }
+  .cover img {
+    width: 100%;
+    max-height: 82vh;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    display: block;
+    background: var(--an-soft);
+    animation: an-unveil 1.4s var(--an-ease) both;
+  }
+  @keyframes an-unveil {
+    from { clip-path: inset(0 50% 0 50%); }
+  }
+
+  .opening { max-width: 44rem; margin: clamp(4rem, 8vw, 6.5rem) auto 0; }
+  .opening p { margin: 0; font-size: 1.3rem; line-height: 1.6; text-wrap: pretty; }
+  .opening p::first-letter { float: left; font-size: 4.6em; line-height: 0.8; padding: 0.06em 0.1em 0 0; }
+  .glance { list-style: none; margin: 3rem 0 0; padding: 1.5rem 0 0; border-top: 1px solid var(--an-rule); display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: 1.5rem 1.5rem; }
+  .glance a { display: flex; flex-direction: column; gap: 0.3rem; }
+  .glance a > span:first-child { font-family: var(--an-sans); font-weight: 400; font-size: 0.85rem; line-height: 1.35; }
+  .glance a:hover > span:first-child { text-decoration: underline; text-underline-offset: 0.25em; }
+
+  .briefs { margin-top: clamp(4rem, 8vw, 7rem); }
+  .briefs-title {
+    margin: 0 0 0.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--an-ink);
+    font-family: var(--an-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .briefs :global(.brief:first-of-type) { border-top: 0; }
+
+  .note { margin-top: 5rem; }
+  .note-body { max-width: 44rem; margin: 2rem auto 0; font-size: 1.2rem; line-height: 1.65; }
+
+  .signoff { max-width: 44rem; margin: clamp(5rem, 10vw, 8rem) auto 0; text-align: center; }
+  .signoff-line { margin: 0; font-style: italic; font-size: clamp(1.4rem, 2.4vw, 1.9rem); line-height: 1.35; letter-spacing: -0.01em; text-wrap: balance; }
+  .signoff-cta { display: inline-block; margin-top: 2rem; padding-bottom: 0.35rem; border-bottom: 1px solid var(--an-ink); }
+  .signoff-cta:hover { opacity: 0.6; }
+
+  .subscribe {
+    margin: clamp(5rem, 10vw, 8rem) calc(var(--an-gutter) * -1) 0;
+    padding: clamp(4rem, 8vw, 6.5rem) var(--an-gutter);
+    background: var(--an-soft);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    scroll-margin-top: 1rem;
+  }
+  .subscribe-title { margin: 0; font-weight: 400; font-size: clamp(2.2rem, 4.5vw, 4rem); line-height: 1.02; letter-spacing: -0.03em; text-wrap: balance; }
+  .subscribe-copy { margin: 1rem 0 2.25rem; font-family: var(--an-sans); font-weight: 400; color: var(--an-mute); }
+  .subscribe :global(.sf) { text-align: left; }
+
+  .more { margin-top: clamp(5rem, 10vw, 8rem); }
+  .more-grid { list-style: none; margin: 2.5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3rem clamp(1.25rem, 3vw, 3rem); }
+  .more-item { display: flex; flex-direction: column; }
+  .more-item img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; background: var(--an-soft); transition: opacity 0.4s var(--an-ease); }
+  .more-item:hover img { opacity: 0.82; }
+  .more-meta { margin-top: 1.1rem; color: var(--an-mute); font-size: 0.62rem; }
+  .more-title { margin-top: 0.6rem; font-size: 1.35rem; line-height: 1.12; letter-spacing: -0.02em; text-wrap: balance; }
+  .more-item:hover .more-title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+
+  @media (max-width: 860px) {
+    .opening p { font-size: 1.15rem; }
+    .glance { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .more-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem 1.25rem; }
+    .more-title { font-size: 1.15rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cover img { animation: none; }
+  }
+</style>

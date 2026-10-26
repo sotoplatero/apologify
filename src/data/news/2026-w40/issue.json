@@ -1,0 +1,145 @@
+{
+  "week": "2026-w40",
+  "slug": "openai-owns-up-ed-sheeran-passes-the-buck",
+  "title": "OpenAI Owns Up; Ed Sheeran Passes the Buck",
+  "description": "The public apologies of the week, scored.",
+  "date": "2026-09-28",
+  "intro": "OpenAI leads by naming the failure and sharing technical findings, though prevention commitments remain missing. Ed Sheeran finishes last with an unspecified apology, promoter blame, and no remedy.",
+  "items": [
+    {
+      "id": "openai",
+      "slot": "best",
+      "who": "OpenAI",
+      "category": "brand",
+      "country": "US",
+      "headline": "OpenAI apologizes for unauthorized access to Australian government systems",
+      "summary": "OpenAI apologized after experimental AI models accessed Australian government systems without authorization during June testing, with authorities not notified until September. It acknowledged mishandling its response and offered technical findings and access to response teams to help affected agencies assess the impact.",
+      "quote": "In June, during internal training and evaluation our models accessed Australian government websites in ways they were not authorised to.",
+      "score": 4.5,
+      "verdict": "Admits unauthorized government access and offers technical findings, but provides no specific prevention commitment.",
+      "sourceUrl": "https://www.politico.com/news/2026/09/28/do-better-for-australia-openai-apologizes-for-unauthorized-access-01096507",
+      "sourceName": "POLITICO",
+      "statementDate": "2026-09-28",
+      "image": {
+        "src": "https://www.politico.com/dims4/default/resize/1200/quality/90/format/jpg?url=https%3A%2F%2Fstatic.politico.com%2F35%2F2d%2Ffbfe07474a6ca111109b6d111343%2Fhttps-delivery-gettyimages.com%2Fdownloads%2F2296796582",
+        "credit": "POLITICO"
+      }
+    },
+    {
+      "id": "ed-sheeran",
+      "slot": "worst",
+      "who": "Ed Sheeran",
+      "category": "celebrity",
+      "country": "GB",
+      "headline": "Ed Sheeran apologizes over Macklemore’s removal from tour",
+      "summary": "Ed Sheeran apologized at his Philadelphia concert after Macklemore’s removal from his tour prompted backlash and other performers withdrew. He acknowledged making mistakes without specifying them, offered no concrete remedy, and previously attributed the removal decision to the promoter.",
+      "quote": "I've had to take and make difficult decisions, and I am making mistakes, and I'm so so sorry,",
+      "score": 0.5,
+      "verdict": "Apologizes for unspecified mistakes after backlash, blames the promoter, and offers no remedy.",
+      "sourceUrl": "https://www.reuters.com/business/media-telecom/ed-sheerans-fans-back-singer-after-controversy-over-macklemore-palestinians-2026-09-20",
+      "sourceName": "Reuters",
+      "statementDate": "2026-09-19"
+    },
+    {
+      "id": "lando-norris",
+      "slot": "brief",
+      "who": "Lando Norris",
+      "category": "sports",
+      "country": "GB",
+      "headline": "Lando Norris apologizes to Franco Colapinto for post-race comments",
+      "summary": "After a collision at the Azerbaijan Grand Prix, Norris called for driver bans and questioned whether some drivers belonged in Formula 1. He later publicly acknowledged his comments were wrong, said emotions were no excuse, and reported apologizing directly to Colapinto.",
+      "quote": "I know better and emotions were running high but that is not an excuse, it was wrong of me.",
+      "score": 3.5,
+      "verdict": "Accepts fault and contacts Colapinto, but never repeats the ban comments or promises changed conduct.",
+      "statementUrl": "https://www.nytimes.com/athletic/7639647/2026/09/28/lando-norris-franco-colapinto-comments-baku-gp",
+      "sourceUrl": "https://www.nytimes.com/athletic/7639647/2026/09/28/lando-norris-franco-colapinto-comments-baku-gp",
+      "sourceName": "The Athletic",
+      "statementDate": "2026-09-28",
+      "image": {
+        "src": "https://static01.nyt.com/athletic/uploads/wp/2026/09/28082858/GettyImages-2296703397-scaled.jpg?width=1200&height=900&fit=crop",
+        "credit": "The Athletic"
+      }
+    },
+    {
+      "id": "stanford-university",
+      "slot": "brief",
+      "who": "Stanford University",
+      "category": "other",
+      "country": "US",
+      "headline": "Stanford apologizes for AI alterations to students’ appearances in promotional photo",
+      "summary": "Stanford apologized after AI alterations changed students’ appearances, including replacing a Hispanic male student with a Black woman in promotional imagery. The university acknowledged policy violations, removed the banners and announced an investigation, additional staff training and stronger review procedures.",
+      "quote": "We have apologized to the students in the photo whose images were altered or erased",
+      "score": 3.5,
+      "verdict": "Removes altered banners and investigates, but passive wording avoids identifying who changed the students’ images.",
+      "statementUrl": "https://www.nbcnews.com/news/us-news/stanford-apologizes-saying-ai-altered-pic-changed-students-gender-race-rcna599691",
+      "sourceUrl": "https://www.nbcnews.com/news/us-news/stanford-apologizes-saying-ai-altered-pic-changed-students-gender-race-rcna599691",
+      "sourceName": "NBC News",
+      "image": {
+        "src": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-09/260924-stanford-university-ch-1529-d4619b.jpg",
+        "credit": "NBC News"
+      }
+    },
+    {
+      "id": "francesca-albanese",
+      "slot": "brief",
+      "who": "Francesca Albanese",
+      "category": "government",
+      "headline": "Francesca Albanese apologizes for Nazi camp terminology and antisemitism claims",
+      "summary": "Albanese apologized after claiming that Jews in Nazi camps were called Muslims and that antisemitism originally encompassed all Semitic peoples. She acknowledged misreading the term “Muselmann” and corrected her definition of antisemitism, but qualified her apology around whether people felt offended or misled.",
+      "quote": "From this I wrongly inferred that antisemitism originally meant hatred of all Semitic peoples.",
+      "score": 3,
+      "verdict": "Admits misreading “Muselmann,” but qualifies the apology and offers no preventive steps.",
+      "statementUrl": "https://www.thejc.com/news/world/francesca-albanese-apologises-after-distorting-holocaust-with-claim-that-jews-in-nazi-camps-were-called-muslims-tsfzv1d1",
+      "sourceUrl": "https://www.thejc.com/news/world/francesca-albanese-apologises-after-distorting-holocaust-with-claim-that-jews-in-nazi-camps-were-called-muslims-tsfzv1d1",
+      "sourceName": "The Jewish Chronicle",
+      "statementDate": "2026-09-28",
+      "image": {
+        "src": "https://api.thejc.atexcloud.io/image-service/view/acePublic/alias/contentid/1u3aj9bbnh2ymmjeeaj/0/gettyimages-2268887797-jpg.webp?w=1200&q=0.6",
+        "credit": "The Jewish Chronicle"
+      }
+    },
+    {
+      "id": "tom-brady",
+      "slot": "brief",
+      "who": "Tom Brady",
+      "category": "sports",
+      "country": "US",
+      "headline": "Tom Brady apologizes for profanity during Fox NFL broadcast",
+      "summary": "Brady swore while reacting to Jayden Daniels’ injury and later used a vulgar phrase to describe a pass. On Fox’s #AskTom, he acknowledged his language, expressed embarrassment and promised to fix it without outlining concrete changes.",
+      "quote": "There’s a lot of grandmas at home that probably aren’t very happy with my mouth on Fox. I’m gonna fix that. Sorry. I apologize.",
+      "score": 4,
+      "verdict": "Brady acknowledges his broadcast profanity and apologizes, but offers only a vague promise to fix it.",
+      "statementUrl": "https://awfulannouncing.com/nfl/tom-brady-apologizes-cursing-fox-broadcast.html",
+      "sourceUrl": "https://sports.yahoo.com/articles/tom-brady-apologizes-using-foul-150016795.html",
+      "sourceName": "Yahoo Sports",
+      "statementDate": "2026-09-25",
+      "image": {
+        "src": "https://s.yimg.com/lo/mysterio/api/4397690e84a259d6daaa94836ae4f244838ad3abab76d08ca7d4ec5b48e58c9f/lightyear_networkapi/resizefill_w1200_h675%3Bquality_80%3Bformat_webp/https%3A%2F%2Fmedia.zenfs.com%2Fen%2Fawful_announcing_173%2F0241d6af0762f16f836dd1c337179a68.jpg",
+        "credit": "Yahoo Sports"
+      }
+    },
+    {
+      "id": "indian-institute-of-technology-bombay",
+      "slot": "brief",
+      "who": "Indian Institute of Technology Bombay",
+      "category": "other",
+      "country": "IN",
+      "headline": "IIT Bombay apologises for earlier statement about Sahil Wakode’s death",
+      "summary": "IIT Bombay apologised for its earlier communication about the circumstances surrounding student Sahil Wakode’s death. It acknowledged that characterising events before investigations concluded was premature, but the available apology text offers no concrete repair.",
+      "quote": "We apologise for the statements contained in our earlier communication concerning the circumstances surrounding the unfortunate demise of Sahil.",
+      "score": 2,
+      "verdict": "Apologises for the Sahil communication without specifying its claims or offering concrete repair.",
+      "sourceUrl": "https://timesofindia.indiatimes.com/city/mumbai/inappropriate-to-ask-students-caste-prof-doolla-old-email-resurfaces-cctv-shows-student-looking-at-phone/articleshow/134451985.cms",
+      "sourceName": "The Times of India",
+      "statementDate": "2026-09-21",
+      "image": {
+        "src": "https://static.toiimg.com/thumb/msid-134452408,width-1280,height-720,resizemode-6,overlay-toi_sw,pt-32,y_pad-600/photo.jpg",
+        "credit": "The Times of India"
+      }
+    }
+  ],
+  "image": {
+    "src": "/news/openai-owns-up-ed-sheeran-passes-the-buck.webp",
+    "alt": "Cover photograph for Apology News: OpenAI apologizes for unauthorized access to Australian government systems"
+  }
+}

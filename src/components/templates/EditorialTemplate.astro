@@ -1,0 +1,125 @@
+---
+// Editorial: the apology set like a magazine feature — Apology News's own
+// language (warm paper, Spectral set light, Jost capitals, hairlines).
+import ApologyActions from "../ApologyActions.svelte";
+const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
+---
+<main class="ed">
+  <div class="ed-page">
+    <header class="ed-mast">
+      <span>An apology</span>
+      <span>Apologify</span>
+    </header>
+
+    <h1 class="ed-title">{title}</h1>
+
+    {heading && <p class="ed-heading">{heading}</p>}
+    <div class="ed-body">
+      {paragraphs.map((p: string) => <p set:html={p} />)}
+    </div>
+
+    {senderName && (
+      <p class="ed-sign"><span class="ed-sign-label">Yours,</span> {senderName}</p>
+    )}
+
+    <div class="ed-actions">
+      <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+        acceptLabel="Like this"
+        primaryClass="ed-btn ed-btn-solid"
+        secondaryClass="ed-btn ed-btn-line"
+        mutedClass="ed-muted" />
+    </div>
+
+    <a href="/generator" class="ed-made">Made on apologify.com — write your own</a>
+  </div>
+</main>
+
+<style>
+  .ed {
+    min-height: 100vh;
+    background: #faf7f1;
+    color: #241f1a;
+    padding: clamp(1.5rem, 5vw, 4rem) 1.25rem 4rem;
+    font-family: 'Spectral', Georgia, serif;
+  }
+  .ed-page { max-width: 44rem; margin: 0 auto; }
+  .ed-mast {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid #241f1a;
+    font-family: 'Jost', system-ui, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .ed-title {
+    margin: clamp(3rem, 9vw, 6rem) 0 0;
+    font-weight: 300;
+    font-size: clamp(2.6rem, 8vw, 5rem);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+    animation: ed-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .ed-heading {
+    margin: clamp(2.5rem, 6vw, 3.5rem) 0 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #e0d8c8;
+    font-style: italic;
+    font-size: 1.3rem;
+  }
+  .ed-body { font-size: clamp(1.1rem, 2.2vw, 1.25rem); line-height: 1.75; color: #3a332c; }
+  .ed-body :global(p) { margin: 0 0 1.25em; }
+  .ed-body :global(p:first-child)::first-letter {
+    float: left;
+    font-size: 4.2em;
+    line-height: 0.8;
+    padding: 0.06em 0.1em 0 0;
+    font-weight: 300;
+    color: #241f1a;
+  }
+  .ed-body :global(strong) { font-weight: 600; color: #241f1a; }
+  .ed-sign { margin: 2.5rem 0 0; font-style: italic; font-size: 1.9rem; letter-spacing: -0.01em; }
+  .ed-sign-label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-family: 'Jost', system-ui, sans-serif;
+    font-style: normal;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #6b6157;
+  }
+  .ed-actions { margin-top: 3.5rem; padding-top: 2rem; border-top: 1px solid #241f1a; }
+  /* Left-aligned page: align the shared action row to the text column. */
+  .ed-actions :global(div) { justify-content: flex-start; align-items: flex-start; text-align: left; }
+  .ed-actions :global(.ed-btn) {
+    padding: 0.95rem 1.6rem;
+    font-family: 'Jost', system-ui, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: background-color 0.25s, color 0.25s;
+  }
+  .ed-actions :global(.ed-btn-solid) { background: #241f1a; color: #faf7f1; }
+  .ed-actions :global(.ed-btn-solid:hover) { background: #c1272d; }
+  .ed-actions :global(.ed-btn-line) { border: 1px solid #241f1a; color: #241f1a; }
+  .ed-actions :global(.ed-btn-line:hover) { background: #241f1a; color: #faf7f1; }
+  .ed-actions :global(.ed-muted) { font-family: 'Jost', system-ui, sans-serif; font-size: 0.85rem; color: #6b6157; }
+  .ed-made {
+    display: block;
+    margin-top: 3rem;
+    font-family: 'Jost', system-ui, sans-serif;
+    font-size: 0.66rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #6b6157;
+  }
+  .ed-made:hover { color: #241f1a; }
+  @keyframes ed-rise { from { opacity: 0; transform: translateY(0.4em); } }
+  @media (prefers-reduced-motion: reduce) { .ed-title { animation: none; } }
+</style>

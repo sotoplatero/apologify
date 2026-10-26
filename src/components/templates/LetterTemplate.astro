@@ -1,36 +1,80 @@
 ---
+// Letter: a sheet of good writing paper on a warm desk — the default design.
 import ApologyActions from "../ApologyActions.svelte";
 const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
 ---
-<main class="min-h-screen w-full flex flex-col items-center justify-center px-5 py-16 font-display"
-  style="background:radial-gradient(circle at 30% 15%, #fdf6ec, #f0e6d2);">
-  <div class="w-full max-w-2xl">
-    <div class="text-center mb-7">
-      <span class="text-xs tracking-[0.35em] uppercase text-[#a9854f]">✷ Apologify ✷</span>
+<main class="lt">
+  <article class="lt-sheet">
+    <header class="lt-head">
+      <p class="lt-kind">An apology</p>
+      <h1 class="lt-title">{title}</h1>
+      <span class="lt-rule" aria-hidden="true"></span>
+    </header>
+
+    {heading && <p class="lt-heading">{heading}</p>}
+    <div class="lt-body">
+      {paragraphs.map((p: string) => <p set:html={p} />)}
     </div>
+    {senderName && <p class="lt-sign">{senderName}</p>}
 
-    <article class="relative bg-[#fffdf8] shadow-[0_24px_70px_-24px_rgba(120,90,50,0.4)] border border-[#ece0c8] px-8 py-12 sm:px-14 sm:py-16">
-      <div class="text-center mb-8">
-        <p class="text-[0.7rem] uppercase tracking-[0.4em] text-[#b3925a] mb-3">An apology</p>
-        <h1 class="text-3xl sm:text-4xl font-semibold text-[#3a2f22] leading-tight" style="text-wrap: balance;">{title}</h1>
-        <div class="mt-5 mx-auto w-16 h-px bg-[#cdb486]"></div>
-      </div>
-
-      {heading && <p class="text-lg sm:text-xl text-[#5a4a36] mb-6">{heading}</p>}
-      <div class="space-y-5 text-lg leading-[1.85] text-[#4a3d2c]">
-        {paragraphs.map((p: string) => <p set:html={p} />)}
-      </div>
-      {senderName && <p class="mt-12 text-right text-4xl font-cursive text-[#7a5c34]">{senderName}</p>}
-
-      <div class="mt-12 pt-8 border-t border-[#ece0c8] flex justify-center">
-        <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
-          acceptLabel="Like this 💛"
-          primaryClass="px-6 py-3 rounded-full bg-[#7a5c34] text-[#fffdf8] font-medium hover:bg-[#5f4727] transition-colors"
-          secondaryClass="px-6 py-3 rounded-full border border-[#cdb486] text-[#7a5c34] hover:bg-[#f3e9d8] transition-colors"
-          mutedClass="text-sm text-[#b3925a]" />
-      </div>
-    </article>
-
-    <a href="/generator" class="block text-center mt-8 text-xs tracking-wide text-[#b3925a] hover:text-[#7a5c34] transition-colors">Made on apologify.com — write your own →</a>
-  </div>
+    <div class="lt-actions">
+      <ApologyActions client:load slug={slug} acceptedAt={acceptedAt} preview={preview}
+        acceptLabel="Like this"
+        primaryClass="lt-btn lt-btn-solid"
+        secondaryClass="lt-btn lt-btn-line"
+        mutedClass="lt-muted" />
+    </div>
+  </article>
+  <a href="/generator" class="lt-made">Made on apologify.com — write your own</a>
 </main>
+
+<style>
+  .lt {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1.25rem, 5vw, 4.5rem) 1rem 2.5rem;
+    background: #ece3d2;
+    color: #2e261d;
+    font-family: 'Spectral', Georgia, serif;
+  }
+  .lt-sheet {
+    width: 100%;
+    max-width: 42rem;
+    padding: clamp(2.25rem, 7vw, 4.5rem) clamp(1.5rem, 7vw, 4.25rem);
+    background: #fffdf8;
+    box-shadow: 0 28px 60px -32px rgba(90, 66, 34, 0.45), 0 1px 3px rgba(90, 66, 34, 0.08);
+    animation: lt-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .lt-head { text-align: center; margin-bottom: 2.5rem; }
+  .lt-kind { margin: 0; font-family: 'Jost', system-ui, sans-serif; font-size: 0.66rem; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; color: #a3855a; }
+  .lt-title { margin: 1rem 0 0; font-weight: 400; font-size: clamp(2rem, 5.5vw, 2.9rem); line-height: 1.1; letter-spacing: -0.015em; text-wrap: balance; }
+  .lt-rule { display: block; width: 2.5rem; height: 1px; margin: 1.75rem auto 0; background: #c9b089; }
+  .lt-heading { margin: 0 0 1.2rem; font-style: italic; font-size: 1.25rem; color: #4b3d2c; }
+  .lt-body { font-size: clamp(1.06rem, 2vw, 1.16rem); line-height: 1.85; color: #3f3426; }
+  .lt-body :global(p) { margin: 0 0 1.15em; }
+  .lt-body :global(strong) { font-weight: 600; color: #2e261d; }
+  .lt-sign { margin: 2.25rem 0 0; text-align: right; font-family: 'Dancing Script', cursive; font-size: 2.6rem; color: #6d5130; }
+
+  .lt-actions { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #ece2cf; }
+  .lt-actions :global(.lt-btn) {
+    padding: 0.9rem 1.5rem;
+    font-family: 'Jost', system-ui, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: background-color 0.25s, color 0.25s;
+  }
+  .lt-actions :global(.lt-btn-solid) { background: #6d5130; color: #fffdf8; }
+  .lt-actions :global(.lt-btn-solid:hover) { background: #4e391f; }
+  .lt-actions :global(.lt-btn-line) { border: 1px solid #c9b089; color: #6d5130; }
+  .lt-actions :global(.lt-btn-line:hover) { background: #f5ecdc; }
+  .lt-actions :global(.lt-muted) { font-family: 'Jost', system-ui, sans-serif; font-size: 0.85rem; color: #8e7552; }
+  .lt-made { margin-top: 2rem; font-family: 'Jost', system-ui, sans-serif; font-size: 0.64rem; letter-spacing: 0.22em; text-transform: uppercase; color: #8e7552; }
+  .lt-made:hover { color: #4e391f; }
+  @keyframes lt-in { from { opacity: 0; transform: translateY(20px); } }
+  @media (prefers-reduced-motion: reduce) { .lt-sheet { animation: none; } }
+</style>

@@ -2,95 +2,85 @@
   export let initialLetters: any[] = [];
 
   $: filteredLetters = (initialLetters || []).filter(Boolean);
-
-  function getRecipientIcon(recipient: string): string {
-    const icons: Record<string, string> = {
-      boss: "👔",
-      client: "🤝",
-      colleague: "👥",
-      daughter: "👧",
-      father: "👨",
-      friend: "👫",
-      husband: "💑",
-      mother: "👩",
-      romantic: "💕",
-      son: "👦",
-      teacher: "📚",
-      wife: "💑"
-    };
-    return icons[recipient] || "📝";
-  }
-
-  function capitalizeFirst(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
 </script>
 
 <div>
   {#if filteredLetters.length === 0}
-    <div class="alert alert-info shadow-lg">
-      <div class="flex flex-col items-center text-center">
-        <svg class="w-16 h-16 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-        <h3 class="font-bold text-lg">No letters found</h3>
-        <p class="text-sm mt-2">Try adjusting your search criteria.</p>
-      </div>
+    <div class="empty">
+      <h3>No letters found</h3>
+      <p>Try adjusting your search criteria.</p>
     </div>
   {:else}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+    <div class="letters">
       {#each filteredLetters as letter}
         {#if letter}
-          <a
-            href={`/examples/${letter.recipient}/${letter.slug}`}
-            class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 group border border-base-300 hover:border-primary"
-          >
-            <div class="card-body p-4 sm:p-6">
-              <!-- Header -->
-              <div class="flex items-start justify-between mb-3 sm:mb-4">
-                <div class="text-2xl sm:text-3xl group-hover:scale-110 transition-transform duration-300">
-                  {getRecipientIcon(letter.recipient)}
-                </div>
-                <div class="flex flex-row sm:flex-col gap-1">
-                  <div class="badge badge-primary badge-sm">
-                    {capitalizeFirst(letter.recipient)}
-                  </div>
-                  <div class="badge badge-secondary badge-sm">
-                    {capitalizeFirst(letter.tone)}
-                  </div>
-                </div>
-              </div>
-
-              <!-- Context -->
-              <h3 class="card-title text-sm sm:text-base group-hover:text-primary transition-colors line-clamp-2">
-                {letter.title || letter.context}
-              </h3>
-
-              <!-- Letter Preview -->
-              <p class="text-xs sm:text-sm opacity-70 line-clamp-2 sm:line-clamp-3 mb-3 sm:mb-4">
-                {letter.letters?.[0] || ''}
-              </p>
-
-              <!-- Footer -->
-              <div class="card-actions justify-between items-center pt-3 sm:pt-4 border-t border-base-300">
-                <div class="text-xs opacity-60">
-                  {letter.letters?.length || 0} {(letter.letters?.length || 0) === 1 ? 'example' : 'examples'}
-                </div>
-                <div class="flex items-center gap-2">
-                  {#if letter.source === 'generated'}
-                    <div class="badge badge-success badge-sm gap-1">
-                      ✨ AI
-                    </div>
-                  {/if}
-                  <svg class="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
-              </div>
-            </div>
+          <a href={`/examples/${letter.recipient}/${letter.slug}`} class="letter">
+            <p class="meta">
+              {[letter.tone, 'to a ' + letter.recipient, letter.source === 'generated' ? 'written with AI' : ''].filter(Boolean).join(' · ')}
+            </p>
+            <h3 class="title">{letter.title || letter.context}</h3>
+            <p class="text">{letter.letters?.[0] || ''}</p>
+            <p class="foot">
+              {letter.letters?.length || 0} {(letter.letters?.length || 0) === 1 ? 'example' : 'examples'}
+            </p>
           </a>
         {/if}
       {/each}
     </div>
   {/if}
 </div>
+
+<style>
+  .letters {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0 clamp(1.5rem, 3vw, 3rem);
+  }
+  .letter {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 0 2.25rem;
+    border-top: 1px solid #e0d8c8;
+  }
+  .meta,
+  .foot {
+    margin: 0;
+    font-family: 'Jost', system-ui, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #6b6157;
+  }
+  .title {
+    margin: 0.8rem 0 0;
+    font-family: 'Spectral', Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.18;
+    letter-spacing: -0.015em;
+    color: #241f1a;
+    text-wrap: balance;
+    transition: color 0.2s;
+  }
+  .letter:hover .title { color: #c1272d; }
+  .text {
+    margin: 0.9rem 0 1.25rem;
+    font-family: 'Spectral', Georgia, serif;
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #3a332c;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .foot { margin-top: auto; }
+  .empty { padding: 3rem 0; border-top: 1px solid #e0d8c8; text-align: center; }
+  .empty h3 { margin: 0; font-family: 'Spectral', Georgia, serif; font-size: 1.6rem; font-weight: 400; }
+  .empty p { margin: 0.5rem 0 0; font-family: 'Jost', system-ui, sans-serif; color: #6b6157; }
+
+  @media (max-width: 1024px) { .letters { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 640px) { .letters { grid-template-columns: 1fr; } }
+</style>
