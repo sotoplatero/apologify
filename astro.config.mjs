@@ -19,6 +19,10 @@ export default defineConfig({
   // slash; the Vercel adapter 308-redirects the slashed form.
   trailingSlash: 'never',
   build: { format: 'file' },
+  // Guides live in the blog; the short-lived standalone page moved there.
+  redirects: {
+    '/apology-letter': { status: 301, destination: '/articles/how-to-write-an-apology-letter' },
+  },
   integrations: [
     tailwind(),
     sitemap({

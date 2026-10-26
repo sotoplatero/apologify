@@ -3,8 +3,7 @@ import Layout from '../../../layouts/Layout.astro';
 import { normalizeRecipient, recipientLabel } from '../../../lib/recipients.js';
 import LetterCard from '../../../components/LetterCard.astro';
 import { getLettersByRecipient } from '../../../lib/db';
-import { recipientGuide } from '../../../lib/recipientGuides';
-import RecipientGuide from '../../../components/RecipientGuide.astro';
+import { getArticle } from '../../../lib/articles';
 
 export const prerender = false;
 
@@ -28,8 +27,8 @@ if (allLetters.length === 0) {
   return Astro.rewrite('/404');
 }
 
-const guide = recipientGuide(recipient);
-const fill = (s: string) => s.replace('{n}', String(allLetters.length));
+// The how-to for this recipient lives in the blog, when there is one.
+const guide = getArticle(`how-to-write-an-apology-letter-to-a-${recipient}`);
 
 // Breadcrumb schema
 const breadcrumbSchema = {
@@ -72,29 +71,24 @@ const collectionSchema = {
     "name": "Apologify"
   }
 };
-
-const faqSchema = guide && {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: guide.faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
-};
 ---
 
 <Layout
-  title={guide ? fill(guide.title) : `Apology Letter to ${finalRecipientLabel}: ${allLetters.length} Real Examples`}
-  description={guide ? fill(guide.description) : `Read ${allLetters.length} real apology letters to a ${finalRecipientLabel.toLowerCase()} for every situation — copy one, or turn yours into a shareable sorry page.`}
+  title={`Apology Letter to ${finalRecipientLabel}: ${allLetters.length} Real Examples`}
+  description={`Read ${allLetters.length} real apology letters to a ${finalRecipientLabel.toLowerCase()} for every situation — copy one, or turn yours into a shareable sorry page.`}
   canonicalUrl={canonicalUrl}
-  schema={guide ? [breadcrumbSchema, collectionSchema, faqSchema] : [breadcrumbSchema, collectionSchema]}
+  schema={[breadcrumbSchema, collectionSchema]}
 >
   <main class="container mx-auto px-4 sm:px-6 py-12">
-    {guide ? (
-      <RecipientGuide guide={guide} recipient={recipient} count={allLetters.length} />
-    ) : (
-      <div class="text-center space-y-4 mb-12">
-        <h1 class="text-4xl md:text-5xl font-display font-bold text-base-content leading-tight tracking-tight">Apology Letters for {finalRecipientLabel}</h1>
-        <p class="text-xl text-base-content/70">Browse apology letters specifically for {finalRecipientLabel?.toLowerCase()}</p>
-      </div>
-    )}
+    <div class="text-center space-y-4 mb-12">
+      <h1 class="text-4xl md:text-5xl font-display font-bold text-base-content leading-tight tracking-tight">Apology Letters for {finalRecipientLabel}</h1>
+      <p class="text-xl text-base-content/70">Browse apology letters specifically for {finalRecipientLabel?.toLowerCase()}</p>
+      {guide && (
+        <p class="text-base text-base-content/70">
+          Writing your own? Read <a href={`/articles/${guide.slug}`} class="ap-link">{guide.data.title}</a>.
+        </p>
+      )}
+    </div>
 
 
 

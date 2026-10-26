@@ -1,9 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getLettersPaginated, getRecipientCounts, getToneCounts } from '../../lib/db';
-import { tones as officialTones } from '../../lib/apologyData.js';
+import { getLettersPaginated, getRecipientCounts } from '../../lib/db';
 import LetterDirectory from '../../components/LetterDirectory.svelte';
-import { normalizeRecipient } from '../../lib/recipients.js';
+import { normalizeRecipient, recipientLabel } from '../../lib/recipients.js';
 
 export const prerender = false;
 
@@ -12,41 +11,28 @@ const PAGE_SIZE = 24;
 // Read query params
 const url = new URL(Astro.request.url);
 const currentPage = Math.max(1, parseInt(url.searchParams.get('page') || '1'));
-const recipientFilter = url.searchParams.get('recipient') || undefined;
-const toneFilter = url.searchParams.get('tone') || undefined;
-const searchTerm = url.searchParams.get('q') || undefined;
+const recipientFilter = url.searchParams.get('recipient');
 
-// A recipient-only filter duplicates the indexable hub /examples/[recipient]:
-// send it there so Google sees one URL per recipient.
-if (recipientFilter && !toneFilter && !searchTerm) {
-  const hub = normalizeRecipient(recipientFilter);
-  if (hub) return Astro.redirect(`/examples/${hub}`, 301);
+// The directory has no filters: one indexable URL per recipient lives at
+// /examples/[recipient]. Old filter URLs (?recipient=, ?tone=, ?q=) 301 there
+// or back to the plain list.
+if (recipientFilter || url.searchParams.has('tone') || url.searchParams.has('q')) {
+  const hub = recipientFilter ? normalizeRecipient(recipientFilter) : null;
+  return Astro.redirect(hub ? `/examples/${hub}` : '/examples', 301);
 }
 
-// Fetch paginated letters with filters
-const { letters, total, lastPage } = await getLettersPaginated(currentPage, PAGE_SIZE, {
-  recipient: recipientFilter,
-  tone: toneFilter,
-  searchTerm,
-});
+const { letters, total, lastPage } = await getLettersPaginated(currentPage, PAGE_SIZE);
 
-// Get counts for stats
-const [recipientCounts, rawToneCounts] = await Promise.all([
-  getRecipientCounts(),
-  getToneCounts(),
-]);
-
-// Only show official tones in the filter
-const officialToneValues = new Set(officialTones.map(t => t.value));
-const toneCounts: Record<string, number> = {};
-for (const [tone, count] of Object.entries(rawToneCounts)) {
-  if (officialToneValues.has(tone)) {
-    toneCounts[tone] = count;
-  }
+const recipientCounts = await getRecipientCounts();
+// Merge legacy free-text recipients ("Boyfriend ", "gf") into their canonical id.
+const merged = new Map<string, number>();
+for (const [raw, count] of Object.entries(recipientCounts)) {
+  const id = normalizeRecipient(raw);
+  if (id) merged.set(id, (merged.get(id) ?? 0) + count);
 }
-
-const recipientCount = Object.keys(recipientCounts).length;
-const toneCount = Object.keys(toneCounts).length;
+const recipientIndex = [...merged]
+  .map(([value, count]) => ({ value, count, label: recipientLabel(value) }))
+  .sort((a, b) => b.count - a.count);
 
 // Prepare letters for client
 const lettersForClient = letters.map(letter => ({
@@ -62,13 +48,7 @@ const lettersForClient = letters.map(letter => ({
 
 // Build pagination URL helper
 function buildPageUrl(page: number): string {
-  const params = new URLSearchParams();
-  if (page > 1) params.set('page', String(page));
-  if (recipientFilter) params.set('recipient', recipientFilter);
-  if (toneFilter) params.set('tone', toneFilter);
-  if (searchTerm) params.set('q', searchTerm);
-  const qs = params.toString();
-  return `/examples${qs ? '?' + qs : ''}`;
+  return page > 1 ? `/examples?page=${page}` : '/examples';
 }
 
 // Generate page numbers to display
@@ -87,12 +67,9 @@ function getPageNumbers(current: number, last: number): (number | '...')[] {
 }
 
 const pageNumbers = getPageNumbers(currentPage, lastPage);
-
-// Active filter info
-const hasFilters = recipientFilter || toneFilter || searchTerm;
 ---
 
-<Layout title="Apology Letter Examples: 800+ Real Samples for Every Situation" description="Read real apology letter examples to a girlfriend, boyfriend, friend, wife, mom, boss or teacher — then turn yours into a shareable sorry page in seconds." noindex={Boolean(toneFilter || searchTerm)}>
+<Layout title="Apology Letter Examples: 800+ Real Samples for Every Situation" description="Read real apology letter examples to a girlfriend, boyfriend, friend, wife, mom, boss or teacher — then turn yours into a shareable sorry page in seconds.">
   <main class="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
     <!-- Header Section -->
     <div class="text-center space-y-3 sm:space-y-4 mb-10 sm:mb-16">
@@ -103,59 +80,21 @@ const hasFilters = recipientFilter || toneFilter || searchTerm;
         Browse our collection of {total.toLocaleString()} apology letters for every situation
       </p>
       <p class="text-base text-base-content/70">
-        Writing your own? Read <a href="/apology-letter" class="ap-link">how to write an apology letter</a> — format, template and tips.
+        Writing your own? Read <a href="/articles/how-to-write-an-apology-letter" class="ap-link">how to write an apology letter</a>.
       </p>
     </div>
 
-    <!-- Filter Bar -->
-    <div class="mb-8">
-      <form method="get" action="/examples" class="grid grid-cols-2 sm:flex sm:items-end gap-3 sm:gap-4 w-full">
-        <!-- Recipient Filter -->
-        <div>
-          <label class="label font-sans text-sm"><span class="label-text">Recipient</span></label>
-          <select name="recipient" class="select select-bordered font-sans w-full">
-            <option value="">All Recipients</option>
-            {Object.entries(recipientCounts).sort((a, b) => a[0].localeCompare(b[0])).map(([value, count]) => (
-              <option value={value} selected={recipientFilter === value}>
-                {value.charAt(0).toUpperCase() + value.slice(1)} ({count})
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <!-- Tone Filter -->
-        <div>
-          <label class="label font-sans text-sm"><span class="label-text">Tone</span></label>
-          <select name="tone" class="select select-bordered font-sans w-full">
-            <option value="">All Tones</option>
-            {Object.entries(toneCounts).sort((a, b) => b[1] - a[1]).map(([value, count]) => (
-              <option value={value} selected={toneFilter === value}>
-                {value.charAt(0).toUpperCase() + value.slice(1)} ({count})
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <!-- Search -->
-        <div class="col-span-2 sm:col-span-1">
-          <label class="label font-sans text-sm"><span class="label-text">Search</span></label>
-          <input
-            type="text"
-            name="q"
-            value={searchTerm || ''}
-            placeholder="Search letters..."
-            class="input input-bordered font-sans w-full sm:w-48"
-          />
-        </div>
-
-        <div class="col-span-2 sm:col-span-1 flex gap-2 sm:gap-4">
-          <button type="submit" class="btn btn-primary font-sans flex-1 sm:flex-none">Filter</button>
-          {hasFilters && (
-            <a href="/examples" class="btn btn-ghost font-sans flex-1 sm:flex-none">Clear</a>
-          )}
-        </div>
-      </form>
-    </div>
+    <!-- Recipient index: each links to its own directory page. -->
+    <nav aria-label="Letters by recipient" class="mb-12">
+      <ul class="flex flex-wrap justify-center gap-x-6 gap-y-3 font-sans">
+        {recipientIndex.map((r) => (
+          <li>
+            <a href={`/examples/${r.value}`} class="ap-link">{r.label}</a>
+            <span class="text-base-content/50 text-sm"> {r.count}</span>
+          </li>
+        ))}
+      </ul>
+    </nav>
 
     <!-- Letter Grid -->
     <LetterDirectory client:load initialLetters={lettersForClient} />
@@ -163,7 +102,7 @@ const hasFilters = recipientFilter || toneFilter || searchTerm;
     <!-- Pagination Controls -->
     {lastPage > 1 && (
       <div class="flex justify-center mt-12">
-        <div class="join font-sans">
+        <div class="join font-sans flex-wrap justify-center">
           {/* Previous */}
           {currentPage > 1 ? (
             <a href={buildPageUrl(currentPage - 1)} class="join-item btn btn-sm">
@@ -213,7 +152,6 @@ const hasFilters = recipientFilter || toneFilter || searchTerm;
 
       <div class="text-center mt-4 text-sm text-base-content/60 font-sans">
         Showing {((currentPage - 1) * PAGE_SIZE) + 1}–{Math.min(currentPage * PAGE_SIZE, total)} of {total.toLocaleString()} letters
-        {hasFilters && <span> (filtered)</span>}
       </div>
     )}
 

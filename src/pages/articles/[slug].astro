@@ -93,7 +93,7 @@ const breadcrumbItems = [
 
 <h1>{article.data.title}</h1>
 
-<UnsplashImage article={article} />
+{article.data.image && <UnsplashImage article={article} />}
 <CtaMini />
 
     <Content />

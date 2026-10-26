@@ -8,7 +8,7 @@
   {#if filteredLetters.length === 0}
     <div class="empty">
       <h3>No letters found</h3>
-      <p>Try adjusting your search criteria.</p>
+      <p>Check back soon.</p>
     </div>
   {:else}
     <div class="letters">

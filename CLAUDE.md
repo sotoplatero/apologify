@@ -77,6 +77,7 @@ Key functions: `saveApologyPage`, `getApologyPageBySlug`, `publishApologyPage` (
 
 - Live table **`letters`** (`source`: `static` seed | `generated`), accessed via `src/lib/db.ts` / `src/lib/letters.ts`. `user_letters` is the old pre-migration table — not read by the site.
 - Routes: `/examples`, `/examples/[...page]`, `/examples/[recipient]`, `/examples/[recipient]/[slug]` (SSR, ISR-cached).
+- The directory is letters only: no guides or editorial intros, and no filters (`/examples?recipient=X` 301s to `/examples/X`; `?tone=`/`?q=` 301 to `/examples`). How-to/SEO content goes in the blog; a recipient page links to `/articles/how-to-write-an-apology-letter-to-a-<recipient>` when that article exists.
 - `src/lib/recipients.js`: `normalizeRecipient()` maps legacy free-text recipients ("Boyfriend ", "gf") to canonical ids for 301s; `recipientLabel()`. Full recipient list: `allRecipients` in `src/lib/apologyData.js` (`recipients` = only those with generator pages).
 - **Pruned letters**: `letters.unlisted = 1` (not indexed by Google or not a genuine apology, and no search clicks) → page answers **410 Gone**; every listing/count/related/sitemap query filters `unlisted = 0`. Reversible: `node scripts/unlist-letters.js --restore scripts/research/unlisted-letters.json`.
 
