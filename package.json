@@ -10,7 +10,6 @@
     "build:local": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "injest": "node ./injest.js",
     "db:init": "node ./scripts/init-db.js",
     "db:init-pages": "node ./scripts/init-apology-pages.js",
     "db:push": "astro db push --remote",
