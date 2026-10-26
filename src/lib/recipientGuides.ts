@@ -1,5 +1,9 @@
 // Editorial guides shown above the letter grid on /examples/[recipient].
 // One entry per recipient hub we want to rank (the grid alone is thin content).
+import study from "../data/apology-study.json";
+
+const friendTop = study.groups.friend.top;
+const friendPct = (key: string) => friendTop.find((c) => c.key === key)?.pct ?? 0;
 
 export type RecipientGuide = {
   title: string; // <title>; `{n}` is replaced with the letter count
@@ -13,6 +17,83 @@ export type RecipientGuide = {
 };
 
 const guides: Record<string, RecipientGuide> = {
+  friend: {
+    title: "Apology Letter to a Friend: How to Write It + {n} Examples",
+    description:
+      "How to write an apology letter to a friend or best friend — what to say after hurtful words, a broken secret or going silent, with sample letters, a short text version and {n} real examples.",
+    h1: "Apology letter to a friend",
+    intro: `Friendships rarely end over one mistake; they end over the apology that never came. In our study of ${study.groups.friend.n} real apologies to friends, the top reasons were saying something hurtful (${friendPct("hurtful_words")}%), lying or breaking trust (${friendPct("dishonesty")}%) and going silent (${friendPct("silence")}%). Here's how to write yours.`,
+    steps: [
+      { h: "Talk like yourself", p: "Use the voice you use with them. A stiff, formal letter reads as distance." },
+      { h: "Name the moment", p: "“What I said about your job at Sara's party” — not “everything that happened.”" },
+      { h: "Say what it cost them", p: "Embarrassment, feeling betrayed, feeling dropped. Show you see it from their side." },
+      { h: "Own it, no “but”", p: "One line of context is fine. Turning it into their fault is not." },
+      { h: "Offer a next step", p: "Coffee, a call, a promise you can keep. Then give them room to answer." },
+    ],
+    samples: [
+      {
+        situation: "For saying something hurtful",
+        body: [
+          "Hey Priya,",
+          "I'm sorry for what I said at Jake's on Saturday. Joking that you'd “never actually finish” your degree in front of everyone wasn't a joke — it was mean, and it touched exactly what you'd told me you were worried about.",
+          "You trusted me with that, and I used it to get a laugh.",
+          "I'm proud of how hard you're working, and I should have said that instead. Can I take you for coffee this week?",
+          "Mia",
+        ],
+      },
+      {
+        situation: "For sharing a secret",
+        body: [
+          "Dear Ben,",
+          "I told Chris about your interview before you were ready to tell anyone. I'm sorry. You asked me to keep it between us and I didn't.",
+          "I know that made you feel like you can't tell me things, and I understand why.",
+          "From now on, what you tell me stays with me. I'll prove that over time, not just in this letter.",
+          "Sam",
+        ],
+      },
+      {
+        situation: "For disappearing when they needed me",
+        body: [
+          "Hi Taylor,",
+          "I'm sorry I went quiet after your breakup. You reached out three times and I kept saying “I'll call you tomorrow.”",
+          "I was overwhelmed with my own stuff, but you needed a friend and I wasn't there. That must have felt lonely.",
+          "I'm here now, and I'd love to see you this weekend if you're up for it.",
+          "Jordan",
+        ],
+      },
+      {
+        situation: "Short version to text a best friend",
+        body: [
+          "Hey, I've been thinking about Friday. I'm really sorry for snapping at you in front of everyone — you didn't deserve that. Can we talk tonight? ❤️",
+        ],
+      },
+    ],
+    tips: [
+      "Send it soon — a day or two after, not a month.",
+      "If it was big, write it down; if it was small, a text and a call is enough.",
+      "Don't list the things they did wrong too. That's a different conversation.",
+      "Let them reply in their own time. Pushing for an answer undoes the apology.",
+      "Then show up. The next time you see them matters more than the letter.",
+    ],
+    faqs: [
+      {
+        q: "How do you write an apology letter to a friend?",
+        a: "Write the way you talk to them. Say exactly what you did, acknowledge how it made them feel, take responsibility without “but,” and offer a next step like a call or coffee. Keep it to a few short paragraphs.",
+      },
+      {
+        q: "How do I apologize to my best friend after a big fight?",
+        a: "Give it a day so you're calm, then apologize for your part specifically — what you said or did — rather than for “the fight.” A letter works well when talking feels too heated; follow it with an offer to meet.",
+      },
+      {
+        q: "Should I text or write a letter to apologize to a friend?",
+        a: "For small things, a sincere text and a call is enough. For something that hurt them — a betrayed secret, cruel words, disappearing — a letter shows you took the time to think it through.",
+      },
+      {
+        q: "What if my friend doesn't reply to my apology?",
+        a: "Give them time. You can send one gentle follow-up after a week or two, but don't keep pushing. A real apology doesn't come with a deadline for forgiveness.",
+      },
+    ],
+  },
   teacher: {
     title: "Apology Letter to a Teacher: How to Write It + {n} Examples",
     description:
