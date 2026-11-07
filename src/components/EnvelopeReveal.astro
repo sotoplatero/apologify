@@ -1,8 +1,7 @@
 ---
-// "Tap to open" envelope shown over a live apology page. The recipient's name
-// is written on a sealed envelope; opening it plays one authored moment — the
-// Apologify wax seal cracks, the flap opens, the letter slides out and grows
-// until it *becomes* the page ("Dear Emna," on the letter → the page's own).
+// The cover shown over a live apology page: the Apologify seal, the recipient's
+// name and "Open it". Opening presses the seal, the cover's contents step back
+// and the whole sheet lifts away, revealing the letter underneath.
 // Shown once per browser session; the first open is recorded so the sender is
 // told it was opened.
 interface Props {
@@ -13,68 +12,20 @@ interface Props {
 const { slug, recipientName, senderName } = Astro.props;
 const name = recipientName?.trim() || "you";
 const from = senderName?.trim();
-// Script is ~0.45em per glyph; the name line shrinks to fit the envelope.
-const len = Math.max(6, name.length + 2);
 ---
 
 <div id="envelope-reveal" data-slug={slug} role="dialog" aria-modal="true" aria-labelledby="envelope-title">
-  <div class="er-stage">
-    <div class="er-envelope" style={`--len:${len}`}>
-      <div class="er-back"></div>
-
-      <div class="er-letter" aria-hidden="true">
-        <span class="er-letter-hi">Dear {name},</span>
-        <i></i><i></i><i></i><i></i>
-      </div>
-
-      <svg class="er-pocket" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-        <defs>
-          <linearGradient id="er-side" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stop-color="#EDE4D3" /><stop offset="1" stop-color="#E6DCC9" />
-          </linearGradient>
-          <linearGradient id="er-bottom" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#F4EEE2" /><stop offset="1" stop-color="#EFE7D8" />
-          </linearGradient>
-        </defs>
-        <polygon points="0,0 50,52 0,100" fill="url(#er-side)" />
-        <polygon points="100,0 50,52 100,100" fill="url(#er-side)" />
-        <polygon points="0,100 50,49 100,100" fill="url(#er-bottom)" />
-        <polyline points="0,0 50,52 100,0" fill="none" class="er-fold" />
-        <polyline points="0,100 50,49 100,100" fill="none" class="er-fold" />
-      </svg>
-
-      <p class="er-for" id="envelope-title"><span>For</span> {name}</p>
-
-      <div class="er-flap" aria-hidden="true">
-        <svg class="er-flap-face" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="er-flap-out" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#F3ECDF" /><stop offset="1" stop-color="#EAE1CF" />
-            </linearGradient>
-          </defs>
-          <polygon points="0,0 100,0 50,104" fill="rgba(36,31,26,0.07)" />
-          <polygon points="0,0 100,0 50,100" fill="url(#er-flap-out)" />
-          <polyline points="0,0 50,100 100,0" fill="none" class="er-fold" />
-        </svg>
-        <svg class="er-flap-face er-flap-inside" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <polygon points="0,0 100,0 50,100" fill="#E3D8C4" />
-        </svg>
-      </div>
-
-      <div class="er-seal" aria-hidden="true">
-        <img class="er-seal-l" src="/seal.svg" alt="" width="64" height="64" />
-        <img class="er-seal-r" src="/seal.svg" alt="" width="64" height="64" />
-      </div>
-    </div>
-
-    <button type="button" class="er-open">Open it</button>
+  <div class="er-inner">
+    <img class="er-seal" src="/seal.svg" alt="" width="64" height="64" />
+    <p class="er-for" id="envelope-title"><span>For</span> {name}</p>
     {from && <p class="er-from">from {from}</p>}
+    <button type="button" class="er-open">Open it</button>
   </div>
 </div>
 <noscript><style>#envelope-reveal { display: none !important; }</style></noscript>
 
 <script is:inline define:vars={{ slug }}>
-  // Everything needed to open the envelope lives here, inline, so it works even
+  // Everything needed to open the cover lives here, inline, so it works even
   // if the page's bundled JS fails to load (stale cache, blocker, slow network).
   (function () {
     var root = document.getElementById("envelope-reveal");
@@ -85,82 +36,19 @@ const len = Math.max(6, name.length + 2);
     } catch (_) {}
     document.documentElement.classList.add("er-locked");
 
-    var $ = function (s) { return root.querySelector(s); };
-    var button = $(".er-open");
-    var envelope = $(".er-envelope");
+    var button = root.querySelector(".er-open");
     var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var canAnimate = typeof Element !== "undefined" && "animate" in Element.prototype;
-
-    function finish() {
-      document.documentElement.classList.remove("er-locked");
-      root.remove();
-    }
-
-    function play() {
-      var EASE_OUT = "cubic-bezier(0.16, 1, 0.3, 1)";
-      var EASE_IN_OUT = "cubic-bezier(0.65, 0, 0.35, 1)";
-      var o = function (el, kf, opts) { return el ? el.animate(kf, Object.assign({ fill: "forwards" }, opts)) : null; };
-      var letter = $(".er-letter"), flap = $(".er-flap");
-
-      // 0 — everything that isn't the envelope steps back
-      [button, $(".er-from")].forEach(function (el) {
-        o(el, [{ opacity: 1 }, { opacity: 0, transform: "translateY(6px)" }], { duration: 220, easing: EASE_OUT });
-      });
-
-      // 1 — the seal is pressed, then cracks in two and falls away
-      o($(".er-seal"), [{ transform: "translate(-50%,-50%) scale(1)" }, { transform: "translate(-50%,-50%) scale(0.9)", offset: 0.45 }, { transform: "translate(-50%,-50%) scale(1)" }], { duration: 260, easing: EASE_OUT });
-      o($(".er-seal-l"), [{ transform: "none", opacity: 1 }, { transform: "translate(-30%, 70%) rotate(-28deg)", opacity: 0 }], { duration: 560, delay: 170, easing: "cubic-bezier(0.5, 0, 0.75, 0)" });
-      o($(".er-seal-r"), [{ transform: "none", opacity: 1 }, { transform: "translate(26%, 80%) rotate(22deg)", opacity: 0 }], { duration: 600, delay: 190, easing: "cubic-bezier(0.5, 0, 0.75, 0)" });
-
-      // 2 — the flap swings open (and tucks behind the letter once it's past vertical)
-      o(flap, [{ transform: "rotateX(0deg)" }, { transform: "rotateX(180deg)" }], { duration: 720, delay: 300, easing: EASE_IN_OUT });
-      window.setTimeout(function () { flap.style.zIndex = "1"; }, 660);
-
-      // 3 — the letter slides out of the pocket
-      o(letter, [{ transform: "translateY(0)" }, { transform: "translateY(-52%)" }], { duration: 700, delay: 860, easing: EASE_OUT });
-
-      // 4 — the letter comes to you and becomes the page
-      window.setTimeout(function () {
-        var r = letter.getBoundingClientRect();
-        var vw = window.innerWidth, vh = window.innerHeight;
-        var s = Math.max(vw / r.width, vh / r.height) * 1.08;
-        var dx = vw / 2 - (r.left + r.width / 2), dy = vh / 2 - (r.top + r.height / 2);
-        letter.style.zIndex = "8";
-        o(letter, [
-          { transform: "translateY(-52%)" },
-          { transform: "translate(" + dx + "px, " + dy + "px) translateY(-52%) scale(" + s + ")" }
-        ], { duration: 760, easing: "cubic-bezier(0.7, 0, 0.2, 1)" });
-        Array.prototype.forEach.call(letter.children, function (c) {
-          o(c, [{ opacity: 1 }, { opacity: 0 }], { duration: 220, delay: 60, easing: "linear" });
-        });
-        [".er-back", ".er-pocket", ".er-flap", ".er-for"].forEach(function (s2) {
-          o($(s2), [{ opacity: 1, transform: getComputedStyle($(s2)).transform === "none" ? "translateY(0)" : getComputedStyle($(s2)).transform },
-                    { opacity: 0, transform: (s2 === ".er-flap" ? "rotateX(180deg) " : "") + "translateY(" + (s2 === ".er-flap" ? -24 : 24) + "px)" }],
-            { duration: 380, easing: EASE_OUT });
-        });
-        envelope.style.filter = "none";
-        var fade = o(root, [{ opacity: 1 }, { opacity: 0 }], { duration: 420, delay: 520, easing: "linear" });
-        fade.onfinish = finish;
-      }, 1600);
-
-      window.setTimeout(finish, 3200); // safety net
-    }
-
     function open() {
       if (root.classList.contains("is-opening")) return;
       root.classList.add("is-opening");
       try { sessionStorage.setItem(key, "1"); } catch (_) {}
       window.dispatchEvent(new CustomEvent("apology:opened", { detail: { slug: slug } }));
-      if (reduce || !canAnimate) {
-        root.classList.add("is-fading");
-        window.setTimeout(finish, 320);
-        return;
-      }
-      try { play(); } catch (_) { finish(); }
+      window.setTimeout(function () {
+        document.documentElement.classList.remove("er-locked");
+        root.remove();
+      }, reduce ? 260 : 1150);
     }
-
     button.addEventListener("click", open);
-    envelope.addEventListener("click", open);
     root.addEventListener("keydown", function (e) {
       if (e.key === "Escape") open();
       if (e.key === "Tab") { e.preventDefault(); button.focus(); } // single control: keep focus here
@@ -181,7 +69,6 @@ const len = Math.max(6, name.length + 2);
   html.er-locked, html.er-locked body { overflow: hidden; }
 
   #envelope-reveal {
-    --paper: #F5F1E8;
     --ink: #241F1A;
     --ink-soft: #6E655A;
     --ink-blue: #2C4A6E;
@@ -192,181 +79,70 @@ const len = Math.max(6, name.length + 2);
     z-index: 50;
     display: grid;
     place-items: center;
-    padding: 24px 16px;
-    overflow: hidden;
-    /* a pool of desk light where the envelope lies */
+    padding: 32px 20px;
     background:
-      radial-gradient(ellipse 70% 55% at 50% 44%, #FBF8F2 0%, rgba(251, 248, 242, 0) 70%),
-      var(--paper);
+      radial-gradient(ellipse 70% 55% at 50% 45%, #FBF8F2 0%, rgba(251, 248, 242, 0) 72%),
+      #F5F1E8;
     color: var(--ink);
+    /* the sheet's lower edge casts a shadow as it lifts away */
+    box-shadow: 0 24px 60px -10px rgba(36, 31, 26, 0);
+    transition:
+      transform 0.85s cubic-bezier(0.7, 0, 0.2, 1) 0.28s,
+      box-shadow 0.4s ease 0.28s;
   }
-  #envelope-reveal.is-fading { opacity: 0; transition: opacity 0.3s linear; }
   #envelope-reveal ::selection { background: rgba(193, 39, 45, 0.18); }
 
-  #envelope-reveal .er-stage {
+  #envelope-reveal .er-inner {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 34px;
     text-align: center;
+    max-width: 22rem;
+    transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
   }
-
-  /* ── The envelope (seen from the back, flap sealed) ─────────────────── */
-  #envelope-reveal .er-envelope {
-    position: relative;
-    width: min(86vw, 420px);
-    aspect-ratio: 1.48;
-    container-type: inline-size;
-    cursor: pointer;
-    perspective: 1100px;
-    transition: transform 0.35s var(--ease-out);
-    animation: er-arrive 0.9s var(--ease-out) both;
-  }
-  #envelope-reveal .er-back {
-    position: absolute;
-    inset: 0;
-    border-radius: 5px;
-    background: linear-gradient(180deg, #DCCFB8, #E4D9C5 60%);
-    box-shadow:
-      0 0 0 1px rgba(36, 31, 26, 0.10),
-      0 2px 3px rgba(36, 31, 26, 0.06),
-      0 18px 34px -14px rgba(36, 31, 26, 0.30),
-      0 40px 70px -30px rgba(36, 31, 26, 0.22);
-    z-index: 0;
-  }
-
-  #envelope-reveal .er-letter {
-    position: absolute;
-    left: 6%;
-    right: 6%;
-    top: 5%;
-    height: 88%;
-    padding: 9% 9% 0;
-    background: #FFFDF8;
-    border-radius: 2px;
-    box-shadow: 0 0 0 1px rgba(36, 31, 26, 0.08), 0 6px 18px -8px rgba(36, 31, 26, 0.25);
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 7cqw;
-    text-align: left;
-    transform-origin: 50% 50%;
-    will-change: transform;
-  }
-  #envelope-reveal .er-letter-hi {
-    font-family: "Dancing Script", cursive;
-    font-weight: 600;
-    font-size: 6.4cqw;
-    line-height: 1;
-    color: var(--ink-blue);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  #envelope-reveal .er-letter i {
-    display: block;
-    height: 1px;
-    background: rgba(44, 74, 110, 0.28);
-  }
-  #envelope-reveal .er-letter i:nth-of-type(2) { width: 88%; }
-  #envelope-reveal .er-letter i:nth-of-type(3) { width: 94%; }
-  #envelope-reveal .er-letter i:nth-of-type(4) { width: 52%; }
-
-  #envelope-reveal .er-pocket {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 5px;
-    overflow: hidden;
-    z-index: 3;
-  }
-  #envelope-reveal .er-fold {
-    stroke: rgba(36, 31, 26, 0.13);
-    stroke-width: 1;
-    vector-effect: non-scaling-stroke;
-    stroke-linejoin: round;
-  }
-
-  /* The name, handwritten across the lower flap */
-  #envelope-reveal .er-for {
-    position: absolute;
-    left: 6%;
-    right: 6%;
-    top: 73%;
-    margin: 0;
-    z-index: 4;
-    font-family: "Dancing Script", cursive;
-    font-weight: 600;
-    font-size: clamp(20px, min(13cqw, calc(150cqw / var(--len))), 62px);
-    line-height: 1.1;
-    color: var(--ink-blue);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    translate: 0 -50%;
-    padding: 0.1em 0.15em;
-    animation: er-write 1.25s cubic-bezier(0.45, 0.05, 0.35, 1) 0.45s both;
-  }
-  #envelope-reveal .er-for span {
-    font-size: 0.56em;
-    color: var(--ink-soft);
-    margin-right: 0.08em;
-  }
-
-  #envelope-reveal .er-flap {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    height: 54%;
-    transform-origin: 50% 0;
-    transform-style: preserve-3d;
-    z-index: 5;
-    transition: transform 0.45s var(--ease-out);
-  }
-  #envelope-reveal .er-flap-face {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-  }
-  #envelope-reveal .er-flap-inside { transform: rotateX(180deg); }
 
   #envelope-reveal .er-seal {
-    position: absolute;
-    left: 50%;
-    top: 53%;
-    width: 18%;
-    aspect-ratio: 1;
-    transform: translate(-50%, -50%);
-    z-index: 6;
-    filter: drop-shadow(0 3px 4px rgba(110, 16, 20, 0.28));
-    transition: transform 0.35s var(--ease-out);
+    width: 64px;
+    height: 64px;
+    filter: drop-shadow(0 3px 5px rgba(110, 16, 20, 0.25));
+    transition: transform 0.25s var(--ease-out);
+    animation: er-rise 0.8s var(--ease-out) backwards;
   }
-  #envelope-reveal .er-seal img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+
+  #envelope-reveal .er-for {
+    margin: 28px 0 0;
+    font-family: "Dancing Script", cursive;
+    font-weight: 600;
+    font-size: clamp(48px, 13vw, 76px);
+    line-height: 1.05;
+    letter-spacing: 0;
+    color: var(--ink-blue);
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+    animation: er-rise 0.8s var(--ease-out) 0.12s backwards;
+  }
+  #envelope-reveal .er-for span {
     display: block;
-  }
-  /* two halves of the same seal, split along a slightly jagged crack */
-  #envelope-reveal .er-seal-l { clip-path: polygon(0 0, 52% 0, 46% 22%, 55% 41%, 47% 63%, 54% 82%, 49% 100%, 0 100%); transform-origin: 30% 60%; }
-  #envelope-reveal .er-seal-r { clip-path: polygon(52% 0, 100% 0, 100% 100%, 49% 100%, 54% 82%, 47% 63%, 55% 41%, 46% 22%); transform-origin: 70% 60%; }
-
-  /* Invitation to open: it lifts a little, the flap stirs */
-  @media (hover: hover) {
-    #envelope-reveal:not(.is-opening) .er-envelope:hover { transform: translateY(-4px); }
-    #envelope-reveal:not(.is-opening) .er-envelope:hover .er-flap { transform: rotateX(16deg); }
-    #envelope-reveal:not(.is-opening) .er-envelope:hover .er-seal { transform: translate(-50%, -50%) scale(1.04); }
+    margin-bottom: 4px;
+    font-family: "Jost", system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
   }
 
-  /* ── Controls ───────────────────────────────────────────────────────── */
+  #envelope-reveal .er-from {
+    margin: 14px 0 0;
+    font-family: "Dancing Script", cursive;
+    font-size: 24px;
+    line-height: 1.2;
+    color: var(--ink);
+    overflow-wrap: anywhere;
+    animation: er-rise 0.8s var(--ease-out) 0.2s backwards;
+  }
+
   #envelope-reveal .er-open {
+    margin-top: 40px;
     font-family: "Jost", system-ui, sans-serif;
     font-size: 15px;
     font-weight: 600;
@@ -376,51 +152,38 @@ const len = Math.max(6, name.length + 2);
     background: var(--red);
     border: 0;
     border-radius: 2px;
-    padding: 15px 38px;
+    padding: 15px 40px;
     min-height: 50px;
     cursor: pointer;
     box-shadow: 0 1px 0 rgba(110, 16, 20, 0.4), 0 10px 22px -10px rgba(193, 39, 45, 0.55);
-    transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out), background-color 0.2s;
-    animation: er-rise 0.7s var(--ease-out) 1.1s both;
+    transition: transform 0.2s var(--ease-out), background-color 0.2s;
+    animation: er-rise 0.8s var(--ease-out) 0.32s backwards;
   }
-  #envelope-reveal .er-open:hover { background: #AD2228; transform: translateY(-1px); box-shadow: 0 1px 0 rgba(110, 16, 20, 0.4), 0 14px 26px -10px rgba(193, 39, 45, 0.6); }
-  #envelope-reveal .er-open:active { transform: translateY(1px); box-shadow: 0 1px 0 rgba(110, 16, 20, 0.4), 0 4px 10px -6px rgba(193, 39, 45, 0.5); }
+  #envelope-reveal .er-open:hover { background: #AD2228; transform: translateY(-1px); }
+  #envelope-reveal .er-open:active { transform: translateY(1px); }
   #envelope-reveal .er-open:focus-visible { outline: 2px solid var(--ink-blue); outline-offset: 4px; }
 
-  #envelope-reveal .er-from {
-    font-family: "Dancing Script", cursive;
-    font-size: 26px;
-    line-height: 1.2;
-    margin: -14px 0 0;
-    color: var(--ink);
-    max-width: 18ch;
-    overflow-wrap: anywhere;
-    animation: er-rise 0.7s var(--ease-out) 1.25s both;
+  /* Opening: the seal is pressed, the words step back, the sheet lifts away */
+  #envelope-reveal.is-opening .er-seal { transform: scale(0.88); }
+  #envelope-reveal.is-opening .er-inner { opacity: 0; transform: translateY(-12px); transition-delay: 0.08s; }
+  #envelope-reveal.is-opening {
+    transform: translateY(-100%);
+    box-shadow: 0 24px 60px -10px rgba(36, 31, 26, 0.22);
+    pointer-events: none;
   }
 
-  @keyframes er-arrive {
-    from { opacity: 0; transform: translateY(18px) rotate(-1.2deg); }
-    to { opacity: 1; transform: none; }
-  }
-  @keyframes er-write {
-    from { clip-path: inset(0 100% 0 0); }
-    to { clip-path: inset(0 0 0 0); }
-  }
   @keyframes er-rise {
-    from { opacity: 0; transform: translateY(8px); }
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    #envelope-reveal .er-envelope,
+    #envelope-reveal .er-seal,
     #envelope-reveal .er-for,
-    #envelope-reveal .er-open,
-    #envelope-reveal .er-from { animation: none; }
-    #envelope-reveal .er-envelope,
-    #envelope-reveal .er-flap,
-    #envelope-reveal .er-seal { transition: none; }
-    #envelope-reveal .er-envelope:hover,
-    #envelope-reveal .er-envelope:hover .er-flap,
-    #envelope-reveal .er-envelope:hover .er-seal { transform: none; }
+    #envelope-reveal .er-from,
+    #envelope-reveal .er-open { animation: none; }
+    #envelope-reveal { transition: opacity 0.25s linear; }
+    #envelope-reveal.is-opening { transform: none; opacity: 0; box-shadow: none; }
+    #envelope-reveal.is-opening .er-inner { transform: none; }
   }
 </style>
