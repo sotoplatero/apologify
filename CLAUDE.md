@@ -55,7 +55,7 @@ Key functions: `saveApologyPage`, `getApologyPageBySlug`, `publishApologyPage` (
 2. Action `createApologyPage` (`src/actions/index.ts`) → moderation pre-check → `generateApologyContent()` (Claude Haiku via `callLLM`) → moderation post-check → saves a **private draft**, returns the slug.
 3. Full-screen editor: live preview iframe (`/sorry/[slug]?preview=1&theme=…`) + design picker.
 4. **Publish** calls `publishApologyPage`: signed in → `/sorry/[slug]?published=1`; anonymous → `/sign-up?redirect_url=/publish?...`, and `/publish` finishes it.
-5. On `/sorry/[slug]`, the **owner** sees `OwnerBar.svelte`: the **"Send it"** panel (editable teaser message, WhatsApp/Telegram/SMS/own-email links, copy, native share, QR code, story teaser). It opens automatically after publishing (and via `?send=1`). It is the one place to share — the dashboard just links to the page (Open).
+5. On `/sorry/[slug]`, the **owner** sees `SharePanel.svelte` **below the page** (no top bar): **"Send it"** with WhatsApp (primary), SMS, own email, copy link, native share, **Download image** (`/story/[slug].png`), Download QR, links to Change design / Your pages, and a prominent Apologify seal block. A floating "Send it ↓" shortcut shows until the panel is on screen; `?send=1` scrolls to it. It is the one place to share — the dashboard just links to the page (Open).
 6. The **recipient** sees `EnvelopeReveal.astro` (tap to open, once per session; records `opened_at`), then the template, whose `ApologyActions.svelte` runs: heart/like → "I forgive you ❤️" / "I need some time" → "Share to your story" / "Make your own apology". Templates whose heart label already says "forgive" count the like as the answer.
 7. `notifyOwner()` emails the owner on first open and on each answer (no-op without `RESEND_API_KEY` + `EMAIL_FROM`). `/dashboard` shows Not opened / Opened / Forgiven / Needs time.
 
@@ -121,7 +121,7 @@ Weekly newsletter of public apologies scored 0–5 in half points (signed-in rea
 - `src/lib/apologyPages.ts` — apology-page DB layer + types.
 - `src/lib/server/anthropic.js` — apology LLM (Claude Haiku 4.5).
 - `src/lib/server/notify.ts` — owner emails (Resend). `src/lib/server/shareImage.ts` — OG/story images. `src/lib/server/moderation.ts` — content gate.
-- `src/components/ApologyGenerator.svelte` — builder + editor. `OwnerBar.svelte` — send panel. `ApologyActions.svelte` — recipient like/answer/share. `EnvelopeReveal.astro` — tap-to-open envelope.
+- `src/components/ApologyGenerator.svelte` — builder + editor. `SharePanel.svelte` — owner's share block under the page. `ApologyActions.svelte` — recipient like/answer/share. `EnvelopeReveal.astro` — tap-to-open envelope.
 - `src/lib/themes.js` — design catalog. `src/lib/display.js` — `apologyHeading()` / `apologyParagraphsHtml()`.
 - `scripts/init-apology-pages.js` — apology_pages schema/migrations. `scripts/unlist-letters.js` — prune/restore letters.
 - `docs/PENDING.md` — open decisions and parked ideas.

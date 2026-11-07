@@ -4,7 +4,7 @@ import { templateFor } from "../../components/templates/registry";
 import { getApologyPageBySlug } from "../../lib/apologyPages";
 import { isLikelySlug } from "../../lib/slug.js";
 import { apologyHeading, apologyParagraphsHtml } from "../../lib/display.js";
-import OwnerBar from "../../components/OwnerBar.svelte";
+import SharePanel from "../../components/SharePanel.svelte";
 import EnvelopeReveal from "../../components/EnvelopeReveal.astro";
 import qrcode from "qrcode-generator";
 
@@ -26,7 +26,7 @@ const isOwner = !preview && !!(user && page.ownerId && user.id === page.ownerId)
 const justPublished = Astro.url.searchParams.get("published") === "1";
 const openSend = Astro.url.searchParams.get("send") === "1";
 
-// QR for the owner's send panel (print it, tuck it into flowers…).
+// QR for the owner's share panel (print it, tuck it into flowers…).
 let qrSvg = "";
 if (isOwner) {
   const qr = qrcode(0, "M");
@@ -64,7 +64,7 @@ const pageSchema = {
 ---
 
 <LayoutBase title={metaTitle} description={description} canonicalUrl={canonicalUrl} ogImage={ogImage} schema={[pageSchema]} noindex={noindex}>
-  {isOwner && <OwnerBar client:load slug={page.slug} justPublished={justPublished} openSend={openSend} recipientName={page.recipientName} qrSvg={qrSvg} />}
   {!preview && !justPublished && <EnvelopeReveal slug={page.slug} recipientName={page.recipientName} senderName={page.senderName} />}
   <Template {...data} />
+  {isOwner && <SharePanel client:load slug={page.slug} justPublished={justPublished} openSend={openSend} recipientName={page.recipientName} qrSvg={qrSvg} />}
 </LayoutBase>
