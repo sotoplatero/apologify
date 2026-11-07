@@ -83,7 +83,7 @@
         <div class="border-t border-base-200 my-1"></div>
         <button role="menuitem" type="button" class={item} on:click={share}>{canShare ? "Share…" : "Share (copy link)"}</button>
         <button role="menuitem" type="button" class={item} on:click={copyLink}>Copy link</button>
-        <a role="menuitem" class={item} href={`/story/${slug}.png`} download={`apology-${slug}.png`} on:click={() => (open = false)}>Download image</a>
+        <a role="menuitem" class={item} href={`/letter/${slug}.png`} download={`apology-${slug}.png`} on:click={() => (open = false)}>Download image</a>
         <div class="border-t border-base-200 my-1"></div>
         <button role="menuitem" type="button" class={`${item} text-error`} on:click={togglePublish}>Unpublish</button>
       {:else}

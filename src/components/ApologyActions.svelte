@@ -93,7 +93,7 @@
       {`${acceptLabel}${likeCount > 0 ? ` · ${likeCount}` : ""}`}
     </button>
     <button on:click={share} class={secondaryClass}>{copied ? "Link copied!" : "Share"}</button>
-    <a href={`/story/${slug}.png`} download={`apology-${slug}.png`} class={secondaryClass}>Download</a>
+    <a href={`/letter/${slug}.png`} download={`apology-${slug}.png`} class={secondaryClass}>Download</a>
   </div>
 {:else if !response}
   <div class="flex flex-col items-center gap-3 text-center" aria-live="polite">

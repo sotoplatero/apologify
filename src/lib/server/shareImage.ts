@@ -6,6 +6,8 @@ import { coveredRange, sortedItems, formatScore, scoreColor, type NewsIssue } fr
 //  - "og":    1200×630 link preview (WhatsApp, iMessage, X…)
 //  - "story": 1080×1920 for Instagram/WhatsApp stories
 // Only the title and names are shown — never the apology text itself.
+// The "letter" image (renderLetterImage) is the exception: the full letter as a
+// keepsake, behind the explicit Download buttons.
 
 const PAPER = '#F5F1E8';
 const PAPER_DEEP = '#EDE5D6';
@@ -138,6 +140,95 @@ export async function renderShareImage(page: ApologyPage, format: 'og' | 'story'
     height,
     fonts: fonts.length ? (fonts as any) : undefined,
     headers: { 'Cache-Control': 'public, max-age=86400, s-maxage=604800, immutable' },
+  });
+}
+
+// Strip the light markdown the generator may use (**bold**, *em*, _em_).
+const plain = (s: string) => s.replace(/\*\*([^*]+)\*\*/g, '$1').replace(/\*([^*\n]+)\*/g, '$1').replace(/_([^_\n]+)_/g, '$1');
+
+/**
+ * The whole letter as one image (1080 wide, tall as the text needs): title,
+ * greeting, every paragraph, signature, and the Apologify seal. Download only.
+ */
+export async function renderLetterImage(page: ApologyPage, heading: string | null): Promise<Response> {
+  const width = 1080;
+  const title = page.title;
+  const paragraphs = (page.message || '').split(/\n+/).map((p) => plain(p.trim())).filter(Boolean);
+  const sign = page.senderName?.trim() || '';
+  const kicker = 'AN APOLOGY';
+  const brand = 'Apologify';
+  const site = 'Write your own at apologify.com';
+
+  // Height: estimate wrapped lines (Spectral 34px over ~800px ≈ 50 chars a line).
+  const bodyPx = 34, lineH = 1.55, perLine = 45;
+  const lines = paragraphs.reduce((n, p) => n + Math.max(1, Math.ceil(p.length / perLine)), 0);
+  const titleLines = Math.max(1, Math.ceil(title.length / 24));
+  const height = Math.max(1350, Math.round(
+    200 + 60 + titleLines * 66 + 80 + (heading ? 90 : 0) + lines * bodyPx * lineH + paragraphs.length * 30 + (sign ? 140 : 0) + 200,
+  ));
+
+  const allText = `${kicker}${title}${heading ?? ''}${paragraphs.join('')}${sign}${brand}${site}A…—’“”`;
+  let fonts: Font[] = [];
+  try {
+    const [display, body, script, sans] = await Promise.all([
+      googleFont('Spectral', 500, allText),
+      googleFont('Spectral', 400, allText),
+      googleFont('Dancing Script', 600, allText),
+      googleFont('Jost', 400, allText),
+    ]);
+    fonts = [
+      { name: 'Spectral', data: display, weight: 500, style: 'normal' },
+      { name: 'Spectral', data: body, weight: 400, style: 'normal' },
+      { name: 'Dancing Script', data: script, weight: 600, style: 'normal' },
+      { name: 'Jost', data: sans, weight: 400, style: 'normal' },
+    ];
+  } catch (e) {
+    console.error('letter image fonts unavailable, using default:', e);
+  }
+
+  // Flat wax seal: red disc + Spectral "A".
+  const seal = el('div', {
+    width: 64, height: 64, borderRadius: 32, background: RED, color: '#FAF7F1',
+    alignItems: 'center', justifyContent: 'center', fontFamily: 'Spectral', fontSize: 38, fontWeight: 500,
+    boxShadow: '0 3px 8px rgba(193,39,45,0.35)',
+  }, 'A');
+
+  const sheet = el('div', {
+    flexDirection: 'column', flex: 1, background: '#FFFDF8',
+    border: '1px solid rgba(36,31,26,0.14)', borderRadius: 6, padding: '90px 100px 80px',
+    boxShadow: '0 18px 40px rgba(36,31,26,0.10)',
+  }, [
+    el('div', { flexShrink: 0, fontFamily: 'Jost', fontSize: 22, letterSpacing: 6, color: RED }, kicker),
+    el('div', { flexShrink: 0, width: '100%', fontFamily: 'Spectral', fontWeight: 500, fontSize: 56, lineHeight: 1.15, color: INK, marginTop: 22 }, title),
+    el('div', { flexShrink: 0, width: 90, height: 2, background: RED, marginTop: 34, marginBottom: 44 }),
+    heading ? el('div', { flexShrink: 0, width: '100%', fontFamily: 'Spectral', fontWeight: 400, fontSize: 38, color: INK_BLUE, marginBottom: 30 }, heading) : null,
+    el('div', { flexShrink: 0, width: '100%', flexDirection: 'column', gap: 30 }, paragraphs.map((p) => el('div', {
+      width: '100%', fontFamily: 'Spectral', fontWeight: 400, fontSize: bodyPx, lineHeight: lineH, color: INK,
+    }, p))),
+    sign ? el('div', { flexShrink: 0, fontFamily: 'Dancing Script', fontSize: 64, color: INK, marginTop: 20 }, sign) : null,
+  ].filter(Boolean));
+
+  const footer = el('div', { alignItems: 'center', justifyContent: 'center', gap: 20, marginTop: 50 }, [
+    seal,
+    el('div', { flexDirection: 'column' }, [
+      el('div', { fontFamily: 'Spectral', fontWeight: 500, fontSize: 38, color: INK, lineHeight: 1.1 }, brand),
+      el('div', { fontFamily: 'Jost', fontSize: 22, color: MUTED, marginTop: 4 }, site),
+    ]),
+  ]);
+
+  const root = el('div', {
+    width, height, flexDirection: 'column', background: '#ECE3D2', padding: '70px 60px 60px',
+  }, [sheet, footer]);
+
+  return new ImageResponse(root as any, {
+    width,
+    height,
+    fonts: fonts.length ? (fonts as any) : undefined,
+    emoji: 'twemoji',
+    headers: {
+      'Cache-Control': 'public, max-age=86400, s-maxage=604800, immutable',
+      'Content-Disposition': `attachment; filename="apology-${page.slug}.png"`,
+    },
   });
 }
 
