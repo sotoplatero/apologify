@@ -2,6 +2,7 @@
 // Night: a midnight-blue sky with a few faint stars and pale-gold type —
 // for an apology written late, when it couldn't wait until morning.
 import ApologyActions from "../ApologyActions.svelte";
+import MadeWith from "./MadeWith.astro";
 const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
 ---
 <main class="nt">
@@ -24,7 +25,7 @@ const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = As
         secondaryClass="nt-btn nt-btn-line"
         mutedClass="nt-muted" />
     </div>
-    <a href="/generator" class="nt-made">Made on apologify.com — write your own</a>
+    <MadeWith color="#ece6d6" />
   </div>
 </main>
 
@@ -89,8 +90,6 @@ const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = As
   .nt-actions :global(.nt-btn-line:hover) { border-color: #ece6d6; }
   .nt-actions :global(.nt-muted) { font-family: 'Jost', system-ui, sans-serif; font-size: 0.85rem; color: rgba(236, 230, 214, 0.7); }
   .nt ::selection { background: #cdb98a; color: #0b1020; }
-  .nt-made { display: block; margin-top: 2.75rem; font-family: 'Jost', system-ui, sans-serif; font-size: 0.64rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(236, 230, 214, 0.5); }
-  .nt-made:hover { color: #ece6d6; }
   @keyframes nt-twinkle { from { opacity: 0.55; } to { opacity: 1; } }
   @media (prefers-reduced-motion: reduce) { .nt-sky { animation: none; } }
 </style>

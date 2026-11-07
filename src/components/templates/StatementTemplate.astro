@@ -1,5 +1,6 @@
 ---
 import ApologyActions from "../ApologyActions.svelte";
+import MadeWith from "./MadeWith.astro";
 const { title, heading, paragraphs, recipientName, senderName, slug, acceptedAt, preview } = Astro.props;
 ---
 <main class="min-h-screen w-full bg-[#fafafa] flex flex-col items-center px-5 py-16 sm:py-24 font-display">
@@ -24,6 +25,6 @@ const { title, heading, paragraphs, recipientName, senderName, slug, acceptedAt,
         secondaryClass="px-5 py-2.5 rounded-md border border-gray-300 text-gray-700 text-sm hover:bg-gray-100 transition-colors"
         mutedClass="text-sm text-gray-400" />
     </div>
-    <a href="/generator" class="block mt-10 text-xs text-gray-400 hover:text-gray-700 transition-colors">Published with apologify.com</a>
+    <MadeWith color="#374151" />
   </div>
 </main>

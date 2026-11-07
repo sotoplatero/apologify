@@ -74,7 +74,7 @@
       publishing = false;
       return;
     }
-    if (data?.published) window.location.href = `/sorry/${slug}?published=1`;
+    if (data?.published) window.location.href = `/dashboard?published=${slug}`;
     else { publishError = "Couldn't publish. Please try again."; publishing = false; }
   }
 

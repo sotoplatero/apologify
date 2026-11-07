@@ -2,6 +2,7 @@
 // Editorial: the apology set like a magazine feature — Apology News's own
 // language (warm paper, Spectral set light, Jost capitals, hairlines).
 import ApologyActions from "../ApologyActions.svelte";
+import MadeWith from "./MadeWith.astro";
 const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
 ---
 <main class="ed">
@@ -30,7 +31,7 @@ const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = As
         mutedClass="ed-muted" />
     </div>
 
-    <a href="/generator" class="ed-made">Made on apologify.com — write your own</a>
+    <MadeWith color="#241f1a" />
   </div>
 </main>
 
@@ -110,16 +111,6 @@ const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = As
   .ed-actions :global(.ed-btn-line) { border: 1px solid #241f1a; color: #241f1a; }
   .ed-actions :global(.ed-btn-line:hover) { background: #241f1a; color: #faf7f1; }
   .ed-actions :global(.ed-muted) { font-family: 'Jost', system-ui, sans-serif; font-size: 0.85rem; color: #6b6157; }
-  .ed-made {
-    display: block;
-    margin-top: 3rem;
-    font-family: 'Jost', system-ui, sans-serif;
-    font-size: 0.66rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #6b6157;
-  }
-  .ed-made:hover { color: #241f1a; }
   @keyframes ed-rise { from { opacity: 0; transform: translateY(0.4em); } }
   @media (prefers-reduced-motion: reduce) { .ed-title { animation: none; } }
 </style>

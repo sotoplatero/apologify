@@ -2,7 +2,7 @@ import { defineAction, ActionError } from 'astro:actions';
 import { z } from 'astro:schema';
 import { createHash } from 'node:crypto';
 import { callLLM } from '../lib/server/anthropic';
-import { saveApologyPage, publishApologyPage as runPublish, likeApology as runLike, updatePageTheme as runUpdateTheme, unpublishApologyPage as runUnpublish, getApologyPageBySlug, markApologyOpened, respondToApology } from '../lib/apologyPages';
+import { saveApologyPage, publishApologyPage as runPublish, likeApology as runLike, unpublishApologyPage as runUnpublish, getApologyPageBySlug, markApologyOpened, respondToApology } from '../lib/apologyPages';
 import { notifyOwner } from '../lib/server/notify';
 import { buildApologySlug } from '../lib/slug.js';
 import { isPremiumTheme } from '../lib/themes.js';
@@ -206,19 +206,6 @@ export const server = {
     },
   }),
 
-  // Change the design of an existing (already-saved) page. Owner-only.
-  updateApologyTheme: defineAction({
-    input: z.object({ slug: z.string().min(3).max(90), theme: z.string().min(1).max(40) }),
-    handler: async (input, context) => {
-      const userId = context.locals.user?.id;
-      if (!userId) throw new ActionError({ code: 'UNAUTHORIZED', message: 'Sign in to edit your page.' });
-      // Premium themes downgrade to classic until paid (paywall: future phase).
-      const theme = isPremiumTheme(input.theme) ? 'classic' : input.theme;
-      const ok = await runUpdateTheme(input.slug, userId, theme);
-      if (!ok) throw new ActionError({ code: 'FORBIDDEN', message: 'You can only edit your own pages.' });
-      return { updated: true, theme };
-    },
-  }),
 }
 
 async function generateApologyContent(input: {

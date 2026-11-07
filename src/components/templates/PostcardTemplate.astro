@@ -2,6 +2,7 @@
 // Postcard: the apology written on the back of a postcard — message on the
 // left, stamp, postmark and the recipient's name on the right.
 import ApologyActions from "../ApologyActions.svelte";
+import MadeWith from "./MadeWith.astro";
 const { title, heading, paragraphs, senderName, recipientName, slug, acceptedAt, preview } = Astro.props;
 const to = (recipientName || "").trim();
 // Perforations around the stamp: small holes every 6 units on each edge.
@@ -67,7 +68,7 @@ for (let y = 6; y <= 66; y += 6) holes.push([0, y], [60, y]);
       secondaryClass="pc-btn pc-btn-line"
       mutedClass="pc-muted" />
   </div>
-  <a href="/generator" class="pc-made">Made on apologify.com — write your own</a>
+  <MadeWith color="#2b2a26" />
 </main>
 
 <style>
@@ -140,8 +141,6 @@ for (let y = 6; y <= 66; y += 6) holes.push([0, y], [60, y]);
   .pc-actions :global(.pc-btn-line) { border: 1px solid #2b2a26; color: #2b2a26; }
   .pc-actions :global(.pc-btn-line:hover) { background: #2b2a26; color: #fbf8f1; }
   .pc-actions :global(.pc-muted) { font-family: 'Jost', system-ui, sans-serif; font-size: 0.85rem; color: #4d5a4d; }
-  .pc-made { font-family: 'Jost', system-ui, sans-serif; font-size: 0.64rem; letter-spacing: 0.22em; text-transform: uppercase; color: #4d5a4d; }
-  .pc-made:hover { color: #2b2a26; }
   @keyframes pc-in { from { opacity: 0; transform: translateY(24px) rotate(-1deg); } }
 
   @media (max-width: 760px) {

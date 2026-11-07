@@ -1,5 +1,6 @@
 ---
 import ApologyActions from "../ApologyActions.svelte";
+import MadeWith from "./MadeWith.astro";
 const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
 ---
 <main
@@ -55,7 +56,7 @@ const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = As
       </div>
     </article>
 
-    <a href="/generator" class="block text-center mt-7 text-xs tracking-wide text-[#5a5344] hover:text-[#111] transition-colors">Made on apologify.com — write your own →</a>
+    <MadeWith color="#111111" />
   </div>
 </main>
 

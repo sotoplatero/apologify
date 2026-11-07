@@ -47,15 +47,15 @@ node scripts/research/analyze-apologies.mjs   # regenerate the apology study dat
 
 Table **`apology_pages`**; data access + types in **`src/lib/apologyPages.ts`** (`ApologyPage`). Columns: `slug`, `recipient`, `recipient_name`, `sender_name`, `visibility` (`private`|`public`), `owner_id`, `message`, `title`, `theme`, `tone`, `is_paid`, `accepted_at` (legacy), `likes`, `opened_at`, `response` (`forgiven`|`not_yet`), `responded_at`, `created_at`. Like dedup in `page_likes` (salted IP+UA hash).
 
-Key functions: `saveApologyPage`, `getApologyPageBySlug`, `publishApologyPage` (owner or unowned only), `updatePageTheme` (owner-only), `likeApology`, `markApologyOpened` (first non-owner open only), `respondToApology` (owner can't answer their own), `getPublishedPagesByOwner`, `getRecentPublicPages`, `getAllPublicSlugs`.
+Key functions: `saveApologyPage`, `getApologyPageBySlug`, `publishApologyPage` (owner or unowned only), `unpublishApologyPage` (owner-only), `likeApology`, `markApologyOpened` (first non-owner open only), `respondToApology` (owner can't answer their own), `getPagesByOwner`, `getRecentPublicPages`, `getAllPublicSlugs`.
 
 ### Generation, publish & send flow
 
 1. `ApologyGenerator.svelte` (on `/generator` and `/generator/[recipient]`) collects who / what happened / tone / signature.
 2. Action `createApologyPage` (`src/actions/index.ts`) → moderation pre-check → `generateApologyContent()` (Claude Haiku via `callLLM`) → moderation post-check → saves a **private draft**, returns the slug.
 3. Full-screen editor: live preview iframe (`/sorry/[slug]?preview=1&theme=…`) + design picker.
-4. **Publish** calls `publishApologyPage`: signed in → `/sorry/[slug]?published=1`; anonymous → `/sign-up?redirect_url=/publish?...`, and `/publish` finishes it.
-5. On `/sorry/[slug]`, the **owner** sees `SharePanel.svelte` **below the page** (no top bar): **"Send it"** with WhatsApp (primary), SMS, own email, copy link, native share, **Download image** (`/story/[slug].png`), Download QR, links to Change design / Your pages, and a prominent Apologify seal block. A floating "Send it ↓" shortcut shows until the panel is on screen; `?send=1` scrolls to it. It is the one place to share — the dashboard just links to the page (Open).
+4. **Publish** calls `publishApologyPage`: signed in → `/dashboard?published=<slug>` (a "It's live" notice + that card highlighted); anonymous → `/sign-up?redirect_url=/publish?...`, and `/publish` finishes it.
+5. **`/sorry/[slug]` looks the same for everyone, owner included** (envelope, like, Share, Apologify mark) — no owner bar, no design changes after publishing. Everything the owner does lives on **`/dashboard`**: each page (published or not) has Open + a ⋮ menu (`PageMenu.svelte`): Share…, Copy link, Download image (`/story/[slug].png`), Publish/Unpublish (unpublished pages only show Publish). Unpublish = `visibility = 'private'` (out of search/directory; the link itself still opens).
 6. The **recipient** sees `EnvelopeReveal.astro` (tap to open, once per session; records `opened_at`), then the template, whose `ApologyActions.svelte` runs: heart/like → "I forgive you ❤️" / "I need some time" → "Share to your story" / "Make your own apology". Templates whose heart label already says "forgive" count the like as the answer.
 7. `notifyOwner()` emails the owner on first open and on each answer (no-op without `RESEND_API_KEY` + `EMAIL_FROM`). `/dashboard` shows Not opened / Opened / Forgiven / Needs time.
 
@@ -66,7 +66,7 @@ Key functions: `saveApologyPage`, `getApologyPageBySlug`, `publishApologyPage` (
 
 ### Designs / templates
 
-- Each design is a self-contained full-page Astro component in `src/components/templates/` receiving `{ title, heading, paragraphs, senderName, slug, acceptedAt, preview }`, with its own palette/motion and `@media (prefers-reduced-motion: reduce)`.
+- Each design is a self-contained full-page Astro component in `src/components/templates/` receiving `{ title, heading, paragraphs, senderName, slug, acceptedAt, preview }`, with its own palette/motion and `@media (prefers-reduced-motion: reduce)`. Every design ends with `<MadeWith color="…" />` (seal + "Apologify" + "Write your own apology →", in the design's ink) — the brand mark; don't replace it with a small text link.
 - Catalog: `src/lib/themes.js` (`THEMES`: `id`, `label`, `emoji`, `premium`, `bgClass`, `retired?`; `listThemes()` = live designs only, `resolveTheme()`, `canonicalThemeId()`, `isPremiumTheme()`). 13 live designs: Letter (`classic`), Editorial, Handwritten, Velvet, Night (`starry`), Minimal, Postcard, Watercolor, Statement (`formal`), Newspaper, Swiss, Cute (`cute-duck`), Boarding Pass.
 - **Retired designs**: still used by saved pages → kept with `retired: true` (hidden from pickers, still render: `keep-calm`, `zine`); unused → deleted, with an alias in `RETIRED_ALIASES` (ransom, constructivist, letterpress, typewriter, telegram, sticky-note, mixtape, chalkboard, illuminated) so old ids render the closest live design. Check `SELECT theme, COUNT(*) FROM apology_pages GROUP BY theme` before deleting a design.
 - The **template map** (id → component) lives once in `src/components/templates/registry.ts` (`templateFor(id)`), used by `/sorry/[slug]`, `/demo` and `/studio/card`.
@@ -103,10 +103,10 @@ Weekly newsletter of public apologies scored 0–5 in half points (signed-in rea
 - `/` — homepage. `/generator`, `/generator/[recipient]` — builder (recipient landings target "sorry website for {recipient}", with real example links + FAQs).
 - `/sorry/[slug]` — the live page (public = indexable; draft/preview = `noindex`). `/og/[slug].png`, `/story/[slug].png` — share images.
 - `/sorry-card` — US "sorry card" landing. `/research/why-people-apologize` — study. `/designs` — design gallery.
-- `/customize?slug=` (owner), `/publish?slug=&theme=`, `/dashboard` (owner's published pages + status; Open / Design / Unpublish), `/demo?theme=`.
+- `/publish?slug=&theme=`, `/dashboard` (all the owner's pages + status; Open + ⋮ menu), `/demo?theme=`.
 - `/examples*`, `/articles*` — legacy library + blog.
 
-`noindex`: `/demo`, `/customize`, `/publish`, `/sign-in`, `/sign-up`, `/dashboard`, `/404`, and non-public `/sorry` pages.
+`noindex`: `/demo`, `/publish`, `/sign-in`, `/sign-up`, `/dashboard`, `/404`, and non-public `/sorry` pages.
 
 ### URLs, caching & sitemaps (gotchas)
 
@@ -117,11 +117,11 @@ Weekly newsletter of public apologies scored 0–5 in half points (signed-in rea
 
 ## Important Files
 
-- `src/actions/index.ts` — actions: `createApologyPage` (+ `generateApologyContent` prompt), `publishApologyPage`, `likeApology`, `getApologyLikes` (likes + response + names), `markApologyOpened`, `respondToApology`, `updateApologyTheme`, `unpublishApology`.
+- `src/actions/index.ts` — actions: `createApologyPage` (+ `generateApologyContent` prompt), `publishApologyPage`, `likeApology`, `getApologyLikes` (likes + response + names), `markApologyOpened`, `respondToApology`, `unpublishApology`.
 - `src/lib/apologyPages.ts` — apology-page DB layer + types.
 - `src/lib/server/anthropic.js` — apology LLM (Claude Haiku 4.5).
 - `src/lib/server/notify.ts` — owner emails (Resend). `src/lib/server/shareImage.ts` — OG/story images. `src/lib/server/moderation.ts` — content gate.
-- `src/components/ApologyGenerator.svelte` — builder + editor. `SharePanel.svelte` — owner's share block under the page. `ApologyActions.svelte` — recipient like/answer/share. `EnvelopeReveal.astro` — tap-to-open envelope.
+- `src/components/ApologyGenerator.svelte` — builder + editor. `PageMenu.svelte` — dashboard ⋮ menu (share/copy/download/publish). `ApologyActions.svelte` — recipient like/answer/share. `EnvelopeReveal.astro` — tap-to-open envelope.
 - `src/lib/themes.js` — design catalog. `src/lib/display.js` — `apologyHeading()` / `apologyParagraphsHtml()`.
 - `scripts/init-apology-pages.js` — apology_pages schema/migrations. `scripts/unlist-letters.js` — prune/restore letters.
 - `docs/PENDING.md` — open decisions and parked ideas.

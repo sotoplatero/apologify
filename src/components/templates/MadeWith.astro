@@ -1,0 +1,51 @@
+---
+// The Apologify signature at the foot of every design: wax seal + wordmark +
+// "write your own". Each template passes its own ink colour so it sits in the
+// design, but the mark itself stays the same everywhere.
+interface Props {
+  color: string;
+  class?: string;
+  [key: string]: unknown;
+}
+const { color, class: className, ...rest } = Astro.props;
+---
+<a href="/generator" class:list={["mw", className]} style={`--mw-ink:${color}`} {...rest}>
+  <img src="/seal.svg" width="40" height="40" alt="" />
+  <span class="mw-text">
+    <span class="mw-name">Apologify</span>
+    <span class="mw-cta">Write your own apology →</span>
+  </span>
+</a>
+
+<style>
+  .mw {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 0.7rem;
+    margin: 2.5rem auto 0;
+    padding: 0.35rem 0.5rem;
+    color: var(--mw-ink);
+    text-decoration: none;
+    text-align: left;
+    line-height: 1.15;
+  }
+  .mw img { width: 40px; height: 40px; flex: none; transition: transform 0.25s ease; }
+  .mw-text { display: flex; flex-direction: column; }
+  .mw-name {
+    font-family: "Spectral", Georgia, serif;
+    font-weight: 500;
+    font-size: 1.3rem;
+    letter-spacing: 0.01em;
+  }
+  .mw-cta {
+    font-family: "Jost", system-ui, sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+    opacity: 0.8;
+  }
+  .mw:hover .mw-cta { opacity: 1; text-decoration: underline; text-underline-offset: 3px; }
+  .mw:hover img { transform: rotate(-8deg); }
+  .mw:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+  @media (prefers-reduced-motion: reduce) { .mw img { transition: none; } .mw:hover img { transform: none; } }
+</style>

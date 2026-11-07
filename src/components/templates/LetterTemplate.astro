@@ -1,6 +1,7 @@
 ---
 // Letter: a sheet of good writing paper on a warm desk — the default design.
 import ApologyActions from "../ApologyActions.svelte";
+import MadeWith from "./MadeWith.astro";
 const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
 ---
 <main class="lt">
@@ -25,7 +26,7 @@ const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = As
         mutedClass="lt-muted" />
     </div>
   </article>
-  <a href="/generator" class="lt-made">Made on apologify.com — write your own</a>
+  <MadeWith color="#4e391f" />
 </main>
 
 <style>
@@ -73,8 +74,6 @@ const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = As
   .lt-actions :global(.lt-btn-line) { border: 1px solid #c9b089; color: #6d5130; }
   .lt-actions :global(.lt-btn-line:hover) { background: #f5ecdc; }
   .lt-actions :global(.lt-muted) { font-family: 'Jost', system-ui, sans-serif; font-size: 0.85rem; color: #8e7552; }
-  .lt-made { margin-top: 2rem; font-family: 'Jost', system-ui, sans-serif; font-size: 0.64rem; letter-spacing: 0.22em; text-transform: uppercase; color: #8e7552; }
-  .lt-made:hover { color: #4e391f; }
   @keyframes lt-in { from { opacity: 0; transform: translateY(20px); } }
   @media (prefers-reduced-motion: reduce) { .lt-sheet { animation: none; } }
 </style>

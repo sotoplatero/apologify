@@ -2,6 +2,7 @@
 // Velvet: an evening invitation — deep burgundy, ivory type, a gilt hairline
 // frame that draws itself in. Formal without being cold.
 import ApologyActions from "../ApologyActions.svelte";
+import MadeWith from "./MadeWith.astro";
 const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = Astro.props;
 ---
 <main class="vv">
@@ -29,7 +30,7 @@ const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = As
         mutedClass="vv-muted" />
     </div>
   </div>
-  <a href="/generator" class="vv-made">Made on apologify.com — write your own</a>
+  <MadeWith color="#f4e9dc" />
 </main>
 
 <style>
@@ -102,14 +103,5 @@ const { title, heading, paragraphs, senderName, slug, acceptedAt, preview } = As
   .vv-actions :global(.vv-btn-line:hover) { border-color: #f4e9dc; }
   .vv-actions :global(.vv-muted) { font-family: 'Jost', system-ui, sans-serif; font-size: 0.85rem; color: rgba(244, 233, 220, 0.7); }
   .vv ::selection { background: #d6b274; color: #2a0710; }
-  .vv-made {
-    margin-top: 2rem;
-    font-family: 'Jost', system-ui, sans-serif;
-    font-size: 0.64rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: rgba(244, 233, 220, 0.55);
-  }
-  .vv-made:hover { color: #f4e9dc; }
   @media (prefers-reduced-motion: reduce) { .vv-line { animation: none; } }
 </style>

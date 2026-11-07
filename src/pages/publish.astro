@@ -20,7 +20,7 @@ const page = await getApologyPageBySlug(slug);
 if (!page) return Astro.redirect("/404");
 
 // Already live → just open it.
-if (page.visibility === "public") return Astro.redirect(`/sorry/${slug}`);
+if (page.visibility === "public") return Astro.redirect(`/dashboard?published=${slug}`);
 ---
 
 <Layout title="Publish your apology page — Apologify" noindex={true}>

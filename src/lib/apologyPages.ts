@@ -89,10 +89,12 @@ export async function getApologyPageBySlug(slug: string): Promise<ApologyPage | 
  * drafts are just saved rows in the DB, not pages the user "has"; they only
  * become real (and appear here) once published.
  */
-export async function getPublishedPagesByOwner(ownerId: string): Promise<ApologyPage[]> {
+
+/** Every page the user owns, published or not (the dashboard lists both). */
+export async function getPagesByOwner(ownerId: string): Promise<ApologyPage[]> {
   if (!turso) return [];
   const r = await turso.execute({
-    sql: "SELECT * FROM apology_pages WHERE owner_id = ? AND visibility = 'public' ORDER BY created_at DESC",
+    sql: "SELECT * FROM apology_pages WHERE owner_id = ? ORDER BY created_at DESC",
     args: [ownerId],
   });
   return r.rows.map(rowToPage);
@@ -140,15 +142,6 @@ export async function unpublishApologyPage(slug: string, ownerId: string): Promi
   return r.rowsAffected > 0;
 }
 
-/** Change the design/template of an existing page. Owner-only. Returns true if updated. */
-export async function updatePageTheme(slug: string, ownerId: string, theme: string): Promise<boolean> {
-  if (!turso) throw new Error('Turso not configured');
-  const r = await turso.execute({
-    sql: 'UPDATE apology_pages SET theme = ? WHERE slug = ? AND owner_id = ?',
-    args: [theme, slug, ownerId],
-  });
-  return r.rowsAffected > 0;
-}
 
 export async function markApologyPagePaid(slug: string): Promise<void> {
   if (!turso) throw new Error('Turso not configured');
