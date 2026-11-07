@@ -13,7 +13,6 @@ import HeaderAuth from "./HeaderAuth.svelte";
       <a href="/designs" class="ap-nav-link ap-nav-wide">Designs</a>
       <a href="/news" class="ap-nav-link ap-nav-wide">Apology News</a>
       <HeaderAuth client:load />
-      <a href="/generator" class="ap-write"><span class="ap-write-long">Write an apology</span><span class="ap-write-short">Write</span></a>
     </nav>
   </div>
 </header>
@@ -67,7 +66,7 @@ import HeaderAuth from "./HeaderAuth.svelte";
   .ap-mark:hover .ap-mark-logo { transform: rotate(-12deg); }
   @media (prefers-reduced-motion: reduce) { .ap-mark-logo { transition: none; } }
   .ap-nav { display: flex; align-items: center; gap: 2rem; }
-  .ap-write {
+  :global(.ap-write) {
     padding: 0.7rem 1.1rem;
     background: #c1272d;
     color: #faf7f1;
@@ -78,17 +77,17 @@ import HeaderAuth from "./HeaderAuth.svelte";
     text-transform: uppercase;
     transition: background-color 0.25s;
   }
-  .ap-write { white-space: nowrap; }
-  .ap-write:hover { background: #241f1a; }
-  .ap-write-short { display: none; }
+  :global(.ap-write) { white-space: nowrap; }
+  :global(.ap-write:hover) { background: #241f1a; }
+  :global(.ap-write-short) { display: none; }
 
   @media (max-width: 720px) {
     .ap-head-in { min-height: 3.75rem; }
     .ap-mark { font-size: 1.35rem; }
     .ap-nav { gap: 1.1rem; }
     .ap-nav-wide { display: none; }
-    .ap-write { padding: 0.6rem 0.9rem; }
-    .ap-write-long { display: none; }
-    .ap-write-short { display: inline; }
+    :global(.ap-write) { padding: 0.6rem 0.9rem; }
+    :global(.ap-write-long) { display: none; }
+    :global(.ap-write-short) { display: inline; }
   }
 </style>

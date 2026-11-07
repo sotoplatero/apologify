@@ -78,13 +78,16 @@
 
   {#if open}
     <div role="menu" class="absolute right-0 top-full mt-1 z-30 w-52 bg-base-100 border border-base-300 shadow-lg py-1">
+      <a role="menuitem" class={item} href={`/sorry/${slug}`}>Open</a>
       {#if isPublic}
+        <div class="border-t border-base-200 my-1"></div>
         <button role="menuitem" type="button" class={item} on:click={share}>{canShare ? "Share…" : "Share (copy link)"}</button>
         <button role="menuitem" type="button" class={item} on:click={copyLink}>Copy link</button>
         <a role="menuitem" class={item} href={`/story/${slug}.png`} download={`apology-${slug}.png`} on:click={() => (open = false)}>Download image</a>
         <div class="border-t border-base-200 my-1"></div>
         <button role="menuitem" type="button" class={`${item} text-error`} on:click={togglePublish}>Unpublish</button>
       {:else}
+        <div class="border-t border-base-200 my-1"></div>
         <button role="menuitem" type="button" class={item} on:click={togglePublish}>Publish</button>
       {/if}
     </div>

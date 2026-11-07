@@ -55,7 +55,7 @@ Key functions: `saveApologyPage`, `getApologyPageBySlug`, `publishApologyPage` (
 2. Action `createApologyPage` (`src/actions/index.ts`) → moderation pre-check → `generateApologyContent()` (Claude Haiku via `callLLM`) → moderation post-check → saves a **private draft**, returns the slug.
 3. Full-screen editor: live preview iframe (`/sorry/[slug]?preview=1&theme=…`) + design picker.
 4. **Publish** calls `publishApologyPage`: signed in → `/dashboard?published=<slug>` (a "It's live" notice + that card highlighted); anonymous → `/sign-up?redirect_url=/publish?...`, and `/publish` finishes it.
-5. **`/sorry/[slug]` looks the same for everyone, owner included** (envelope, like, Share, Apologify mark) — no owner bar, no design changes after publishing. Everything the owner does lives on **`/dashboard`**: each page (published or not) has Open + a ⋮ menu (`PageMenu.svelte`): Share…, Copy link, Download image (`/story/[slug].png`), Publish/Unpublish (unpublished pages only show Publish). Unpublish = `visibility = 'private'` (out of search/directory; the link itself still opens).
+5. **`/sorry/[slug]` looks the same for everyone, owner included** (envelope, like, Share, Apologify mark) — no owner bar, no design changes after publishing. Everything the owner does lives on **`/dashboard`**: each page has a ⋮ menu (`PageMenu.svelte`): Open, Share…, Copy link, Download image (`/story/[slug].png`), Unpublish — unpublished pages show Open + Publish. Unpublished pages are hidden by default (dashed, muted cards) behind a "Show unpublished (N)" filter (`/dashboard?all=1`). The header's "Write an apology" button shows only when signed out (`HeaderAuth.svelte`); signed in it's "Your pages". Unpublish = `visibility = 'private'` (out of search/directory; the link itself still opens).
 6. The **recipient** sees `EnvelopeReveal.astro` (tap to open, once per session; records `opened_at`), then the template, whose `ApologyActions.svelte` runs: heart/like → "I forgive you ❤️" / "I need some time" → "Share to your story" / "Make your own apology". Templates whose heart label already says "forgive" count the like as the answer.
 7. `notifyOwner()` emails the owner on first open and on each answer (no-op without `RESEND_API_KEY` + `EMAIL_FROM`). `/dashboard` shows Not opened / Opened / Forgiven / Needs time.
 
@@ -103,7 +103,7 @@ Weekly newsletter of public apologies scored 0–5 in half points (signed-in rea
 - `/` — homepage. `/generator`, `/generator/[recipient]` — builder (recipient landings target "sorry website for {recipient}", with real example links + FAQs).
 - `/sorry/[slug]` — the live page (public = indexable; draft/preview = `noindex`). `/og/[slug].png`, `/story/[slug].png` — share images.
 - `/sorry-card` — US "sorry card" landing. `/research/why-people-apologize` — study. `/designs` — design gallery.
-- `/publish?slug=&theme=`, `/dashboard` (all the owner's pages + status; Open + ⋮ menu), `/demo?theme=`.
+- `/publish?slug=&theme=`, `/dashboard` (owner's pages + status; ⋮ menu; `?all=1` includes unpublished), `/demo?theme=`.
 - `/examples*`, `/articles*` — legacy library + blog.
 
 `noindex`: `/demo`, `/publish`, `/sign-in`, `/sign-up`, `/dashboard`, `/404`, and non-public `/sorry` pages.

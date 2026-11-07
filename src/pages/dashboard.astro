@@ -12,12 +12,16 @@ if (!user) {
   return Astro.redirect(`/sign-in?redirect_url=${encodeURIComponent("/dashboard")}`);
 }
 
-const pages = await getPagesByOwner(user.id);
+const allPages = await getPagesByOwner(user.id);
+// Unpublished pages are hidden unless asked for (?all=1).
+const showAll = Astro.url.searchParams.get("all") === "1";
+const hiddenCount = allPages.filter((p) => p.visibility !== "public").length;
+const pages = showAll ? allPages : allPages.filter((p) => p.visibility === "public");
 // Just published (redirected here from the editor): point at the ⋮ menu to send it.
-const justPublished = pages.find((p) => p.slug === Astro.url.searchParams.get("published"));
+const justPublished = allPages.find((p) => p.slug === Astro.url.searchParams.get("published"));
 
 // Where the recipient is: not opened → opened → answered.
-function status(p: (typeof pages)[number]) {
+function status(p: (typeof allPages)[number]) {
   if (p.visibility !== "public") return { label: "Unpublished", cls: "badge-ghost text-base-content/60", title: "Hidden from search and the public list. Publish it from ⋮" };
   if (p.response === "forgiven") return { label: "Forgiven ❤️", cls: "badge-secondary", title: `Answered ${fmtDate(p.respondedAt ?? undefined)}` };
   if (p.response === "not_yet") return { label: "Needs time", cls: "badge-outline", title: `Answered ${fmtDate(p.respondedAt ?? undefined)}` };
@@ -57,7 +61,23 @@ function fmtDate(d?: string): string {
       </div>
     )}
 
-    {pages.length === 0 ? (
+    {hiddenCount > 0 && (
+      <div class="flex justify-end mb-3 font-sans text-sm">
+        <a
+          href={showAll ? "/dashboard" : "/dashboard?all=1"}
+          class="inline-flex items-center gap-2 text-base-content/70 hover:text-base-content"
+          role="switch"
+          aria-checked={showAll ? "true" : "false"}
+        >
+          <span class:list={["w-4 h-4 border inline-flex items-center justify-center", showAll ? "bg-base-content border-base-content text-base-100" : "border-base-content/40"]} aria-hidden="true">
+            {showAll && <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>}
+          </span>
+          Show unpublished ({hiddenCount})
+        </a>
+      </div>
+    )}
+
+    {allPages.length === 0 ? (
       <div class="flex-1 flex items-center justify-center">
         <div class="card bg-base-200 border border-base-300 w-full max-w-md">
           <div class="card-body items-center text-center py-16">
@@ -72,12 +92,22 @@ function fmtDate(d?: string): string {
           </div>
         </div>
       </div>
+    ) : pages.length === 0 ? (
+      <p class="text-center text-base-content/60 font-sans py-16">
+        All your pages are unpublished. <a href="/dashboard?all=1" class="underline underline-offset-4 hover:text-base-content">Show them</a>
+      </p>
     ) : (
       <div class="grid gap-4">
-        {pages.map((p) => (
-          <div class:list={["card bg-base-100 border shadow-sm hover:shadow-md transition-shadow", justPublished?.slug === p.slug ? "border-primary" : "border-base-300"]}>
-            <div class="card-body flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-5">
-              <div class="flex-1 min-w-0">
+        {pages.map((p) => {
+          const live = p.visibility === "public";
+          return (
+          <div class:list={[
+            "card border transition-shadow",
+            live ? "bg-base-100 shadow-sm hover:shadow-md" : "bg-transparent border-dashed",
+            justPublished?.slug === p.slug ? "border-primary" : live ? "border-base-300" : "border-base-content/25",
+          ]}>
+            <div class="card-body flex-row items-center gap-3 p-5">
+              <div class:list={["flex-1 min-w-0", !live && "opacity-60"]}>
                 <div class="flex items-center gap-2 flex-wrap">
                   <h2 class="font-semibold text-base-content truncate font-display"><a href={`/sorry/${p.slug}`} class="hover:text-primary transition-colors">{p.title}</a></h2>
                   {p.likes > 0 && <span class="badge badge-sm badge-ghost gap-1 font-sans">💛 {p.likes}</span>}
@@ -90,15 +120,11 @@ function fmtDate(d?: string): string {
                   To {p.recipientName || p.recipient}{p.createdAt && <span> · {fmtDate(p.createdAt)}</span>}
                 </p>
               </div>
-              <div class="flex items-center gap-1 shrink-0 justify-between sm:justify-end border-t border-base-200 pt-3 sm:border-t-0 sm:pt-0">
-                <a href={`/sorry/${p.slug}`} class="btn btn-sm btn-primary gap-1.5 font-sans">
-                  Open
-                </a>
-                <PageMenu client:load slug={p.slug} isPublic={p.visibility === "public"} recipientName={p.recipientName} />
-              </div>
+              <PageMenu client:load slug={p.slug} isPublic={live} recipientName={p.recipientName} />
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
     )}
   </main>
