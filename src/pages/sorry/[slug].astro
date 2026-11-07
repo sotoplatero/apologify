@@ -50,4 +50,27 @@ const pageSchema = {
 <LayoutBase title={metaTitle} description={description} canonicalUrl={canonicalUrl} ogImage={ogImage} schema={[pageSchema]} noindex={noindex}>
   {!preview && <EnvelopeReveal slug={page.slug} recipientName={page.recipientName} senderName={page.senderName} />}
   <Template {...data} />
+  {!preview && (
+    <>
+      <a id="ap-back" href="/dashboard" hidden>← Your pages</a>
+      <script is:inline define:vars={{ slug: page.slug }}>
+        try {
+          if (sessionStorage.getItem("apologify_from_dashboard") === slug) document.getElementById("ap-back").hidden = false;
+        } catch (_) {}
+      </script>
+      <style is:global>
+        #ap-back {
+          position: fixed; top: 12px; left: 12px; z-index: 60;
+          padding: 0.55rem 0.9rem;
+          background: rgba(250, 247, 241, 0.92); color: #241F1A;
+          border: 1px solid rgba(36, 31, 26, 0.18);
+          font: 500 0.68rem/1 "Jost", system-ui, sans-serif;
+          letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none;
+          backdrop-filter: blur(6px);
+        }
+        #ap-back[hidden] { display: none; }
+        #ap-back:hover { background: #241F1A; color: #FAF7F1; }
+      </style>
+    </>
+  )}
 </LayoutBase>

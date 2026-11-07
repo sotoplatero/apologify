@@ -78,7 +78,7 @@
 
   {#if open}
     <div role="menu" class="absolute right-0 top-full mt-1 z-30 w-52 bg-base-100 border border-base-300 shadow-lg py-1">
-      <a role="menuitem" class={item} href={`/sorry/${slug}`}>Open</a>
+      <a role="menuitem" class={item} href={`/sorry/${slug}`} data-from-dashboard={slug}>Open</a>
       {#if isPublic}
         <div class="border-t border-base-200 my-1"></div>
         <button role="menuitem" type="button" class={item} on:click={share}>{canShare ? "Share…" : "Share (copy link)"}</button>

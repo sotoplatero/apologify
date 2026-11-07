@@ -104,7 +104,7 @@ function fmtDate(d?: string): string {
             <div class="card-body flex-row items-center gap-3 p-5">
               <div class:list={["flex-1 min-w-0", !live && "opacity-60"]}>
                 <div class="flex items-center gap-2 flex-wrap">
-                  <h2 class="font-semibold text-base-content truncate font-display"><a href={`/sorry/${p.slug}`} class="hover:text-primary transition-colors">{p.title}</a></h2>
+                  <h2 class="font-semibold text-base-content truncate font-display"><a href={`/sorry/${p.slug}`} data-from-dashboard={p.slug} class="hover:text-primary transition-colors">{p.title}</a></h2>
                   {p.likes > 0 && <span class="badge badge-sm badge-ghost gap-1 font-sans">💛 {p.likes}</span>}
                   {(() => {
                     const s = status(p);
@@ -124,3 +124,15 @@ function fmtDate(d?: string): string {
     )}
   </main>
 </Layout>
+
+<script is:inline>
+  // Opening a letter from here: remember it for this tab, so the letter shows
+  // a "← Your pages" link (never put in the URL, which gets copied and shared).
+  if (!window.__apFromDash) {
+    window.__apFromDash = true;
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest("a[data-from-dashboard]");
+      if (a) try { sessionStorage.setItem("apologify_from_dashboard", a.dataset.fromDashboard); } catch (_) {}
+    }, true);
+  }
+</script>
