@@ -64,7 +64,7 @@ const pageSchema = {
 ---
 
 <LayoutBase title={metaTitle} description={description} canonicalUrl={canonicalUrl} ogImage={ogImage} schema={[pageSchema]} noindex={noindex}>
-  {!preview && !justPublished && <EnvelopeReveal slug={page.slug} recipientName={page.recipientName} senderName={page.senderName} />}
+  {!preview && !isOwner && !justPublished && <EnvelopeReveal slug={page.slug} recipientName={page.recipientName} senderName={page.senderName} />}
   <Template {...data} />
   {isOwner && <SharePanel client:load slug={page.slug} justPublished={justPublished} openSend={openSend} recipientName={page.recipientName} qrSvg={qrSvg} />}
 </LayoutBase>

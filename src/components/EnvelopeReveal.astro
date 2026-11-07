@@ -32,43 +32,45 @@ const from = senderName?.trim();
 <noscript><style>#envelope-reveal { display: none !important; }</style></noscript>
 
 <script is:inline define:vars={{ slug }}>
-  // Synchronous check so repeat visits in the same session never flash the envelope.
-  try {
-    if (sessionStorage.getItem(`apologify_opened_${slug}`) === "1") {
-      document.getElementById("envelope-reveal")?.remove();
-    } else {
-      document.documentElement.classList.add("er-locked");
-    }
-  } catch (_) {}
-</script>
+  // Everything needed to open the envelope lives here, inline, so it works even
+  // if the page's bundled JS fails to load (stale cache, blocker, slow network).
+  (function () {
+    var root = document.getElementById("envelope-reveal");
+    if (!root) return;
+    var key = "apologify_opened_" + slug;
+    try {
+      if (sessionStorage.getItem(key) === "1") { root.remove(); return; }
+    } catch (_) {}
+    document.documentElement.classList.add("er-locked");
 
-<script>
-  import { actions } from "astro:actions";
-
-  const root = document.getElementById("envelope-reveal");
-  if (root) {
-    const slug = root.dataset.slug!;
-    const button = root.querySelector<HTMLButtonElement>(".er-open")!;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    const open = () => {
+    var button = root.querySelector(".er-open");
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function open() {
       if (root.classList.contains("is-opening")) return;
       root.classList.add("is-opening");
-      try { sessionStorage.setItem(`apologify_opened_${slug}`, "1"); } catch (_) {}
-      actions.markApologyOpened({ slug }).catch(() => {});
-      window.setTimeout(() => {
+      try { sessionStorage.setItem(key, "1"); } catch (_) {}
+      window.dispatchEvent(new CustomEvent("apology:opened", { detail: { slug: slug } }));
+      window.setTimeout(function () {
         document.documentElement.classList.remove("er-locked");
         root.remove();
       }, reduce ? 220 : 1500);
-    };
-
+    }
     button.addEventListener("click", open);
-    root.querySelector(".er-envelope")?.addEventListener("click", open);
-    root.addEventListener("keydown", (e) => {
+    root.querySelector(".er-envelope").addEventListener("click", open);
+    root.addEventListener("keydown", function (e) {
       if (e.key === "Escape") open();
       if (e.key === "Tab") { e.preventDefault(); button.focus(); } // single control: keep focus here
     });
-  }
+  })();
+</script>
+
+<script>
+  // Only records the first open (so the sender is told); opening never waits on it.
+  import { actions } from "astro:actions";
+  window.addEventListener("apology:opened", (e) => {
+    const slug = (e as CustomEvent<{ slug: string }>).detail.slug;
+    actions.markApologyOpened({ slug }).catch(() => {});
+  });
 </script>
 
 <style is:global>
