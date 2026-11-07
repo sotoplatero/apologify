@@ -1,0 +1,422 @@
+---
+// Pillar page: "How to apologize" — the Apologify method. Every claim about what
+// people apologize for comes from our own study (src/data/apology-study.json);
+// spokes link out to the relationship builders, the letter guide and examples.
+import Layout from "../layouts/Layout.astro";
+import study from "../data/apology-study.json";
+
+const total = study.sample.analyzed;
+const pctOf = (key: string) => study.byCategory.find((c) => c.key === key)?.pct ?? 0;
+const words = Math.round((pctOf("hurtful_words") + pctOf("temper") + pctOf("disrespect")) * 10) / 10;
+
+const steps = [
+  {
+    title: "Say sorry, plainly",
+    body: "Lead with the apology itself, not the backstory. “I’m sorry” in the first sentence tells them this is about them.",
+    line: "I’m sorry for what I said to you on Saturday.",
+  },
+  {
+    title: "Name exactly what you did",
+    body: `The step most apologies skip. In our study, ${study.vaguePct}% of people described what happened only as “a misunderstanding.” Say the specific thing, in the words they’d use.`,
+    line: "In front of your sister, I said you never finish anything.",
+  },
+  {
+    title: "Show you understand how it landed",
+    body: "Describe what it did to them, without debating whether it should have. This is the part that makes someone feel heard.",
+    line: "You’d been nervous about that dinner all week, and I made you feel small.",
+  },
+  {
+    title: "Take responsibility, with no “but”",
+    body: "One honest line of context is fine. An excuse isn’t. If a sentence starts with “but” or “if you felt,” cut it.",
+    line: "I was stressed, but that was mine to deal with, not yours to absorb.",
+  },
+  {
+    title: "Say what you’ll do differently",
+    body: "One concrete change, small enough to actually keep. Then give them time. Don’t demand forgiveness on the spot.",
+    line: "Next time I’m on edge, I’ll say so instead of taking it out on you.",
+  },
+];
+
+const situations = [
+  {
+    id: "hurtful-words",
+    title: "For something hurtful you said",
+    share: pctOf("hurtful_words"),
+    body: "Quote the words back. “Sorry for what I said” forces them to relive it alone; “sorry I called your job pointless” shows you know exactly what hurt. Don’t explain what you “meant.” What they heard is what counts.",
+  },
+  {
+    id: "temper",
+    title: "For losing your temper",
+    share: pctOf("temper"),
+    body: "Apologize for the yelling, not just the topic. The argument may have been fair; the volume, the slammed door or the name-calling wasn’t. Say what you’ll do next time you feel it rising, like stepping out for ten minutes.",
+  },
+  {
+    id: "silence",
+    title: "For ignoring them or going silent",
+    share: pctOf("silence"),
+    body: `Silence is its own hurt: ${study.digital.pct}% of the apologies we studied involved a phone. Name how long and what it cost them: “I read your messages and didn’t answer for two days.” Then offer a better signal for next time: “I need a few hours, I’m not going anywhere.”`,
+  },
+  {
+    id: "lying",
+    title: "For lying or breaking trust",
+    share: pctOf("dishonesty"),
+    body: "Tell the whole truth now, not the part they already know. Trust comes back through behavior, so offer something checkable, and accept that it will take longer than one conversation.",
+  },
+  {
+    id: "not-there",
+    title: "For not being there",
+    share: pctOf("not_there"),
+    body: "Name the moment you missed and what it meant to them, not how busy you were. Then make a concrete plan, a date or a call, instead of “I’ll make it up to you.”",
+  },
+  {
+    id: "cheating",
+    title: "For cheating",
+    share: pctOf("cheating"),
+    body: "Answer their questions honestly, without minimizing. Don’t set a deadline for forgiveness or ask them to move on. Say what you’ve already changed, not only what you will.",
+  },
+  {
+    id: "forgot",
+    title: "For forgetting a birthday or anniversary",
+    share: pctOf("forgot_date"),
+    body: "Skip the excuse about the calendar. Say what the day meant to them and that you’re sorry they felt forgotten. Then celebrate it properly, soon, with something you planned yourself.",
+  },
+];
+
+const people = [
+  { label: "Your girlfriend", tip: "Be specific and warm. She’s heard “sorry babe” before.", gen: "girlfriend", guide: "how-to-write-an-apology-letter-to-a-girlfriend" },
+  { label: "Your boyfriend", tip: "Say it directly. Name what you did instead of hinting at it.", gen: "boyfriend", guide: "how-to-write-an-apology-letter-to-a-boyfriend" },
+  { label: "Your wife", tip: "Speak to the pattern if there is one, not just the latest moment.", gen: "wife" },
+  { label: "Your husband", tip: "Own your part fully before you bring up anything of his.", gen: "husband" },
+  { label: "A friend", tip: "Friendships rarely get a second apology. Make the first one count.", gen: "friend", guide: "how-to-write-an-apology-letter-to-a-friend" },
+  { label: "Your mom", tip: "Disrespect is the most common family apology. Name the tone, not just the words.", gen: "mother" },
+  { label: "Your dad", tip: "Keep it short and concrete. Show the change rather than promising it.", gen: "father" },
+  { label: "Your boss", tip: "Lead with the fix: what happened, what you’ve done, what changes.", gen: "boss" },
+  { label: "A coworker", tip: "Apologize where the hurt happened. If it was in front of the team, say so.", gen: "colleague" },
+  { label: "A teacher", tip: "Be respectful and brief, and say how you’ll behave next class.", gen: "teacher", guide: "how-to-write-an-apology-letter-to-a-teacher" },
+];
+
+const dont = [
+  ["“I’m sorry if you were hurt.”", "“If” puts their hurt in doubt. Say “I’m sorry I hurt you.”"],
+  ["“I’m sorry, but…”", "Everything after “but” erases what came before it."],
+  ["“Sorry for the misunderstanding.”", "It names nothing. Say what actually happened."],
+  ["“I’m sorry you feel that way.”", "That apologizes for their feelings, not your actions."],
+  ["“Can we just move on?”", "Moving on is their call. Ask, don’t push."],
+];
+
+const faqs = [
+  ["How do you apologize sincerely?", "Name exactly what you did, show you understand how it affected the other person, and say one concrete thing you’ll do differently, with no “but” and no excuses. Sincerity comes from specifics: the more precisely you name the moment, the more the apology reads as real."],
+  ["How do you apologize over text?", "Text works for small things or as a first step when they won’t talk yet. Keep it to the same five parts in a few sentences, avoid jokes and emojis, and offer to talk properly. For anything serious, send something they can open and keep, like a letter or an apology page, rather than one more message in the thread."],
+  ["Should I explain why I did it?", "One honest line of context can help them understand, but keep it short and never use it as a defense. If the explanation is longer than the apology, it has turned into an excuse."],
+  ["What if they don’t accept my apology?", "Accept that. An apology is something you give, not a trade for forgiveness. Tell them you understand, leave the door open, and let your changed behavior do the rest of the work."],
+  ["How long should an apology be?", "Long enough to name what happened, its impact and what changes: often four to six sentences spoken, or 100 to 250 words written. Longer usually means it has drifted into being about you."],
+  ["Is it ever too late to apologize?", "Rarely. A late apology that names the specific moment and admits the delay (“I should have said this months ago”) can still matter, especially for things that were never acknowledged."],
+];
+
+const title = "How to Apologize: The 5-Step Method From 845 Real Apologies";
+const description = `How to apologize so it actually lands: the 5 steps, what to say for hurtful words, silence, lying or cheating, what never to say, and how to apologize to a partner, friend, parent or boss. Based on ${total} real apologies.`;
+const canonicalUrl = new URL("/how-to-apologize", Astro.site).href;
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    description,
+    datePublished: "2026-11-07",
+    dateModified: "2026-11-07",
+    author: { "@type": "Organization", name: "Apologify", url: "https://apologify.com" },
+    publisher: { "@type": "Organization", name: "Apologify", url: "https://apologify.com", logo: { "@type": "ImageObject", url: "https://apologify.com/android-chrome-512x512.png" } },
+    mainEntityOfPage: canonicalUrl,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
+  },
+];
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schema={schema}>
+  <article class="ha">
+    <header class="ha-head">
+      <h1>How to apologize, properly</h1>
+      <p class="ha-answer">
+        Say sorry plainly, name exactly what you did, show you understand how it affected them, take responsibility
+        without a “but,” and say what you’ll do differently. Then give them time.
+      </p>
+      <p class="ha-lede">
+        That’s the whole method. The rest of this page is how to do each part well, for the situations people actually
+        apologize for. It comes from reading <a href="/research/why-people-apologize">{total} real apologies</a>, not
+        from a greeting-card aisle.
+      </p>
+      <nav class="ha-toc" aria-label="On this page">
+        <a href="#method">The 5 steps</a>
+        <a href="#dont">What not to say</a>
+        <a href="#situations">By situation</a>
+        <a href="#people">By person</a>
+        <a href="#how">Text, letter or in person</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </header>
+
+    <section id="method" class="ha-sec">
+      <h2>The 5 steps of a real apology</h2>
+      <ol class="ha-steps">
+        {steps.map((s, i) => (
+          <li>
+            <span class="ha-n" aria-hidden="true">{i + 1}</span>
+            <div>
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+              <p class="ha-line">“{s.line}”</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="ha-cta-inline">
+        Want help with the wording? <a href="/generator">Write your apology</a>: tell us what happened and we draft it
+        with all five parts, about your situation, never a template.
+      </p>
+    </section>
+
+    <section class="ha-facts" aria-label="What 845 real apologies show">
+      <div><strong>{words}%</strong><span>were about <em>words</em>: something hurtful, a lost temper, disrespect.</span></div>
+      <div><strong>{study.vaguePct}%</strong><span>couldn’t name what they did: “sorry for the misunderstanding.”</span></div>
+      <div><strong>{pctOf("forgot_date")}%</strong><span>were for a forgotten birthday or anniversary. The clichés are rare.</span></div>
+    </section>
+
+    <section id="dont" class="ha-sec">
+      <h2>What not to say</h2>
+      <p>These phrases sound like apologies but leave the other person feeling worse.</p>
+      <dl class="ha-dont">
+        {dont.map(([phrase, why]) => (<div><dt>{phrase}</dt><dd>{why}</dd></div>))}
+      </dl>
+    </section>
+
+    <section id="situations" class="ha-sec">
+      <h2>How to apologize for what you actually did</h2>
+      <p>The most common reasons in our study, and what each one needs from an apology.</p>
+      {situations.map((s) => (
+        <div class="ha-sit" id={s.id}>
+          <h3>{s.title}<span class="ha-share">{s.share}% of apologies</span></h3>
+          <p>{s.body}</p>
+        </div>
+      ))}
+    </section>
+
+    <section id="people" class="ha-sec">
+      <h2>How to apologize to…</h2>
+      <p>The steps don’t change, but what matters most does.</p>
+      <ul class="ha-people">
+        {people.map((p) => (
+          <li>
+            <h3>{p.label}</h3>
+            <p>{p.tip}</p>
+            <p class="ha-links">
+              <a href={`/generator/${p.gen}`}>Write it</a>
+              {p.guide && <a href={`/articles/${p.guide}`}>Letter guide</a>}
+              <a href={`/examples/${p.gen}`}>Examples</a>
+            </p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section id="how" class="ha-sec">
+      <h2>Text, letter or in person?</h2>
+      <dl class="ha-dont">
+        <div><dt>In person</dt><dd>Best for serious hurts and the people you live with. Follow the five steps out loud, then stop talking and listen.</dd></div>
+        <div><dt>A letter</dt><dd>Best when they won’t talk yet, when emotions run high, or when you need to get the words right. Read <a href="/articles/how-to-write-an-apology-letter">how to write an apology letter</a>.</dd></div>
+        <div><dt>A text</dt><dd>Fine for small things, or as a first step (“I owe you an apology, can we talk tonight?”). Not for the big ones.</dd></div>
+        <div><dt>An apology page</dt><dd>A letter they can open, keep and answer, sent as a link. That’s what <a href="/generator">Apologify</a> makes, free, in any of our designs.</dd></div>
+      </dl>
+    </section>
+
+    <section class="ha-sec">
+      <h2>After you apologize</h2>
+      <p>
+        Give them time and don’t ask again the next day whether you’re forgiven. Then do the thing you said you’d do,
+        visibly, more than once. The apology opens the door; the change is what lets them walk back through it.
+      </p>
+    </section>
+
+    <section id="faq" class="ha-sec">
+      <h2>Frequently asked questions</h2>
+      <div class="ha-faq">
+        {faqs.map(([q, a]) => (<details><summary>{q}</summary><p>{a}</p></details>))}
+      </div>
+    </section>
+
+    <aside class="ha-end">
+      <h2>Ready to say it?</h2>
+      <p>Tell us what happened. We’ll help you write an apology that names it, then send it as a page they can open and answer.</p>
+      <div class="ha-end-actions">
+        <a href="/generator" class="ha-btn">Write my apology</a>
+        <a href="/sorry-card" class="ap-link">Or send a sorry card</a>
+      </div>
+    </aside>
+  </article>
+</Layout>
+
+<style>
+  .ha { max-width: 46rem; margin: 0 auto; padding: clamp(2rem, 6vw, 4rem) 0 5rem; color: var(--ap-ink); }
+  .ha a:not(.ha-btn) { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  .ha a:not(.ha-btn):hover { color: var(--ap-red); }
+
+  .ha-head h1 {
+    margin: 0;
+    font-family: "Spectral", Georgia, serif;
+    font-weight: 300;
+    font-size: clamp(2.6rem, 7vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+  .ha-answer {
+    margin: 1.75rem 0 0;
+    font-family: "Spectral", Georgia, serif;
+    font-size: clamp(1.3rem, 2.4vw, 1.6rem);
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    text-wrap: pretty;
+  }
+  .ha-lede, .ha-sec p, .ha-sit p, .ha-faq p {
+    font-family: "Spectral", Georgia, serif;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--ap-body);
+    max-width: 68ch;
+    text-wrap: pretty;
+  }
+  .ha-lede { margin: 1.25rem 0 0; }
+  .ha-toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.4rem;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--ap-rule);
+    font-family: "Jost", system-ui, sans-serif;
+    font-size: 0.92rem;
+  }
+
+  .ha-sec { margin-top: clamp(3.5rem, 8vw, 5rem); padding-top: 1.25rem; border-top: 1px solid var(--ap-ink); }
+  .ha-sec h2, .ha-end h2 {
+    margin: 0 0 1rem;
+    font-family: "Spectral", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(1.9rem, 4vw, 2.6rem);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+  .ha-sec h3 {
+    margin: 0;
+    font-family: "Spectral", Georgia, serif;
+    font-weight: 500;
+    font-size: 1.35rem;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  .ha-steps { list-style: none; margin: 1.5rem 0 0; padding: 0; }
+  .ha-steps li { display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; padding: 1.5rem 0; border-top: 1px solid var(--ap-rule); }
+  .ha-steps li:first-child { border-top: 0; padding-top: 0.5rem; }
+  .ha-n {
+    font-family: "Spectral", Georgia, serif;
+    font-weight: 300;
+    font-size: 2.6rem;
+    line-height: 0.9;
+    color: var(--ap-red);
+    font-variant-numeric: tabular-nums;
+  }
+  .ha-steps p { margin: 0.5rem 0 0; }
+  .ha .ha-line {
+    font-family: "Dancing Script", cursive;
+    font-size: 1.45rem;
+    line-height: 1.3;
+    color: #2C4A6E;
+    margin-top: 0.75rem;
+  }
+  .ha-cta-inline { margin-top: 1.5rem !important; padding-top: 1.25rem; border-top: 1px solid var(--ap-rule); }
+
+  .ha-facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: clamp(3rem, 7vw, 4.5rem);
+    border-top: 1px solid var(--ap-ink);
+    border-bottom: 1px solid var(--ap-rule);
+  }
+  .ha-facts div { padding: 1.25rem 1.25rem 1.4rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .ha-facts div + div { padding-left: 1.25rem; border-left: 1px solid var(--ap-rule); }
+  .ha-facts strong {
+    font-family: "Spectral", Georgia, serif;
+    font-weight: 300;
+    font-size: 2.5rem;
+    line-height: 1;
+    color: var(--ap-red);
+    font-variant-numeric: tabular-nums;
+  }
+  .ha-facts span { font-family: "Jost", system-ui, sans-serif; font-size: 0.92rem; line-height: 1.5; color: var(--ap-body); }
+
+  .ha-dont { margin: 1.25rem 0 0; }
+  .ha-dont div { display: grid; grid-template-columns: 15rem 1fr; gap: 1.5rem; padding: 1rem 0; border-top: 1px solid var(--ap-rule); }
+  .ha-dont div:last-child { border-bottom: 1px solid var(--ap-rule); }
+  .ha-dont dt { font-family: "Spectral", Georgia, serif; font-size: 1.15rem; line-height: 1.4; }
+  .ha-dont dd { margin: 0; font-family: "Jost", system-ui, sans-serif; font-size: 0.97rem; line-height: 1.6; color: var(--ap-body); }
+
+  .ha-sit { padding: 1.4rem 0; border-top: 1px solid var(--ap-rule); scroll-margin-top: 1.5rem; }
+  .ha-sit:first-of-type { margin-top: 1rem; }
+  .ha-sit p { margin: 0.5rem 0 0; }
+  .ha-share {
+    display: inline-block;
+    margin-left: 0.75rem;
+    font-family: "Jost", system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    color: var(--ap-mute);
+    font-variant-numeric: tabular-nums;
+    vertical-align: 0.2em;
+  }
+
+  .ha-people { list-style: none; margin: 1.25rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 2.5rem; }
+  .ha-people li { padding: 1.2rem 0; border-top: 1px solid var(--ap-rule); }
+  .ha-people h3 { font-size: 1.25rem !important; }
+  .ha-people p { margin: 0.4rem 0 0; font-size: 1rem !important; }
+  .ha .ha-links { display: flex; gap: 1.1rem; margin-top: 0.6rem; font-family: "Jost", system-ui, sans-serif; font-size: 0.88rem; }
+
+  .ha-faq details { border-top: 1px solid var(--ap-rule); padding: 1rem 0; }
+  .ha-faq details:last-child { border-bottom: 1px solid var(--ap-rule); }
+  .ha-faq summary { cursor: pointer; font-family: "Spectral", Georgia, serif; font-size: 1.2rem; line-height: 1.4; list-style: none; }
+  .ha-faq summary::-webkit-details-marker { display: none; }
+  .ha-faq summary::after { content: "+"; float: right; font-family: "Jost", system-ui, sans-serif; color: var(--ap-red); }
+  .ha-faq details[open] summary::after { content: "–"; }
+  .ha-faq p { margin: 0.6rem 0 0; }
+
+  .ha-end { margin-top: clamp(4rem, 9vw, 6rem); padding: clamp(1.75rem, 4vw, 2.5rem); background: var(--ap-soft); }
+  .ha-end p { font-family: "Spectral", Georgia, serif; font-size: 1.15rem; line-height: 1.6; color: var(--ap-body); max-width: 40rem; margin: 0; }
+  .ha-end-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2rem; margin-top: 1.5rem; font-family: "Jost", system-ui, sans-serif; }
+  .ha-btn {
+    display: inline-block;
+    padding: 1rem 1.8rem;
+    background: var(--ap-red);
+    color: #FBF8F2;
+    font-family: "Jost", system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 0.2s;
+  }
+  .ha-btn:hover { background: #AD2228; }
+
+  @media (max-width: 720px) {
+    .ha-facts { grid-template-columns: 1fr; }
+    .ha-facts div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--ap-rule); }
+    .ha-dont div { grid-template-columns: 1fr; gap: 0.35rem; }
+    .ha-people { grid-template-columns: 1fr; }
+    .ha-steps li { grid-template-columns: 2.25rem 1fr; }
+  }
+</style>

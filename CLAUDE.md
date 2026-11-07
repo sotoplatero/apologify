@@ -105,6 +105,7 @@ Weekly newsletter of public apologies scored 0–5 in half points (signed-in rea
 
 - `/` — homepage. `/generator`, `/generator/[recipient]` — builder (recipient landings target "sorry website for {recipient}", with real example links + FAQs).
 - `/sorry/[slug]` — the live page (public = indexable; draft/preview = `noindex`). `/og/[slug].png`, `/story/[slug].png` — share images.
+- `/how-to-apologize` — pillar guide (the 5-step "Apologify method", by situation and by person, FAQ schema); figures come from `apology-study.json`. Hub of the "default site for apologies" strategy: home, header, footer and guides link to it.
 - `/sorry-card` — US "sorry card" landing. `/research/why-people-apologize` — study. `/designs` — design gallery.
 - `/publish?slug=&theme=`, `/dashboard` (owner's pages + status; ⋮ menu; `?all=1` includes unpublished), `/demo?theme=`.
 - `/examples*`, `/articles*` — legacy library + blog.

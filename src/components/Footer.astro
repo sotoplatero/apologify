@@ -7,6 +7,7 @@ const topTones = tones.filter((t) => t.value !== "other").slice(0, 6);
 
 const site = [
   { href: "/generator", label: "Apology builder" },
+  { href: "/how-to-apologize", label: "How to apologize" },
   { href: "/designs", label: "Designs" },
   { href: "/articles/how-to-write-an-apology-letter", label: "How to write an apology letter" },
   { href: "/sorry-card", label: "Sorry cards" },
@@ -37,7 +38,7 @@ const site = [
 
     <nav class="ap-foot-col" aria-labelledby="foot-dir">
       <h2 id="foot-dir">Directory</h2>
-      <ul>{recipients.map((r) => <li><a href={`/examples?recipient=${r.value}`}>{r.label} examples</a></li>)}</ul>
+      <ul>{recipients.map((r) => <li><a href={`/examples/${r.value}`}>{r.label} examples</a></li>)}</ul>
     </nav>
 
     <nav class="ap-foot-col" aria-labelledby="foot-tones">

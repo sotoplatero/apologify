@@ -65,6 +65,14 @@ const steps = [
   ["Share the link", "Publish and send them their own page — one they can open, accept, and share back."],
 ];
 
+const method = [
+  ["Say sorry, plainly", "Lead with the apology itself, not the backstory."],
+  ["Name exactly what you did", "The step most apologies skip: 12.3% of people only wrote “sorry for the misunderstanding.”"],
+  ["Show you understand how it landed", "Describe what it did to them, without arguing whether it should have."],
+  ["Take responsibility, no “but”", "One line of context is fine. An excuse isn’t."],
+  ["Say what you’ll do differently", "One concrete change you can keep. Then give them time."],
+];
+
 const faqs = [
   ["How does the apology website builder work?", "Tell us who the apology is for, what happened, and the tone you want. Our AI writes a sincere, personal apology; you pick a design you love and switch it live; then you share it as its own web page — all in under a minute."],
   ["Who can see my apology?", "By default your page is a private draft — only people you send the link to can open it. It stays private until you decide to publish. Publishing makes it public and findable, and that's always your choice."],
@@ -81,7 +89,7 @@ const webSiteSchema = {
   "name": "Apologify",
   "alternateName": "Apologify.com",
   "url": "https://apologify.com",
-  "description": "Write a heartfelt apology and turn it into a beautiful, shareable web page in seconds. Free apology website builder with multiple designs."
+  "description": "Write a sincere apology letter and send it as a beautiful, shareable web page. Free apology letter writer and sorry website maker, plus a guide to how to apologize."
 };
 
 const organizationSchema = {
@@ -105,7 +113,7 @@ const faqSchema = {
 };
 ---
 
-<Layout title="Apology Website Maker — Create a Free Sorry Website & Link" description="Make a cute sorry website for your girlfriend, boyfriend or friend in seconds: write what happened, pick a design, and send them the link. Free, no signup to create." schema={[webSiteSchema, organizationSchema, faqSchema]}>
+<Layout title="Write an Apology Letter & Send It as a Sorry Website — Free" description="Write a sincere apology letter about what actually happened, then send it as a beautiful sorry website your girlfriend, boyfriend, partner or friend can open and answer. Free, no signup to create." schema={[webSiteSchema, organizationSchema, faqSchema]}>
   <Hero />
 
   <!-- Why a page: the three usual failures, then what we do instead. -->
@@ -159,6 +167,20 @@ const faqSchema = {
           <h3 class="step-title">{title}</h3>
           <p>{detail}</p>
         </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- The method: the short answer to "how do I write an apology letter?" -->
+  <section class="block split">
+    <div>
+      <h2 class="split-title">How to write an apology letter</h2>
+      <p class="lede">Five parts, in this order. Every apology we help you write follows them.</p>
+      <a href="/how-to-apologize" class="ap-link split-alt">The full guide: how to apologize</a>
+    </div>
+    <ol class="method">
+      {method.map(([name, detail], i) => (
+        <li><span class="method-n">{i + 1}</span><div><h3>{name}</h3><p>{detail}</p></div></li>
       ))}
     </ol>
   </section>
@@ -226,7 +248,7 @@ const faqSchema = {
   <section class="block">
     <header class="block-head">
       <h2 class="block-title">Learn how to apologize the right way</h2>
-      <p class="block-copy">Expert advice on crafting apologies that actually repair relationships.</p>
+      <p class="block-copy">Start with <a href="/how-to-apologize" class="ap-link">how to apologize</a>, built on 845 real apologies, then go deeper by situation.</p>
     </header>
     <div class="guides">
       {recentArticles.map((article) => (
@@ -296,6 +318,12 @@ const faqSchema = {
   .design-name { display: block; margin-top: 1rem; font-family: 'Spectral', Georgia, serif; font-size: 1.4rem; letter-spacing: -0.015em; color: var(--ap-ink); }
   .design:hover .design-name { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
 
+  .method { list-style: none; margin: 0; padding: 0; }
+  .method li { display: grid; grid-template-columns: 2.75rem 1fr; gap: 1rem; padding: 1.1rem 0; border-top: 1px solid var(--ap-rule); }
+  .method li:last-child { border-bottom: 1px solid var(--ap-rule); }
+  .method-n { font-family: 'Spectral', Georgia, serif; font-weight: 300; font-size: 2rem; line-height: 1; color: var(--ap-red); font-variant-numeric: tabular-nums; }
+  .method h3 { margin: 0; font-family: 'Spectral', Georgia, serif; font-weight: 400; font-size: 1.3rem; letter-spacing: -0.01em; color: var(--ap-ink); }
+  .method p { margin: 0.3rem 0 0; font-family: 'Jost', system-ui, sans-serif; font-size: 0.95rem; line-height: 1.6; color: var(--ap-body); }
   .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .steps li { padding: 0 clamp(1.25rem, 3vw, 2.5rem); border-left: 1px solid var(--ap-rule); }
   .steps li:first-child { padding-left: 0; border-left: 0; }
