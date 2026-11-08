@@ -3,8 +3,16 @@ import Layout from '../../layouts/Layout.astro';
 import ApologyGenerator from '../../components/ApologyGenerator.svelte';
 import { recipients } from '../../lib/apologyData.js';
 
-const title = "Apology Website Builder — Make a Free Sorry Page";
-const description = "Write a heartfelt apology and turn it into a shareable web page in seconds. Say who it's for, what happened, pick a theme, and publish. Free.";
+// Targets "write me an apology letter" (US ~170/mo, doubling yearly) while keeping
+// the sorry-page angle the product is known for.
+const title = "Write Me an Apology Letter — Free Apology Letter Generator";
+const description = "Tell us who it's for and what happened. We write a sincere apology letter about that exact moment, then turn it into a page you can send. Free, no signup to start.";
+
+const tips = [
+  ["Name what you did", "“I'm sorry I left you waiting at dinner,” not “sorry for everything.” The more specific, the more it's believed."],
+  ["Show how it landed", "One line on how they felt. It tells them you understood, not just that you got caught."],
+  ["Say what changes", "One concrete promise you can keep. Then keep it."],
+];
 
 // Internal links to the SEO landing pages (each prefills the generator).
 const popular = recipients.filter((r) => r.value !== "public");
@@ -14,15 +22,33 @@ const popular = recipients.filter((r) => r.value !== "public");
   <div class="max-w-screen-lg mx-auto py-12 md:py-16">
     <header class="text-center mb-10">
       <h1 class="font-display text-4xl md:text-6xl text-base-content mb-5" style="text-wrap: balance;">
-        Apology Website Builder
+        Write me an apology letter
       </h1>
       <p class="text-lg text-base-content/75 max-w-2xl mx-auto font-sans" style="text-wrap: balance;">
-        Write a sincere apology and turn it into a beautiful, shareable page. Tell us who it's
-        for and what happened — we'll handle the words.
+        Tell us who it's for and what happened. We'll write a sincere apology letter about that
+        exact moment, and turn it into a beautiful page you can send.
       </p>
     </header>
 
     <ApologyGenerator client:load />
+
+    <section class="mt-16 pt-6 border-t border-base-300 font-sans">
+      <h2 class="font-display text-3xl md:text-4xl text-base-content mb-8">What makes an apology letter work</h2>
+      <ol class="grid md:grid-cols-3 gap-8 md:gap-10 list-none p-0 m-0">
+        {tips.map(([h, p], i) => (
+          <li>
+            <span class="font-display text-4xl font-light text-primary leading-none" aria-hidden="true">{i + 1}</span>
+            <h3 class="font-display text-xl text-base-content mt-3 mb-2">{h}</h3>
+            <p class="text-[0.95rem] leading-relaxed text-base-content/75 m-0">{p}</p>
+          </li>
+        ))}
+      </ol>
+      <p class="mt-8 text-[0.95rem]">
+        <a href="/how-to-apologize" class="ap-link text-base-content">The full guide: how to apologize</a>
+        <span class="text-base-content/40 mx-3" aria-hidden="true">·</span>
+        <a href="/sorry-card" class="ap-link text-base-content">Send it as a sorry card</a>
+      </p>
+    </section>
 
     <section class="mt-16 pt-6 border-t border-base-300 text-center font-sans">
       <h2 class="caps text-base-content/70 mb-5">Popular apologies</h2>

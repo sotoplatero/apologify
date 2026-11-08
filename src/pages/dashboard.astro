@@ -26,7 +26,7 @@ function status(p: (typeof allPages)[number]) {
   if (p.response === "forgiven") return { label: "Forgiven ❤️", cls: "badge-secondary", title: `Answered ${fmtDate(p.respondedAt ?? undefined)}` };
   if (p.response === "not_yet") return { label: "Needs time", cls: "badge-outline", title: `Answered ${fmtDate(p.respondedAt ?? undefined)}` };
   if (p.openedAt) return { label: "Opened", cls: "badge-accent badge-outline", title: `Opened ${fmtDate(p.openedAt)}` };
-  return { label: "Not opened yet", cls: "badge-ghost text-base-content/60", title: "They haven't opened the envelope yet" };
+  return { label: "Not opened yet", cls: "badge-ghost text-base-content/60", title: "They haven't opened it yet" };
 }
 
 function fmtDate(d?: string): string {

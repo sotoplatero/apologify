@@ -4,7 +4,7 @@ import { listThemes } from "../lib/themes.js";
 import study from "../data/apology-study.json";
 
 // US-facing landing: Apologify positioned as the modern "sorry card"
-// ("sorry card" ~1.6k/mo, "apology card" ~720/mo in the US).
+// ("sorry card" ~1.6k/mo, "i'm sorry card" and "apology card" ~720/mo each in the US).
 const themes = listThemes();
 const featured = ["classic", "postcard", "velvet", "handwritten", "watercolor", "starry", "cute-duck", "editorial"]
   .map((id) => themes.find((t) => t.id === id))
@@ -14,15 +14,15 @@ const hero = ["postcard", "classic", "velvet"];
 const pct = (key: string) => study.byCategory.find((c) => c.key === key)?.pct ?? 0;
 const wordsPct = Math.round((pct("hurtful_words") + pct("temper") + pct("disrespect")) * 10) / 10;
 
-const title = "Sorry Card — A Free Digital Apology Card They'll Actually Open";
+const title = "Sorry Card: Make a Free “I'm Sorry” Card Online — Digital Apology Card";
 const description =
-  `Make a sorry card in minutes: say what happened, pick one of ${themes.length} card designs, and send the link. They open a sealed envelope, read it, and can answer “I forgive you.” Free.`;
+  `Make a sorry card in minutes: say what happened, pick one of ${themes.length} card designs, and send the link. They see their name and your seal, open it, and can answer “I forgive you.” Free.`;
 const canonicalUrl = new URL("/sorry-card", Astro.site).href;
 
 const faqs = [
   {
     q: "What is a digital sorry card?",
-    a: "It's an apology card that arrives as a link instead of in the mail. Apologify turns what you want to say into a card-style page with its own design. When they tap the link, they open a sealed envelope with their name on it and read your apology.",
+    a: "It's an apology card that arrives as a link instead of in the mail. Apologify turns what you want to say into a card-style page with its own design. When they tap the link, they see their name under your seal; one tap opens your apology.",
   },
   {
     q: "Is it free?",
@@ -34,11 +34,15 @@ const faqs = [
   },
   {
     q: "Can I give it as a real card?",
-    a: "Yes. Every card comes with a QR code you can print and tuck inside a paper card, a note or a bunch of flowers. Scanning it opens the envelope.",
+    a: "Yes. Every card comes with a QR code you can print and tuck inside a paper card, a note or a bunch of flowers. Scanning it opens your card.",
   },
   {
     q: "Will I know if they opened it?",
     a: "Yes. Your dashboard shows whether the card has been opened, and if they answer “I forgive you” or “I need some time.” You can also get an email when it happens.",
+  },
+  {
+    q: "Is an “I'm sorry” card the same as an apology card?",
+    a: "Yes, people search for both. An I'm sorry card tends to be personal (a partner, a friend, family); an apology card can be more formal (a coworker, a boss, a client). Apologify does both: pick a tone when you write it and a design that fits.",
   },
   {
     q: "What should I write in a sorry card?",
@@ -64,17 +68,29 @@ const schema = [
 const compare = [
   { label: "Arrives today", paper: false, ecard: true, us: true },
   { label: "Written about what actually happened", paper: false, ecard: false, us: true },
-  { label: "Opens like a real envelope", paper: true, ecard: false, us: true },
+  { label: "Feels like opening a real card", paper: true, ecard: "Sometimes", us: true },
   { label: "They can answer “I forgive you”", paper: false, ecard: false, us: true },
   { label: "You know when it's opened", paper: false, ecard: "Sometimes", us: true },
   { label: "Can be printed as a real card", paper: true, ecard: false, us: "With a QR" },
   { label: "Free", paper: false, ecard: "Sometimes", us: true },
 ];
 
+// What to write: short, specific lines by person (each opens the builder for them).
+const messages = [
+  { who: "Girlfriend", gen: "girlfriend", text: "I'm sorry I made fun of your idea in front of everyone. It wasn't funny, it was unkind, and you deserved better from me. Next time I'll listen first." },
+  { who: "Boyfriend", gen: "boyfriend", text: "I'm sorry I went through your phone. I let my own worry turn into not trusting you, and that wasn't fair. If something's bothering me, I'll say it to you." },
+  { who: "Wife", gen: "wife", text: "I'm sorry I worked through our anniversary dinner. I keep telling you that you come first, and that night I showed you the opposite. My phone stays in the car on Saturday." },
+  { who: "Husband", gen: "husband", text: "I'm sorry I brought up your job in front of my parents. That was between us, and I made you feel small. From now on, that stays at home." },
+  { who: "Friend", gen: "friend", text: "I'm sorry I skipped your birthday dinner without a word. You planned it for weeks and I left an empty chair. Let me take you out: my treat, your pick." },
+  { who: "Mom", gen: "mother", text: "Mom, I'm sorry I snapped at you on the phone. You were only asking how I was, and I made you feel like a bother. Call me anytime. I'll pick up and listen." },
+  { who: "Coworker", gen: "colleague", text: "I'm sorry I presented the report as mine on Monday. You did the hard part and I should have said so. I've told the team, and I'll credit you every time." },
+  { who: "Boss", gen: "boss", text: "I'm sorry I missed the client deadline and didn't warn you. You found out from them, not from me. From now on you'll hear about a slip the day I see it coming." },
+];
+
 const steps = [
   ["Tell us what happened", "Who it's for and what you did, in your own words. Apologify writes a sincere apology about that exact moment — you can edit it."],
   ["Pick a card", "Tender, playful or formal: a handwritten letter, a postcard, a watercolor, a velvet evening card. Preview every one live."],
-  ["Send it — and hear back", "Text it, WhatsApp it or print the QR into a real card. They open the envelope and can tell you how they feel."],
+  ["Send it — and hear back", "Text it, WhatsApp it or print the QR into a real card. They open it and can tell you how they feel."],
 ];
 ---
 
@@ -84,7 +100,7 @@ const steps = [
       <div class="sc-hero-copy">
         <h1>A sorry card they'll actually open.</h1>
         <p class="sc-lede">
-          Say what happened, pick a card, send the link. They open a sealed envelope with their name on it,
+          An “I'm sorry” card written about what actually happened. Pick a design, send the link: they open it,
           read your apology — and can answer <em>“I forgive you.”</em>
         </p>
         <div class="sc-ctas">
@@ -124,6 +140,26 @@ const steps = [
             <img src={`/designs/${t.id}.jpg`} alt={`${t.label} sorry card design`} width="820" height="1040" loading="lazy" />
             <span>{t.label}</span>
           </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="sc-block" id="what-to-write">
+      <div class="sc-head">
+        <h2 class="sc-h2">What to write in an I'm sorry card</h2>
+        <a href="/how-to-apologize" class="ap-link sc-alt">How to apologize, step by step</a>
+      </div>
+      <p class="sc-intro">
+        Three lines are enough: what you did, how it landed, what changes now. Skip “if you were hurt” and
+        anything after a “but.” A few examples to start from:
+      </p>
+      <div class="sc-msgs">
+        {messages.map((m) => (
+          <figure class="sc-msg">
+            <figcaption class="caps">For your {m.who.toLowerCase()}</figcaption>
+            <blockquote>{m.text}</blockquote>
+            <a href={`/generator/${m.gen}`} class="ap-link sc-alt">Make a sorry card for your {m.who.toLowerCase()}</a>
+          </figure>
         ))}
       </div>
     </section>
@@ -263,6 +299,14 @@ const steps = [
   .sc-design span { display: block; margin-top: 1rem; font-family: 'Spectral', Georgia, serif; font-size: 1.35rem; letter-spacing: -0.01em; }
   .sc-design:hover span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
 
+  #what-to-write .sc-h2 { margin-bottom: 0.75rem; }
+  .sc-intro { margin: 1rem 0 2.5rem; max-width: 40rem; font-family: 'Spectral', Georgia, serif; font-size: 1.2rem; line-height: 1.6; color: var(--ap-body); }
+  .sc-msgs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(2rem, 5vw, 5rem); }
+  .sc-msg { margin: 0; padding: 1.75rem 0 2rem; border-top: 1px solid var(--ap-rule); display: flex; flex-direction: column; }
+  .sc-msg figcaption { color: var(--ap-mute); }
+  .sc-msg blockquote { margin: 0.9rem 0 1.25rem; font-family: 'Spectral', Georgia, serif; font-size: 1.22rem; line-height: 1.55; color: var(--ap-ink); text-wrap: pretty; flex: 1; }
+  .sc-msg .sc-alt { font-size: 0.92rem; align-self: flex-start; }
+
   .sc-table-wrap { overflow-x: auto; }
   .sc-table { width: 100%; min-width: 34rem; border-collapse: collapse; font-size: 0.98rem; }
   .sc-table th, .sc-table td { padding: 1rem 1rem 1rem 0; text-align: left; border-bottom: 1px solid var(--ap-rule); }
@@ -306,7 +350,7 @@ const steps = [
     .sc-hero { display: block; padding-top: 2.5rem; }
     .sc-stack { height: 19rem; margin-top: 2.5rem; }
     .sc-card { width: 9.5rem; }
-    .sc-steps, .sc-study, .sc-faq { grid-template-columns: 1fr; }
+    .sc-steps, .sc-study, .sc-faq, .sc-msgs { grid-template-columns: 1fr; }
     .sc-steps { gap: 2.5rem; }
     .sc-steps li { padding: 0; border-left: 0; }
     .sc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 1rem; }
